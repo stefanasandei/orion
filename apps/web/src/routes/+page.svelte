@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '@/utils/i18n/translations';
+
 	import { Button } from '@/components/ui/button';
 	import { trpc } from '@/trpc/client';
 
@@ -15,7 +17,7 @@
 
 <h1>Welcome to SvelteKit: {data.hello?.message}</h1>
 
-<p>result of mutation: {result}</p>
+<p>{$t('common.mutation')}: {result}</p>
 
 <Button
 	onclick={async () => {

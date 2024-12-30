@@ -38,6 +38,9 @@ importers:
       superjson:
         specifier: ^2.2.1
         version: 2.2.2
+      sveltekit-i18n:
+        specifier: ^2.4.2
+        version: 2.4.2(svelte@5.16.0)
       trpc-svelte-query:
         specifier: ^2.1.0
         version: 2.1.0(@sveltejs/kit@2.15.1)(@tanstack/svelte-query@5.62.9)(@trpc/client@10.45.2)(@trpc/server@10.45.2)(svelte@5.16.0)
@@ -860,6 +863,18 @@ packages:
       vitefu: 1.0.4(vite@6.0.6)
     transitivePeerDependencies:
       - supports-color
+
+  /@sveltekit-i18n/base@1.3.7(svelte@5.16.0):
+    resolution: {integrity: sha512-kg1kql1/ro/lIudwFiWrv949Q07gmweln87tflUZR51MNdXXzK4fiJQv5Mw50K/CdQ5BOk/dJ0WOH2vOtBI6yw==}
+    peerDependencies:
+      svelte: '>=3.49.0'
+    dependencies:
+      svelte: 5.16.0
+    dev: false
+
+  /@sveltekit-i18n/parser-default@1.1.1:
+    resolution: {integrity: sha512-/gtzLlqm/sox7EoPKD56BxGZktK/syGc79EbJAPWY5KVitQD9SM0TP8yJCqDxTVPk7Lk0WJhrBGUE2Nn0f5M1w==}
+    dev: false
 
   /@swc/helpers@0.5.15:
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -2572,6 +2587,16 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.17
       zimmerframe: 1.1.2
+
+  /sveltekit-i18n@2.4.2(svelte@5.16.0):
+    resolution: {integrity: sha512-hjRWn4V4DBL8JQKJoJa3MRvn6d32Zo+rWkoSP5bsQ/XIAguPdQUZJ8LMe6Nc1rST8WEVdu9+vZI3aFdKYGR3+Q==}
+    peerDependencies:
+      svelte: '>=3.49.0'
+    dependencies:
+      '@sveltekit-i18n/base': 1.3.7(svelte@5.16.0)
+      '@sveltekit-i18n/parser-default': 1.1.1
+      svelte: 5.16.0
+    dev: false
 
   /tailwind-merge@2.6.0:
     resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}

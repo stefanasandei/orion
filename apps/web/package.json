@@ -19,6 +19,7 @@
 		"@tanstack/svelte-query": "^5.62.9",
 		"@trpc/client": "^10.45.2",
 		"superjson": "^2.2.1",
+		"sveltekit-i18n": "^2.4.2",
 		"trpc-svelte-query": "^2.1.0",
 		"trpc-svelte-query-adapter": "^2.3.15",
 		"trpc-sveltekit": "^3.6.2"
