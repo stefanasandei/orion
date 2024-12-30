@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { MyCounterButton } from '@repo/ui';
-	import { trpc } from '$lib/trpc/client';
+	import { Button } from '@/components/ui/button';
+	import { trpc } from '@/trpc/client';
 
 	let result = '';
 	const processName = trpc().hello.processName.createMutation({
@@ -16,10 +16,9 @@
 <h1>Welcome to SvelteKit: {data.hello?.message}</h1>
 
 <p>result of mutation: {result}</p>
-<MyCounterButton />
 
-<button
+<Button
 	onclick={async () => {
-		$processName.mutate({ name: 'Stefan' });
-	}}>click for mutation</button
+		$processName.mutate({ name: 'Stefan ' + Date.now().toString() });
+	}}>click for mutation</Button
 >
