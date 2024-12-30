@@ -13,15 +13,22 @@
 		"lint": "prettier --check ."
 	},
 	"dependencies": {
-		"@repo/ui": "workspace:*"
+		"@repo/api": "workspace:*",
+		"@repo/ui": "workspace:*",
+		"@tanstack/svelte-query": "^5.62.9",
+		"@trpc/client": "^10.45.2",
+		"superjson": "^2.2.1",
+		"trpc-svelte-query": "^2.1.0",
+		"trpc-svelte-query-adapter": "^2.3.15",
+		"trpc-sveltekit": "^3.6.2"
 	},
 	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.15.1",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tsconfig/svelte": "^5.0.4",
 		"eslint": "^8.57.0",
-		"@repo/eslint-config": "workspace:*",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"svelte": "^5.0.0",

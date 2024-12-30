@@ -1,0 +1,30 @@
+{
+    "name": "@repo/api",
+    "version": "0.0.0",
+    "private": true,
+    "description": "A tRPC API package used in the web application",
+    "license": "MIT",
+    "sideEffects": false,
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json",
+        "clean": "bun run rm -rf dist *.tsbuildinfo",
+        "dev": "tsc -w -p tsconfig.build.json",
+        "lint": "eslint .  --max-warnings 0",
+        "typecheck": "tsc"
+    },
+    "dependencies": {
+        "@trpc/server": "10.45.2",
+        "superjson": "^2.2.1",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@repo/eslint-config": "workspace:*"
+    }
+}
