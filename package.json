@@ -15,5 +15,5 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "with-svelte"
+  "name": "orion"
 }
