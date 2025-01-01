@@ -8,9 +8,13 @@ export const helloRouter = createRouter({
             message: `Hello, world from tRPC!`,
         }
     }),
-    processName: publicProcedure.input(z.object({ name: z.string() })).mutation(async ({ input: _input }) => {
+    processName: publicProcedure.input(z.object({ name: z.string() })).mutation(async ({ input: _input, ctx }) => {
         // return { message: `Hello, ${_input.name} from tRPC!` };
-        const res = await db.select().from(userTable);
-        return res;
+
+        // const res = await db.select().from(userTable);
+        // return res;
+
+        // user, session and more here
+        return ctx.event;
     })
 })

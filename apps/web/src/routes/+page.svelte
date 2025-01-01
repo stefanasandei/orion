@@ -16,7 +16,7 @@
 </script>
 
 <h1>Welcome to SvelteKit: {data.hello?.message}</h1>
-
+<p>user: {JSON.stringify(data.user)}</p>
 <p>{$t('common.mutation')}: {result}</p>
 
 <Button

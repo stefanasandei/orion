@@ -3,12 +3,7 @@ import superjson from 'superjson'
 import { ZodError } from 'zod'
 
 export const createTRPCContext = async (opts: { event: unknown }) => {
-    // auth stuff here later
-
     return {
-        // db,
-        // session,
-        // user,
         ...opts,
     }
 }
