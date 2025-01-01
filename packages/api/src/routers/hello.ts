@@ -1,4 +1,4 @@
-import { db, usersTable } from '@repo/db';
+import { db, userTable } from '@repo/db';
 import { createRouter, publicProcedure } from '../context'
 import { z } from "zod";
 
@@ -10,7 +10,7 @@ export const helloRouter = createRouter({
     }),
     processName: publicProcedure.input(z.object({ name: z.string() })).mutation(async ({ input: _input }) => {
         // return { message: `Hello, ${_input.name} from tRPC!` };
-        const res = await db.select().from(usersTable);
+        const res = await db.select().from(userTable);
         return res;
     })
 })

@@ -5,7 +5,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write .",
-    "studio": "pnpm --filter=db studio"
+    "db:studio": "pnpm --filter=db studio",
+    "db:push": "pnpm --filter=db push"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
