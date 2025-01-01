@@ -1,5 +1,10 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { fileURLToPath } from 'node:url';
+import { createJiti } from 'jiti';
+
+const jiti = createJiti(fileURLToPath(import.meta.url));
+// await jiti.import('./src/lib/utils/env.ts');
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

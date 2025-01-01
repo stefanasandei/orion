@@ -7,7 +7,7 @@
 	let result = '';
 	const processName = trpc().hello.processName.createMutation({
 		onSuccess: (res) => {
-			result = res.message;
+			result = JSON.stringify(res);
 		}
 	});
 
