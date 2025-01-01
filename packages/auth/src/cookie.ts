@@ -1,6 +1,6 @@
-import type { RequestEvent } from "@sveltejs/kit";
+import { CtxRequestEvent } from '@repo/core';
 
-export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date): void {
+export function setSessionTokenCookie(event: CtxRequestEvent, token: string, expiresAt: Date): void {
     event.cookies.set("session", token, {
         httpOnly: true,
         sameSite: "lax",
@@ -9,7 +9,7 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
     });
 }
 
-export function deleteSessionTokenCookie(event: RequestEvent): void {
+export function deleteSessionTokenCookie(event: CtxRequestEvent): void {
     event.cookies.set("session", "", {
         httpOnly: true,
         sameSite: "lax",

@@ -1,8 +1,9 @@
+import { CtxRequestEvent } from "@repo/core"
 import { initTRPC } from "@trpc/server"
 import superjson from 'superjson'
 import { ZodError } from 'zod'
 
-export const createTRPCContext = async (opts: { event: unknown }) => {
+export const createTRPCContext = async (opts: { event: CtxRequestEvent }) => {
     return {
         ...opts,
     }

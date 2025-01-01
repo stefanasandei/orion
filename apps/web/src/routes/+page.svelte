@@ -11,6 +11,9 @@
 		}
 	});
 
+	const login = trpc().hello.login.createMutation();
+	const logout = trpc().hello.logout.createMutation();
+
 	// prefetched server data
 	export let data;
 </script>
@@ -24,3 +27,6 @@
 		$processName.mutate({ name: 'Stefan ' + Date.now().toString() });
 	}}>click for mutation</Button
 >
+
+<Button onclick={() => $login.mutate()}>login</Button>
+<Button onclick={() => $logout.mutate()}>logout</Button>

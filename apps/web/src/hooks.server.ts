@@ -1,6 +1,7 @@
-import { deleteSessionTokenCookie, setSessionTokenCookie } from "@/utils/auth/cookie";
+import { deleteSessionTokenCookie, setSessionTokenCookie } from "@repo/auth";
 
 import { validateSessionToken } from "@repo/auth";
+import type { CtxRequestEvent } from "@repo/core";
 import type { Handle } from "@sveltejs/kit";
 
 // set user and session objects on the event, this way
@@ -16,10 +17,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const { session, user } = await validateSessionToken(token);
     if (session !== null) {
-        setSessionTokenCookie(event, token, session.expiresAt);
+        setSessionTokenCookie(event as CtxRequestEvent, token, session.expiresAt);
     } else {
         // invalid session
-        deleteSessionTokenCookie(event);
+        deleteSessionTokenCookie(event as CtxRequestEvent);
     }
 
     // we have a logged in valid user!

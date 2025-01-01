@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@repo/api": "workspace:*",
 		"@repo/auth": "workspace:^",
+		"@repo/core": "workspace:^",
 		"@repo/tailwind": "workspace:^",
 		"@t3-oss/env-core": "^0.11.1",
 		"@tailwindcss/typography": "^0.5.15",

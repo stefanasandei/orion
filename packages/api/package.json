@@ -20,6 +20,8 @@
         "typecheck": "tsc"
     },
     "dependencies": {
+        "@repo/auth": "workspace:^",
+        "@repo/core": "workspace:^",
         "@repo/db": "workspace:*",
         "@trpc/server": "10.45.2",
         "superjson": "^2.2.1",

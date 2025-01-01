@@ -1,8 +1,8 @@
 {
-    "name": "@repo/auth",
+    "name": "@repo/core",
     "version": "0.0.0",
     "private": true,
-    "description": "auth",
+    "description": "core",
     "license": "MIT",
     "sideEffects": false,
     "type": "module",
@@ -20,9 +20,6 @@
         "typecheck": "tsc"
     },
     "dependencies": {
-        "@oslojs/crypto": "^1.0.1",
-        "@oslojs/encoding": "^1.1.0",
-        "@repo/core": "workspace:^",
         "@repo/db": "workspace:^"
     },
     "devDependencies": {
