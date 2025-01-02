@@ -11,11 +11,7 @@
 	});
 </script>
 
-<h1>
-	login (
-	<pre>a@b.c</pre>
-	)
-</h1>
+<h1>login</h1>
 <form>
 	<input placeholder="email" type="email" bind:value={email} /> <br />
 	<input placeholder="password" type="password" bind:value={password} /><br />

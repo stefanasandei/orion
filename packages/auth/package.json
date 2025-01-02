@@ -23,7 +23,8 @@
         "@oslojs/crypto": "^1.0.1",
         "@oslojs/encoding": "^1.1.0",
         "@repo/core": "workspace:^",
-        "@repo/db": "workspace:^"
+        "@repo/db": "workspace:^",
+        "drizzle-orm": "^0.38.3"
     },
     "devDependencies": {
         "@repo/eslint": "workspace:*",

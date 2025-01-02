@@ -181,6 +181,9 @@ importers:
       '@repo/db':
         specifier: workspace:^
         version: link:../db
+      drizzle-orm:
+        specifier: ^0.38.3
+        version: 0.38.3(@neondatabase/serverless@0.10.4)
     devDependencies:
       '@repo/eslint':
         specifier: workspace:*
