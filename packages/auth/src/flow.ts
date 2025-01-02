@@ -72,6 +72,7 @@ export type LoginInput = {
 
 // use these instead of raw text
 // for easier i18n support
+// TODO: add more reasons and implement messages
 export enum AuthFailReason {
     // for sign up
     EmailDuplicate, // TODO

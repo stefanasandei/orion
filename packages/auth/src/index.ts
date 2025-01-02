@@ -3,5 +3,5 @@ export type { SessionValidationResult } from "./session";
 
 export { deleteSessionTokenCookie, setSessionTokenCookie } from "./cookie";
 
-export { registerUser, loginUser, logoutUser } from './flow';
-export type { RegisterInput, AuthResponse, AuthFailReason, LoginInput } from "./flow";
+export { registerUser, loginUser, logoutUser, AuthFailReason } from './flow';
+export type { RegisterInput, AuthResponse, LoginInput } from "./flow";

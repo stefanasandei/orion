@@ -1,29 +1,15 @@
 <script lang="ts">
-	import { trpc } from '$base/src/lib/trpc/client';
-	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
 
-	let { email = $bindable(), username = $bindable(), password = $bindable(), ...props } = $props();
-
-	const register = trpc().user.register.createMutation({
-		onSuccess: () => {
-			goto('/');
-		}
-	});
+	export let form: ActionData;
 </script>
 
 <h1>register</h1>
-<form>
-	<input placeholder="email" type="email" bind:value={email} /> <br />
-	<input placeholder="username" type="text" bind:value={username} /><br />
-	<input placeholder="password" type="password" bind:value={password} /><br />
-	<button
-		onclick={(e) => {
-			e.preventDefault();
-			$register.mutate({
-				email: email,
-				name: username,
-				password: password
-			});
-		}}>submit</button
-	>
+<form method="post" use:enhance>
+	<input placeholder="name" name="name" type="text" required value={form?.name ?? ''} /> <br />
+	<input placeholder="email" name="email" type="email" required value={form?.email ?? ''} /> <br />
+	<input placeholder="password" name="password" type="password" required /><br />
+	<button>submit</button>
+	<p>{form?.message ?? ''}</p>
 </form>
