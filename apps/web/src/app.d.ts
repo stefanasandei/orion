@@ -5,6 +5,7 @@ declare global {
 		interface Locals {
 			user: User | null;
 			session: Session | null;
+			userMetadata: UserMetadata | null;
 		}
 	}
 }

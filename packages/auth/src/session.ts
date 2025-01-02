@@ -1,6 +1,6 @@
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
-import { type User, type Session, db, sessionTable, userTable } from "@repo/db";
+import { type User, type Session, db, sessionTable, userTable, userMetadataTable, UserMetadata } from "@repo/db";
 import { eq } from "drizzle-orm";
 
 export function generateSessionToken(): string {
@@ -27,20 +27,21 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 
     // 1. is the session in our db?
     const result = await db
-        .select({ user: userTable, session: sessionTable })
+        .select({ user: userTable, session: sessionTable, userMetadata: userMetadataTable })
         .from(sessionTable)
         .innerJoin(userTable, eq(sessionTable.userId, userTable.id))
+        .innerJoin(userMetadataTable, eq(userMetadataTable.userId, userTable.id))
         .where(eq(sessionTable.id, sessionId));
     if (result.length < 1 || result == undefined) {
-        return { session: null, user: null };
+        return { session: null, user: null, userMetadata: null };
     }
 
-    const { user, session } = result[0]!;
+    const { user, session, userMetadata } = result[0]!;
 
     // 2. did it expire?
     if (Date.now() >= session.expiresAt.getTime()) {
         await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
-        return { session: null, user: null };
+        return { session: null, user: null, userMetadata: null };
     }
 
     // 3. is it close to expire? let's extend it
@@ -52,7 +53,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
             .where(eq(sessionTable.id, sessionId));
     }
 
-    return { session, user };
+    return { session, user, userMetadata };
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {
@@ -60,5 +61,6 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 }
 
 export type SessionValidationResult =
-    | { session: Session; user: User }
-    | { session: null; user: null };
+    | { session: Session; user: User; userMetadata: UserMetadata }
+    | { session: null; user: null; userMetadata: null };
+

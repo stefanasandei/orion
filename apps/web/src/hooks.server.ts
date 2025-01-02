@@ -15,7 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return resolve(event);
     }
 
-    const { session, user } = await validateSessionToken(token);
+    const { session, user, userMetadata } = await validateSessionToken(token);
     if (session !== null) {
         setSessionTokenCookie(event as CtxRequestEvent, token, session.expiresAt);
     } else {
@@ -26,5 +26,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     // we have a logged in valid user!
     event.locals.session = session;
     event.locals.user = user;
+    event.locals.userMetadata = userMetadata;
     return resolve(event);
 };

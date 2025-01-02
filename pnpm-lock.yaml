@@ -29,6 +29,9 @@ importers:
       '@repo/core':
         specifier: workspace:^
         version: link:../../packages/core
+      '@repo/db':
+        specifier: workspace:^
+        version: link:../../packages/db
       '@repo/tailwind':
         specifier: workspace:^
         version: link:../../packages/config/tailwind
@@ -147,6 +150,9 @@ importers:
       '@trpc/server':
         specifier: 10.45.2
         version: 10.45.2
+      drizzle-orm:
+        specifier: ^0.38.3
+        version: 0.38.3(@neondatabase/serverless@0.10.4)
       superjson:
         specifier: ^2.2.1
         version: 2.2.2

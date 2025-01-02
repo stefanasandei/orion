@@ -23,9 +23,9 @@ export const helloRouter = createRouter({
     // only for testing
     login: publicProcedure
         .mutation(async ({ ctx }) => {
-            const token = generateSessionToken();
-            const session = createSession(token, 1); // userId 1
-            setSessionTokenCookie(ctx.event, token, (await session).expiresAt);
+            // const token = generateSessionToken();
+            // const session = createSession(token, 1); // userId 1
+            // setSessionTokenCookie(ctx.event, token, (await session).expiresAt);
         }),
     logout: publicProcedure
         .mutation(async ({ ctx }) => {

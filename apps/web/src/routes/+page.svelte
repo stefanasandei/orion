@@ -1,32 +1,23 @@
 <script lang="ts">
-	import { t } from '@/utils/i18n/translations';
-
-	import { Button } from '@/components/ui/button';
+	import { goto } from '$app/navigation';
+	import { buttonVariants } from '@/components/ui/button';
 	import { trpc } from '@/trpc/client';
 
-	let result = '';
-	const processName = trpc().hello.processName.createMutation({
-		onSuccess: (res) => {
-			result = JSON.stringify(res);
+	const logout = trpc().user.logout.createMutation({
+		onSuccess: () => {
+			goto('/', { invalidateAll: true });
 		}
 	});
-
-	const login = trpc().hello.login.createMutation();
-	const logout = trpc().hello.logout.createMutation();
 
 	// prefetched server data
 	export let data;
 </script>
 
-<h1>Welcome to SvelteKit: {data.hello?.message}</h1>
-<p>user: {JSON.stringify(data.user)}</p>
-<p>{$t('common.mutation')}: {result}</p>
+<p>user: {JSON.stringify(data.metadata)}</p>
 
-<Button
-	onclick={async () => {
-		$processName.mutate({ name: 'Stefan ' + Date.now().toString() });
-	}}>click for mutation</Button
->
-
-<Button onclick={() => $login.mutate()}>login</Button>
-<Button onclick={() => $logout.mutate()}>logout</Button>
+{#if data.user === null}
+	<a href="/register" class={buttonVariants()}>register</a>
+	<a href="/login" class={buttonVariants()}>login</a>
+{:else}
+	<button onclick={() => $logout.mutate()} class={buttonVariants()}>logout</button>
+{/if}

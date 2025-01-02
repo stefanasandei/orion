@@ -9,5 +9,5 @@ export const db = drizzle({
     client: sql,
 });
 
-export { userTable, sessionTable } from "./schema";
-export type { User, Session } from "./schema";
+export { userTable, sessionTable, userMetadataTable } from "./schema";
+export type { User, Session, UserMetadata } from "./schema";
