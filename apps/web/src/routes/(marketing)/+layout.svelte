@@ -1,4 +1,5 @@
 <script>
+	import Seo from '@/components/seo.svelte';
 	import MainNav from '@/components/main-nav.svelte';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@repo/tailwind';
@@ -12,6 +13,8 @@
 		]
 	};
 </script>
+
+<Seo title="Home" description="Landing page" />
 
 <div>
 	<header class="bg-background container z-40">

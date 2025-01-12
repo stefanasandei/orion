@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { cn } from '@repo/tailwind';
-	import { page } from '$app/state';
 	import { Icons } from '@/components/icons.svelte';
 
 	interface Props {

@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
+	import Seo from '@/components/seo.svelte';
 
 	export let form: ActionData;
 </script>
+
+<Seo title="Register" description="Create a new user account." />
 
 <h1>register</h1>
 <form method="post" use:enhance>
