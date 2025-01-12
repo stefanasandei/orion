@@ -23,6 +23,7 @@
 		"@tanstack/svelte-query": "^5.62.9",
 		"@trpc/client": "^10.45.2",
 		"dotenv": "^16.4.7",
+		"lucide-svelte": "^0.471.0",
 		"superjson": "^2.2.1",
 		"sveltekit-i18n": "^2.4.2",
 		"trpc-svelte-query": "^2.1.0",
