@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { buttonVariants } from '@/components/ui/button';
-	import { trpc } from '@/trpc/client';
+	import { trpc } from '@/utils/trpc/client';
 
 	const logout = trpc().user.logout.createMutation({
 		onSuccess: () => {

@@ -1,4 +1,4 @@
-import { trpcServer } from "$lib/trpc/server";
+import { trpcServer } from "@/utils/trpc/server";
 
 export const load = async (event) => {
     return {
