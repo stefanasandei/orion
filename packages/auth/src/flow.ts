@@ -3,6 +3,8 @@ import { db, userMetadataTable, userTable } from "@repo/db";
 import { createSession, generateSessionToken, invalidateSession } from "./session";
 import { deleteSessionTokenCookie, setSessionTokenCookie } from "./cookie";
 import { eq } from "drizzle-orm";
+import { sha256 } from "@oslojs/crypto/sha2";
+import { encodeHexLowerCase } from "@oslojs/encoding";
 
 export const registerUser = async (input: RegisterInput, event: CtxRequestEvent): Promise<AuthResponse> => {
     // TODO: more validation and error handling; move this to @repo/auth
@@ -14,10 +16,12 @@ export const registerUser = async (input: RegisterInput, event: CtxRequestEvent)
         .values({})
         .returning({ id: userTable.id });
 
+    const hashedPassword = sha256(new TextEncoder().encode(input.password));
+
     await db.insert(userMetadataTable).values({
         name: input.name,
         email: input.email,
-        passwordHash: input.password,
+        passwordHash: encodeHexLowerCase(hashedPassword),
         userId: newUser[0]!.id
     });
 
@@ -35,11 +39,13 @@ export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Prom
     // 1. validate data - done by zod
 
     // 2. check user credentials
+    const hashedPassword = encodeHexLowerCase(sha256(new TextEncoder().encode(input.password)));
+
     const user = await db.select({ id: userMetadataTable.userId, passwordHash: userMetadataTable.passwordHash })
         .from(userMetadataTable)
         .where(eq(userMetadataTable.email, input.email))
 
-    if (user[0]!.passwordHash != input.password) {
+    if (user[0]!.passwordHash != hashedPassword) {
         return { success: false, reason: AuthFailReason.WrongPassword }
     }
 
