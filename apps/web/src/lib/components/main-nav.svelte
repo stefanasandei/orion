@@ -2,6 +2,7 @@
 	import { Icons } from '@/components/icons.svelte';
 	import MobileNav from '@/components/mobile-nav.svelte';
 	import { buttonVariants } from '@/components/ui/button';
+	import Logo from '@/components/logo.svelte';
 
 	interface Props {
 		name: string;
@@ -22,14 +23,9 @@
 
 <div class="flex gap-6 md:gap-10">
 	<!-- logo + name (left side) -->
-	<a href="/" class="hidden items-center space-x-2 md:flex">
-		<span class="text-primary">
-			<Icons.logo />
-		</span>
-		<span class="hidden font-bold sm:inline-block">
-			{name}
-		</span>
-	</a>
+	<div class="hidden md:flex">
+		<Logo />
+	</div>
 
 	<!-- desktop menu items -->
 	<nav class="hidden gap-6 md:flex">
@@ -45,7 +41,9 @@
 		{#if showMobileMenu}
 			<Icons.close />
 		{:else}
-			<Icons.logo />
+			<span class="text-primary">
+				<Icons.logo />
+			</span>
 		{/if}
 		<span class="font-bold">Menu</span>
 	</button>

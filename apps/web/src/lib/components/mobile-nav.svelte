@@ -21,7 +21,9 @@
 >
 	<div class="bg-popover text-popover-foreground relative z-20 grid gap-6 rounded-md p-4 shadow-md">
 		<a href="/" class="flex items-center space-x-2">
-			<Icons.logo />
+			<span class="text-primary">
+				<Icons.logo />
+			</span>
 			<span class="font-bold">{name}</span>
 		</a>
 		<nav class="grid grid-flow-row auto-rows-max text-sm">

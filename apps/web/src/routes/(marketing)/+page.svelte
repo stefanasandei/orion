@@ -7,14 +7,14 @@
 <div class="relative flex min-h-screen">
 	<!-- background rounded rectangles -->
 	<section class="absolute inset-0 bottom-0 mt-4 hidden h-[90vh] grid-cols-12 md:grid">
-		<div class="bg-muted col-span-2 mx-3 rounded-3xl"></div>
-		<div class="bg-muted col-span-8 mx-2 rounded-3xl"></div>
-		<div class="bg-muted col-span-2 mx-3 rounded-3xl"></div>
+		<div class="bg-muted col-span-2 mx-3 rounded-3xl ring-2 ring-gray-200"></div>
+		<div class="bg-muted col-span-8 mx-2 rounded-3xl ring-2 ring-gray-200"></div>
+		<div class="bg-muted col-span-2 mx-3 rounded-3xl ring-2 ring-gray-200"></div>
 	</section>
 
 	<main class="flex-1">
 		<!-- landing hero section -->
-		<section class="relative z-10 space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+		<section class="relative z-10 h-[92vh] space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
 			<div class="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
 				<a
 					href={'#'}

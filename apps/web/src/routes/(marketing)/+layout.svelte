@@ -16,7 +16,9 @@
 
 <Seo title="Home" description="Landing page" />
 
-<header class="bg-muted z-40 mx-1 rounded-b-3xl md:mx-auto md:w-[65vw]">
+<header
+	class="bg-muted/70 sticky top-0 z-50 mx-1 rounded-b-3xl ring-2 ring-gray-200 backdrop-blur-lg md:mx-auto md:w-[65vw]"
+>
 	<div class="container flex h-20 items-center justify-between py-6">
 		<MainNav items={config.navItems} name={config.siteName} />
 
