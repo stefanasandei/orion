@@ -16,17 +16,21 @@
 
 <Seo title="Home" description="Landing page" />
 
-<div>
-	<header class="bg-background container z-40">
-		<div class="flex h-20 items-center justify-between py-6">
-			<MainNav items={config.navItems} name={config.siteName} />
-			<nav>
-				<a href="/login" class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}>
-					Login
-				</a>
-			</nav>
-		</div>
-	</header>
+<header class="bg-muted z-40 mx-1 rounded-b-3xl md:mx-auto md:w-[65vw]">
+	<div class="container flex h-20 items-center justify-between py-6">
+		<MainNav items={config.navItems} name={config.siteName} />
 
-	<main class="flex-1"><slot /></main>
-</div>
+		<nav>
+			<a href="/login" class={cn(buttonVariants({ variant: 'muted', size: 'sm' }), 'px-4')}>
+				Login
+			</a>
+			<a href="/register" class={cn(buttonVariants({ variant: 'default', size: 'sm' }), 'px-4')}>
+				Get Started
+			</a>
+		</nav>
+	</div>
+</header>
+
+<main class="flex-1">
+	<slot />
+</main>
