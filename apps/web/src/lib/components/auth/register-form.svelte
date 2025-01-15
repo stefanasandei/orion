@@ -3,7 +3,28 @@
 	import * as Card from '@/components/ui/card';
 	import { Input } from '@/components/ui/input';
 	import { Label } from '@/components/ui/label';
+
+	// import { enhance } from '$app/forms';
+
+	interface Props {
+		form: {
+			message: string;
+			email: string;
+			name: string;
+		} | null;
+	}
+
+	let { form }: Props = $props();
 </script>
+
+<!-- <h1>register</h1>
+<form method="post" use:enhance>
+	<input placeholder="name" name="name" type="text" required value={form?.name ?? ''} /> <br />
+	<input placeholder="email" name="email" type="email" required value={form?.email ?? ''} /> <br />
+	<input placeholder="password" name="password" type="password" required /><br />
+	<button>submit</button>
+	<p>{form?.message ?? ''}</p>
+</form> -->
 
 <Card.Root class="mx-auto max-w-sm">
 	<Card.Header>
