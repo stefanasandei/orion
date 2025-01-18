@@ -2,13 +2,18 @@ import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { createCaller } from '@repo/api';
 import type { CtxRequestEvent } from '@repo/core';
+import { superValidate } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters";
+import { registerFormSchema } from './schema';
 
 export const load = (async (event: RequestEvent) => {
     if (event.locals.session !== null && event.locals.user !== null) {
         return redirect(302, "/");
     }
 
-    return {};
+    return {
+        form: await superValidate(zod(registerFormSchema)),
+    };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

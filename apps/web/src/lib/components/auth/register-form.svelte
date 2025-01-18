@@ -3,8 +3,9 @@
 	import * as Card from '@/components/ui/card';
 	import { Input } from '@/components/ui/input';
 	import { Label } from '@/components/ui/label';
+	import * as Form from '@/components/ui/form';
 
-	// import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 
 	interface Props {
 		form: {
@@ -32,12 +33,16 @@
 		<Card.Description>Enter your information to create an account</Card.Description>
 	</Card.Header>
 	<Card.Content>
-		<div class="grid gap-4">
+		<form method="POST" class="grid gap-4" use:enhance>
 			<div class="grid grid-cols-2 gap-4">
-				<div class="grid gap-2">
-					<Label for="first-name">First name</Label>
-					<Input id="first-name" placeholder="Max" required />
-				</div>
+				<Form.Field {form} class="grid gap-2">
+					<Form.Control>
+						<Form.Label for="first-name">First name</Form.Label>
+						<Input id="first-name" placeholder="Max" required />
+					</Form.Control>
+					<Form.Description />
+					<Form.FieldErrors />
+				</Form.Field>
 				<div class="grid gap-2">
 					<Label for="last-name">Last name</Label>
 					<Input id="last-name" placeholder="Robinson" required />
@@ -60,7 +65,7 @@
 			</div>
 
 			<Button variant="outline" class="w-full">Sign up with GitHub</Button>
-		</div>
+		</form>
 		<div class="mt-4 text-center text-sm">
 			Already have an account?
 			<a href="##" class="underline"> Sign in </a>
