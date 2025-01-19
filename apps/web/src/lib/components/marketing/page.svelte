@@ -32,7 +32,7 @@
 					enviorment to learn academic subjects, passions or general knowledge.
 				</p>
 				<div class="space-x-4">
-					<a href="/login" class={cn(buttonVariants({ size: 'lg' }))}> Get Started </a>
+					<a href="/register" class={cn(buttonVariants({ size: 'lg' }))}> Get Started </a>
 					<a
 						href={'#'}
 						target="_blank"

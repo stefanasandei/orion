@@ -3,48 +3,47 @@ import type { Actions, PageServerLoad } from './$types';
 import { createCaller } from '@repo/api';
 import type { CtxRequestEvent } from '@repo/core';
 import { AuthFailReason } from '@repo/auth';
+import { superValidate } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters";
+import { loginFormSchema } from './schema';
 
 export const load = (async (event: RequestEvent) => {
     if (event.locals.session !== null && event.locals.user !== null) {
         return redirect(302, "/");
     }
 
-    return {};
+    return {
+        form: await superValidate(zod(loginFormSchema)),
+    };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
-        // the post method from the form
-        // 1. get credentials
-        const formData = await event.request.formData();
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        // 2. validation
-        if (typeof email !== "string" || typeof password !== "string") {
+        // 1. get form data & validation
+        const form = await superValidate(event, zod(loginFormSchema));
+        if (!form.valid) {
             return fail(400, {
-                message: "Invalid or missing fields",
-                email: ""
+                form
             });
         }
 
-        // 3. call the api for the auth logic
+        // 2. call the api for the auth logic
         const caller = createCaller({ event: event as CtxRequestEvent });
         const response = await caller.user.login({
-            email: email,
-            password: password
+            email: form.data.email,
+            password: form.data.password
         });
 
+        // if it's alright, send the user to the homepage
+        // cookie & session logic is handled by the api
         if (response.success) {
             return redirect(302, "/");
         }
 
-        // 4. not success, show the error
+        // 3. if there was an error, let the user know
         let failMessage = "";
-
         switch (response.reason) {
             case AuthFailReason.BadPassword:
-                // TODO: use i18n
                 failMessage = "Wrong password.";
                 break;
             default:
@@ -53,8 +52,8 @@ export const actions: Actions = {
         }
 
         return fail(400, {
-            message: failMessage,
-            email: email
+            form,
+            message: failMessage
         });
     }
 };
