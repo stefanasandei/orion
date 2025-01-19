@@ -39,13 +39,35 @@
             "group": "Get Started",
             "pages": [
                 "introduction",
-                "local setup"
+                "local setup",
+                "tech stack",
+                "3rd Party APIs"
             ]
         },
         {
-            "group": "Technologies",
+            "group": "Authentication",
             "pages": [
-                "technologies/playwright"
+                "email and password",
+                "OAuth",
+                "2FA \\w totp"
+            ]
+        },
+        {
+            "group": "AI Agents",
+            "pages": [
+                "usage",
+                "data sources",
+                "RAG"
+            ]
+        },
+        {
+            "group": "Model Controllers",
+            "pages": [
+                "user",
+                "knowledge Document",
+                "course",
+                "note",
+                "project"
             ]
         }
     ],
