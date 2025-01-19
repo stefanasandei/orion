@@ -12,6 +12,7 @@
 	}
 
 	let { form }: Props = $props();
+	const { message } = form;
 </script>
 
 <Card.Root class="mx-auto max-w-sm">
@@ -29,6 +30,7 @@
 				<Form.Description />
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Field {form} name="password" class="grid">
 				<Form.Control>
 					<Form.Label for="password">Password</Form.Label>
@@ -37,6 +39,13 @@
 				<Form.Description />
 				<Form.FieldErrors />
 			</Form.Field>
+
+			{#if $message}
+				<div class="text-destructive bg-destructive/10 rounded-md p-3 text-sm">
+					{$message}
+				</div>
+			{/if}
+
 			<Button type="submit" class="w-full">Login</Button>
 
 			<div class="flex w-full items-center gap-2">

@@ -3,7 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { createCaller } from '@repo/api';
 import type { CtxRequestEvent } from '@repo/core';
 import { AuthFailReason } from '@repo/auth';
-import { superValidate } from "sveltekit-superforms";
+import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { loginFormSchema } from './schema';
 
@@ -43,13 +43,15 @@ export const actions: Actions = {
         // 3. if there was an error, let the user know
         let failMessage = "";
         switch (response.reason) {
-            case AuthFailReason.BadPassword:
+            case AuthFailReason.WrongPassword:
                 failMessage = "Wrong password.";
                 break;
             default:
                 failMessage = "Unknown error.";
                 break;
         }
+
+        setMessage(form, failMessage);
 
         return fail(400, {
             form,
