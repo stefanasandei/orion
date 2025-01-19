@@ -19,34 +19,27 @@ export const load = (async (event: RequestEvent) => {
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
         // the post method from the form
-        // 1. get user data
-        const formData = await event.request.formData();
-        const name = formData.get("name");
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        // 2. validation
-        if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
+        // 1. get form data & validation \w zod
+        const form = await superValidate(event, zod(registerFormSchema));
+        if (!form.valid) {
             return fail(400, {
-                message: "Invalid or missing fields",
-                email: "",
-                name: ""
+                form,
             });
         }
 
-        // 3. call the api for the auth logic
+        // 2. call the api for the auth logic
         const caller = createCaller({ event: event as CtxRequestEvent });
         const response = await caller.user.register({
-            name: name,
-            email: email,
-            password: password
+            name: form.data.firstName + " " + form.data.lastName,
+            email: form.data.email,
+            password: form.data.password,
         });
 
         if (response.success) {
             return redirect(302, "/");
         }
 
-        // 4. not success, show the error
+        // 3. not success, show the error
         let failMessage = "";
 
         switch (response.reason) {
@@ -57,8 +50,7 @@ export const actions: Actions = {
 
         return fail(400, {
             message: failMessage,
-            name: name,
-            email: email
+            form
         });
     }
 };

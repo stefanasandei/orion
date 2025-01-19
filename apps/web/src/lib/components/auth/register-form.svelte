@@ -2,17 +2,13 @@
 	import { Button } from '@/components/ui/button';
 	import * as Card from '@/components/ui/card';
 	import { Input } from '@/components/ui/input';
-	import { Label } from '@/components/ui/label';
 	import * as Form from '@/components/ui/form';
-
+	import { type RegisterFormSchema } from '../../../routes/(auth)/register/schema';
+	import { type SuperForm, type Infer } from 'sveltekit-superforms';
 	import { enhance } from '$app/forms';
 
 	interface Props {
-		form: {
-			message: string;
-			email: string;
-			name: string;
-		} | null;
+		form: SuperForm<Infer<RegisterFormSchema>>;
 	}
 
 	let { form }: Props = $props();
@@ -29,13 +25,13 @@
 
 <Card.Root class="mx-auto max-w-sm">
 	<Card.Header>
-		<Card.Title class="text-xl">Sign Up</Card.Title>
+		<Card.Title class="text-xl">Register</Card.Title>
 		<Card.Description>Enter your information to create an account</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<form method="POST" class="grid gap-4" use:enhance>
 			<div class="grid grid-cols-2 gap-4">
-				<Form.Field {form} class="grid gap-2">
+				<Form.Field {form} name="firstName" class="grid">
 					<Form.Control>
 						<Form.Label for="first-name">First name</Form.Label>
 						<Input id="first-name" placeholder="Max" required />
@@ -43,19 +39,31 @@
 					<Form.Description />
 					<Form.FieldErrors />
 				</Form.Field>
-				<div class="grid gap-2">
-					<Label for="last-name">Last name</Label>
-					<Input id="last-name" placeholder="Robinson" required />
-				</div>
+				<Form.Field {form} name="lastName" class="grid">
+					<Form.Control>
+						<Form.Label for="last-name">Last name</Form.Label>
+						<Input id="last-name" placeholder="Robinson" required />
+					</Form.Control>
+					<Form.Description />
+					<Form.FieldErrors />
+				</Form.Field>
 			</div>
-			<div class="grid gap-2">
-				<Label for="email">Email</Label>
-				<Input id="email" type="email" placeholder="m@example.com" required />
-			</div>
-			<div class="grid gap-2">
-				<Label for="password">Password</Label>
-				<Input id="password" type="password" />
-			</div>
+			<Form.Field {form} name="email" class="grid">
+				<Form.Control>
+					<Form.Label for="email">Email</Form.Label>
+					<Input id="email" type="email" placeholder="john@example.com" required />
+				</Form.Control>
+				<Form.Description />
+				<Form.FieldErrors />
+			</Form.Field>
+			<Form.Field {form} name="password" class="grid">
+				<Form.Control>
+					<Form.Label for="password">Password</Form.Label>
+					<Input id="password" type="password" />
+				</Form.Control>
+				<Form.Description />
+				<Form.FieldErrors />
+			</Form.Field>
 			<Button type="submit" class="w-full">Create an account</Button>
 
 			<div class="flex w-full items-center gap-2">

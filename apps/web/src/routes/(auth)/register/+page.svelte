@@ -2,9 +2,15 @@
 	import Seo from '@/components/seo.svelte';
 	import RegisterForm from '@/components/auth/register-form.svelte';
 	import Logo from '@/components/logo.svelte';
+	import { registerFormSchema, type RegisterFormSchema } from './schema';
+	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+	import { zodClient } from 'sveltekit-superforms/adapters';
 
-	import type { ActionData } from './$types';
-	export let form: ActionData;
+	let { data }: { data: { form: SuperValidated<Infer<RegisterFormSchema>> } } = $props();
+
+	const form = superForm(data.form, {
+		validators: zodClient(registerFormSchema)
+	});
 </script>
 
 <Seo title="Register" description="Create a new user account." />

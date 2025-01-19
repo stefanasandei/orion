@@ -6,3 +6,5 @@ export const registerFormSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8).max(50),
 });
+
+export type RegisterFormSchema = typeof registerFormSchema;
