@@ -6,7 +6,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write .",
     "db:studio": "pnpm --filter=db studio",
-    "db:push": "pnpm --filter=db push"
+    "db:push": "pnpm --filter=db push",
+    "docs:dev": "cd apps/docs && mintlify dev --port 3333"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
