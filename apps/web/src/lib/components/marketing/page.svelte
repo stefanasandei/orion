@@ -2,6 +2,7 @@
 	import { Icons } from '@/components/icons.svelte';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils/cn';
+	import Footer from '@/components/marketing/footer.svelte';
 </script>
 
 <div class="relative flex min-h-screen">
@@ -44,5 +45,7 @@
 				</div>
 			</div>
 		</section>
+
+		<Footer />
 	</main>
 </div>
