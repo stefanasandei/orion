@@ -7,15 +7,10 @@
 		DropdownMenuTrigger
 	} from '@/components/ui/dropdown-menu';
 	import { Icons } from '@/components/icons.svelte';
+	import { preferences } from '@/utils/stores';
 
-	function setTheme(mode: 'light' | 'dark' | 'system') {
-		if (mode === 'system') {
-			document.documentElement.classList.remove('dark');
-			localStorage.removeItem('theme');
-		} else {
-			document.documentElement.classList.toggle('dark', mode === 'dark');
-			localStorage.setItem('theme', mode);
-		}
+	function setTheme(theme: 'light' | 'dark') {
+		preferences.update((prefs) => ({ ...prefs, theme }));
 	}
 </script>
 
@@ -36,9 +31,5 @@
 			<Icons.moon class="mr-2 h-4 w-4" />
 			<span>Dark</span>
 		</DropdownMenuItem>
-		<!-- <DropdownMenuItem onclick={() => setTheme('system')}>
-			<Icons.laptop class="mr-2 h-4 w-4" />
-			<span>System</span>
-		</DropdownMenuItem> -->
 	</DropdownMenuContent>
 </DropdownMenu>

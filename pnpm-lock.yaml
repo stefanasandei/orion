@@ -56,6 +56,9 @@ importers:
       superjson:
         specifier: ^2.2.1
         version: 2.2.2
+      svelte-persisted-store:
+        specifier: ^0.12.0
+        version: 0.12.0(svelte@5.16.0)
       sveltekit-i18n:
         specifier: ^2.4.2
         version: 2.4.2(svelte@5.16.0)
@@ -4216,6 +4219,15 @@ packages:
       espree: 9.6.1
       postcss: 8.4.49
       postcss-scss: 4.0.9(postcss@8.4.49)
+      svelte: 5.16.0
+    dev: false
+
+  /svelte-persisted-store@0.12.0(svelte@5.16.0):
+    resolution: {integrity: sha512-BdBQr2SGSJ+rDWH8/aEV5GthBJDapVP0GP3fuUCA7TjYG5ctcB+O9Mj9ZC0+Jo1oJMfZUd1y9H68NFRR5MyIJA==}
+    engines: {node: '>=0.14'}
+    peerDependencies:
+      svelte: ^3.48.0 || ^4 || ^5
+    dependencies:
       svelte: 5.16.0
     dev: false
 
