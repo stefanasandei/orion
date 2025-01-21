@@ -14,7 +14,7 @@
 	let { form }: Props = $props();
 </script>
 
-<Card.Root class="mx-auto max-w-sm">
+<Card.Root class="border-border mx-auto max-w-sm">
 	<Card.Header>
 		<Card.Title class="text-xl">Register</Card.Title>
 		<Card.Description>Enter your information to create an account</Card.Description>

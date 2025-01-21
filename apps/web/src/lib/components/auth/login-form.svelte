@@ -15,7 +15,7 @@
 	const { message } = form;
 </script>
 
-<Card.Root class="mx-auto max-w-sm">
+<Card.Root class="border-border mx-auto max-w-sm">
 	<Card.Header>
 		<Card.Title class="text-xl">Login</Card.Title>
 		<Card.Description>Enter your credentials to login to your account</Card.Description>

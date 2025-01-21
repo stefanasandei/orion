@@ -17,13 +17,13 @@
 <Seo title="Home" description="Landing page" />
 
 <header
-	class="bg-muted/70 sticky top-0 z-50 mx-1 rounded-b-3xl ring-2 ring-gray-200 backdrop-blur-lg md:mx-auto md:w-[65vw]"
+	class="bg-background ring-ring sticky top-0 z-50 mx-1 rounded-b-3xl ring-2 backdrop-blur-lg md:mx-auto md:w-[65vw]"
 >
 	<div class="container flex h-20 items-center justify-between py-6">
 		<MainNav items={config.navItems} name={config.siteName} />
 
-		<nav>
-			<a href="/login" class={cn(buttonVariants({ variant: 'muted', size: 'sm' }), 'px-4')}>
+		<nav class="flex items-center gap-4">
+			<a href="/login" class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}>
 				Login
 			</a>
 			<a href="/register" class={cn(buttonVariants({ variant: 'default', size: 'sm' }), 'px-4')}>

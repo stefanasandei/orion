@@ -27,7 +27,7 @@
 			<span class="sr-only">Toggle theme</span>
 		</Button>
 	</DropdownMenuTrigger>
-	<DropdownMenuContent align="end">
+	<DropdownMenuContent align="end" class="border-border">
 		<DropdownMenuItem onclick={() => setTheme('light')}>
 			<Icons.sun class="mr-2 h-4 w-4" />
 			<span>Light</span>

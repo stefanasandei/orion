@@ -3,7 +3,7 @@
 	import ModeToggle from '../mode-toggle.svelte';
 </script>
 
-<div class="border-grid mt-6 border-t">
+<div class="border-border border-grid mt-6 border-t">
 	<footer
 		class="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0"
 	>
