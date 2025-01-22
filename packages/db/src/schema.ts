@@ -5,6 +5,7 @@ const pgTable = pgTableCreator((name) => `orion_${name}`);
 
 export const userTable = pgTable("user", {
     id: serial("id").primaryKey(),
+    githubId: integer("github_id").unique(),
 });
 
 export const userMetadataTable = pgTable("user_metadata", {

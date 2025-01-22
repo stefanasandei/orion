@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '@/components/ui/button';
+	import { Button, buttonVariants } from '@/components/ui/button';
 	import * as Card from '@/components/ui/card';
 	import { Input } from '@/components/ui/input';
 	import * as Form from '@/components/ui/form';
@@ -54,7 +54,7 @@
 				<div class="bg-muted h-px w-full"></div>
 			</div>
 
-			<Button variant="outline" class="w-full">Login with GitHub</Button>
+			<a href="/login/github" class={buttonVariants({ variant: 'outline' })}> Login with GitHub </a>
 		</form>
 		<div class="mt-4 text-center text-sm">
 			Don't have an account?

@@ -1,3 +1,6 @@
+// auth flow for traditional email & password login
+// see ./oauth for utility classes to use for oauth
+
 import { CtxRequestEvent } from "@repo/core"
 import { db, userMetadataTable, userTable } from "@repo/db";
 import { createSession, generateSessionToken, invalidateSession } from "./session";
@@ -7,8 +10,6 @@ import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeHexLowerCase } from "@oslojs/encoding";
 
 export const registerUser = async (input: RegisterInput, event: CtxRequestEvent): Promise<AuthResponse> => {
-    // TODO: more validation and error handling; move this to @repo/auth
-
     // 1. validate data - done by zod
 
     // 2. insert user (and his metadata) in the database
@@ -34,8 +35,6 @@ export const registerUser = async (input: RegisterInput, event: CtxRequestEvent)
 }
 
 export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Promise<AuthResponse> => {
-    // TODO: more validation and error handling; move this to @repo/auth
-
     // 1. validate data - done by zod
 
     // 2. check user credentials
@@ -78,7 +77,6 @@ export type LoginInput = {
 
 // use these instead of raw text
 // for easier i18n support
-// TODO: add more reasons and implement messages
 export enum AuthFailReason {
     // for sign up
     EmailDuplicate, // TODO

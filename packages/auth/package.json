@@ -24,6 +24,7 @@
         "@oslojs/encoding": "^1.1.0",
         "@repo/core": "workspace:^",
         "@repo/db": "workspace:^",
+        "arctic": "^3.2.1",
         "drizzle-orm": "^0.38.3"
     },
     "devDependencies": {

@@ -19,7 +19,7 @@
 			<div class="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
 				<a
 					href={'#'}
-					class="ring-primary hover:bg-background/40 bg-background text-foreground flex flex-row items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium ring-2 transition transition-all"
+					class="ring-primary hover:bg-background/40 bg-background text-foreground flex flex-row items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium ring-2 transition-all"
 					target="_blank"
 				>
 					<span>Read latest updatest</span>

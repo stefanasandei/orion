@@ -6,6 +6,9 @@ dotenv.config()
 export const env = createEnv({
     server: {
         DATABASE_URL: z.string().url().nonempty(),
+
+        GITHUB_CLIENT_ID: z.string().nonempty(),
+        GITHUB_CLIENT_SECRET: z.string().nonempty()
     },
     runtimeEnv: process.env,
     emptyStringAsUndefined: true,
