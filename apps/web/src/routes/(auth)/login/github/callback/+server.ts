@@ -31,19 +31,37 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
     let userId: number;
     if (userQuery.length == 0) {
-        const newUser = await db.insert(userTable)
-            .values({ githubId: githubUser.id })
-            .returning({ id: userTable.id });
+        // no user with that github account found
 
-        await db.insert(userMetadataTable).values({
-            name: githubUser.name,
-            email: githubUser.email,
-            passwordHash: "",
-            userId: newUser[0]!.id
-        });
+        // ok but what if he signed up using email & password
+        // and now wants to link his github account?
+        // 1. check if there is a user where email == github email
+        const userEmailQuery = await db.select({ email: userMetadataTable.email, userId: userMetadataTable.userId })
+            .from(userMetadataTable).where(eq(userMetadataTable.email, githubUser.email));
 
-        userId = newUser[0]!.id;
+        if (userEmailQuery.length > 0) {
+            // 2. set the github id to the existing user
+            await db.update(userTable).set({ githubId: githubUser.id })
+                .where(eq(userTable.id, userEmailQuery[0]!.userId));
+
+            userId = userEmailQuery[0]!.userId;
+        } else {
+            // no user found, create a new one
+            const newUser = await db.insert(userTable)
+                .values({ githubId: githubUser.id })
+                .returning({ id: userTable.id });
+
+            await db.insert(userMetadataTable).values({
+                name: githubUser.name,
+                email: githubUser.email,
+                passwordHash: "",
+                userId: newUser[0]!.id
+            });
+
+            userId = newUser[0]!.id;
+        }
     } else {
+        // existing user
         userId = userQuery[0]!.id;
     }
 
