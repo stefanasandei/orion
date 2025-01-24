@@ -1,7 +1,5 @@
 import type { RequestEvent } from "@sveltejs/kit";
 import { githubOAuth } from "@/utils/oauth";
-import { db, userMetadataTable, userTable } from "@repo/db";
-import { eq } from "drizzle-orm";
 import { createSession, generateSessionToken, setSessionTokenCookie } from "@repo/auth";
 import type { CtxRequestEvent } from "@repo/core";
 

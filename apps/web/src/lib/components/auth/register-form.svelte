@@ -6,12 +6,15 @@
 	import { type RegisterFormSchema } from '../../../routes/(auth)/register/schema';
 	import { type SuperForm, type Infer } from 'sveltekit-superforms';
 	import { enhance } from '$app/forms';
+	import { Icons } from '@/components/icons.svelte';
 
 	interface Props {
 		form: SuperForm<Infer<RegisterFormSchema>>;
 	}
 
 	let { form }: Props = $props();
+
+	let showPassword = $state(false);
 </script>
 
 <Card.Root class="border-border mx-auto max-w-sm">
@@ -50,7 +53,26 @@
 			<Form.Field {form} name="password" class="grid">
 				<Form.Control>
 					<Form.Label for="password">Password</Form.Label>
-					<Input id="password" name="password" type="password" />
+					<div class="flex flex-row gap-4">
+						<Input
+							id="password"
+							name="password"
+							type={showPassword ? 'text' : 'password'}
+							required
+						/>
+						<Button
+							variant="outline"
+							size="icon"
+							type="button"
+							onclick={() => (showPassword = !showPassword)}
+						>
+							{#if showPassword}
+								<Icons.hide />
+							{:else}
+								<Icons.show />
+							{/if}
+						</Button>
+					</div>
 				</Form.Control>
 				<Form.Description />
 				<Form.FieldErrors />

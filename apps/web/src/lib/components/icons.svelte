@@ -22,7 +22,9 @@
 		moon: Moon,
 		laptop: Laptop,
 		twitter: Twitter,
-		check: Check
+		check: Check,
+		show: Eye,
+		hide: EyeClosed
 	};
 </script>
 
@@ -52,6 +54,8 @@
 		Twitter,
 		User,
 		X,
+		Eye,
+		EyeClosed,
 		type Icon as LucideIcon
 	} from 'lucide-svelte';
 </script>
