@@ -26,6 +26,8 @@ export const userMetadataTable = pgTable("user_metadata", {
         .notNull()
         .$onUpdate(() => new Date()),
 
+    rememberMe: integer("remember_me").default(0).notNull(),
+
     name: varchar("name", { length: 64 })
         .notNull(),
     email: varchar("email", { length: 64 })

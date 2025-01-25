@@ -9,7 +9,7 @@ export const userRouter = createRouter({
             return registerUser(input, ctx.event);
         }),
     login: publicProcedure
-        .input(z.object({ email: z.string(), password: z.string() }))
+        .input(z.object({ email: z.string(), password: z.string(), rememberMe: z.boolean() }))
         .mutation(async ({ ctx, input }) => {
             return loginUser(input, ctx.event);
         }),

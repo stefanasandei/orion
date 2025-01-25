@@ -4,6 +4,7 @@ import { type User, type Session, db, sessionTable, userTable, userMetadataTable
 import { eq } from "drizzle-orm";
 
 const SECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+const SESSION_DAY_EXPIRATIONS = SECONDS_IN_DAY * 4; // 4 days
 
 export function generateSessionToken(): string {
     const bytes = new Uint8Array(20);
@@ -17,7 +18,7 @@ export async function createSession(token: string, userId: number): Promise<Sess
     const session: Session = {
         id: sessionId,
         userId,
-        expiresAt: new Date(Date.now() + SECONDS_IN_DAY * 30) // 30 days
+        expiresAt: new Date(Date.now() + SESSION_DAY_EXPIRATIONS)
     };
 
     await db.insert(sessionTable).values(session);
@@ -46,9 +47,9 @@ export async function validateSessionToken(token: string): Promise<SessionValida
         return { session: null, user: null, userMetadata: null };
     }
 
-    // 3. is it close to expire? let's extend it
-    if (Date.now() >= session.expiresAt.getTime() - SECONDS_IN_DAY * 15) {
-        // less than 15 days
+    // 3. is it close to expire? let's extend it if the user wants that
+    if ((userMetadata.rememberMe == 1) && Date.now() >= session.expiresAt.getTime() - SESSION_DAY_EXPIRATIONS / 2) {
+        // less than 2 days
         session.expiresAt = new Date(Date.now() + SECONDS_IN_DAY * 30);
         await db.update(sessionTable)
             .set({ expiresAt: session.expiresAt })
@@ -65,4 +66,3 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 export type SessionValidationResult =
     | { session: Session; user: User; userMetadata: UserMetadata }
     | { session: null; user: null; userMetadata: null };
-

@@ -3,6 +3,7 @@
 	import * as Card from '@/components/ui/card';
 	import { Input } from '@/components/ui/input';
 	import * as Form from '@/components/ui/form';
+	import { Checkbox } from '@/components/ui/checkbox';
 	import { type LoginFormSchema } from '../../../routes/(auth)/login/schema';
 	import { type SuperForm, type Infer } from 'sveltekit-superforms';
 	import { enhance } from '$app/forms';
@@ -13,7 +14,7 @@
 	}
 
 	let { form }: Props = $props();
-	const { message } = form;
+	const { form: formData, message } = form;
 
 	let showPassword = $state(false);
 </script>
@@ -56,6 +57,17 @@
 								<Icons.show />
 							{/if}
 						</Button>
+					</div>
+				</Form.Control>
+				<Form.Description />
+				<Form.FieldErrors />
+			</Form.Field>
+
+			<Form.Field {form} name="rememberMe" class="grid">
+				<Form.Control>
+					<div class="flex flex-row items-center gap-4">
+						<Checkbox id="rememberMe" bind:checked={$formData.rememberMe} name="rememberMe" />
+						<Form.Label for="rememberMe">Remember me</Form.Label>
 					</div>
 				</Form.Control>
 				<Form.Description />

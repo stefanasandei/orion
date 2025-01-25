@@ -31,7 +31,8 @@ export const actions: Actions = {
         const caller = createCaller({ event: event as CtxRequestEvent });
         const response = await caller.user.login({
             email: form.data.email,
-            password: form.data.password
+            password: form.data.password,
+            rememberMe: form.data.rememberMe
         });
 
         // if it's alright, send the user to the homepage
@@ -44,7 +45,7 @@ export const actions: Actions = {
         let failMessage = "";
         switch (response.reason) {
             case AuthFailReason.WrongPassword:
-                failMessage = "Wrong password.";
+                failMessage = "Wrong email or password.";
                 break;
             default:
                 failMessage = "Unknown error.";

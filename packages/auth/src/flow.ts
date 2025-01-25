@@ -40,17 +40,38 @@ export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Prom
     // 2. check user credentials
     const hashedPassword = encodeHexLowerCase(sha256(new TextEncoder().encode(input.password)));
 
-    const user = await db.select({ id: userMetadataTable.userId, passwordHash: userMetadataTable.passwordHash })
+    const userQuery = await db.select({
+        id: userMetadataTable.userId,
+        passwordHash: userMetadataTable.passwordHash,
+        rememberMe: userMetadataTable.rememberMe
+    })
         .from(userMetadataTable)
         .where(eq(userMetadataTable.email, input.email))
 
-    if (user[0]!.passwordHash != hashedPassword) {
+    if (userQuery.length === 0) {
+        return {
+            success: false,
+            reason: AuthFailReason.EmailNotFound
+        }
+    }
+
+    const user = userQuery[0]!;
+
+    if (user.passwordHash != hashedPassword) {
         return { success: false, reason: AuthFailReason.WrongPassword }
     }
 
-    // 3. all good - login user
+    // 3. store if the user wants to stay logged in
+    const rememberMe = input.rememberMe ? 1 : 0;
+    if (user.rememberMe != rememberMe) {
+        await db.update(userMetadataTable)
+            .set({ rememberMe: rememberMe })
+            .where(eq(userMetadataTable.userId, user.id));
+    }
+
+    // 4. all good - login user
     const token = generateSessionToken();
-    const session = createSession(token, user[0]!.id);
+    const session = createSession(token, user.id);
     setSessionTokenCookie(event, token, (await session).expiresAt);
 
     return { success: true };
@@ -73,6 +94,7 @@ export type RegisterInput = {
 export type LoginInput = {
     email: string;
     password: string;
+    rememberMe: boolean;
 }
 
 // use these instead of raw text
