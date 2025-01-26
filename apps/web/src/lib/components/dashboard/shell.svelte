@@ -4,6 +4,7 @@
 	import { Separator } from '@/components/ui/separator';
 	import type { User, UserMetadata } from '@repo/db';
 	import type { Snippet } from 'svelte';
+	import Seo from '../seo.svelte';
 
 	interface Props {
 		pageName: string;
@@ -14,6 +15,8 @@
 
 	const { pageName, metadata, user, children }: Props = $props();
 </script>
+
+<Seo title={pageName} description="" />
 
 <Sidebar.Provider>
 	<AppSidebar user={{ name: metadata.name, email: metadata.email }} />
