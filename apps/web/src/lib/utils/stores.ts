@@ -13,3 +13,5 @@ export const preferences = persisted<Preferences>('preferences', {
             : 'light'
         : 'light'
 });
+
+// export const sidebarCollapsed = persisted<boolean>('preferences', false);

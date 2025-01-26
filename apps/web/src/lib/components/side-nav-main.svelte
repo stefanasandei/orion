@@ -22,65 +22,73 @@
 	}: {
 		items: MenuItem[];
 	} = $props();
+
+	/*
+	TODO:
+	- remember whole (app-sidebar) collapsed state between pages
+	- collapsed items should have a link to their main url
+	-- item sections shoudl be open by default when you are in a page that belongs to that section
+	- redo ui/ux of the links, bigger more joyful idk
+	*/
 </script>
 
 <Sidebar.Group>
 	<Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
 	<Sidebar.Menu>
 		{#each items as mainItem (mainItem.title)}
-			{#if mainItem.items && mainItem.items.length > 0}
+			{#if mainItem.items!.length != 0}
 				<Collapsible.Root open={mainItem.isActive} class="group/collapsible">
-					<Sidebar.MenuItem>
-						<Collapsible.Trigger>
-							{#snippet child({ props }: { props: any })}
-								<Sidebar.MenuButton {...props}>
-									{#snippet tooltipContent()}
-										{mainItem.title}
-									{/snippet}
-									{#if mainItem.icon}
-										<!-- svelte-ignore svelte_component_deprecated -->
-										<svelte:component this={mainItem.icon} />
-									{/if}
-									<span>{mainItem.title}</span>
-									<ChevronRight
-										class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-									/>
-								</Sidebar.MenuButton>
-							{/snippet}
-						</Collapsible.Trigger>
-						<Collapsible.Content>
-							<Sidebar.MenuSub>
-								{#each mainItem.items as subItem (subItem.title)}
-									<Sidebar.MenuSubItem>
-										<Sidebar.MenuSubButton>
-											{#snippet child({ props })}
-												<a href={subItem.url} {...props}>
-													<span>{subItem.title}</span>
-												</a>
-											{/snippet}
-										</Sidebar.MenuSubButton>
-									</Sidebar.MenuSubItem>
-								{/each}
-							</Sidebar.MenuSub>
-						</Collapsible.Content>
-					</Sidebar.MenuItem>
+					{#snippet child({ props })}
+						<Sidebar.MenuItem {...props}>
+							<Collapsible.Trigger>
+								{#snippet child({ props })}
+									<Sidebar.MenuButton {...props}>
+										{#snippet tooltipContent()}
+											{mainItem.title}
+										{/snippet}
+										{#if mainItem.icon}
+											<mainItem.icon />
+										{/if}
+										<span>{mainItem.title}</span>
+										<ChevronRight
+											class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+										/>
+									</Sidebar.MenuButton>
+								{/snippet}
+							</Collapsible.Trigger>
+							<Collapsible.Content>
+								{#if mainItem.items}
+									<Sidebar.MenuSub>
+										{#each mainItem.items as subItem (subItem.title)}
+											<Sidebar.MenuSubItem>
+												<Sidebar.MenuSubButton>
+													{#snippet child({ props })}
+														<a href={subItem.url} {...props}>
+															<span>{subItem.title}</span>
+														</a>
+													{/snippet}
+												</Sidebar.MenuSubButton>
+											</Sidebar.MenuSubItem>
+										{/each}
+									</Sidebar.MenuSub>
+								{/if}
+							</Collapsible.Content>
+						</Sidebar.MenuItem>
+					{/snippet}
 				</Collapsible.Root>
 			{:else}
 				<Sidebar.MenuItem>
-					<Sidebar.MenuButton>
-						{#snippet child({ props }: { props: any })}
-							<Sidebar.MenuButton {...props}>
-								{#snippet tooltipContent()}
-									{mainItem.title}
-								{/snippet}
-								{#if mainItem.icon}
-									<!-- svelte-ignore svelte_component_deprecated -->
-									<svelte:component this={mainItem.icon} />
-								{/if}
-								<span>{mainItem.title}</span>
-							</Sidebar.MenuButton>
-						{/snippet}
-					</Sidebar.MenuButton>
+					<a href={mainItem.url}>
+						<Sidebar.MenuButton>
+							{#snippet tooltipContent()}
+								{mainItem.title}
+							{/snippet}
+							{#if mainItem.icon}
+								<mainItem.icon />
+							{/if}
+							<span>{mainItem.title}</span>
+						</Sidebar.MenuButton>
+					</a>
 				</Sidebar.MenuItem>
 			{/if}
 		{/each}
