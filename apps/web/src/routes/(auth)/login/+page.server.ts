@@ -6,7 +6,6 @@ import { AuthFailReason, validateRecaptcha } from '@repo/auth';
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { loginFormSchema } from './schema';
-import { RECAPTCHA_SECRET_KEY } from '$env/static/private';
 
 export const load = (async (event: RequestEvent) => {
     if (event.locals.session !== null && event.locals.user !== null) {

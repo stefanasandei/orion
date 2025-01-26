@@ -26,6 +26,15 @@
 		--input: 220 13% 91%;
 		--ring: 262.1 83.3% 57.8%;
 		--radius: 0.75rem;
+
+		--sidebar-background: 0 0% 98%;
+		--sidebar-foreground: 240 5.3% 26.1%;
+		--sidebar-primary: 240 5.9% 10%;
+		--sidebar-primary-foreground: 0 0% 98%;
+		--sidebar-accent: 240 4.8% 95.9%;
+		--sidebar-accent-foreground: 240 5.9% 10%;
+		--sidebar-border: 220 13% 91%;
+		--sidebar-ring: 217.2 91.2% 59.8%;
 	}
 	.dark {
 		--background: 224 71.4% 4.1%;
@@ -47,5 +56,77 @@
 		--border: 215 27.9% 16.9%;
 		--input: 215 27.9% 16.9%;
 		--ring: 263.4 70% 50.4%;
+
+		--sidebar-background: 224 71.4% 4.1%;
+		--sidebar-foreground: 210 20% 98%;
+		--sidebar-primary: 263.4 70% 50.4%;
+		--sidebar-primary-foreground: 210 20% 98%;
+		--sidebar-accent: 215 27.9% 16.9%;
+		--sidebar-accent-foreground: 210 20% 98%;
+		--sidebar-border: 215 27.9% 16.9%;
+		--sidebar-ring: 263.4 70% 50.4%;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		/* font-feature-settings: "rlig" 1, "calt" 1; */
+		font-synthesis-weight: none;
+		text-rendering: optimizeLegibility;
+	}
+
+	/* Mobile tap highlight */
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color */
+	html {
+		-webkit-tap-highlight-color: rgba(128, 128, 128, 0.5);
+	}
+
+	/* Font face Geist font */
+
+	/* === Scrollbars === */
+
+	::-webkit-scrollbar {
+		@apply w-2;
+		@apply h-2;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply !bg-muted;
+	}
+	::-webkit-scrollbar-thumb {
+		@apply rounded-sm !bg-muted-foreground/30;
+	}
+
+	/* Firefox */
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
+	html {
+		scrollbar-color: hsl(215.4 16.3% 46.9% / 0.3);
+	}
+
+	html.dark {
+		scrollbar-color: hsl(215.4 16.3% 56.9% / 0.3);
+	}
+
+	.hide-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.hide-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.antialised {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+}
+
+@media (max-width: 640px) {
+	.container {
+		@apply px-4;
 	}
 }

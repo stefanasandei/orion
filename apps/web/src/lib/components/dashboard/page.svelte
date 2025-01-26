@@ -26,5 +26,3 @@
 {/if}
 
 <p>Hello, {metadata.name}!</p>
-
-<Button onclick={() => $logout.mutate()}>Logout</Button>

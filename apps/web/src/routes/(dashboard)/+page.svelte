@@ -18,7 +18,7 @@
 		<LandingPage />
 	</MarketingShell>
 {:else}
-	<DashboardShell>
+	<DashboardShell pageName="Home" {user} {metadata}>
 		<Dashboard {user} {metadata} />
 	</DashboardShell>
 {/if}
