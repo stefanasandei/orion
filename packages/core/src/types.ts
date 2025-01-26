@@ -8,6 +8,8 @@ export type CtxRequestEvent = {
         session: Session
     },
 
+    getClientAddress: () => string,
+
     cookies: {
         set: (name: string, value: string, opts: {
             httpOnly?: boolean,

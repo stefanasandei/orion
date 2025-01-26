@@ -8,7 +8,10 @@ export const env = createEnv({
         DATABASE_URL: z.string().url().nonempty(),
 
         GITHUB_CLIENT_ID: z.string().nonempty(),
-        GITHUB_CLIENT_SECRET: z.string().nonempty()
+        GITHUB_CLIENT_SECRET: z.string().nonempty(),
+
+        UPSTASH_REDIS_REST_URL: z.string().nonempty(),
+        UPSTASH_REDIS_REST_TOKEN: z.string().nonempty()
     },
     runtimeEnv: process.env,
     emptyStringAsUndefined: true,

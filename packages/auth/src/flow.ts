@@ -107,7 +107,8 @@ export enum AuthFailReason {
 
     // for login
     WrongPassword,
-    EmailNotFound, // TODO
+    EmailNotFound,
+    RateLimited
 };
 
 export type AuthResponse = {

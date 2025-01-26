@@ -45,14 +45,18 @@ export const actions: Actions = {
         let failMessage = "";
         switch (response.reason) {
             case AuthFailReason.WrongPassword:
+            case AuthFailReason.EmailNotFound:
                 failMessage = "Wrong email or password.";
+                break;
+            case AuthFailReason.RateLimited:
+                failMessage = "Too many failed attempts.";
                 break;
             default:
                 failMessage = "Unknown error.";
                 break;
         }
 
-        setMessage(form, failMessage);
+        setMessage(form, { failMessage, reason: response.reason });
 
         return fail(400, {
             form,

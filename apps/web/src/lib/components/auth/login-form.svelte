@@ -75,9 +75,10 @@
 			</Form.Field>
 
 			{#if $message}
-				<div class="text-destructive bg-destructive/10 rounded-md p-3 text-sm">
-					{$message}
+				<div class="text-destructive-foreground bg-destructive rounded-md p-3 text-sm">
+					{$message.failMessage}
 				</div>
+				<!-- <p>{$message.reason}</p> -->
 			{/if}
 
 			<Button type="submit" class="w-full">Login</Button>
