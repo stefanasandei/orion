@@ -25,8 +25,8 @@ export class RateLimitService {
 
         const { success } = await this.limiter.limit(identifier);
 
-        // false - rate limited
-        return success;
+        // true - rate limited
+        return !success;
     }
 
     async recordAuthAttempt(ip: string): Promise<boolean> {
@@ -51,7 +51,7 @@ export class RateLimitService {
         });
 
         // check if the user reached the limit
-        // true - limit reached
+        // true - rate limited
         return current >= this.attempts;
     }
 }

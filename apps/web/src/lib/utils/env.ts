@@ -11,7 +11,10 @@ export const env = createEnv({
         GITHUB_CLIENT_SECRET: z.string().nonempty(),
 
         UPSTASH_REDIS_REST_URL: z.string().nonempty(),
-        UPSTASH_REDIS_REST_TOKEN: z.string().nonempty()
+        UPSTASH_REDIS_REST_TOKEN: z.string().nonempty(),
+
+        PUBLIC_RECAPTCHA_SITE_KEY: z.string().nonempty(),
+        RECAPTCHA_SECRET_KEY: z.string().nonempty(),
     },
     runtimeEnv: process.env,
     emptyStringAsUndefined: true,

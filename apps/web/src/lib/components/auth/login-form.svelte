@@ -8,6 +8,8 @@
 	import { type SuperForm, type Infer } from 'sveltekit-superforms';
 	import { enhance } from '$app/forms';
 	import { Icons } from '@/components/icons.svelte';
+	import { browser } from '$app/environment';
+	import { PUBLIC_RECAPTCHA_SITE_KEY } from '$env/static/public';
 
 	interface Props {
 		form: SuperForm<Infer<LoginFormSchema>>;
@@ -17,7 +19,69 @@
 	const { form: formData, message } = form;
 
 	let showPassword = $state(false);
+	let recaptchaWidget = $state<number | null>(null);
+	let captchaSolved = $state(false);
+
+	$effect(() => {
+		if (!browser) return;
+
+		if ($message?.reason === 5) {
+			const renderRecaptcha = () => {
+				// Give DOM time to update
+				setTimeout(() => {
+					if (window.grecaptcha) {
+						if (recaptchaWidget !== null) {
+							window.grecaptcha.reset(recaptchaWidget);
+						} else {
+							recaptchaWidget = window.grecaptcha.render('recaptcha', {
+								sitekey: PUBLIC_RECAPTCHA_SITE_KEY,
+								callback: (response: string) => {
+									captchaSolved = !!response;
+								},
+								'expired-callback': () => {
+									captchaSolved = false;
+								},
+								'error-callback': () => {
+									captchaSolved = false;
+								}
+							});
+						}
+					} else {
+						// Retry until grecaptcha loads
+						setTimeout(renderRecaptcha, 100);
+					}
+				}, 0);
+			};
+
+			renderRecaptcha();
+		} else {
+			// Reset captcha when not needed
+			if (recaptchaWidget !== null) {
+				window.grecaptcha?.reset(recaptchaWidget);
+			}
+			captchaSolved = false;
+		}
+	});
+
+	function handleSubmit(e: SubmitEvent) {
+		if (browser && $message?.reason === 5) {
+			if (!captchaSolved || !window.grecaptcha) {
+				e.preventDefault();
+				return;
+			}
+
+			const response = window.grecaptcha.getResponse(recaptchaWidget!);
+			if (!response) {
+				e.preventDefault();
+				captchaSolved = false;
+			}
+		}
+	}
 </script>
+
+<svelte:head>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</svelte:head>
 
 <Card.Root class="border-border mx-auto max-w-sm">
 	<Card.Header>
@@ -25,7 +89,7 @@
 		<Card.Description>Enter your credentials to login to your account</Card.Description>
 	</Card.Header>
 	<Card.Content>
-		<form method="POST" class="grid gap-4" use:enhance>
+		<form method="POST" class="grid gap-4" onsubmit={handleSubmit} use:enhance>
 			<Form.Field {form} name="email" class="grid">
 				<Form.Control>
 					<Form.Label for="email">Email</Form.Label>
@@ -74,14 +138,23 @@
 				<Form.FieldErrors />
 			</Form.Field>
 
+			{#if $message?.reason === 5}
+				<div
+					class="g-recaptcha"
+					id="recaptcha"
+					data-sitekey="6LeBMP4UAAAAAEgXoxxxazYLBpMDPtwOzad6GEkZ"
+				></div>
+			{/if}
+
 			{#if $message}
 				<div class="text-destructive-foreground bg-destructive rounded-md p-3 text-sm">
 					{$message.failMessage}
 				</div>
-				<!-- <p>{$message.reason}</p> -->
 			{/if}
 
-			<Button type="submit" class="w-full">Login</Button>
+			<Button type="submit" class="w-full" disabled={$message?.reason === 5 && !captchaSolved}>
+				Login
+			</Button>
 
 			<div class="flex w-full items-center gap-2">
 				<div class="bg-muted h-px w-full"></div>

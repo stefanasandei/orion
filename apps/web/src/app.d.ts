@@ -8,6 +8,14 @@ declare global {
 			userMetadata: UserMetadata | null;
 		}
 	}
+
+	interface Window {
+		grecaptcha: {
+			render: (element: string | HTMLElement, options: unknown) => number;
+			getResponse: (widget: number) => string;
+			reset: (widget: number) => void;
+		};
+	}
 }
 
 export { };

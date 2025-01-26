@@ -6,6 +6,7 @@ import { AuthFailReason } from '@repo/auth';
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { loginFormSchema } from './schema';
+import { RECAPTCHA_SECRET_KEY } from '$env/static/private';
 
 export const load = (async (event: RequestEvent) => {
     if (event.locals.session !== null && event.locals.user !== null) {
@@ -25,6 +26,31 @@ export const actions: Actions = {
             return fail(400, {
                 form
             });
+        }
+
+        console.log(form.data);
+
+        // check recaptcha
+        const recaptchaResonse = form.data["g-recaptcha-response"];
+        if (recaptchaResonse != undefined) {
+            const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaResonse}`
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                setMessage(form, { failMessage: "Recaptcha failed.", reason: AuthFailReason.RateLimited });
+
+                return fail(400, {
+                    form,
+                    message: "Recaptcha failed."
+                });
+            }
         }
 
         // 2. call the api for the auth logic
