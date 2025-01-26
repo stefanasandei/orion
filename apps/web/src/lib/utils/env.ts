@@ -15,6 +15,8 @@ export const env = createEnv({
 
         PUBLIC_RECAPTCHA_SITE_KEY: z.string().nonempty(),
         RECAPTCHA_SECRET_KEY: z.string().nonempty(),
+
+        RESEND_API_KEY: z.string().nonempty(),
     },
     runtimeEnv: process.env,
     emptyStringAsUndefined: true,

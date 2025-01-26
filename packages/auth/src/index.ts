@@ -7,3 +7,5 @@ export { deleteSessionTokenCookie, setSessionTokenCookie } from "./cookie";
 
 export { registerUser, loginUser, logoutUser, AuthFailReason } from './flow';
 export type { RegisterInput, AuthResponse, LoginInput } from "./flow";
+
+export { validateRecaptcha } from "./recaptcha";
