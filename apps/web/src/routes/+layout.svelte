@@ -3,6 +3,7 @@
 	import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query';
 	import { preferences } from '@/utils/stores';
 	import { onMount } from 'svelte';
+	import { Toaster } from '@/components/ui/sonner/index.js';
 
 	const queryClient = new QueryClient();
 
@@ -29,6 +30,8 @@
 		</script>
 	`}
 </svelte:head>
+
+<Toaster position="bottom-center" richColors />
 
 <QueryClientProvider client={queryClient}>
 	<main class="bg-background text-foreground flex min-h-screen flex-col">
