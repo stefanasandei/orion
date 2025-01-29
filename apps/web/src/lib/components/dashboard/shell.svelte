@@ -5,6 +5,7 @@
 	import type { User, UserMetadata } from '@repo/db';
 	import type { Snippet } from 'svelte';
 	import Seo from '../seo.svelte';
+	import { page } from '$app/state';
 
 	interface Props {
 		pageName: string;
@@ -14,14 +15,16 @@
 	}
 
 	const { pageName, metadata, user, children }: Props = $props();
+
+	const pathname = page.url.pathname;
 </script>
 
 <Seo title={pageName} description="" />
 
 <Sidebar.Provider>
-	<AppSidebar user={{ name: metadata.name, email: metadata.email }} />
+	<AppSidebar user={{ name: metadata.name, email: metadata.email }} {pathname} />
 	<Sidebar.Inset>
-		<header
+		<!-- <header
 			class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
 		>
 			<div class="flex items-center gap-2 px-4">
@@ -29,8 +32,8 @@
 				<Separator orientation="vertical" class="mr-2 h-4" />
 				<p>{pageName}</p>
 			</div>
-		</header>
-		<div class="flex flex-1 flex-col gap-4 p-4 pt-0">
+		</header> -->
+		<div class="mt-2 flex flex-1 flex-col gap-4 p-4 pt-0">
 			{@render children?.()}
 		</div>
 	</Sidebar.Inset>

@@ -80,10 +80,12 @@
 			name: string;
 			email: string;
 		};
+		pathname: string;
 	}
 
 	let {
 		user,
+		pathname,
 		ref = $bindable(null),
 		collapsible = 'icon',
 		...restProps
@@ -95,7 +97,7 @@
 		<WorkspaceSwitcher workspaces={data.workspaces} />
 	</Sidebar.Header>
 	<Sidebar.Content>
-		<NavMain items={data.navMain} />
+		<NavMain {pathname} items={data.navMain} />
 		<!-- <NavProjects projects={data.projects} /> -->
 	</Sidebar.Content>
 	<Sidebar.Footer>

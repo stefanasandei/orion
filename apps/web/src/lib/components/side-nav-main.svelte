@@ -3,6 +3,7 @@
 	import * as Sidebar from '@/components/ui/sidebar';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import type { ComponentType } from 'svelte';
+	import { cn } from '../utils/cn';
 
 	interface MenuItem {
 		title: string;
@@ -18,9 +19,11 @@
 	}
 
 	let {
-		items
+		items,
+		pathname
 	}: {
 		items: MenuItem[];
+		pathname: string;
 	} = $props();
 
 	/*
@@ -37,12 +40,18 @@
 	<Sidebar.Menu>
 		{#each items as mainItem (mainItem.title)}
 			{#if mainItem.items!.length != 0}
-				<Collapsible.Root open={mainItem.isActive} class="group/collapsible">
+				<Collapsible.Root
+					open={mainItem.isActive || pathname.startsWith(mainItem.url)}
+					class="group/collapsible"
+				>
 					{#snippet child({ props })}
 						<Sidebar.MenuItem {...props}>
 							<Collapsible.Trigger>
 								{#snippet child({ props })}
-									<Sidebar.MenuButton {...props}>
+									<Sidebar.MenuButton
+										{...props}
+										class={cn(pathname == mainItem.url ? 'bg-muted/50' : '')}
+									>
 										{#snippet tooltipContent()}
 											{mainItem.title}
 										{/snippet}
@@ -61,7 +70,9 @@
 									<Sidebar.MenuSub>
 										{#each mainItem.items as subItem (subItem.title)}
 											<Sidebar.MenuSubItem>
-												<Sidebar.MenuSubButton>
+												<Sidebar.MenuSubButton
+													class={cn(pathname == subItem.url ? 'bg-muted/50' : '')}
+												>
 													{#snippet child({ props })}
 														<a href={subItem.url} {...props}>
 															<span>{subItem.title}</span>
@@ -79,7 +90,7 @@
 			{:else}
 				<Sidebar.MenuItem>
 					<a href={mainItem.url}>
-						<Sidebar.MenuButton>
+						<Sidebar.MenuButton class={cn(pathname == mainItem.url ? 'bg-muted/50' : '')}>
 							{#snippet tooltipContent()}
 								{mainItem.title}
 							{/snippet}

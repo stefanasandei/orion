@@ -5,7 +5,7 @@
 	import Dashboard from '@/components/dashboard/page.svelte';
 	import type { User, UserMetadata } from '@repo/db';
 
-	export let data;
+	let { data } = $props();
 
 	const { metadata, user } = data as {
 		user: User | null;
