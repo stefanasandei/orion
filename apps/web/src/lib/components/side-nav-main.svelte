@@ -50,7 +50,7 @@
 								{#snippet child({ props })}
 									<Sidebar.MenuButton
 										{...props}
-										class={cn(pathname == mainItem.url ? 'bg-muted/50' : '')}
+										class={cn(pathname.startsWith(mainItem.url) ? 'bg-muted/50' : '')}
 									>
 										{#snippet tooltipContent()}
 											{mainItem.title}

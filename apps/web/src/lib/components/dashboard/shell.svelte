@@ -16,7 +16,7 @@
 
 	const { pageName, metadata, user, children }: Props = $props();
 
-	const pathname = page.url.pathname;
+	const pathname = $derived(page.url.pathname);
 </script>
 
 <Seo title={pageName} description="" />
