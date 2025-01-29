@@ -24,15 +24,15 @@
 <Sidebar.Provider>
 	<AppSidebar user={{ name: metadata.name, email: metadata.email }} {pathname} />
 	<Sidebar.Inset>
-		<!-- <header
-			class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+		<header
+			class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 md:hidden"
 		>
 			<div class="flex items-center gap-2 px-4">
 				<Sidebar.Trigger class="-ml-1" />
 				<Separator orientation="vertical" class="mr-2 h-4" />
 				<p>{pageName}</p>
 			</div>
-		</header> -->
+		</header>
 		<div class="mt-2 flex flex-1 flex-col gap-4 p-4 pt-0">
 			{@render children?.()}
 		</div>

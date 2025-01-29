@@ -1,1 +1,7 @@
-<p>appearance</p>
+<script>
+	import CategoryShell from '@/components/settings/category-shell.svelte';
+</script>
+
+<CategoryShell title="Appearance" description="This is how others will see you on the site.">
+	<p>sample text</p>
+</CategoryShell>
