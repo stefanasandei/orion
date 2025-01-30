@@ -3,11 +3,13 @@ import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
 import { db, userMetadataTable } from '@repo/db';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
 import { resendService } from '../services/email';
 import { totpService } from '../services/2fa';
+import { sha256 } from '@oslojs/crypto/sha2';
+import { encodeHexLowerCase } from '@oslojs/encoding';
 
 export const userRouter = createRouter({
     register: publicProcedure
@@ -72,6 +74,20 @@ export const userRouter = createRouter({
             return await db.update(userMetadataTable)
                 .set({ emailVerified: true })
                 .where(eq(userMetadataTable.userId, ctx.session.userId));
+        }),
+    checkPassword: protectedProcedure
+        .input(z.object({ password: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const hashedPassword = encodeHexLowerCase(sha256(new TextEncoder().encode(input.password)));
+
+            const response = await db.select({ userId: userMetadataTable.userId })
+                .from(userMetadataTable)
+                .where(and(
+                    eq(userMetadataTable.userId, ctx.session.userId),
+                    eq(userMetadataTable.passwordHash, hashedPassword))
+                );
+
+            return response.length > 0;
         }),
 
     get2FASetupQRCode: protectedProcedure

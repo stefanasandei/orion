@@ -98,10 +98,7 @@
 				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">not active</p>
 			{/if}
 		</div>
-		{#if !data.userMetadata.twoFactorEnabled}
-			<!-- todo: allow for reset -->
-			<SetupTwoFactor />
-		{/if}
+		<SetupTwoFactor reset={data.userMetadata.twoFactorEnabled === true} />
 	</div>
 </div>
 
