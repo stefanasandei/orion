@@ -115,6 +115,12 @@ export const userRouter = createRouter({
                     totpKey: input.secret
                 }).where(eq(userMetadataTable.userId, ctx.session.userId));
         }),
+    disable2FA: protectedProcedure
+        .mutation(async ({ ctx }) => {
+            await db.update(userMetadataTable)
+                .set({ twoFactorEnabled: false, totpKey: null })
+                .where(eq(userMetadataTable.userId, ctx.session.userId));
+        }),
     verifyTOTPCode: protectedProcedure
         .input(z.object({ code: z.string(), secret: z.string().optional() }))
         .mutation(async ({ ctx, input }) => {

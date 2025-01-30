@@ -15,8 +15,10 @@
 	const { reset }: Props = $props();
 
 	let isOpen = $state(false);
+	let showDisableConfirm = $state(false);
 
 	const setupData = trpc().user.get2FASetupQRCode.createQuery();
+	const disable2FA = trpc().user.disable2FA.createMutation();
 	const verify2FA = trpc().user.verifyTOTPCode.createMutation();
 	const setup2FA = trpc().user.setup2FA.createMutation({
 		onSuccess: () => {
@@ -79,16 +81,48 @@
 
 		isSubmitting = false;
 	};
+
+	const handleDisable2FA = async () => {
+		await $disable2FA.mutateAsync();
+		showDisableConfirm = false;
+		toast.success('2FA disabled successfully');
+		isOpen = false;
+	};
 </script>
 
 <div class="flex flex-row gap-4">
-	<!-- {#if reset}
-		<Button>Disable</Button>
-	{/if} -->
+	{#if reset}
+		<AlertDialog.Root open={showDisableConfirm}>
+			<AlertDialog.Trigger>
+				{#snippet child({ props })}
+					<Button {...props} variant="destructive">Disable 2FA</Button>
+				{/snippet}
+			</AlertDialog.Trigger>
+			<AlertDialog.Content>
+				<AlertDialog.Header>
+					<AlertDialog.Title>Disable two-factor authentication</AlertDialog.Title>
+					<AlertDialog.Description>
+						Are you sure you want to disable two-factor authentication? This will make your account
+						less secure.
+					</AlertDialog.Description>
+				</AlertDialog.Header>
+				<AlertDialog.Footer>
+					<AlertDialog.Cancel onclick={() => (showDisableConfirm = false)}
+						>Cancel</AlertDialog.Cancel
+					>
+					<AlertDialog.Action disabled={$disable2FA.isPending} onclick={handleDisable2FA}>
+						{$disable2FA.isPending ? 'Disabling...' : 'Yes, disable 2FA'}
+					</AlertDialog.Action>
+				</AlertDialog.Footer>
+			</AlertDialog.Content>
+		</AlertDialog.Root>
+	{/if}
 
 	<AlertDialog.Root open={isOpen}>
 		<AlertDialog.Trigger>
-			<Button>{reset ? 'Reset' : 'Setup'} 2FA</Button>
+			{#snippet child({ props })}
+				<Button {...props}>{reset ? 'Reset' : 'Setup'} 2FA</Button>
+			{/snippet}
 		</AlertDialog.Trigger>
 		<AlertDialog.Content>
 			{#if currentStep === 'password'}
