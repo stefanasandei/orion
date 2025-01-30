@@ -58,6 +58,20 @@ export const userRouter = createRouter({
             // 3. return response
             return success;
         }),
+    confirmEmail: protectedProcedure
+        .input(z.object({ token: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const EMAIL_SECRET = process.env["EMAIL_SECRET"]!;
+            const decoded = jwt.verify(input.token, EMAIL_SECRET) as { userId: string };
+
+            if (parseInt(decoded.userId) !== ctx.session.userId) {
+                return false;
+            }
+
+            return await db.update(userMetadataTable)
+                .set({ emailVerified: true })
+                .where(eq(userMetadataTable.userId, ctx.session.userId));
+        }),
 
     updateProfile: protectedProcedure
         .input(z.object({
