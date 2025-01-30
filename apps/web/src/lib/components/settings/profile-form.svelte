@@ -7,13 +7,18 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
+	import type { UserMetadata } from '@repo/db';
 
-	let { data }: { data: { form: SuperValidated<Infer<ProfileFormSchema>> } } = $props();
+	let {
+		data
+	}: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; userMetadata: UserMetadata } } =
+		$props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(formSchema),
-		onUpdated: ({ form: f }) => {
-			if (f.valid) {
+		multipleSubmits: 'allow',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
 				toast.success('Profile successfully updated!');
 			} else {
 				toast.error('Please fix the errors in the form.');
@@ -21,7 +26,15 @@
 		}
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, timeout } = form;
+
+	const defaultValues = {
+		firstName: data.userMetadata.name.split(' ')[0],
+		lastName: data.userMetadata.name.split(' ')[1],
+		bio: data.userMetadata.bio,
+		isPublic: data.userMetadata.isPublic
+	};
+	formData.set(defaultValues);
 </script>
 
 <form method="POST" class="space-y-6" use:enhance>
@@ -33,17 +46,17 @@
 					<Input {...props} bind:value={$formData.firstName} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>This is your public display name.</Form.Description>
+			<Form.Description>This is your given name.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 		<Form.Field {form} name="lastName" class="flex-1">
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Last name</Form.Label>
-					<Input {...props} bind:value={$formData.firstName} />
+					<Input {...props} bind:value={$formData.lastName} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>This is your public display name.</Form.Description>
+			<Form.Description>This is your family name.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 	</div>
@@ -51,10 +64,12 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Bio</Form.Label>
-				<Textarea {...props} bind:value={$formData.firstName} />
+				<Textarea {...props} bind:value={$formData.bio} />
 			{/snippet}
 		</Form.Control>
-		<Form.Description>This is your public display name.</Form.Description>
+		<Form.Description
+			>A short description about yourself and your work, only visible when shared.</Form.Description
+		>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Field {form} name="isPublic" class="flex-1">
@@ -66,8 +81,8 @@
 				</div>
 			{/snippet}
 		</Form.Control>
-		<Form.Description>This is your public display name.</Form.Description>
+		<Form.Description>Do you want other people to see your profile and your work?</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button>Submit</Form.Button>
+	<Form.Button disabled={$timeout}>Submit</Form.Button>
 </form>

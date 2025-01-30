@@ -1,5 +1,5 @@
 import { InferSelectModel } from "drizzle-orm";
-import { integer, pgTableCreator, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTableCreator, serial, boolean, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
 
@@ -27,6 +27,7 @@ export const userMetadataTable = pgTable("user_metadata", {
         .$onUpdate(() => new Date()),
 
     rememberMe: integer("remember_me").default(0).notNull(),
+    emailVerified: boolean("email_verified").default(false),
 
     name: varchar("name", { length: 64 })
         .notNull(),
@@ -34,6 +35,8 @@ export const userMetadataTable = pgTable("user_metadata", {
         .notNull(),
     passwordHash: varchar("password_hash", { length: 256 })
         .notNull(),
+    bio: text("bio").default("").notNull(),
+    isPublic: boolean("is_public").default(false).notNull(),
 })
 
 export const sessionTable = pgTable("session", {

@@ -1,7 +1,9 @@
 import { registerUser, loginUser, logoutUser, AuthFailReason } from '@repo/auth';
-import { createRouter, publicProcedure } from '../context'
+import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
+import { db, userMetadataTable } from '@repo/db';
+import { eq } from 'drizzle-orm';
 
 export const userRouter = createRouter({
     register: publicProcedure
@@ -26,8 +28,24 @@ export const userRouter = createRouter({
 
             return result;
         }),
-    logout: publicProcedure
+    logout: protectedProcedure
         .mutation(async ({ ctx }) => {
             return logoutUser(ctx.event);
+        }),
+
+    updateProfile: protectedProcedure
+        .input(z.object({
+            form: z.object({
+                lastName: z.string().min(2).max(50),
+                firstName: z.string().min(2).max(50),
+                bio: z.string(),
+                isPublic: z.boolean(),
+            })
+        })).mutation(async ({ ctx, input }) => {
+            return await db.update(userMetadataTable).set({
+                name: input.form.firstName + " " + input.form.lastName,
+                bio: input.form.bio,
+                isPublic: input.form.isPublic
+            }).where(eq(userMetadataTable.userId, ctx.session.userId));
         })
 })
