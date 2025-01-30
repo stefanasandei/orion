@@ -10,6 +10,8 @@
 	import { cn } from '@/utils/cn';
 	import { trpc } from '@/utils/trpc/client';
 	import { toast } from 'svelte-sonner';
+	import { lastVerificationEmailSent } from '@/utils/stores';
+	import { onMount } from 'svelte';
 
 	// component props
 	let {
@@ -33,8 +35,27 @@
 	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
 		onSuccess: () => {
 			toast.success('Confirmation email sent.');
+			$lastVerificationEmailSent = Date.now();
 		}
 	});
+
+	// cooldown for sending email
+	const COOLDOWN_HOURS = 12;
+	const COOLDOWN_MS = COOLDOWN_HOURS * 60 * 60 * 1000;
+
+	// Initialize as loading to prevent flash of enabled state
+	let cooldownCalculated = $state(false);
+
+	// Once mounted, calculate cooldown state
+	onMount(() => {
+		cooldownCalculated = true;
+	});
+
+	const timeRemaining = $derived(
+		Math.max(0, $lastVerificationEmailSent + COOLDOWN_MS - Date.now())
+	);
+	const canSendEmail = $derived(cooldownCalculated && timeRemaining === 0);
+	const hoursRemaining = $derived(Math.floor(timeRemaining / (60 * 60 * 1000)));
 </script>
 
 <!-- confirm email & setup 2fa -->
@@ -56,10 +77,17 @@
 		</div>
 
 		{#if !data.userMetadata.emailVerified}
-			<Button onclick={() => $sendConfirmationEmail.mutate()}>Send verification email</Button>
+			<Button onclick={() => $sendConfirmationEmail.mutate()} disabled={!canSendEmail}>
+				{#if !cooldownCalculated}
+					Loading...
+				{:else if canSendEmail}
+					Send verification email
+				{:else}
+					Wait {hoursRemaining} hour{hoursRemaining === 1 ? '' : 's'}
+				{/if}
+			</Button>
 		{/if}
 	</div>
-
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>Two-factor authentication (2FA)</Label>

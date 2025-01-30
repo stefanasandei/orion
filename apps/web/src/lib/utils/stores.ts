@@ -14,4 +14,6 @@ export const preferences = persisted<Preferences>('preferences', {
         : 'light'
 });
 
+export const lastVerificationEmailSent = persisted<number>('lastVerificationEmailSent', 0);
+
 // export const sidebarCollapsed = persisted<boolean>('preferences', false);
