@@ -28,6 +28,8 @@ export const userMetadataTable = pgTable("user_metadata", {
 
     rememberMe: integer("remember_me").default(0).notNull(),
     emailVerified: boolean("email_verified").default(false),
+    twoFactorEnabled: boolean("two_factor_enabled").default(false),
+    totpKey: varchar("totp_key", { length: 64 }),
 
     name: varchar("name", { length: 64 })
         .notNull(),

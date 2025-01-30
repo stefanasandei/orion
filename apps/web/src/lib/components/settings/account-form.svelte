@@ -12,6 +12,7 @@
 	import { toast } from 'svelte-sonner';
 	import { lastVerificationEmailSent } from '@/utils/stores';
 	import { onMount } from 'svelte';
+	import SetupTwoFactor from '@/components/auth/2fa-setup.svelte';
 
 	// component props
 	let {
@@ -88,17 +89,18 @@
 			</Button>
 		{/if}
 	</div>
-	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+	<div class="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>Two-factor authentication (2FA)</Label>
-			{#if data.userMetadata.emailVerified}
+			{#if data.userMetadata.twoFactorEnabled}
 				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">active</p>
 			{:else}
 				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">not active</p>
 			{/if}
 		</div>
-		{#if !data.userMetadata.emailVerified}
-			<Button>Setup 2FA</Button>
+		{#if !data.userMetadata.twoFactorEnabled}
+			<!-- todo: allow for reset -->
+			<SetupTwoFactor />
 		{/if}
 	</div>
 </div>
@@ -135,7 +137,7 @@
 			{/if}
 		</div>
 
-		{#if !data.userMetadata.emailVerified}
+		{#if !false}
 			<Button size="sm" class="w-min" disabled={true}>Link Discord</Button>
 		{/if}
 	</div>

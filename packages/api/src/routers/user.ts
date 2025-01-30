@@ -7,6 +7,7 @@ import { eq } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
 import { resendService } from '../services/email';
+import { totpService } from '../services/2fa';
 
 export const userRouter = createRouter({
     register: publicProcedure
@@ -71,6 +72,58 @@ export const userRouter = createRouter({
             return await db.update(userMetadataTable)
                 .set({ emailVerified: true })
                 .where(eq(userMetadataTable.userId, ctx.session.userId));
+        }),
+
+    get2FASetupQRCode: protectedProcedure
+        .query(async ({ ctx }) => {
+            // generate user secret + qr code
+            const userSecret = await totpService.generateSecret();
+            const email = ctx.event.locals.userMetadata.email;
+
+            const uri = totpService.createKeyURI(email, userSecret);
+
+            return {
+                secret: userSecret,
+                qrcode: uri.qr_svg
+            }
+        }),
+    setup2FA: protectedProcedure
+        .input(z.object({ secret: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+            // called after the user scanned the qr code and it was verified
+            // save the secret in the db
+
+            await db.update(userMetadataTable)
+                .set({
+                    twoFactorEnabled: true,
+                    totpKey: input.secret
+                }).where(eq(userMetadataTable.userId, ctx.session.userId));
+        }),
+    verifyTOTPCode: protectedProcedure
+        .input(z.object({ code: z.string(), secret: z.string().optional() }))
+        .mutation(async ({ ctx, input }) => {
+            // check if the code == totp(user secret)
+
+            // 1. get user's totp secret
+            let secret = input.secret;
+            if (secret === undefined) {
+                const userSecret = await db.select({ totpKey: userMetadataTable.totpKey })
+                    .from(userMetadataTable)
+                    .where(eq(userMetadataTable.userId, ctx.session.userId));
+
+                if (userSecret === null || userSecret.length === 0) {
+                    return false;
+                }
+                if (userSecret[0] == undefined || userSecret[0]?.totpKey === null) {
+                    return false;
+                }
+
+                secret = userSecret[0].totpKey;
+            }
+
+            // 2. verify code
+            const valid = totpService.verifyCode(input.code, secret);
+            return valid;
         }),
 
     updateProfile: protectedProcedure

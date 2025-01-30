@@ -20,17 +20,21 @@
         "typecheck": "tsc"
     },
     "dependencies": {
+        "@neondatabase/serverless": "^0.10.4",
+        "@oslojs/crypto": "^1.0.1",
+        "@oslojs/encoding": "^1.1.0",
+        "@oslojs/otp": "^1.1.0",
         "@repo/auth": "workspace:^",
         "@repo/core": "workspace:^",
         "@repo/db": "workspace:*",
         "@trpc/server": "10.45.2",
         "@upstash/ratelimit": "^2.0.5",
         "@upstash/redis": "^1.34.3",
-        "@neondatabase/serverless": "^0.10.4",
         "drizzle-orm": "^0.38.3",
         "jsonwebtoken": "^9.0.2",
         "resend": "^4.1.1",
         "superjson": "^2.2.1",
+        "uqr": "^0.1.2",
         "zod": "^3.23.8"
     },
     "devDependencies": {
