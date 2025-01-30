@@ -1,18 +1,24 @@
 <script lang="ts">
-	import type { UserMetadata } from '@repo/db';
+	import type { User, UserMetadata } from '@repo/db';
 	import * as Form from '@/components/ui/form';
 	import { Input } from '@/components/ui/input';
 	import { Label } from '@/components/ui/label';
-	import { Button } from '@/components/ui/button';
+	import { Button, buttonVariants } from '@/components/ui/button';
 	import { formSchema, type AccountFormSchema } from './account-schema';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import * as Select from '@/components/ui/select';
+	import { cn } from '../../utils/cn';
 
 	let {
 		data
-	}: { data: { form: SuperValidated<Infer<AccountFormSchema>>; userMetadata: UserMetadata } } =
-		$props();
+	}: {
+		data: {
+			form: SuperValidated<Infer<AccountFormSchema>>;
+			userMetadata: UserMetadata;
+			user: User;
+		};
+	} = $props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(formSchema)
@@ -22,6 +28,7 @@
 </script>
 
 <!-- confirm email & setup 2fa -->
+<h2 class="mb-3 text-xl font-bold">Security</h2>
 <div class="flex flex-col gap-6">
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div>
@@ -58,9 +65,47 @@
 	</div>
 </div>
 
+<div>
+	<p class="mb-1 text-xl font-bold">Socials</p>
+	<p class="mb-3">Enable authentication with other social accounts.</p>
+</div>
+<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+		<div class="mb-2 flex flex-row items-center gap-3">
+			<Label>GitHub</Label>
+			{#if data.user.githubId !== null}
+				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">linked</p>
+			{:else}
+				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">not linked</p>
+			{/if}
+		</div>
+
+		{#if data.user.githubId === null}
+			<a href="/login/github" class={cn(buttonVariants({ size: 'sm' }), 'w-min')}>Link GitHub</a>
+		{/if}
+	</div>
+
+	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+		<div class="mb-2 flex flex-row items-center gap-3">
+			<Label>Discord</Label>
+			{#if false}
+				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">linked</p>
+			{:else}
+				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">
+					not available yet
+				</p>
+			{/if}
+		</div>
+
+		{#if !data.userMetadata.emailVerified}
+			<Button size="sm" class="w-min" disabled={true}>Link Discord</Button>
+		{/if}
+	</div>
+</div>
+
 <!-- language -->
 <form method="POST" use:enhance>
-	<h2 class="mb-3 text-xl">Preferences</h2>
+	<h2 class="mb-3 text-xl font-bold">Preferences</h2>
 
 	<Form.Field {form} name="language">
 		<Form.Control>
