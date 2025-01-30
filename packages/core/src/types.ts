@@ -1,11 +1,12 @@
-import { Session, User } from '@repo/db';
+import { Session, User, UserMetadata } from '@repo/db';
 
 // work around to avoid circular imports
 // a replica of RequestEvent from sveltekit
 export type CtxRequestEvent = {
     locals: {
         user: User,
-        session: Session
+        session: Session,
+        userMetadata: UserMetadata
     },
 
     getClientAddress: () => string,

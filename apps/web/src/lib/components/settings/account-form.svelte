@@ -1,15 +1,17 @@
 <script lang="ts">
 	import type { User, UserMetadata } from '@repo/db';
 	import * as Form from '@/components/ui/form';
-	import { Input } from '@/components/ui/input';
 	import { Label } from '@/components/ui/label';
 	import { Button, buttonVariants } from '@/components/ui/button';
 	import { formSchema, type AccountFormSchema } from './account-schema';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import * as Select from '@/components/ui/select';
-	import { cn } from '../../utils/cn';
+	import { cn } from '@/utils/cn';
+	import { trpc } from '@/utils/trpc/client';
+	import { toast } from 'svelte-sonner';
 
+	// component props
 	let {
 		data
 	}: {
@@ -20,11 +22,19 @@
 		};
 	} = $props();
 
+	// setup form
 	const form = superForm(data.form, {
 		validators: zodClient(formSchema)
 	});
 
 	const { form: formData, enhance } = form;
+
+	// utility functions
+	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
+		onSuccess: () => {
+			toast.success('Confirmation email sent.');
+		}
+	});
 </script>
 
 <!-- confirm email & setup 2fa -->
@@ -46,7 +56,7 @@
 		</div>
 
 		{#if !data.userMetadata.emailVerified}
-			<Button>Send verification email</Button>
+			<Button onclick={() => $sendConfirmationEmail.mutate()}>Send verification email</Button>
 		{/if}
 	</div>
 
