@@ -92,7 +92,7 @@
 	}: ComponentProps<typeof Sidebar.Root> & Properties = $props();
 </script>
 
-<Sidebar.Root bind:ref {collapsible} {...restProps}>
+<Sidebar.Root class="bg-muted" variant={'sidebar'} bind:ref {collapsible} {...restProps}>
 	<Sidebar.Header>
 		<WorkspaceSwitcher workspaces={data.workspaces} />
 	</Sidebar.Header>
