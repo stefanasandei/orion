@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { User, UserMetadata } from '@repo/db';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		user: User;
@@ -9,4 +10,4 @@
 	const { metadata }: Props = $props();
 </script>
 
-<p>Hello, {metadata.name}!</p>
+<p>{$t('dashboard.hello')}, {metadata.name}!</p>

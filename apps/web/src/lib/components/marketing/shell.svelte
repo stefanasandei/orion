@@ -3,13 +3,14 @@
 	import MainNav from '@/components/main-nav.svelte';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@repo/tailwind';
+	import { t } from '@/utils/i18n/translations';
 
 	const config = {
 		siteName: 'Orion',
 		navItems: [
-			{ title: 'Home', href: '/' },
-			{ title: 'About', href: '/about' },
-			{ title: 'Contact', href: '/contact' }
+			{ title: $t('marketing.home'), href: '/' },
+			{ title: $t('marketing.about'), href: '/about' },
+			{ title: $t('marketing.contact'), href: '/contact' }
 		]
 	};
 </script>
@@ -24,10 +25,10 @@
 
 		<nav class="flex items-center gap-4">
 			<a href="/login" class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}>
-				Login
+				{$t('auth.login')}
 			</a>
 			<a href="/register" class={cn(buttonVariants({ variant: 'default', size: 'sm' }), 'px-4')}>
-				Get Started
+				{$t('auth.register')}
 			</a>
 		</nav>
 	</div>

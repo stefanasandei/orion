@@ -3,6 +3,7 @@
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils/cn';
 	import Footer from '@/components/marketing/footer.svelte';
+	import { t } from '@/utils/i18n/translations';
 </script>
 
 <div class="relative flex min-h-screen">
@@ -22,18 +23,20 @@
 					class="ring-primary hover:bg-background/40 bg-background text-foreground flex flex-row items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium ring-2 transition-all"
 					target="_blank"
 				>
-					<span>Read latest updatest</span>
+					<span>{$t('marketing.updates')}</span>
 					<span class="inline"><Icons.arrowRight /></span>
 				</a>
 				<h1 class="text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-					✨ Learn anything ✨ <br /> faster and smarter.
+					✨ {$t('marketing.slogan_short_p1')} ✨ <br />
+					{$t('marketing.slogan_short_p2')}.
 				</h1>
 				<p class="text-muted-foreground max-w-[42rem] leading-normal sm:text-xl sm:leading-8">
-					Experience the perfect blend of power and simplicity. Our tools provide the best
-					enviorment to learn academic subjects, passions or general knowledge.
+					{$t('marketing.slogan_long')}
 				</p>
 				<div class="space-x-4">
-					<a href="/register" class={cn(buttonVariants({ size: 'lg' }))}> Get Started </a>
+					<a href="/register" class={cn(buttonVariants({ size: 'lg' }))}
+						>{$t('marketing.get_started')}</a
+					>
 					<a
 						href={'#'}
 						target="_blank"

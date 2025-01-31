@@ -10,6 +10,27 @@ const config: Config = ({
                 await import('./en/common.json')
             ).default,
         },
+        {
+            locale: 'en',
+            key: 'marketing',
+            loader: async () => (
+                await import('./en/marketing.json')
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'auth',
+            loader: async () => (
+                await import('./en/auth.json')
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'dashboard',
+            loader: async () => (
+                await import('./en/dashboard.json')
+            ).default,
+        },
     ],
 });
 
