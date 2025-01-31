@@ -35,7 +35,7 @@
 	*/
 </script>
 
-<Sidebar.Group class="bg-background rounded-lg">
+<Sidebar.Group class="bg-background my-2 h-full rounded-lg">
 	<Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
 	<Sidebar.Menu>
 		{#each items as mainItem (mainItem.title)}

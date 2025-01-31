@@ -92,15 +92,21 @@
 	}: ComponentProps<typeof Sidebar.Root> & Properties = $props();
 </script>
 
-<Sidebar.Root class="bg-muted" variant={'sidebar'} bind:ref {collapsible} {...restProps}>
-	<Sidebar.Header>
+<Sidebar.Root
+	class="bg-muted h-screen py-2"
+	variant={'floating'}
+	collapsible={'none'}
+	bind:ref
+	{...restProps}
+>
+	<Sidebar.Header class="bg-muted p-0">
 		<WorkspaceSwitcher workspaces={data.workspaces} />
 	</Sidebar.Header>
-	<Sidebar.Content>
+	<Sidebar.Content class="bg-muted h-full p-0">
 		<NavMain {pathname} items={data.navMain} />
 		<!-- <NavProjects projects={data.projects} /> -->
 	</Sidebar.Content>
-	<Sidebar.Footer>
+	<Sidebar.Footer class="bg-muted p-0">
 		<NavUser {user} />
 	</Sidebar.Footer>
 	<Sidebar.Rail />

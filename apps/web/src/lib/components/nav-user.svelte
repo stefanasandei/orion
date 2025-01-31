@@ -29,7 +29,7 @@
 	});
 </script>
 
-<Sidebar.Menu>
+<Sidebar.Menu class="bg-background rounded-lg p-2">
 	<Sidebar.MenuItem>
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>

@@ -15,7 +15,7 @@
 	let activeworkspace = $state(workspaces[0]);
 </script>
 
-<Sidebar.Menu>
+<Sidebar.Menu class="bg-background rounded-lg p-2">
 	<Sidebar.MenuItem>
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
