@@ -18,7 +18,8 @@ export async function createSession(token: string, userId: number): Promise<Sess
     const session: Session = {
         id: sessionId,
         userId,
-        expiresAt: new Date(Date.now() + SESSION_DAY_EXPIRATIONS)
+        expiresAt: new Date(Date.now() + SESSION_DAY_EXPIRATIONS),
+        twoFactorVerified: false,
     };
 
     await db.insert(sessionTable).values(session);

@@ -4,12 +4,12 @@ import { superValidate } from "sveltekit-superforms";
 import { formSchema } from "@/components/settings/account-schema";
 import { zod } from "sveltekit-superforms/adapters";
 import type { RequestEvent } from "@sveltejs/kit";
-import { createCaller } from "@repo/api";
-import type { CtxRequestEvent } from "@repo/core";
+import { authMiddleware } from "@/utils/auth-middleware.js";
 
 export const load: PageServerLoad = async (event: RequestEvent) => {
-    if (event.locals.session === null || event.locals.user === null) {
-        return redirect(302, "/");
+    const redirectUrl = authMiddleware(event);
+    if (redirectUrl !== undefined) {
+        redirect(302, redirectUrl);
     }
 
     return {

@@ -50,7 +50,11 @@ export const sessionTable = pgTable("session", {
     expiresAt: timestamp("expires_at", {
         withTimezone: true,
         mode: "date"
-    }).notNull()
+    }).notNull(),
+
+    twoFactorVerified: boolean("two_factor_verified")
+        .default(false)
+        .notNull(),
 });
 
 export type User = InferSelectModel<typeof userTable>;

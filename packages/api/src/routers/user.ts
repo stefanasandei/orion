@@ -2,7 +2,7 @@ import { registerUser, loginUser, logoutUser, AuthFailReason } from '@repo/auth'
 import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
-import { db, userMetadataTable } from '@repo/db';
+import { db, sessionTable, userMetadataTable } from '@repo/db';
 import { eq, and } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
@@ -145,6 +145,12 @@ export const userRouter = createRouter({
 
             // 2. verify code
             const valid = totpService.verifyCode(input.code, secret);
+
+            // 3. set the record in the session
+            await db.update(sessionTable)
+                .set({ twoFactorVerified: true })
+                .where(eq(sessionTable.userId, ctx.session.userId));
+
             return valid;
         }),
 
