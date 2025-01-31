@@ -12,7 +12,7 @@
 	let { workspaces }: { workspaces: { name: string; logo: any; plan: string }[] } = $props();
 	const sidebar = useSidebar();
 
-	let activeTeam = $state(workspaces[0]);
+	let activeworkspace = $state(workspaces[0]);
 </script>
 
 <Sidebar.Menu>
@@ -28,13 +28,13 @@
 						<div
 							class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
 						>
-							<activeTeam.logo class="size-4" />
+							<activeworkspace.logo class="size-4" />
 						</div>
 						<div class="grid flex-1 text-left text-sm leading-tight">
 							<span class="truncate font-semibold">
-								{activeTeam.name}
+								{activeworkspace.name}
 							</span>
-							<span class="truncate text-xs">{activeTeam.plan}</span>
+							<span class="truncate text-xs">{activeworkspace.plan}</span>
 						</div>
 						<ChevronsUpDown class="ml-auto" />
 					</Sidebar.MenuButton>
@@ -46,14 +46,13 @@
 				side={sidebar.isMobile ? 'bottom' : 'right'}
 				sideOffset={4}
 			>
-				<DropdownMenu.Label class="text-muted-foreground text-xs">Teams</DropdownMenu.Label>
-				{#each workspaces as team, index (team.name)}
-					<DropdownMenu.Item onSelect={() => (activeTeam = team)} class="gap-2 p-2">
+				<DropdownMenu.Label class="text-muted-foreground text-xs">Workspaces</DropdownMenu.Label>
+				{#each workspaces as workspace, index (workspace.name)}
+					<DropdownMenu.Item onSelect={() => (activeworkspace = workspace)} class="gap-2 p-2">
 						<div class="flex size-6 items-center justify-center rounded-sm border">
-							<team.logo class="size-4 shrink-0" />
+							<workspace.logo class="size-4 shrink-0" />
 						</div>
-						{team.name}
-						<DropdownMenu.Shortcut>⌘{index + 1}</DropdownMenu.Shortcut>
+						{workspace.name}
 					</DropdownMenu.Item>
 				{/each}
 				<DropdownMenu.Separator />
@@ -61,7 +60,9 @@
 					<div class="bg-background flex size-6 items-center justify-center rounded-md border">
 						<Plus class="size-4" />
 					</div>
-					<div class="text-muted-foreground font-medium">Add team</div>
+					<a href="/create-workspace" class="text-muted-foreground font-medium"
+						>Create a workspace</a
+					>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>

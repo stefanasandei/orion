@@ -1,6 +1,5 @@
 <script lang="ts">
 	import CategoryShell from '@/components/settings/category-shell.svelte';
-	import ThemeSwithcer from '@/components/mode-toggle.svelte';
 	import * as Select from '@/components/ui/select';
 	import { Label } from '@/components/ui/label';
 	import { preferences } from '@/utils/stores';

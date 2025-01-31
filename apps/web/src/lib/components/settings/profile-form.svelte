@@ -84,5 +84,5 @@
 		<Form.Description>Do you want other people to see your profile and your work?</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button disabled={$timeout}>Submit</Form.Button>
+	<Form.Button disabled={$timeout}>Update profile</Form.Button>
 </form>
