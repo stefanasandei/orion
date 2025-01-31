@@ -34,7 +34,7 @@
 <Toaster position="bottom-center" richColors />
 
 <QueryClientProvider client={queryClient}>
-	<main class="bg-muted text-foreground flex min-h-screen flex-col">
+	<main class="bg-muted text-foreground flex min-h-screen flex-col overflow-hidden">
 		<slot />
 	</main>
 </QueryClientProvider>

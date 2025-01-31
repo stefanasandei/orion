@@ -92,22 +92,34 @@
 	}: ComponentProps<typeof Sidebar.Root> & Properties = $props();
 </script>
 
-<Sidebar.Root
-	class="bg-muted h-screen py-2"
-	variant={'floating'}
-	collapsible={'none'}
-	bind:ref
-	{...restProps}
->
-	<Sidebar.Header class="bg-muted p-0">
-		<WorkspaceSwitcher workspaces={data.workspaces} />
-	</Sidebar.Header>
-	<Sidebar.Content class="bg-muted h-full p-0">
-		<NavMain {pathname} items={data.navMain} />
-		<!-- <NavProjects projects={data.projects} /> -->
-	</Sidebar.Content>
-	<Sidebar.Footer class="bg-muted p-0">
-		<NavUser {user} />
-	</Sidebar.Footer>
-	<Sidebar.Rail />
-</Sidebar.Root>
+<div class="flex md:hidden">
+	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
+		<Sidebar.Header class="bg-muted p-0">
+			<WorkspaceSwitcher workspaces={data.workspaces} />
+		</Sidebar.Header>
+		<Sidebar.Content class="bg-muted h-full p-0">
+			<NavMain {pathname} items={data.navMain} />
+			<!-- <NavProjects projects={data.projects} /> -->
+		</Sidebar.Content>
+		<Sidebar.Footer class="bg-muted p-0">
+			<NavUser {user} />
+		</Sidebar.Footer>
+		<Sidebar.Rail />
+	</Sidebar.Root>
+</div>
+
+<div class="hidden md:flex">
+	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
+		<Sidebar.Header class="bg-muted p-0">
+			<WorkspaceSwitcher workspaces={data.workspaces} />
+		</Sidebar.Header>
+		<Sidebar.Content class="bg-muted h-full p-0">
+			<NavMain {pathname} items={data.navMain} />
+			<!-- <NavProjects projects={data.projects} /> -->
+		</Sidebar.Content>
+		<Sidebar.Footer class="bg-muted p-0">
+			<NavUser {user} />
+		</Sidebar.Footer>
+		<Sidebar.Rail />
+	</Sidebar.Root>
+</div>

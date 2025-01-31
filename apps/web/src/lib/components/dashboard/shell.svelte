@@ -21,7 +21,7 @@
 
 <Seo title={pageName} description="" />
 
-<Sidebar.Provider>
+<Sidebar.Provider class="overflow-hidden">
 	<AppSidebar user={{ name: metadata.name, email: metadata.email }} {pathname} />
 	<Sidebar.Inset>
 		<header
@@ -33,7 +33,7 @@
 				<p>{pageName}</p>
 			</div>
 		</header>
-		<div class="bg-background h-full rounded-md p-2 md:m-2">
+		<div class="bg-background h-full overflow-hidden rounded-md p-2 md:m-2">
 			{@render children?.()}
 		</div>
 	</Sidebar.Inset>
