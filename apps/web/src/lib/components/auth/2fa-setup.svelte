@@ -5,6 +5,7 @@
 	import { Label } from '@/components/ui/label';
 	import { trpc } from '@/utils/trpc/client';
 	import { toast } from 'svelte-sonner';
+	import { t } from '@/utils/i18n/translations';
 
 	/**
 	 * Component Props
@@ -32,7 +33,7 @@
 	const verify2FA = trpc().user.verifyTOTPCode.createMutation();
 	const setup2FA = trpc().user.setup2FA.createMutation({
 		onSuccess: () => {
-			toast.success('2FA enabled successfully');
+			toast.success($t('auth.2fa_enabled'));
 			isOpen = false;
 		}
 	});
@@ -64,10 +65,10 @@
 				await $setup2FA.mutate({ secret: $setupData.data.secret });
 			} else {
 				code = '';
-				toast.error('Invalid code, please try again');
+				toast.error($t('auth.invalid_code'));
 			}
 		} catch (error) {
-			toast.error('Failed to verify code');
+			toast.error($t('auth.failed_verif'));
 		} finally {
 			isSubmitting = false;
 		}
@@ -83,10 +84,10 @@
 			if (isValid) {
 				currentStep = 'qr';
 			} else {
-				passwordError = 'Invalid password';
+				passwordError = $t('auth.invalid_password');
 			}
 		} catch {
-			passwordError = 'Something went wrong';
+			passwordError = $t('auth.something_went_wrong');
 		} finally {
 			isSubmitting = false;
 		}
@@ -96,9 +97,9 @@
 	const handleDisable2FA = async () => {
 		try {
 			await $disable2FA.mutateAsync();
-			toast.success('2FA disabled successfully');
+			toast.success($t('auth.2fa_disabled'));
 		} catch {
-			toast.error('Failed to disable 2FA');
+			toast.error($t('auth.2fa_failed_disable'));
 		} finally {
 			showDisableConfirm = false;
 			isOpen = false;
@@ -112,23 +113,22 @@
 		<AlertDialog.Root open={showDisableConfirm}>
 			<AlertDialog.Trigger>
 				{#snippet child({ props })}
-					<Button variant="destructive" {...props}>Disable 2FA</Button>
+					<Button variant="destructive" {...props}>{$t('auth.2fa_disable')}</Button>
 				{/snippet}
 			</AlertDialog.Trigger>
 			<AlertDialog.Content>
 				<AlertDialog.Header>
-					<AlertDialog.Title>Disable two-factor authentication</AlertDialog.Title>
+					<AlertDialog.Title>{$t('auth.2fa_disable_long')}</AlertDialog.Title>
 					<AlertDialog.Description>
-						Are you sure you want to disable two-factor authentication? This will make your account
-						less secure.
+						{$t('auth.2fa_disable_warning')}
 					</AlertDialog.Description>
 				</AlertDialog.Header>
 				<AlertDialog.Footer>
 					<AlertDialog.Cancel onclick={() => (showDisableConfirm = false)}>
-						Cancel
+						{$t('common.cancel')}
 					</AlertDialog.Cancel>
 					<AlertDialog.Action disabled={$disable2FA.isPending} onclick={handleDisable2FA}>
-						{$disable2FA.isPending ? 'Disabling...' : 'Yes, disable 2FA'}
+						{$disable2FA.isPending ? $t('auth.2fa_disable_wait') : $t('auth.yes_disable_2fa')}
 					</AlertDialog.Action>
 				</AlertDialog.Footer>
 			</AlertDialog.Content>
@@ -139,26 +139,26 @@
 	<AlertDialog.Root open={isOpen}>
 		<AlertDialog.Trigger>
 			{#snippet child({ props })}
-				<Button {...props}>{reset ? 'Reset' : 'Setup'} 2FA</Button>
+				<Button {...props}>{reset ? $t('auth.reset_2fa') : $t('auth.setup_2fa')}</Button>
 			{/snippet}
 		</AlertDialog.Trigger>
 		<AlertDialog.Content>
 			{#if currentStep === 'password'}
 				<!-- Password Verification Step -->
 				<AlertDialog.Header>
-					<AlertDialog.Title>Verify your password</AlertDialog.Title>
+					<AlertDialog.Title>{$t('auth.verify_password')}</AlertDialog.Title>
 					<AlertDialog.Description>
-						Please enter your password to continue with 2FA reset.
+						{$t('auth.verify_password_desc')}
 					</AlertDialog.Description>
 				</AlertDialog.Header>
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col gap-2">
-						<Label for="password">Password</Label>
+						<Label for="password">{$t('auth.password')}</Label>
 						<Input
 							id="password"
 							type="password"
 							bind:value={password}
-							placeholder="Enter your password"
+							placeholder={$t('auth.enter_password')}
 							class="w-full"
 						/>
 						{#if passwordError}
@@ -167,20 +167,20 @@
 					</div>
 				</div>
 				<AlertDialog.Footer>
-					<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+					<AlertDialog.Cancel>{$t('common.cancel')}</AlertDialog.Cancel>
 					<AlertDialog.Action
 						disabled={isSubmitting || !password}
 						onclick={handlePasswordVerification}
 					>
-						{isSubmitting ? 'Verifying...' : 'Continue'}
+						{isSubmitting ? $t('auth.verifying') : $t('auth.continue')}
 					</AlertDialog.Action>
 				</AlertDialog.Footer>
 			{:else}
 				<!-- QR Code Setup Step -->
 				<AlertDialog.Header>
-					<AlertDialog.Title>Setup 2 factor authentication</AlertDialog.Title>
+					<AlertDialog.Title>{$t('auth.setup_2fa_title')}</AlertDialog.Title>
 					<AlertDialog.Description>
-						Scan the QR code using your authenticator app, then enter the 6-digit code to verify.
+						{$t('auth.setup_2fa_desc')}
 					</AlertDialog.Description>
 				</AlertDialog.Header>
 				<div class="flex flex-col gap-6">
@@ -188,7 +188,7 @@
 					<div class="flex justify-center">
 						<div class="bg-muted flex h-[300px] w-[300px] items-center justify-center rounded-lg">
 							{#if $setupData.isLoading}
-								<div class="text-muted-foreground">Loading...</div>
+								<div class="text-muted-foreground">{$t('auth.loading')}</div>
 							{:else if qrCode}
 								{@html qrCode.outerHTML}
 							{/if}
@@ -197,17 +197,22 @@
 
 					<!-- Verification Code Input -->
 					<div class="flex flex-col gap-2">
-						<Label for="code">Verification Code</Label>
-						<Input id="code" bind:value={code} placeholder="Enter 6-digit code" class="w-full" />
+						<Label for="code">{$t('auth.verification_code')}</Label>
+						<Input
+							id="code"
+							bind:value={code}
+							placeholder={$t('auth.enter_6digit')}
+							class="w-full"
+						/>
 					</div>
 				</div>
 				<AlertDialog.Footer>
-					<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+					<AlertDialog.Cancel>{$t('common.cancel')}</AlertDialog.Cancel>
 					<AlertDialog.Action
 						disabled={isSubmitting || code.length !== 6}
 						onclick={handleVerification}
 					>
-						{isSubmitting ? 'Verifying...' : 'Verify & Enable 2FA'}
+						{isSubmitting ? $t('auth.verifying') : $t('auth.verify_enable')}
 					</AlertDialog.Action>
 				</AlertDialog.Footer>
 			{/if}

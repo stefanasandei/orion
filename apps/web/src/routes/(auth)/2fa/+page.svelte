@@ -5,6 +5,7 @@
 	import * as InputOTP from '@/components/ui/input-otp';
 	import * as Form from '@/components/ui/form';
 	import { formSchema, type FormSchema } from './schema';
+	import { t } from '@/utils/i18n/translations';
 
 	let { data }: { data: { form: SuperValidated<Infer<FormSchema>> } } = $props();
 
@@ -12,7 +13,7 @@
 		validators: zodClient(formSchema),
 		onUpdated: ({ form: f }) => {
 			if (!f.valid) {
-				toast.error('Please fix the errors in the form.');
+				toast.error($t('common.generic_form_error'));
 			}
 		}
 	});
@@ -25,9 +26,9 @@
 		<form method="POST" use:enhance class="flex min-h-screen flex-col" id="otpForm">
 			<div class="pt-10">
 				<div class="text-center">
-					<h1 class="text-3xl font-semibold tracking-tight">Two-Factor Authentication</h1>
+					<h1 class="text-3xl font-semibold tracking-tight">{$t('auth.2fa_Long')}</h1>
 					<p class="text-muted-foreground mt-3 text-center text-sm">
-						Please enter the one-time code sent to your phone.
+						{$t('auth.2fa_desc')}
 					</p>
 				</div>
 			</div>
@@ -65,7 +66,7 @@
 			</div>
 
 			<div class="mx-auto w-full max-w-md p-6">
-				<Form.Button class="w-full" type="submit">Verify Code</Form.Button>
+				<Form.Button class="w-full" type="submit">{$t('auth.2fa_code')}</Form.Button>
 			</div>
 		</form>
 	</main>

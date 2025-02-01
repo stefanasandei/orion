@@ -1,4 +1,6 @@
 {
     "or": "or",
-    "and": "and"
+    "and": "and",
+    "generic_form_error": "Please fix the errors in the form.",
+    "cancel": "Cancel"
 }
