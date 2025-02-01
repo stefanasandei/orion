@@ -1,3 +1,4 @@
 {
-    "mutation": "result of mutation"
+    "or": "or",
+    "and": "and"
 }

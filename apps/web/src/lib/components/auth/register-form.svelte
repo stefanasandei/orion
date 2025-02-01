@@ -7,6 +7,7 @@
 	import { type SuperForm, type Infer } from 'sveltekit-superforms';
 	import { enhance } from '$app/forms';
 	import { Icons } from '@/components/icons.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		form: SuperForm<Infer<RegisterFormSchema>>;
@@ -17,26 +18,26 @@
 	let showPassword = $state(false);
 </script>
 
-<Card.Root class="border-border mx-auto max-w-sm">
+<Card.Root class="border-border text-foreground mx-auto max-w-sm">
 	<Card.Header>
-		<Card.Title class="text-xl">Register</Card.Title>
-		<Card.Description>Enter your information to create an account</Card.Description>
+		<Card.Title class="text-xl">{$t('auth.register')}</Card.Title>
+		<Card.Description>{$t('auth.register_desc')}</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<form method="POST" class="grid gap-4" use:enhance>
 			<div class="grid grid-cols-2 gap-4">
 				<Form.Field {form} name="firstName" class="grid">
 					<Form.Control>
-						<Form.Label for="first-name">First name</Form.Label>
-						<Input id="first-name" name="firstName" placeholder="Max" required />
+						<Form.Label for="first-name">{$t('auth.first_name')}</Form.Label>
+						<Input id="first-name" name="firstName" placeholder="Andrei" required />
 					</Form.Control>
 					<Form.Description />
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="lastName" class="grid">
 					<Form.Control>
-						<Form.Label for="last-name">Last name</Form.Label>
-						<Input id="last-name" name="lastName" placeholder="Robinson" required />
+						<Form.Label for="last-name">{$t('auth.last_name')}</Form.Label>
+						<Input id="last-name" name="lastName" placeholder="Popescu" required />
 					</Form.Control>
 					<Form.Description />
 					<Form.FieldErrors />
@@ -52,7 +53,7 @@
 			</Form.Field>
 			<Form.Field {form} name="password" class="grid">
 				<Form.Control>
-					<Form.Label for="password">Password</Form.Label>
+					<Form.Label for="password">{$t('auth.password')}</Form.Label>
 					<div class="flex flex-row gap-4">
 						<Input
 							id="password"
@@ -77,21 +78,21 @@
 				<Form.Description />
 				<Form.FieldErrors />
 			</Form.Field>
-			<Button type="submit" class="w-full">Create an account</Button>
+			<Button type="submit" class="w-full">{$t('auth.create_account')}</Button>
 
 			<div class="flex w-full items-center gap-2">
 				<div class="bg-muted h-px w-full"></div>
-				<div class="text-muted-foreground">or</div>
+				<div class="text-muted-foreground">{$t('common.or')}</div>
 				<div class="bg-muted h-px w-full"></div>
 			</div>
 
 			<a href="/login/github" class={buttonVariants({ variant: 'outline' })}>
-				Register with GitHub
+				{$t('auth.github')}
 			</a>
 		</form>
 		<div class="mt-4 text-center text-sm">
-			Already have an account?
-			<a href="/login" class="underline"> Sign in </a>
+			{$t('auth.has_acc')}
+			<a href="/login" class="underline"> {$t('auth.login')} </a>
 		</div>
 	</Card.Content>
 </Card.Root>

@@ -5,6 +5,7 @@
 	import { registerFormSchema, type RegisterFormSchema } from './schema';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { t } from '@/utils/i18n/translations';
 
 	let { data }: { data: { form: SuperValidated<Infer<RegisterFormSchema>> } } = $props();
 
@@ -21,11 +22,14 @@
 
 		<RegisterForm {form} />
 
-		<div
-			class="text-foreground [&_a]:hover:text-primary text-balance text-center text-xs [&_a]:underline [&_a]:underline-offset-4"
-		>
-			By clicking continue, you agree to our <a href="/">Terms of Service</a>{' '}
-			and <a href="/">Privacy Policy</a>.
+		<div class="text-foreground text-balance text-center text-xs">
+			{$t('auth.tos_disclaimer_p1')}{' '}
+			<a class="hover:text-primary underline underline-offset-4" href="/tos">{$t('auth.tos')}</a
+			>{' '}
+			{$t('common.and')}{' '}
+			<a class="hover:text-primary underline underline-offset-4" href="/privacy-policy">
+				{$t('auth.privacy_policy')}
+			</a>.
 		</div>
 	</div>
 </div>

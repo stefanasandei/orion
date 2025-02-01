@@ -10,6 +10,7 @@
 	import { Icons } from '@/components/icons.svelte';
 	import { browser } from '$app/environment';
 	import { PUBLIC_RECAPTCHA_SITE_KEY } from '$env/static/public';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		form: SuperForm<Infer<LoginFormSchema>>;
@@ -83,10 +84,10 @@
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </svelte:head>
 
-<Card.Root class="border-border mx-auto max-w-sm">
+<Card.Root class="border-border text-foreground mx-auto max-w-sm">
 	<Card.Header>
-		<Card.Title class="text-xl">Login</Card.Title>
-		<Card.Description>Enter your credentials to login to your account</Card.Description>
+		<Card.Title class="text-xl">{$t('auth.login')}</Card.Title>
+		<Card.Description>{$t('auth.login_desc')}</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<form method="POST" class="grid gap-4" onsubmit={handleSubmit} use:enhance>
@@ -101,7 +102,7 @@
 
 			<Form.Field {form} name="password" class="grid">
 				<Form.Control>
-					<Form.Label for="password">Password</Form.Label>
+					<Form.Label for="password">{$t('auth.password')}</Form.Label>
 					<div class="flex flex-row gap-4">
 						<Input
 							id="password"
@@ -131,7 +132,7 @@
 				<Form.Control>
 					<div class="flex flex-row items-center gap-4">
 						<Checkbox id="rememberMe" bind:checked={$formData.rememberMe} name="rememberMe" />
-						<Form.Label for="rememberMe">Remember me</Form.Label>
+						<Form.Label for="rememberMe">{$t('auth.remember_me')}</Form.Label>
 					</div>
 				</Form.Control>
 				<Form.Description />
@@ -139,11 +140,7 @@
 			</Form.Field>
 
 			{#if $message?.reason === 5}
-				<div
-					class="g-recaptcha"
-					id="recaptcha"
-					data-sitekey="6LeBMP4UAAAAAEgXoxxxazYLBpMDPtwOzad6GEkZ"
-				></div>
+				<div class="g-recaptcha" id="recaptcha" data-sitekey={PUBLIC_RECAPTCHA_SITE_KEY}></div>
 			{/if}
 
 			{#if $message}
@@ -153,20 +150,20 @@
 			{/if}
 
 			<Button type="submit" class="w-full" disabled={$message?.reason === 5 && !captchaSolved}>
-				Login
+				{$t('auth.login')}
 			</Button>
 
 			<div class="flex w-full items-center gap-2">
 				<div class="bg-muted h-px w-full"></div>
-				<div class="text-muted-foreground">or</div>
+				<div class="text-muted-foreground">{$t('common.or')}</div>
 				<div class="bg-muted h-px w-full"></div>
 			</div>
 
-			<a href="/login/github" class={buttonVariants({ variant: 'outline' })}> Login with GitHub </a>
+			<a href="/login/github" class={buttonVariants({ variant: 'outline' })}>{$t('auth.github')}</a>
 		</form>
 		<div class="mt-4 text-center text-sm">
-			Don't have an account?
-			<a href="/register" class="underline">Sign up</a>
+			{$t('auth.no_acc')}
+			<a href="/register" class="underline">{$t('auth.register')}</a>
 		</div>
 	</Card.Content>
 </Card.Root>
