@@ -6,6 +6,7 @@
 	import { useSidebar } from '@/components/ui/sidebar/context.svelte.js';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import Plus from 'lucide-svelte/icons/plus';
+	import { t } from '@/utils/i18n/translations';
 
 	// This should be `Component` after lucide-svelte updates types
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +47,9 @@
 				side={sidebar.isMobile ? 'bottom' : 'right'}
 				sideOffset={4}
 			>
-				<DropdownMenu.Label class="text-muted-foreground text-xs">Workspaces</DropdownMenu.Label>
+				<DropdownMenu.Label class="text-muted-foreground text-xs"
+					>{$t('dashboard.workspace_title')}</DropdownMenu.Label
+				>
 				{#each workspaces as workspace, index (workspace.name)}
 					<DropdownMenu.Item onSelect={() => (activeworkspace = workspace)} class="gap-2 p-2">
 						<div class="flex size-6 items-center justify-center rounded-sm border">
@@ -61,7 +64,7 @@
 						<Plus class="size-4" />
 					</div>
 					<a href="/create-workspace" class="text-muted-foreground font-medium"
-						>Create a workspace</a
+						>{$t('dashboard.create_workspace')}</a
 					>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>

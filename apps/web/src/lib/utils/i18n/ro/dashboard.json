@@ -1,3 +1,14 @@
 {
-    "hello": "Salut"
+    "hello": "Salut",
+    "workspace_title": "Spații de lucru",
+    "create_workspace": "Creează un spațiu de lucru",
+    "section_platform": "Platformă",
+    "default_workspace": "Spațiu de lucru implicit",
+    "free": "Gratuit",
+    "home": "Acasă",
+    "settings": "Setări",
+    "profile": "Profil",
+    "account": "Cont",
+    "appearance": "Aspect",
+    "notifications": "Notificări"
 }

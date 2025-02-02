@@ -9,39 +9,40 @@
 	import Map from 'lucide-svelte/icons/map';
 	import Settings2 from 'lucide-svelte/icons/settings-2';
 	import SquareTerminal from 'lucide-svelte/icons/square-terminal';
+	import { t } from '@/utils/i18n/translations';
 
 	// TODO: This is sample data.
 	const data = {
 		workspaces: [
 			{
-				name: 'Default Workspace',
+				name: t.get('dashboard.default_workspace'),
 				logo: GalleryVerticalEnd,
-				plan: 'Free'
+				plan: t.get('dashboard.free')
 			}
 		],
 		navMain: [
 			{
-				title: 'Home',
+				title: t.get('dashboard.home'),
 				url: '/',
 				icon: SquareTerminal,
 				isActive: true,
 				items: []
 			},
 			{
-				title: 'Settings',
+				title: t.get('dashboard.settings'),
 				url: '/settings',
 				icon: Settings2,
 				items: [
 					{
-						title: 'Profile',
+						title: t.get('dashboard.profile'),
 						url: '/settings'
 					},
 					{
-						title: 'Account',
+						title: t.get('dashboard.account'),
 						url: '/settings/account'
 					},
 					{
-						title: 'Appearance',
+						title: t.get('dashboard.appearance'),
 						url: '/settings/appearance'
 					}
 				]
@@ -53,16 +54,6 @@
 			// 	url: '#',
 			// 	icon: Frame
 			// },
-			// {
-			// 	name: 'Sales & Marketing',
-			// 	url: '#',
-			// 	icon: ChartPie
-			// },
-			// {
-			// 	name: 'Travel',
-			// 	url: '#',
-			// 	icon: Map
-			// }
 		]
 	};
 </script>

@@ -4,6 +4,7 @@
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import type { ComponentType } from 'svelte';
 	import { cn } from '../utils/cn';
+	import { t } from '@/utils/i18n/translations';
 
 	interface MenuItem {
 		title: string;
@@ -36,7 +37,7 @@
 </script>
 
 <Sidebar.Group class="bg-background my-2 h-full rounded-lg">
-	<Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
+	<Sidebar.GroupLabel>{$t('dashboard.section_platform')}</Sidebar.GroupLabel>
 	<Sidebar.Menu>
 		{#each items as mainItem (mainItem.title)}
 			{#if mainItem.items!.length != 0}

@@ -13,6 +13,7 @@
 	import Sparkles from 'lucide-svelte/icons/sparkles';
 	import { trpc } from '@/utils/trpc/client';
 	import { goto } from '$app/navigation';
+	import { t } from '@/utils/i18n/translations';
 
 	let { user }: { user: { name: string; email: string } } = $props();
 	const sidebar = useSidebar();
@@ -81,20 +82,20 @@
 					<a href="/settings/account">
 						<DropdownMenu.Item>
 							<BadgeCheck />
-							Account
+							{$t('dashboard.account')}
 						</DropdownMenu.Item></a
 					>
 					<a href="/notifications">
 						<DropdownMenu.Item>
 							<Bell />
-							Notifications
+							{$t('dashboard.notifications')}
 						</DropdownMenu.Item>
 					</a>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onclick={() => $logout.mutate()}>
 					<LogOut />
-					Log out
+					{$t('auth.logout')}
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>

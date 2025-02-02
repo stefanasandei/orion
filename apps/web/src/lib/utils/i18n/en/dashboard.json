@@ -1,3 +1,14 @@
 {
-    "hello": "Hello"
+    "hello": "Hello",
+    "workspace_title": "Workspaces",
+    "create_workspace": "Create a workspace",
+    "section_platform": "Platform",
+    "default_workspace": "Default Workspace",
+    "free": "Free",
+    "home": "Home",
+    "settings": "Settings",
+    "profile": "Profile",
+    "account": "Account",
+    "appearance": "Appearance",
+    "notifications": "Notifications"
 }
