@@ -1,48 +1,47 @@
-<script lang="ts" module>
-	import AudioWaveform from 'lucide-svelte/icons/audio-waveform';
-	import BookOpen from 'lucide-svelte/icons/book-open';
-	import Bot from 'lucide-svelte/icons/bot';
-	import ChartPie from 'lucide-svelte/icons/chart-pie';
-	import Command from 'lucide-svelte/icons/command';
-	import Frame from 'lucide-svelte/icons/frame';
+<script lang="ts">
+	import NavMain from '@/components/side-nav-main.svelte';
+	// import NavProjects from '@/components/nav-projects.svelte';
+	import NavUser from '@/components/nav-user.svelte';
+	import WorkspaceSwitcher from '$base/src/lib/components/workspace-switcher.svelte';
+	import * as Sidebar from '@/components/ui/sidebar';
+	import type { ComponentProps } from 'svelte';
 	import GalleryVerticalEnd from 'lucide-svelte/icons/gallery-vertical-end';
-	import Map from 'lucide-svelte/icons/map';
 	import Settings2 from 'lucide-svelte/icons/settings-2';
 	import SquareTerminal from 'lucide-svelte/icons/square-terminal';
 	import { t } from '@/utils/i18n/translations';
 
 	// TODO: This is sample data.
-	const data = {
+	const data = $derived({
 		workspaces: [
 			{
-				name: t.get('dashboard.default_workspace'),
+				name: $t('dashboard.default_workspace'),
 				logo: GalleryVerticalEnd,
-				plan: t.get('dashboard.free')
+				plan: $t('dashboard.free')
 			}
 		],
 		navMain: [
 			{
-				title: t.get('dashboard.home'),
+				title: $t('dashboard.home'),
 				url: '/',
 				icon: SquareTerminal,
 				isActive: true,
 				items: []
 			},
 			{
-				title: t.get('dashboard.settings'),
+				title: $t('dashboard.settings'),
 				url: '/settings',
 				icon: Settings2,
 				items: [
 					{
-						title: t.get('dashboard.profile'),
+						title: $t('dashboard.profile'),
 						url: '/settings'
 					},
 					{
-						title: t.get('dashboard.account'),
+						title: $t('dashboard.account'),
 						url: '/settings/account'
 					},
 					{
-						title: t.get('dashboard.appearance'),
+						title: $t('dashboard.appearance'),
 						url: '/settings/appearance'
 					}
 				]
@@ -55,16 +54,7 @@
 			// 	icon: Frame
 			// },
 		]
-	};
-</script>
-
-<script lang="ts">
-	import NavMain from '@/components/side-nav-main.svelte';
-	import NavProjects from '@/components/nav-projects.svelte';
-	import NavUser from '@/components/nav-user.svelte';
-	import WorkspaceSwitcher from '$base/src/lib/components/workspace-switcher.svelte';
-	import * as Sidebar from '@/components/ui/sidebar';
-	import type { ComponentProps } from 'svelte';
+	});
 
 	interface Properties {
 		user: {

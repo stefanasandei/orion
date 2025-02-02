@@ -2,6 +2,7 @@
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import type { Snippet } from 'svelte';
 	import type { PageProps } from './$types';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		children: Snippet;
@@ -11,6 +12,6 @@
 	const { metadata, user } = data;
 </script>
 
-<DashboardShell pageName="Settings" {user} {metadata}>
+<DashboardShell pageName={$t('settings.settings')} {user} {metadata}>
 	{@render children?.()}
 </DashboardShell>

@@ -8,6 +8,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
 	import type { UserMetadata } from '@repo/db';
+	import { t } from '@/utils/i18n/translations';
 
 	let {
 		data
@@ -42,34 +43,32 @@
 		<Form.Field {form} name="firstName" class="flex-1">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>First name</Form.Label>
+					<Form.Label>{$t('settings.first_name')}</Form.Label>
 					<Input {...props} bind:value={$formData.firstName} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>This is your given name.</Form.Description>
+			<Form.Description>{$t('settings.first_name_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 		<Form.Field {form} name="lastName" class="flex-1">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Last name</Form.Label>
+					<Form.Label>{$t('settings.last_name')}</Form.Label>
 					<Input {...props} bind:value={$formData.lastName} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>This is your family name.</Form.Description>
+			<Form.Description>{$t('settings.last_name_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 	</div>
 	<Form.Field {form} name="bio" class="flex-1">
 		<Form.Control>
 			{#snippet children({ props })}
-				<Form.Label>Bio</Form.Label>
+				<Form.Label>{$t('settings.bio')}</Form.Label>
 				<Textarea {...props} bind:value={$formData.bio} />
 			{/snippet}
 		</Form.Control>
-		<Form.Description
-			>A short description about yourself and your work, only visible when shared.</Form.Description
-		>
+		<Form.Description>{$t('settings.bio_desc')}</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Field {form} name="isPublic" class="flex-1">
@@ -77,12 +76,12 @@
 			{#snippet children({ props })}
 				<div class="flex flex-row items-center gap-4">
 					<Checkbox {...props} bind:checked={$formData.isPublic} />
-					<Form.Label>Public profile</Form.Label>
+					<Form.Label>{$t('settings.public_profile')}</Form.Label>
 				</div>
 			{/snippet}
 		</Form.Control>
-		<Form.Description>Do you want other people to see your profile and your work?</Form.Description>
+		<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button disabled={$timeout}>Update profile</Form.Button>
+	<Form.Button disabled={$timeout}>{$t('settings.update_profile')}</Form.Button>
 </form>

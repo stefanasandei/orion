@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import SetupTwoFactor from '@/components/auth/2fa-setup.svelte';
 	import LangPicker from '@/components/lang-picker.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	// component props
 	let {
@@ -48,17 +49,19 @@
 </script>
 
 <!-- confirm email & setup 2fa -->
-<h2 class="mb-3 text-xl font-bold">Security</h2>
+<h2 class="mb-3 text-xl font-bold">{$t('settings.security')}</h2>
 <div class="flex flex-col gap-6">
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div>
 			<div class="mb-2 flex flex-row items-center gap-3">
-				<Label>Email</Label>
+				<Label>{$t('settings.email')}</Label>
 				{#if data.userMetadata.emailVerified}
-					<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">verified</p>
+					<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
+						{$t('settings.verified')}
+					</p>
 				{:else}
 					<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">
-						not verified
+						{$t('settings.not_verified')}
 					</p>
 				{/if}
 			</div>
@@ -70,20 +73,24 @@
 				{#if !cooldownCalculated}
 					Loading...
 				{:else if canSendEmail}
-					Send verification email
+					{$t('settings.send_verification')}
 				{:else}
-					Wait {hoursRemaining} hour{hoursRemaining === 1 ? '' : 's'}
+					{`${$t('settings.wait')} ${hoursRemaining} ${hoursRemaining == 1 ? $t('settings.hour') : $t('settings.hours')}`}
 				{/if}
 			</Button>
 		{/if}
 	</div>
 	<div class="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
-			<Label>Two-factor authentication (2FA)</Label>
+			<Label>{$t('settings.2fa')}</Label>
 			{#if data.userMetadata.twoFactorEnabled}
-				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">active</p>
+				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
+					{$t('settings.active')}
+				</p>
 			{:else}
-				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">not active</p>
+				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">
+					{$t('settings.not_active')}
+				</p>
 			{/if}
 		</div>
 		<SetupTwoFactor reset={data.userMetadata.twoFactorEnabled === true} />
@@ -91,46 +98,56 @@
 </div>
 
 <div>
-	<p class="mb-1 text-xl font-bold">Socials</p>
-	<p class="mb-3">Enable authentication with other social accounts.</p>
+	<p class="mb-1 text-xl font-bold">{$t('settings.socials')}</p>
+	<p class="mb-3">{$t('settings.socials_desc')}</p>
 </div>
 <div class="flex flex-col gap-6">
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
-			<Label>GitHub</Label>
+			<Label>{$t('settings.github')}</Label>
 			{#if data.user.githubId !== null}
-				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">linked</p>
+				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
+					{$t('settings.linked')}
+				</p>
 			{:else}
-				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">not linked</p>
+				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">
+					{$t('settings.not_linked')}
+				</p>
 			{/if}
 		</div>
 
 		{#if data.user.githubId === null}
-			<a href="/login/github" class={cn(buttonVariants({ size: 'sm' }), 'w-min')}>Link GitHub</a>
+			<a href="/login/github" class={cn(buttonVariants({ size: 'sm' }), 'w-min')}
+				>{$t('settings.link')} {$t('settings.github')}</a
+			>
 		{/if}
 	</div>
 
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
-			<Label>Discord</Label>
+			<Label>{$t('settings.discord')}</Label>
 			{#if false}
-				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">linked</p>
+				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
+					{$t('settings.linked')}
+				</p>
 			{:else}
 				<p class="bg-destructive text-destructive-foreground rounded-sm p-1 text-sm">
-					not available yet
+					{$t('settings.not_available')}
 				</p>
 			{/if}
 		</div>
 
 		{#if !false}
-			<Button size="sm" class="w-min" disabled={true}>Link Discord</Button>
+			<Button size="sm" class="w-min" disabled={true}
+				>{$t('settings.link')} {$t('settings.discord')}</Button
+			>
 		{/if}
 	</div>
 </div>
 
 <!-- language -->
 <div>
-	<h2 class="mb-3 text-xl font-bold">Preferences</h2>
+	<h2 class="mb-3 text-xl font-bold">{$t('settings.preferences')}</h2>
 
 	<LangPicker />
 </div>

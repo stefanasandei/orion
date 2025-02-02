@@ -1,7 +1,7 @@
 import i18n from 'sveltekit-i18n';
 import type { Config } from "sveltekit-i18n";
 
-const translations = ['common', 'marketing', 'auth', 'dashboard']
+const translations = ['common', 'marketing', 'auth', 'dashboard', 'settings']
 
 const config: Config = ({
     loaders: [
