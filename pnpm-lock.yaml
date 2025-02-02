@@ -59,6 +59,9 @@ importers:
       formsnap:
         specifier: ^2.0.0
         version: 2.0.0(svelte@5.19.5)(sveltekit-superforms@2.23.1)
+      runed:
+        specifier: ^0.23.2
+        version: 0.23.2(svelte@5.19.5)
       superjson:
         specifier: ^2.2.1
         version: 2.2.2
@@ -2401,7 +2404,7 @@ packages:
       '@floating-ui/dom': 1.6.13
       '@internationalized/date': 3.7.0
       esm-env: 1.2.2
-      runed: 0.23.1(svelte@5.19.5)
+      runed: 0.23.2(svelte@5.19.5)
       svelte: 5.19.5
       svelte-toolbelt: 0.7.0(svelte@5.19.5)
     dev: true
@@ -4346,14 +4349,13 @@ packages:
       svelte: 5.19.5
     dev: true
 
-  /runed@0.23.1(svelte@5.19.5):
-    resolution: {integrity: sha512-h1ZDmin0LBoSMEZxvHOJbCWsUBz4099cjI+/rQ4FZystgOq294s5Rh+OEeu9HIObc8XQQEya23eAhJeal0VBuA==}
+  /runed@0.23.2(svelte@5.19.5):
+    resolution: {integrity: sha512-AhHCb5/B+YQW6ar1pzhGQOQy+byfjCH63ofuhrexSWwQKhC0EbQ60Z/wMYwETLo3ZubhwlNryxBt0seOMOrVFQ==}
     peerDependencies:
       svelte: ^5.7.0
     dependencies:
       esm-env: 1.2.2
       svelte: 5.19.5
-    dev: true
 
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}

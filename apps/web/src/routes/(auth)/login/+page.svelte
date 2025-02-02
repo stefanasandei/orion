@@ -5,6 +5,7 @@
 	import { loginFormSchema, type LoginFormSchema } from './schema';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import LangPicker from '@/components/lang-picker.svelte';
 
 	let { data }: { data: { form: SuperValidated<Infer<LoginFormSchema>> } } = $props();
 
@@ -15,9 +16,15 @@
 
 <Seo title="Login" description="Login to your account" />
 
-<div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-	<div class="flex w-full max-w-sm flex-col gap-6">
-		<Logo />
-		<LoginForm {form} />
+<div class="bg-background flex min-h-svh flex-col">
+	<div class="flex flex-1 items-center justify-center p-6 md:p-10">
+		<div class="flex w-full max-w-sm flex-col gap-6">
+			<Logo />
+			<LoginForm {form} />
+		</div>
+	</div>
+
+	<div class="flex justify-end p-4">
+		<LangPicker />
 	</div>
 </div>

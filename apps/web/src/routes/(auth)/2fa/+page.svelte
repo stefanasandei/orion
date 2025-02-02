@@ -26,7 +26,7 @@
 		<form method="POST" use:enhance class="flex min-h-screen flex-col" id="otpForm">
 			<div class="pt-10">
 				<div class="text-center">
-					<h1 class="text-3xl font-semibold tracking-tight">{$t('auth.2fa_Long')}</h1>
+					<h1 class="text-3xl font-semibold tracking-tight">{$t('auth.2fa_long')}</h1>
 					<p class="text-muted-foreground mt-3 text-center text-sm">
 						{$t('auth.2fa_desc')}
 					</p>
