@@ -5,8 +5,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write .",
-    "test:ui": "pnpm --filter=tests ui",
-    "test": "pnpm --filter=tests test",
+    "test:ui": "pnpm --filter=e2e ui",
+    "test:e2e": "pnpm --filter=e2e test",
+    "test:unit": "pnpm --filter=unit test",
     "db:studio": "pnpm --filter=db studio",
     "db:push": "pnpm --filter=db push",
     "docs:dev": "cd apps/docs && mintlify dev --port 3333"
