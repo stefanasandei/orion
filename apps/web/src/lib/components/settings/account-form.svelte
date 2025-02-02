@@ -1,36 +1,24 @@
 <script lang="ts">
 	import type { User, UserMetadata } from '@repo/db';
-	import * as Form from '@/components/ui/form';
 	import { Label } from '@/components/ui/label';
 	import { Button, buttonVariants } from '@/components/ui/button';
-	import { formSchema, type AccountFormSchema } from './account-schema';
-	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
-	import * as Select from '@/components/ui/select';
 	import { cn } from '@/utils/cn';
 	import { trpc } from '@/utils/trpc/client';
 	import { toast } from 'svelte-sonner';
 	import { lastVerificationEmailSent } from '@/utils/stores';
 	import { onMount } from 'svelte';
 	import SetupTwoFactor from '@/components/auth/2fa-setup.svelte';
+	import LangPicker from '@/components/lang-picker.svelte';
 
 	// component props
 	let {
 		data
 	}: {
 		data: {
-			form: SuperValidated<Infer<AccountFormSchema>>;
 			userMetadata: UserMetadata;
 			user: User;
 		};
 	} = $props();
-
-	// setup form
-	const form = superForm(data.form, {
-		validators: zodClient(formSchema)
-	});
-
-	const { form: formData, enhance } = form;
 
 	// utility functions
 	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
@@ -141,26 +129,8 @@
 </div>
 
 <!-- language -->
-<form method="POST" use:enhance>
+<div>
 	<h2 class="mb-3 text-xl font-bold">Preferences</h2>
 
-	<Form.Field {form} name="language">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Language</Form.Label>
-				<Select.Root type="single" bind:value={$formData.language} name={props.name}>
-					<Select.Trigger {...props}>
-						{$formData.language}
-					</Select.Trigger>
-					<Select.Content>
-						<Select.Item value="English" label="English" />
-						<Select.Item value="Romanian" label="Romanian" />
-					</Select.Content>
-				</Select.Root>
-			{/snippet}
-		</Form.Control>
-		<Form.Description>This is the language used in the interface.</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
-	<Form.Button>Update account preferences</Form.Button>
-</form>
+	<LangPicker />
+</div>

@@ -25,6 +25,6 @@
 	</div>
 
 	<div class="flex justify-end p-4">
-		<LangPicker />
+		<LangPicker class="w-[180px]" />
 	</div>
 </div>

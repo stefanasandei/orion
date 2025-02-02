@@ -2,6 +2,13 @@
 	import { invalidateAll } from '$app/navigation';
 	import * as Select from '@/components/ui/select';
 	import { language, languageOptions, type LanguageOptions } from '@/utils/state';
+	import { cn } from '@/utils/cn';
+
+	interface Props {
+		class?: string;
+	}
+
+	const { class: className }: Props = $props();
 
 	const longLanguages = {
 		en: 'English',
@@ -16,7 +23,7 @@
 		invalidateAll();
 	}}
 >
-	<Select.Trigger class="ring-secondary/30 w-[180px] ring-1"
+	<Select.Trigger class={cn('ring-secondary/30 ring-1', className ?? '')}
 		>{longLanguages[language.current]}</Select.Trigger
 	>
 	<Select.Content>
