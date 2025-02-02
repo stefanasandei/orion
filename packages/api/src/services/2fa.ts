@@ -1,5 +1,5 @@
-import { decodeBase64, encodeBase64 } from "@oslojs/encoding";
-import { createTOTPKeyURI, verifyTOTPWithGracePeriod } from "@oslojs/otp";
+import { ISSUER } from "../constants";
+import { OsloTwoFAUtilsProvider, TwoFAUtilsProvider } from "./2fa_utils";
 import { renderSVG } from "uqr";
 
 export interface TwoFactorAuth {
@@ -18,24 +18,27 @@ export interface TwoFactorAuth {
 
 export class TimeBasedTwoFactorAuth implements TwoFactorAuth {
     issuer: string;
+    twoFAUtils: TwoFAUtilsProvider;
+
     intervalInSeconds: number = 30;
     gracePeriodInSeconds: number = 30;
     digits: number = 6;
 
-    constructor(issuer: string) {
+    constructor(issuer: string, twoFAUtils: TwoFAUtilsProvider) {
         this.issuer = issuer;
+        this.twoFAUtils = twoFAUtils;
     }
 
     async generateSecret(): Promise<string> {
         const secret = new Uint8Array(20);
         crypto.getRandomValues(secret);
-        return encodeBase64(secret);
+        return this.twoFAUtils.encodeBase64(secret);
     }
 
     createKeyURI(account: string, key: string): { uri: string, qr_svg: string } {
-        const keyArray = decodeBase64(key);
+        const keyArray = this.twoFAUtils.decodeBase64(key);
 
-        const uri = createTOTPKeyURI(this.issuer, account, keyArray, this.intervalInSeconds, this.digits);
+        const uri = this.twoFAUtils.createTOTPKeyURI(this.issuer, account, keyArray, this.intervalInSeconds, this.digits);
 
         const qrcode = renderSVG(uri);
 
@@ -44,9 +47,10 @@ export class TimeBasedTwoFactorAuth implements TwoFactorAuth {
 
     verifyCode(code: string, userTOTPKey: string): boolean {
         try {
-            const keyArray = decodeBase64(userTOTPKey);
+            const keyArray = this.twoFAUtils.decodeBase64(userTOTPKey);
 
-            const valid = verifyTOTPWithGracePeriod(keyArray, this.intervalInSeconds, this.digits, code, this.gracePeriodInSeconds);
+            const valid = this.twoFAUtils.verifyTOTPWithGracePeriod(keyArray, code,
+                this.intervalInSeconds, this.digits, this.gracePeriodInSeconds);
 
             return valid;
         } catch (e) {
@@ -56,6 +60,4 @@ export class TimeBasedTwoFactorAuth implements TwoFactorAuth {
     }
 }
 
-const ISSUER = "Orion";
-
-export const totpService: TwoFactorAuth = new TimeBasedTwoFactorAuth(ISSUER);
+export const totpService: TwoFactorAuth = new TimeBasedTwoFactorAuth(ISSUER, new OsloTwoFAUtilsProvider());

@@ -1,3 +1,4 @@
+import { SUPPORT_EMAIL } from "../constants";
 import { Resend } from "resend";
 
 export interface EmailService {
@@ -22,7 +23,5 @@ export class ResendEmailService implements EmailService {
         return response.error !== null;
     }
 }
-
-const SUPPORT_EMAIL = 'Orion onboarding <onboarding@orion.asandei.com>'
 
 export const resendService = new ResendEmailService();
