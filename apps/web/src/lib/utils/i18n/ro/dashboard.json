@@ -5,10 +5,14 @@
     "section_platform": "Platformă",
     "default_workspace": "Spațiu de lucru implicit",
     "free": "Gratuit",
-    "home": "Acasă",
+    "home": "Tablou de bord personal",
     "settings": "Setări",
     "profile": "Profil",
     "account": "Cont",
     "appearance": "Aspect",
-    "notifications": "Notificări"
+    "notifications": "Notificări",
+    "assistant": "Asistent",
+    "browse_content": "Răsfoiește conținutul",
+    "projects": "Proiecte",
+    "no_projects": "Apasă pe '+' pentru a crea un proiect nou!"
 }

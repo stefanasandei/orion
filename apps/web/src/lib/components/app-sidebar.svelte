@@ -1,6 +1,6 @@
 <script lang="ts">
 	import NavMain from '@/components/side-nav-main.svelte';
-	// import NavProjects from '@/components/nav-projects.svelte';
+	import NavProjects from '@/components/nav-projects.svelte';
 	import NavUser from '@/components/nav-user.svelte';
 	import WorkspaceSwitcher from '$base/src/lib/components/workspace-switcher.svelte';
 	import * as Sidebar from '@/components/ui/sidebar';
@@ -8,6 +8,8 @@
 	import GalleryVerticalEnd from 'lucide-svelte/icons/gallery-vertical-end';
 	import Settings2 from 'lucide-svelte/icons/settings-2';
 	import SquareTerminal from 'lucide-svelte/icons/square-terminal';
+	import House from 'lucide-svelte/icons/house';
+	import Browser from 'lucide-svelte/icons/book-marked';
 	import { t } from '@/utils/i18n/translations';
 
 	// TODO: This is sample data.
@@ -23,7 +25,21 @@
 			{
 				title: $t('dashboard.home'),
 				url: '/',
+				icon: House,
+				isActive: true,
+				items: []
+			},
+			{
+				title: $t('dashboard.assistant'),
+				url: '/assistant',
 				icon: SquareTerminal,
+				isActive: true,
+				items: []
+			},
+			{
+				title: $t('dashboard.browse_content'),
+				url: '/browse',
+				icon: Browser,
 				isActive: true,
 				items: []
 			},
@@ -51,8 +67,8 @@
 			// {
 			// 	name: 'Design Engineering',
 			// 	url: '#',
-			// 	icon: Frame
-			// },
+			// 	icon: Browser
+			// }
 		]
 	});
 
@@ -79,8 +95,8 @@
 			<WorkspaceSwitcher workspaces={data.workspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
+			<NavProjects projects={data.projects} />
 			<NavMain {pathname} items={data.navMain} />
-			<!-- <NavProjects projects={data.projects} /> -->
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">
 			<NavUser {user} />
@@ -95,8 +111,8 @@
 			<WorkspaceSwitcher workspaces={data.workspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
+			<NavProjects projects={data.projects} />
 			<NavMain {pathname} items={data.navMain} />
-			<!-- <NavProjects projects={data.projects} /> -->
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">
 			<NavUser {user} />

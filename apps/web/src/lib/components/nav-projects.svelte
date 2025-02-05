@@ -8,6 +8,9 @@
 	import Folder from 'lucide-svelte/icons/folder';
 	import Forward from 'lucide-svelte/icons/forward';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
+	import Button from './ui/button/button.svelte';
+	import { Icons } from './icons.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	let {
 		projects
@@ -24,9 +27,12 @@
 	const sidebar = useSidebar();
 </script>
 
-<Sidebar.Group class="group-data-[collapsible=icon]:hidden">
-	<Sidebar.GroupLabel>Projects</Sidebar.GroupLabel>
-	<Sidebar.Menu>
+<Sidebar.Group class="bg-background mt-2 h-full rounded-lg group-data-[collapsible=icon]:hidden">
+	<Sidebar.GroupLabel class="flex flex-row justify-between">
+		<p>{$t('dashboard.projects')}</p>
+		<Button size="small-icon" variant="ghost"><Icons.add /></Button>
+	</Sidebar.GroupLabel>
+	<Sidebar.Menu class="flex-1">
 		{#each projects as item (item.name)}
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton>
@@ -68,6 +74,12 @@
 				</DropdownMenu.Root>
 			</Sidebar.MenuItem>
 		{/each}
+
+		{#if projects.length == 0}
+			<div class="flex h-full flex-1 items-center justify-center text-center">
+				<p>{$t('dashboard.no_projects')}</p>
+			</div>
+		{/if}
 		<!-- <Sidebar.MenuItem>
 			<Sidebar.MenuButton class="text-sidebar-foreground/70">
 				<Ellipsis class="text-sidebar-foreground/70" />

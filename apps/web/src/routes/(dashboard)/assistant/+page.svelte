@@ -11,6 +11,6 @@
 	};
 </script>
 
-<DashboardShell pageName={$t('dashboard.notifications')} {user} {metadata}>
-	<p>{$t('dashboard.notifications')}</p>
+<DashboardShell pageName={$t('dashboard.assistant')} {user} {metadata}>
+	<p>{$t('dashboard.assistant')}</p>
 </DashboardShell>

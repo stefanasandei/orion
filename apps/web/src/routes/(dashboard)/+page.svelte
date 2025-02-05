@@ -4,6 +4,7 @@
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import Dashboard from '@/components/dashboard/page.svelte';
 	import type { User, UserMetadata } from '@repo/db';
+	import { t } from '@/utils/i18n/translations';
 
 	let { data } = $props();
 
@@ -18,7 +19,7 @@
 		<LandingPage />
 	</MarketingShell>
 {:else}
-	<DashboardShell pageName="Home" {user} {metadata}>
+	<DashboardShell pageName={$t('dashboard.home')} {user} {metadata}>
 		<Dashboard {user} {metadata} />
 	</DashboardShell>
 {/if}

@@ -42,6 +42,7 @@
 		HelpCircle,
 		Image,
 		Laptop,
+		PlusIcon,
 		Loader2,
 		Moon,
 		MoreVertical,
