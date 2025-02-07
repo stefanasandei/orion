@@ -62,7 +62,7 @@ export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Prom
     }
 
     // 3. store if the user wants to stay logged in
-    const rememberMe = input.rememberMe ? 1 : 0;
+    const rememberMe = input.rememberMe ? true : false;
     if (user.rememberMe != rememberMe) {
         await db.update(userMetadataTable)
             .set({ rememberMe: rememberMe })

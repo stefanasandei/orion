@@ -49,7 +49,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     }
 
     // 3. is it close to expire? let's extend it if the user wants that
-    if ((userMetadata.rememberMe == 1) && Date.now() >= session.expiresAt.getTime() - SESSION_DAY_EXPIRATIONS / 2) {
+    if ((userMetadata.rememberMe) && Date.now() >= session.expiresAt.getTime() - SESSION_DAY_EXPIRATIONS / 2) {
         // less than 2 days
         session.expiresAt = new Date(Date.now() + SECONDS_IN_DAY * 30);
         await db.update(sessionTable)
