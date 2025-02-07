@@ -8,9 +8,8 @@
 	import Folder from 'lucide-svelte/icons/folder';
 	import Forward from 'lucide-svelte/icons/forward';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
-	import Button from './ui/button/button.svelte';
-	import { Icons } from './icons.svelte';
 	import { t } from '@/utils/i18n/translations';
+	import CreateProject from '@/components/project/create-project.svelte';
 
 	let {
 		projects
@@ -30,7 +29,7 @@
 <Sidebar.Group class="bg-background mt-2 h-full rounded-lg group-data-[collapsible=icon]:hidden">
 	<Sidebar.GroupLabel class="flex flex-row justify-between">
 		<p>{$t('dashboard.projects')}</p>
-		<Button size="small-icon" variant="ghost"><Icons.add /></Button>
+		<CreateProject />
 	</Sidebar.GroupLabel>
 	<Sidebar.Menu class="flex-1">
 		{#each projects as item (item.name)}

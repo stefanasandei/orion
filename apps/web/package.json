@@ -44,7 +44,7 @@
 		"@tsconfig/svelte": "^5.0.4",
 		"@types/node": "^22.10.3",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "1.0.0-next.80",
+		"bits-ui": "1.0.0-next.87",
 		"clsx": "^2.1.1",
 		"eslint": "^9.18.0",
 		"jiti": "^2.4.2",
@@ -61,6 +61,7 @@
 		"tailwindcss": "^3.4.9",
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.0.0",
+		"vaul-svelte": "1.0.0-next.3",
 		"vite": "^6.0.6"
 	}
 }
