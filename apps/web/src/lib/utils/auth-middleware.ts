@@ -5,7 +5,7 @@ export const authMiddleware = (event: RequestEvent): string | undefined => {
         return "/";
     }
 
-    if (event.locals.userMetadata.twoFactorEnabled && !event.locals.session.twoFactorVerified) {
+    if (event.locals.user.metadata.twoFactorEnabled && !event.locals.session.twoFactorVerified) {
         return "/2fa";
     }
 

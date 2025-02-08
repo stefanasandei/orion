@@ -2,19 +2,19 @@
 	import * as Sidebar from '@/components/ui/sidebar';
 	import AppSidebar from '@/components/app-sidebar.svelte';
 	import { Separator } from '@/components/ui/separator';
-	import type { User, UserMetadata } from '@repo/db';
 	import type { Snippet } from 'svelte';
 	import Seo from '../seo.svelte';
 	import { page } from '$app/state';
+	import type { UserLocals } from '@repo/core';
 
 	interface Props {
 		pageName: string;
-		user: User;
-		metadata: UserMetadata;
+		user: UserLocals;
 		children: Snippet;
 	}
 
-	const { pageName, metadata, user, children }: Props = $props();
+	const { pageName, user, children }: Props = $props();
+	const { metadata } = user.user!;
 
 	const pathname = $derived(page.url.pathname);
 </script>

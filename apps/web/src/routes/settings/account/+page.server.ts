@@ -12,7 +12,6 @@ export const load: PageServerLoad = async (event: RequestEvent) => {
     }
 
     return {
-        userMetadata: event.locals.userMetadata,
-        user: event.locals.user
+        user: event.locals!
     };
 };

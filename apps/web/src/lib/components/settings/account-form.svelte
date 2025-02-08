@@ -17,8 +17,13 @@
 		data
 	}: {
 		data: {
-			userMetadata: UserMetadata;
-			user: User;
+			user: {
+				user: {
+					intern: User;
+					metadata: UserMetadata;
+				};
+				session: any;
+			};
 		};
 	} = $props();
 
@@ -56,7 +61,7 @@
 		<div>
 			<div class="mb-2 flex flex-row items-center gap-3">
 				<Label>{$t('settings.email')}</Label>
-				{#if data.userMetadata.emailVerified}
+				{#if data.user.user.metadata.emailVerified}
 					<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 						{$t('settings.verified')}
 					</p>
@@ -66,10 +71,10 @@
 					</p>
 				{/if}
 			</div>
-			<p>{data.userMetadata.email}</p>
+			<p>{data.user.user.metadata.email}</p>
 		</div>
 
-		{#if !data.userMetadata.emailVerified}
+		{#if !data.user.user.metadata.emailVerified}
 			<Button onclick={() => $sendConfirmationEmail.mutate()} disabled={!canSendEmail}>
 				{#if !cooldownCalculated}
 					Loading...
@@ -84,7 +89,7 @@
 	<div class="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>{$t('settings.2fa')}</Label>
-			{#if data.userMetadata.twoFactorEnabled}
+			{#if data.user.user.metadata.twoFactorEnabled}
 				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 					{$t('settings.active')}
 				</p>
@@ -94,7 +99,7 @@
 				</p>
 			{/if}
 		</div>
-		<SetupTwoFactor reset={data.userMetadata.twoFactorEnabled === true} />
+		<SetupTwoFactor reset={data.user.user.metadata.twoFactorEnabled === true} />
 	</div>
 </div>
 
@@ -106,7 +111,7 @@
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>{$t('settings.github')}</Label>
-			{#if data.user.githubId !== null}
+			{#if data.user.user.intern.githubId !== null}
 				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 					{$t('settings.linked')}
 				</p>
@@ -117,7 +122,7 @@
 			{/if}
 		</div>
 
-		{#if data.user.githubId === null}
+		{#if data.user.user.intern.githubId === null}
 			<a href="/login/github" class={cn(buttonVariants({ size: 'sm' }), 'w-min')}
 				>{$t('settings.link')} {$t('settings.github')}</a
 			>

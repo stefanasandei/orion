@@ -16,7 +16,7 @@ export const load: PageServerLoad = async (event: RequestEvent) => {
 
     return {
         form: await superValidate(zod(formSchema)),
-        userMetadata: event.locals.userMetadata
+        userMetadata: event.locals.user!.metadata
     };
 };
 

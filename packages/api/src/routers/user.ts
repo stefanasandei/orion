@@ -15,7 +15,19 @@ export const userRouter = createRouter({
     register: publicProcedure
         .input(z.object({ name: z.string(), email: z.string(), password: z.string() }))
         .mutation(async ({ ctx, input }) => {
-            return registerUser(input, ctx.event);
+            // creates the user & user metadata
+            const authResponse = await registerUser(input, ctx.event);
+            if (!authResponse.success) {
+                return authResponse;
+            }
+
+            // create a default workspace
+            await db.insert(workspaceTable).values({
+                userId: authResponse.userId!,
+                name: "Default Workspace"
+            });
+
+            return authResponse;
         }),
     login: publicProcedure
         .input(z.object({ email: z.string(), password: z.string(), rememberMe: z.boolean() }))
@@ -53,7 +65,7 @@ export const userRouter = createRouter({
             console.log(token);
 
             // 2. send email
-            const userEmail = ctx.event.locals.userMetadata.email;
+            const userEmail = ctx.event.locals.user!.metadata.email;
             const htmlContent = `Please click this email to confirm your email: <a href="${url}">${url}</a>`;
 
             const success = await resendService.send([userEmail], "Confirm your email", htmlContent);
@@ -94,7 +106,7 @@ export const userRouter = createRouter({
         .query(async ({ ctx }) => {
             // generate user secret + qr code
             const userSecret = await totpService.generateSecret();
-            const email = ctx.event.locals.userMetadata.email;
+            const email = ctx.session.user.metadata.email;
 
             const uri = totpService.createKeyURI(email, userSecret);
 

@@ -1,1 +1,1 @@
-export type { CtxRequestEvent } from './types';
+export type { CtxRequestEvent, UserLocals } from './types';

@@ -1,16 +1,12 @@
 <script lang="ts">
 	import DashboardShell from '@/components/dashboard/shell.svelte';
-	import type { User, UserMetadata } from '@repo/db';
+	import type { UserLocals } from '@repo/core';
 	import { t } from '@/utils/i18n/translations';
 
-	let { data } = $props();
-
-	const { metadata, user } = data as {
-		user: User;
-		metadata: UserMetadata;
-	};
+	let { data }: { data: { user: UserLocals } } = $props();
+	const { user } = data;
 </script>
 
-<DashboardShell pageName={$t('dashboard.notifications')} {user} {metadata}>
+<DashboardShell pageName={$t('dashboard.notifications')} {user}>
 	<p>{$t('dashboard.notifications')}</p>
 </DashboardShell>

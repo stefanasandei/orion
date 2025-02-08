@@ -3,23 +3,19 @@
 	import LandingPage from '@/components/marketing/page.svelte';
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import Dashboard from '@/components/dashboard/page.svelte';
-	import type { User, UserMetadata } from '@repo/db';
 	import { t } from '@/utils/i18n/translations';
+	import type { UserLocals } from '@repo/core';
 
-	let { data } = $props();
-
-	const { metadata, user } = data as {
-		user: User | null;
-		metadata: UserMetadata | null;
-	};
+	let { data }: { data: { user: UserLocals } } = $props();
+	const { user } = data;
 </script>
 
-{#if user === null || metadata === null}
+{#if user === null}
 	<MarketingShell>
 		<LandingPage />
 	</MarketingShell>
 {:else}
-	<DashboardShell pageName={$t('dashboard.home')} {user} {metadata}>
-		<Dashboard {user} {metadata} />
+	<DashboardShell pageName={$t('dashboard.home')} {user}>
+		<Dashboard {user} />
 	</DashboardShell>
 {/if}

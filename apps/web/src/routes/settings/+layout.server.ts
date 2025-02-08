@@ -9,7 +9,6 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     }
 
     return {
-        user: event.locals.user,
-        metadata: event.locals.userMetadata
+        user: event.locals!,
     };
 }) satisfies PageServerLoad;

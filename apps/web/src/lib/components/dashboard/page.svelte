@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { User, UserMetadata } from '@repo/db';
 	import { t } from '@/utils/i18n/translations';
+	import type { UserLocals } from '@repo/core';
 
 	interface Props {
-		user: User;
-		metadata: UserMetadata;
+		user: UserLocals;
 	}
 
-	const { metadata }: Props = $props();
+	const { user }: Props = $props();
+	const { metadata } = user.user!;
 </script>
 
 <p>{$t('dashboard.hello')}, {metadata.name}!</p>

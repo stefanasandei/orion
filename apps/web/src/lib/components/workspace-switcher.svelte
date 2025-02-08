@@ -1,6 +1,4 @@
 <script lang="ts">
-	// TODO
-
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Sidebar from '@/components/ui/sidebar';
 	import { useSidebar } from '@/components/ui/sidebar/context.svelte.js';

@@ -7,12 +7,12 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
-	import type { UserMetadata } from '@repo/db';
+	import type { UserLocals } from '@repo/core';
 	import { t } from '@/utils/i18n/translations';
 
 	let {
 		data
-	}: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; userMetadata: UserMetadata } } =
+	}: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; user: UserLocals } } =
 		$props();
 
 	const form = superForm(data.form, {
@@ -30,10 +30,10 @@
 	const { form: formData, enhance, timeout } = form;
 
 	const defaultValues = {
-		firstName: data.userMetadata.name.split(' ')[0],
-		lastName: data.userMetadata.name.split(' ')[1],
-		bio: data.userMetadata.bio,
-		isPublic: data.userMetadata.isPublic
+		firstName: data.user.user!.metadata.name.split(' ')[0],
+		lastName: data.user.user!.metadata.name.split(' ')[1],
+		bio: data.user.user!.metadata.bio,
+		isPublic: data.user.user!.metadata.isPublic
 	};
 	formData.set(defaultValues);
 </script>

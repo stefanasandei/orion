@@ -31,7 +31,7 @@ export const registerUser = async (input: RegisterInput, event: CtxRequestEvent)
     const session = createSession(token, newUser[0]!.id);
     setSessionTokenCookie(event, token, (await session).expiresAt);
 
-    return { success: true };
+    return { success: true, userId: newUser[0]!.id };
 }
 
 export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Promise<AuthResponse> => {
@@ -78,6 +78,10 @@ export const loginUser = async (input: LoginInput, event: CtxRequestEvent): Prom
 };
 
 export const logoutUser = async (event: CtxRequestEvent): Promise<AuthResponse> => {
+    if (event.locals.session == null) {
+        return { success: false };
+    }
+
     // delete the session and its cookie
     invalidateSession(event.locals.session.id);
     deleteSessionTokenCookie(event);
@@ -114,4 +118,5 @@ export enum AuthFailReason {
 export type AuthResponse = {
     success: boolean;
     reason?: AuthFailReason;
+    userId?: number;
 }

@@ -3,9 +3,11 @@
 declare global {
 	namespace App {
 		interface Locals {
-			user: User | null;
+			user: {
+				intern: User;
+				metadata: UserMetadata;
+			} | null;
 			session: Session | null;
-			userMetadata: UserMetadata | null;
 		}
 	}
 

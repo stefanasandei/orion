@@ -25,7 +25,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     // we have a logged in valid user!
     event.locals.session = session;
-    event.locals.user = user;
-    event.locals.userMetadata = userMetadata;
+    event.locals.user = {
+        intern: user,
+        metadata: userMetadata
+    };
     return resolve(event);
 };
