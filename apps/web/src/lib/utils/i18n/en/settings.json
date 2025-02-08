@@ -35,5 +35,9 @@
 	"bio_desc": "A short description about yourself and your work, only visible when shared.",
 	"public_profile": "Public profile",
 	"public_profile_desc": "Do you want other people to see your profile and your work?",
-	"update_profile": "Update profile"
+	"update_profile": "Update profile",
+	"danger_zone": "Danger zone",
+	"delete_account": "Delete account",
+	"ru_sure": "Are you sure?",
+	"deletion_warning": "You cannot undo this action. Deleting your account will erase all of your data."
 }

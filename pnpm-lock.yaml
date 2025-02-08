@@ -349,6 +349,9 @@ importers:
       '@trpc/server':
         specifier: 10.45.2
         version: 10.45.2
+      bufferutil:
+        specifier: ^4.0.9
+        version: 4.0.9
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -358,6 +361,9 @@ importers:
       superjson:
         specifier: ^2.2.1
         version: 2.2.2
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0(bufferutil@4.0.9)
       zod:
         specifier: ^3.23.8
         version: 3.24.1
@@ -368,6 +374,9 @@ importers:
       '@types/node':
         specifier: ^22.10.3
         version: 22.12.0
+      '@types/ws':
+        specifier: ^8.5.14
+        version: 8.5.14
       drizzle-kit:
         specifier: ^0.30.1
         version: 0.30.4
@@ -2085,6 +2094,12 @@ packages:
     dev: false
     optional: true
 
+  /@types/ws@8.5.14:
+    resolution: {integrity: sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw==}
+    dependencies:
+      '@types/node': 22.12.0
+    dev: true
+
   /@typeschema/class-validator@0.3.0(class-validator@0.14.1):
     resolution: {integrity: sha512-OJSFeZDIQ8EK1HTljKLT5CItM2wsbgczLN8tMEfz3I1Lmhc5TBfkZ0eikFzUC16tI3d1Nag7um6TfCgp2I2Bww==}
     requiresBuild: true
@@ -2522,6 +2537,14 @@ packages:
 
   /buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+
+  /bufferutil@4.0.9:
+    resolution: {integrity: sha512-WDtdLmJvAuNNPzByAYpRo2rF1Mmradw6gvWsQKf63476DDXmomT9zUiGypLcG4ibIM67vhAj8jJRdbmEws2Aqw==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.8.4
+    dev: false
 
   /cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
@@ -3933,6 +3956,11 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
+  /node-gyp-build@4.8.4:
+    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
+    hasBin: true
+    dev: false
+
   /node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
     dev: true
@@ -4971,7 +4999,7 @@ packages:
       '@sveltejs/adapter-node': 5.2.12(@sveltejs/kit@2.16.1)
       '@trpc/client': 10.45.2(@trpc/server@10.45.2)
       '@trpc/server': 10.45.2
-      ws: 8.18.0
+      ws: 8.18.0(bufferutil@4.0.9)
     dev: false
 
   /ts-algebra@2.0.0:
@@ -5368,7 +5396,7 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: false
 
-  /ws@8.18.0:
+  /ws@8.18.0(bufferutil@4.0.9):
     resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -5379,6 +5407,8 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dependencies:
+      bufferutil: 4.0.9
     dev: false
 
   /yaml@1.10.2:

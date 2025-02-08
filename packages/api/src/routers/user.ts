@@ -2,8 +2,8 @@ import { registerUser, loginUser, logoutUser, AuthFailReason } from '@repo/auth'
 import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
-import { db, sessionTable, userMetadataTable } from '@repo/db';
-import { eq, and } from 'drizzle-orm';
+import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable } from '@repo/db';
+import { eq, and, sql } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
 import { resendService } from '../services/email';
@@ -169,4 +169,37 @@ export const userRouter = createRouter({
                 isPublic: input.form.isPublic
             }).where(eq(userMetadataTable.userId, ctx.session.userId));
         }),
+
+    delete: protectedProcedure
+        .mutation(async ({ ctx }) => {
+            const userId = ctx.session.userId;
+
+            // delete in correct order due to foreign key constraints
+            await db.transaction(async (tx) => {
+                await tx.delete(noteTable)
+                    .where(eq(noteTable.userId, userId));
+
+                await tx.delete(tagTable)
+                    .where(eq(tagTable.userId, userId));
+
+                await tx.delete(projectTable)
+                    .where(eq(projectTable.userId, userId));
+
+                await tx.delete(workspaceTable)
+                    .where(eq(workspaceTable.userId, userId));
+
+                await tx.delete(sessionTable)
+                    .where(eq(sessionTable.userId, userId));
+
+                await tx.delete(userMetadataTable)
+                    .where(eq(userMetadataTable.userId, userId));
+
+                await tx.delete(userTable)
+                    .where(eq(userTable.id, userId));
+
+                await tx.execute(sql`commit`);
+            });
+
+            return true;
+        })
 })

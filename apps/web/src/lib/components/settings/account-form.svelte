@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import SetupTwoFactor from '@/components/auth/2fa-setup.svelte';
 	import LangPicker from '@/components/lang-picker.svelte';
+	import DeleteAccount from '@/components/settings/delete-account.svelte';
 	import { t } from '@/utils/i18n/translations';
 
 	// component props
@@ -150,4 +151,11 @@
 	<h2 class="mb-3 text-xl font-bold">{$t('settings.preferences')}</h2>
 
 	<LangPicker />
+</div>
+
+<!-- warning section -->
+<div>
+	<h2 class="mb-3 text-xl font-bold">{$t('settings.danger_zone')}</h2>
+
+	<DeleteAccount />
 </div>

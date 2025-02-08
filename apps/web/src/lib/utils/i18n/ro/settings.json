@@ -35,5 +35,9 @@
 	"bio_desc": "O scurtă descriere despre tine și activitatea ta, vizibilă doar când este partajată.",
 	"public_profile": "Profil public",
 	"public_profile_desc": "Vrei ca alte persoane să îți vadă profilul și activitatea?",
-	"update_profile": "Actualizează profilul"
+	"update_profile": "Actualizează profilul",
+	"danger_zone": "Zonă periculoasă",
+	"delete_account": "Șterge contul",
+	"ru_sure": "Ești sigur?",
+	"deletion_warning": "Nu poți anula această acțiune. Ștergerea contului tău va șterge toate datele tale."
 }
