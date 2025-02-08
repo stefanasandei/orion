@@ -17,16 +17,6 @@ export const userRouter = createRouter({
         .mutation(async ({ ctx, input }) => {
             // creates the user & user metadata
             const authResponse = await registerUser(input, ctx.event);
-            if (!authResponse.success) {
-                return authResponse;
-            }
-
-            // create a default workspace
-            await db.insert(workspaceTable).values({
-                userId: authResponse.userId!,
-                name: "Default Workspace"
-            });
-
             return authResponse;
         }),
     login: publicProcedure
@@ -182,7 +172,26 @@ export const userRouter = createRouter({
             }).where(eq(userMetadataTable.userId, ctx.session.userId));
         }),
 
+    getWorkspaces: protectedProcedure
+        .query(async ({ ctx }) => {
+            return await db.query.workspaceTable.findMany({
+                where: eq(workspaceTable.userId, ctx.session.userId),
+                with: {
+                    projects: {
+                        with: {
+                            notes: {
+                                with: {
+                                    tags: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }),
+
     delete: protectedProcedure
+
         .mutation(async ({ ctx }) => {
             const userId = ctx.session.userId;
 

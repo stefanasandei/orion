@@ -1,9 +1,10 @@
-import { Session, User, UserMetadata } from '@repo/db';
+import { Session, User, UserMetadata, Workspace, Project, Note, Tag } from '@repo/db';
 
 export type UserLocals = {
     user: {
         intern: User;
         metadata: UserMetadata;
+        workspaces: (Workspace & { projects: (Project & { notes: (Note & { tags: Tag[] })[] })[] })[];
     } | null;
     session: Session | null;
 };

@@ -2,6 +2,8 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { config } from "dotenv";
 import ws from 'ws';
 
+import * as schema from "./schema"    
+
 config({ path: ".env" });
 
 // the fetch-based connect does not support transactions
@@ -11,6 +13,7 @@ config({ path: ".env" });
 export const db = drizzle({
     connection: process.env["DATABASE_URL"] as string,
     ws: ws,
+    schema: schema
 });
 
 export { userTable, sessionTable, userMetadataTable, workspaceTable, projectTable, noteTable, tagTable } from "./schema";

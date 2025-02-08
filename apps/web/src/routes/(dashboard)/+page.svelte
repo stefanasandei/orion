@@ -8,9 +8,11 @@
 
 	let { data }: { data: { user: UserLocals } } = $props();
 	const { user } = data;
+
+	console.log(user.user);
 </script>
 
-{#if user === null}
+{#if user.session === null}
 	<MarketingShell>
 		<LandingPage />
 	</MarketingShell>

@@ -6,6 +6,7 @@ declare global {
 			user: {
 				intern: User;
 				metadata: UserMetadata;
+				workspaces: (Workspace & { projects: (Project & { notes: (Note & { tags: Tag[] })[] })[] })[];
 			} | null;
 			session: Session | null;
 		}

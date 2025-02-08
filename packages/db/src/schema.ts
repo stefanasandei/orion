@@ -1,7 +1,9 @@
-import { InferSelectModel } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { integer, pgTableCreator, serial, boolean, text, timestamp, varchar, AnyPgColumn } from "drizzle-orm/pg-core";
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
+
+// Tables
 
 export const userTable = pgTable("user", {
     id: serial("id").primaryKey(),
@@ -151,6 +153,78 @@ export const noteTable = pgTable("note", {
         .references((): AnyPgColumn => noteTable.id),
 })
 
+// Relations
+export const userRelations = relations(userTable, ({ one, many }) => ({
+    metadata: one(userMetadataTable, {
+        fields: [userTable.id],
+        references: [userMetadataTable.userId]
+    }),
+    session: one(sessionTable, {
+        fields: [userTable.id],
+        references: [sessionTable.userId]
+    }),
+    workspaces: many(workspaceTable),
+    tags: many(tagTable),
+    projects: many(projectTable),
+    notes: many(noteTable)
+}));
+
+export const workspaceRelations = relations(workspaceTable, ({ one, many }) => ({
+    user: one(userTable, {
+        fields: [workspaceTable.userId],
+        references: [userTable.id]
+    }),
+    projects: many(projectTable)
+}));
+
+export const projectRelations = relations(projectTable, ({ one, many }) => ({
+    workspace: one(workspaceTable, {
+        fields: [projectTable.workspaceId],
+        references: [workspaceTable.id]
+    }),
+    user: one(userTable, {
+        fields: [projectTable.userId],
+        references: [userTable.id]
+    }),
+    notes: many(noteTable)
+}));
+
+export const noteRelations = relations(noteTable, ({ one, many }) => ({
+    project: one(projectTable, {
+        fields: [noteTable.projectId],
+        references: [projectTable.id]
+    }),
+    user: one(userTable, {
+        fields: [noteTable.userId],
+        references: [userTable.id]
+    }),
+    parent: one(noteTable, {
+        fields: [noteTable.parentNote],
+        references: [noteTable.id],
+        relationName: "note_parent"
+    }),
+    tags: many(tagTable),
+    // children: many(noteTable, {
+    //     relationName: "note_children"
+    // })
+}));
+
+export const tagRelations = relations(tagTable, ({ one }) => ({
+    note: one(noteTable, {
+        fields: [tagTable.noteId],
+        references: [noteTable.id]
+    }),
+    project: one(projectTable, {
+        fields: [tagTable.projectId],
+        references: [projectTable.id]
+    }),
+    user: one(userTable, {
+        fields: [tagTable.userId],
+        references: [userTable.id]
+    })
+}));
+
+// Types
 export type User = InferSelectModel<typeof userTable>;
 export type Session = InferSelectModel<typeof sessionTable>;
 export type UserMetadata = InferSelectModel<typeof userMetadataTable>
