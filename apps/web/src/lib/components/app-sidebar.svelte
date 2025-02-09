@@ -12,6 +12,7 @@
 	import Browser from 'lucide-svelte/icons/book-marked';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
+	import { activeWorkspaceId } from '../utils/state';
 
 	const navItems = $derived([
 		{
@@ -65,6 +66,7 @@
 		pathname: string;
 	}
 
+
 	let {
 		user,
 		workspaces,
@@ -82,6 +84,17 @@
 			plan: $t('dashboard.free')
 		};
 	});
+
+	let activeworkspace = $derived(workspaces.find((v) => v.id == activeWorkspaceId.current));
+	let projects = $derived(activeworkspace!.projects);
+
+	const parsedProjects = $derived(projects.map((p) => {
+		return {
+			name: p.name!,
+			url: `/projects/${p.id}`,
+			icon: GalleryVerticalEnd
+		};
+	}));
 </script>
 
 <div class="flex md:hidden">
@@ -90,7 +103,7 @@
 			<WorkspaceSwitcher workspaces={parsedWorkspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
-			<NavProjects projects={[]} />
+			<NavProjects projects={parsedProjects} />
 			<NavMain {pathname} items={navItems} />
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">
@@ -106,7 +119,7 @@
 			<WorkspaceSwitcher workspaces={parsedWorkspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
-			<NavProjects projects={[]} />
+			<NavProjects projects={parsedProjects} />
 			<NavMain {pathname} items={navItems} />
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">

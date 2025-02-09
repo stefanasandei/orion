@@ -36,41 +36,43 @@
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton>
 					{#snippet child({ props })}
-						<a href={item.url} {...props}>
-							<item.icon />
-							<span>{item.name}</span>
-						</a>
+						<div class="flex flex-row justify-between" {...props}>
+							<a href={item.url} class="flex flex-row items-center gap-2">
+								<item.icon class="p-1" />
+								<span>{item.name}</span>
+							</a>
+							<DropdownMenu.Root>
+								<DropdownMenu.Trigger>
+									{#snippet child({ props })}
+										<Sidebar.MenuAction showOnHover {...props}>
+											<Ellipsis />
+											<span class="sr-only">More</span>
+										</Sidebar.MenuAction>
+									{/snippet}
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content
+									class="w-48 rounded-lg"
+									side={sidebar.isMobile ? 'bottom' : 'right'}
+									align={sidebar.isMobile ? 'end' : 'start'}
+								>
+									<DropdownMenu.Item>
+										<Folder class="text-muted-foreground" />
+										<span>View Project</span>
+									</DropdownMenu.Item>
+									<DropdownMenu.Item>
+										<Forward class="text-muted-foreground" />
+										<span>Share Project</span>
+									</DropdownMenu.Item>
+									<DropdownMenu.Separator />
+									<DropdownMenu.Item>
+										<Trash2 class="text-muted-foreground" />
+										<span>Delete Project</span>
+									</DropdownMenu.Item>
+								</DropdownMenu.Content>
+							</DropdownMenu.Root>
+						</div>
 					{/snippet}
 				</Sidebar.MenuButton>
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>
-						{#snippet child({ props })}
-							<Sidebar.MenuAction showOnHover {...props}>
-								<Ellipsis />
-								<span class="sr-only">More</span>
-							</Sidebar.MenuAction>
-						{/snippet}
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content
-						class="w-48 rounded-lg"
-						side={sidebar.isMobile ? 'bottom' : 'right'}
-						align={sidebar.isMobile ? 'end' : 'start'}
-					>
-						<DropdownMenu.Item>
-							<Folder class="text-muted-foreground" />
-							<span>View Project</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<Forward class="text-muted-foreground" />
-							<span>Share Project</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Separator />
-						<DropdownMenu.Item>
-							<Trash2 class="text-muted-foreground" />
-							<span>Delete Project</span>
-						</DropdownMenu.Item>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
 			</Sidebar.MenuItem>
 		{/each}
 

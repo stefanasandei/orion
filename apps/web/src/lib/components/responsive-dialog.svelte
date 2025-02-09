@@ -21,10 +21,9 @@
 		DrawerTrigger
 	} from '@/components/ui/drawer';
 
-	const { triggerButton, title, description, children } = $props();
+	let { triggerButton, title, description, children,  open = $bindable(false) } = $props();
 
-	let open = $state(false);
-	const isDesktop = new MediaQuery('(min-width: 768px)');
+const isDesktop = new MediaQuery('(min-width: 768px)');
 </script>
 
 {#if isDesktop.current}
@@ -51,7 +50,7 @@
 			</div>
 			<DrawerFooter class="pt-2">
 				<DrawerClose asChild>
-					<Button variant="outline">Cancel</Button>
+					<Button variant="outline" class="w-full">Cancel</Button>
 				</DrawerClose>
 			</DrawerFooter>
 		</DrawerContent>
