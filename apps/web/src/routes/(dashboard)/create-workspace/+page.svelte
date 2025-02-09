@@ -21,7 +21,7 @@
 		onSuccess: async (data) => {
 			activeWorkspaceId.current = data[0].id;
 			await invalidateAll();
-			toast.success('Workspace created!');
+			toast.success(t.get('dashboard.workspace_created'));
 			goto('/');
 		}
 	});

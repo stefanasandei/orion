@@ -22,11 +22,11 @@
 	} = $props();
 
 	const user = data.user.user!;
-1	
+	1;
 	// utility functions
 	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
 		onSuccess: () => {
-			toast.success('Confirmation email sent.');
+			toast.success(t.get('settings.confirmation_email_sent'));
 			$lastVerificationEmailSent = Date.now();
 		}
 	});

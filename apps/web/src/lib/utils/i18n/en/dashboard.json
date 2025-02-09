@@ -25,5 +25,7 @@
 	"create_project_btn": "Create project",
 	"description": "Description",
 	"name_placeholder": "Physics: Oscillatory motion",
-	"description_placeholder": "Theory and sample exercises for the first semester of 11th grade."
+	"description_placeholder": "Theory and sample exercises for the first semester of 11th grade.",
+	"project_created": "Project created successfully",
+	"workspace_created": "Workspace created successfully"
 }

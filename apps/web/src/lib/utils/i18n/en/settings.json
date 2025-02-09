@@ -41,5 +41,8 @@
 	"ru_sure": "Are you sure?",
 	"deletion_warning": "You cannot undo this action. Deleting your account will erase all of your data.",
 	"delete_workspace": "Delete current workspace",
-	"delete_workspace_desc": "Deleting \"{{name}}\" will also delete all projects and notes stored within it. This cannot be undone."
+	"delete_workspace_desc": "Deleting \"{{name}}\" will also delete all projects and notes stored within it. This cannot be undone.",
+	"confirmation_email_sent": "Confirmation email sent.",
+	"profile_updated": "Profile updated successfully.",
+	"profile_update_error": "Failed to update profile."
 }

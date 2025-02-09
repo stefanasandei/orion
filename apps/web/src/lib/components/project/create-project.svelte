@@ -17,7 +17,7 @@
 
 	const createProject = trpc().workspace.createProject.createMutation({
 		onSuccess: async () => {
-			toast.success('Project created!');
+			toast.success(t.get('dashboard.project_created'));
 			open = false;
 
 			await goto('/', {
