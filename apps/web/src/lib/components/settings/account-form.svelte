@@ -10,23 +10,19 @@
 	import SetupTwoFactor from '@/components/auth/2fa-setup.svelte';
 	import LangPicker from '@/components/lang-picker.svelte';
 	import DeleteAccount from '@/components/settings/delete-account.svelte';
+	import DeleteWorkspace from '@/components/settings/delete-workspace.svelte';
 	import { t } from '@/utils/i18n/translations';
+	import type { UserLocals } from '@repo/core';
 
 	// component props
 	let {
 		data
 	}: {
-		data: {
-			user: {
-				user: {
-					intern: User;
-					metadata: UserMetadata;
-				};
-				session: any;
-			};
-		};
+		data: { user: UserLocals };
 	} = $props();
 
+	const user = data.user.user!;
+1	
 	// utility functions
 	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
 		onSuccess: () => {
@@ -61,7 +57,7 @@
 		<div>
 			<div class="mb-2 flex flex-row items-center gap-3">
 				<Label>{$t('settings.email')}</Label>
-				{#if data.user.user.metadata.emailVerified}
+				{#if user.metadata.emailVerified}
 					<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 						{$t('settings.verified')}
 					</p>
@@ -71,10 +67,10 @@
 					</p>
 				{/if}
 			</div>
-			<p>{data.user.user.metadata.email}</p>
+			<p>{user.metadata.email}</p>
 		</div>
 
-		{#if !data.user.user.metadata.emailVerified}
+		{#if !user.metadata.emailVerified}
 			<Button onclick={() => $sendConfirmationEmail.mutate()} disabled={!canSendEmail}>
 				{#if !cooldownCalculated}
 					Loading...
@@ -89,7 +85,7 @@
 	<div class="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>{$t('settings.2fa')}</Label>
-			{#if data.user.user.metadata.twoFactorEnabled}
+			{#if user.metadata.twoFactorEnabled}
 				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 					{$t('settings.active')}
 				</p>
@@ -99,7 +95,7 @@
 				</p>
 			{/if}
 		</div>
-		<SetupTwoFactor reset={data.user.user.metadata.twoFactorEnabled === true} />
+		<SetupTwoFactor reset={user.metadata.twoFactorEnabled === true} />
 	</div>
 </div>
 
@@ -111,7 +107,7 @@
 	<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
 		<div class="mb-2 flex flex-row items-center gap-3">
 			<Label>{$t('settings.github')}</Label>
-			{#if data.user.user.intern.githubId !== null}
+			{#if user.intern.githubId !== null}
 				<p class="bg-primary text-primary-foreground rounded-sm p-1 text-sm">
 					{$t('settings.linked')}
 				</p>
@@ -122,7 +118,7 @@
 			{/if}
 		</div>
 
-		{#if data.user.user.intern.githubId === null}
+		{#if user.intern.githubId === null}
 			<a href="/login/github" class={cn(buttonVariants({ size: 'sm' }), 'w-min')}
 				>{$t('settings.link')} {$t('settings.github')}</a
 			>
@@ -162,5 +158,9 @@
 <div>
 	<h2 class="mb-3 text-xl font-bold">{$t('settings.danger_zone')}</h2>
 
-	<DeleteAccount />
+	<div class="flex flex-col gap-4 md:w-min">
+		<DeleteAccount />
+
+		<DeleteWorkspace data={data.user.user!} />
+	</div>
 </div>

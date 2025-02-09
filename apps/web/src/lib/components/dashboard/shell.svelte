@@ -8,7 +8,8 @@
 	import type { UserLocals } from '@repo/core';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import { activeWorkspaceId } from '@/utils/state';
+	import { activeWorkspaceId, initializeActiveWorkspace } from '@/utils/state';
+	import { onMount } from 'svelte';
 
 	interface Props {
 		pageName: string;
@@ -21,9 +22,15 @@
 
 	const pathname = $derived(page.url.pathname);
 
-	if ((user.workspaces.length == 0 || activeWorkspaceId.current == -1) && browser) {
-		goto('/create-workspace');
-	}
+	onMount(() => {
+		// Initialize active workspace if needed
+		initializeActiveWorkspace(user.workspaces);
+
+		// Only redirect if there are no workspaces
+		if (user.workspaces.length === 0) {
+			goto('/create-workspace');
+		}
+	});
 </script>
 
 <Seo title={pageName} description="" />
@@ -50,4 +57,11 @@
 			</div>
 		</Sidebar.Inset>
 	</Sidebar.Provider>
+{:else}
+<div class="bg-background h-svh w-full">
+	<div class="flex h-full w-full items-center justify-center">
+		<div class="size-16 animate-spin rounded-full border-4 border-primary border-t-transparent">
+		</div>
+	</div>
+</div>
 {/if}
