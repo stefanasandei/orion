@@ -1,13 +1,14 @@
-import { redirect } from "@sveltejs/kit";
+import { redirect, type RequestEvent } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import { authMiddleware } from "@/utils/auth-middleware.js";
 
-export const load = async (event) => {
-    if (event.locals.session !== null && event.locals.user !== null) {
-        if (event.locals.user.metadata.twoFactorEnabled && !event.locals.session.twoFactorVerified) {
-            return redirect(302, "/2fa");
-        }
+export const load: PageServerLoad = (async (event: RequestEvent) => {
+    const redirectUrl = authMiddleware(event);
+    if (redirectUrl !== undefined) {
+        redirect(302, redirectUrl);
     }
-    
+
     return {
         user: event.locals!,
     };
-};
+}) satisfies PageServerLoad;

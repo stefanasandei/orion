@@ -14,5 +14,10 @@
     "assistant": "Assistant",
     "browse_content": "Browse content",
     "projects": "Projects",
-    "no_projects": "Click '+' to create a new project!"
+    "no_projects": "Click '+' to create a new project!",
+    "create_new_workspace": "Create a new workspace",
+    "workspace_desc": "Your projects and notes are stored in workspaces.",
+    "name": "Name",
+    "school_work": "School work",
+    "create_workspace_btn": "Create workspace"
 }

@@ -5,14 +5,19 @@
     "section_platform": "Platformă",
     "default_workspace": "Spațiu de lucru implicit",
     "free": "Gratuit",
-    "home": "Tablou de bord personal",
+    "home": "Tabloul de bord personal",
     "settings": "Setări",
     "profile": "Profil",
     "account": "Cont",
     "appearance": "Aspect",
     "notifications": "Notificări",
     "assistant": "Asistent",
-    "browse_content": "Răsfoiește conținutul",
+    "browse_content": "Răsfoiește conținut",
     "projects": "Proiecte",
-    "no_projects": "Apasă pe '+' pentru a crea un proiect nou!"
+    "no_projects": "Apasă '+' pentru a crea un proiect nou!",
+    "create_new_workspace": "Creează un spațiu de lucru nou",
+    "workspace_desc": "Proiectele și notițele tale sunt stocate în spații de lucru.",
+    "name": "Nume",
+    "school_work": "Teme școlare",
+    "create_workspace_btn": "Creează spațiu de lucru"
 }

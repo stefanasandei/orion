@@ -1,10 +1,10 @@
-import { helloRouter } from './routers/hello'
 import { createCallerFactory, createRouter } from './context'
 import { userRouter } from './routers/user'
+import { workspaceRouter } from './routers/workspace'
 
 export const appRouter = createRouter({
-    hello: helloRouter,
-    user: userRouter
+    user: userRouter,
+    workspace: workspaceRouter
 })
 
 export type AppRouter = typeof appRouter
