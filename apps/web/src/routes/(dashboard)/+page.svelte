@@ -5,17 +5,9 @@
 	import Dashboard from '@/components/dashboard/page.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
-	
+
 	let { data }: { data: { user: UserLocals } } = $props();
 	const { user } = data;
-
-	if (user.user !== null && browser) {
-		if (user.user.workspaces.length === 0) {
-			goto('/create-workspace');
-		}
-	}
 </script>
 
 {#if user.session === null}

@@ -11,6 +11,7 @@
 	import House from 'lucide-svelte/icons/house';
 	import Browser from 'lucide-svelte/icons/book-marked';
 	import { t } from '@/utils/i18n/translations';
+	import type { UserLocals } from '@repo/core';
 
 	const navItems = $derived([
 		{
@@ -55,48 +56,41 @@
 		}
 	]);
 
-	// TODO: This is sample data.
-	const data = $derived({
-		workspaces: [
-			{
-				name: $t('dashboard.default_workspace'),
-				logo: GalleryVerticalEnd,
-				plan: $t('dashboard.free')
-			}
-		],
-		projects: [
-			// {
-			// 	name: 'Design Engineering',
-			// 	url: '#',
-			// 	icon: Browser
-			// }
-		]
-	});
-
 	interface Properties {
 		user: {
 			name: string;
 			email: string;
 		};
+		workspaces: NonNullable<UserLocals['user']>['workspaces'];
 		pathname: string;
 	}
 
 	let {
 		user,
+		workspaces,
 		pathname,
 		ref = $bindable(null),
 		collapsible = 'icon',
 		...restProps
 	}: ComponentProps<typeof Sidebar.Root> & Properties = $props();
+
+	const parsedWorkspaces = workspaces.map((w) => {
+		return {
+			id: w.id,
+			name: w.name!,
+			logo: GalleryVerticalEnd,
+			plan: $t('dashboard.free')
+		};
+	});
 </script>
 
 <div class="flex md:hidden">
 	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
 		<Sidebar.Header class="bg-muted p-0">
-			<WorkspaceSwitcher workspaces={data.workspaces} />
+			<WorkspaceSwitcher workspaces={parsedWorkspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
-			<NavProjects projects={data.projects} />
+			<NavProjects projects={[]} />
 			<NavMain {pathname} items={navItems} />
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">
@@ -109,10 +103,10 @@
 <div class="hidden md:flex">
 	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
 		<Sidebar.Header class="bg-muted p-0">
-			<WorkspaceSwitcher workspaces={data.workspaces} />
+			<WorkspaceSwitcher workspaces={parsedWorkspaces} />
 		</Sidebar.Header>
 		<Sidebar.Content class="bg-muted h-full p-0">
-			<NavProjects projects={data.projects} />
+			<NavProjects projects={[]} />
 			<NavMain {pathname} items={navItems} />
 		</Sidebar.Content>
 		<Sidebar.Footer class="bg-muted p-0">

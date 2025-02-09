@@ -9,6 +9,6 @@ export const workspaceRouter = createRouter({
                 .values({
                     userId: ctx.session.userId,
                     name: input.name
-                });
+                }).returning();
         })
 })

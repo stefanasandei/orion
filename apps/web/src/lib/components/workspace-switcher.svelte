@@ -5,13 +5,15 @@
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import Plus from 'lucide-svelte/icons/plus';
 	import { t } from '@/utils/i18n/translations';
+	import { activeWorkspaceId } from '../utils/state';
 
 	// This should be `Component` after lucide-svelte updates types
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let { workspaces }: { workspaces: { name: string; logo: any; plan: string }[] } = $props();
+	let { workspaces }: { workspaces: { id: number; name: string; logo: any; plan: string }[] } =
+		$props();
 	const sidebar = useSidebar();
 
-	let activeworkspace = $state(workspaces[0]);
+	let activeworkspace = $derived(workspaces.find((v) => v.id == activeWorkspaceId.current));
 </script>
 
 <Sidebar.Menu class="bg-background rounded-lg p-2">
@@ -27,13 +29,15 @@
 						<div
 							class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
 						>
-							<activeworkspace.logo class="size-4" />
+							{#if activeworkspace != undefined}
+								<activeworkspace.logo class="size-4" />
+							{/if}
 						</div>
 						<div class="grid flex-1 text-left text-sm leading-tight">
 							<span class="truncate font-semibold">
-								{activeworkspace.name}
+								{activeworkspace ? activeworkspace.name : 'none'}
 							</span>
-							<span class="truncate text-xs">{activeworkspace.plan}</span>
+							<span class="truncate text-xs">{activeworkspace ? activeworkspace.plan : ''}</span>
 						</div>
 						<ChevronsUpDown class="ml-auto" />
 					</Sidebar.MenuButton>
@@ -48,8 +52,11 @@
 				<DropdownMenu.Label class="text-muted-foreground text-xs"
 					>{$t('dashboard.workspace_title')}</DropdownMenu.Label
 				>
-				{#each workspaces as workspace, index (workspace.name)}
-					<DropdownMenu.Item onSelect={() => (activeworkspace = workspace)} class="gap-2 p-2">
+				{#each workspaces as workspace, index (workspace.id)}
+					<DropdownMenu.Item
+						onSelect={() => (activeWorkspaceId.current = workspace.id)}
+						class="gap-2 p-2"
+					>
 						<div class="flex size-6 items-center justify-center rounded-sm border">
 							<workspace.logo class="size-4 shrink-0" />
 						</div>

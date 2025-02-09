@@ -10,6 +10,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
 	import { t } from '@/utils/i18n/translations';
+	import { activeWorkspaceId } from '$base/src/lib/utils/state';
 
 	let { data }: { data: { user: UserLocals } } = $props();
 	const user = data.user.user!;
@@ -17,7 +18,8 @@
 	let name = $state('');
 
 	const createWorkspace = trpc().workspace.create.createMutation({
-		onSuccess: async () => {
+		onSuccess: async (data) => {
+			activeWorkspaceId.current = data[0].id;
 			await invalidateAll();
 			toast.success('Workspace created!');
 			goto('/');
