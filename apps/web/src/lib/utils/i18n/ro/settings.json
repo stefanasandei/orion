@@ -39,5 +39,7 @@
 	"danger_zone": "Zonă periculoasă",
 	"delete_account": "Șterge contul",
 	"ru_sure": "Ești sigur?",
-	"deletion_warning": "Nu poți anula această acțiune. Ștergerea contului tău va șterge toate datele tale."
+	"deletion_warning": "Nu poți anula această acțiune. Ștergerea contului tău va șterge toate datele tale.",
+	"delete_workspace": "Șterge spațiul de lucru curent",
+	"delete_workspace_desc": "Ștergerea \"{{name}}\" va șterge și toate proiectele și notițele stocate în acesta. Această acțiune nu poate fi anulată."
 }

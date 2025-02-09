@@ -33,14 +33,14 @@
 <AlertDialog.Root bind:open>
 	<AlertDialog.Trigger>
 		{#snippet child({ props })}
-			<Button variant="destructive" {...props}>{'Delete current workspace'}</Button>
+			<Button variant="destructive" {...props}>{$t("settings.delete_workspace")}</Button>
 		{/snippet}
 	</AlertDialog.Trigger>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
 			<AlertDialog.Title>{$t('settings.ru_sure')}</AlertDialog.Title>
 			<AlertDialog.Description>
-				{`Deleting "${currentWorkspace?.name}" will also delete all projects and notes stored within it. This cannot be undone.`}
+				{$t('settings.delete_workspace_desc', { default: currentWorkspace?.name! })}
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
@@ -48,7 +48,7 @@
 				{$t('common.cancel')}
 			</AlertDialog.Cancel>
 			<AlertDialog.Action onclick={() => $deleteWorkspace.mutate({ id: currentWorkspace?.id! })}>
-				{'Delete workspace'}
+				{$t("settings.delete_workspace")}
 			</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>

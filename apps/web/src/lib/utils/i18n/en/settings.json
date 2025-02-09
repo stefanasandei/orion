@@ -39,5 +39,7 @@
 	"danger_zone": "Danger zone",
 	"delete_account": "Delete account",
 	"ru_sure": "Are you sure?",
-	"deletion_warning": "You cannot undo this action. Deleting your account will erase all of your data."
+	"deletion_warning": "You cannot undo this action. Deleting your account will erase all of your data.",
+	"delete_workspace": "Delete current workspace",
+	"delete_workspace_desc": "Deleting \"{{name}}\" will also delete all projects and notes stored within it. This cannot be undone."
 }
