@@ -1,20 +1,19 @@
 <script lang="ts">
-	// TODO
-
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import { useSidebar } from '@/components/ui/sidebar/context.svelte.js';
 	import * as Sidebar from '@/components/ui/sidebar';
 	import Ellipsis from 'lucide-svelte/icons/ellipsis';
 	import Folder from 'lucide-svelte/icons/folder';
 	import Forward from 'lucide-svelte/icons/forward';
-	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import { t } from '@/utils/i18n/translations';
 	import CreateProject from '@/components/project/create-project.svelte';
+	import DeleteProject from '@/components/project/delete-project.svelte';
 
 	let {
 		projects
 	}: {
 		projects: {
+			id: number;
 			name: string;
 			url: string;
 			// This should be `Component` after lucide-svelte updates types
@@ -55,18 +54,19 @@
 									side={sidebar.isMobile ? 'bottom' : 'right'}
 									align={sidebar.isMobile ? 'end' : 'start'}
 								>
-									<DropdownMenu.Item>
+									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>
 										<Folder class="text-muted-foreground" />
 										<span>View Project</span>
 									</DropdownMenu.Item>
-									<DropdownMenu.Item>
+									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>
 										<Forward class="text-muted-foreground" />
 										<span>Share Project</span>
 									</DropdownMenu.Item>
 									<DropdownMenu.Separator />
-									<DropdownMenu.Item>
-										<Trash2 class="text-muted-foreground" />
-										<span>Delete Project</span>
+									<DropdownMenu.Item class="w-full">
+										{#snippet child({ props })}
+											<DeleteProject {item} />
+										{/snippet}
 									</DropdownMenu.Item>
 								</DropdownMenu.Content>
 							</DropdownMenu.Root>

@@ -20,10 +20,11 @@
 			toast.success(t.get('dashboard.project_created'));
 			open = false;
 
-			await goto('/', {
-				invalidateAll: true,
-				replaceState: true
-			});
+			// await goto('/', {
+			// 	invalidateAll: true,
+			// 	replaceState: true
+			// });
+			location.reload();
 		}
 	});
 </script>

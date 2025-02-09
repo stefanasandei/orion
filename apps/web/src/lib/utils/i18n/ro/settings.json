@@ -44,5 +44,8 @@
 	"delete_workspace_desc": "Ștergerea „{{name}}” va șterge și toate proiectele și notițele stocate în acesta. Această acțiune nu poate fi anulată.",
 	"confirmation_email_sent": "Email de confirmare trimis.",
 	"profile_updated": "Profil actualizat cu succes.",
-	"profile_update_error": "Eroare la actualizarea profilului."
+	"profile_update_error": "Eroare la actualizarea profilului.",
+	"delete_project": "Șterge proiectul",
+	"delete_project_desc": "Ești sigur că vrei să ștergi acest proiect? Această acțiune nu poate fi anulată.",
+	"delete_project_warning": "Șterge proiectul \"{{name}}\""
 }

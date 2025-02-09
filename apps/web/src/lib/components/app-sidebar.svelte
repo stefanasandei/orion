@@ -66,7 +66,6 @@
 		pathname: string;
 	}
 
-
 	let {
 		user,
 		workspaces,
@@ -88,13 +87,16 @@
 	let activeworkspace = $derived(workspaces.find((v) => v.id == activeWorkspaceId.current));
 	let projects = $derived(activeworkspace!.projects);
 
-	const parsedProjects = $derived(projects.map((p) => {
-		return {
-			name: p.name!,
-			url: `/projects/${p.id}`,
-			icon: GalleryVerticalEnd
-		};
-	}));
+	const parsedProjects = $derived(
+		projects.map((p) => {
+			return {
+				id: p.id!,
+				name: p.name!,
+				url: `/projects/${p.id}`,
+				icon: GalleryVerticalEnd
+			};
+		})
+	);
 </script>
 
 <div class="flex md:hidden">

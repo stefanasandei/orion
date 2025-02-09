@@ -10,9 +10,7 @@
 	import type { UserLocals } from '@repo/core';
 	import { t } from '@/utils/i18n/translations';
 
-	let {
-		data
-	}: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; user: UserLocals } } =
+	let { data }: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; user: UserLocals } } =
 		$props();
 
 	const form = superForm(data.form, {
@@ -20,9 +18,9 @@
 		multipleSubmits: 'allow',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
-				toast.success('Profile successfully updated!');
+				toast.success(t.get('settings.profile_updated'));
 			} else {
-				toast.error('Please fix the errors in the form.');
+				toast.error(t.get('settings.profile_update_error'));
 			}
 		}
 	});

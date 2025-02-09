@@ -44,5 +44,8 @@
 	"delete_workspace_desc": "Deleting \"{{name}}\" will also delete all projects and notes stored within it. This cannot be undone.",
 	"confirmation_email_sent": "Confirmation email sent.",
 	"profile_updated": "Profile updated successfully.",
-	"profile_update_error": "Failed to update profile."
+	"profile_update_error": "Failed to update profile.",
+	"delete_project": "Delete Project",
+	"delete_project_desc": "Are you sure you want to delete this project? This action cannot be undone.",
+	"delete_project_warning": "Delete project \"{{name}}\""
 }

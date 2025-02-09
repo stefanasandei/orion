@@ -9,7 +9,7 @@
 	import type { UserLocals } from '@repo/core';
 
 	// props
-	const { data }: { data: NonNullable<UserLocals["user"]> } = $props();
+	const { data }: { data: NonNullable<UserLocals['user']> } = $props();
 
 	// mutations
 	const deleteWorkspace = trpc().workspace.delete.createMutation({
@@ -25,15 +25,13 @@
 	// state
 	let open = $state(false);
 
-	let currentWorkspace = $derived(
-		data.workspaces.find((v) => v.id == activeWorkspaceId.current)
-	);
+	let currentWorkspace = $derived(data.workspaces.find((v) => v.id == activeWorkspaceId.current));
 </script>
 
 <AlertDialog.Root bind:open>
 	<AlertDialog.Trigger>
 		{#snippet child({ props })}
-			<Button variant="destructive" {...props}>{$t("settings.delete_workspace")}</Button>
+			<Button variant="destructive" {...props}>{$t('settings.delete_workspace')}</Button>
 		{/snippet}
 	</AlertDialog.Trigger>
 	<AlertDialog.Content>
@@ -48,7 +46,7 @@
 				{$t('common.cancel')}
 			</AlertDialog.Cancel>
 			<AlertDialog.Action onclick={() => $deleteWorkspace.mutate({ id: currentWorkspace?.id! })}>
-				{$t("settings.delete_workspace")}
+				{$t('settings.delete_workspace')}
 			</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
