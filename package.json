@@ -25,5 +25,8 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "orion"
+  "name": "orion",
+  "dependencies": {
+    "typescript": "^5.0.0"
+  }
 }

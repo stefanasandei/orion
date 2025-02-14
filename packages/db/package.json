@@ -1,41 +1,42 @@
 {
-    "name": "@repo/db",
-    "version": "0.0.0",
-    "private": true,
-    "description": "A DB package used in the web application",
-    "license": "MIT",
-    "sideEffects": false,
-    "type": "module",
-    "exports": {
-        ".": {
-            "types": "./src/index.ts",
-            "default": "./src/index.ts"
-        }
-    },
-    "scripts": {
-        "build": "tsc -p tsconfig.build.json",
-        "clean": "bun run rm -rf dist *.tsbuildinfo",
-        "dev": "tsc -w -p tsconfig.build.json",
-        "lint": "eslint .  --max-warnings 0",
-        "typecheck": "tsc",
-        "studio": "drizzle-kit studio",
-        "push": "drizzle-kit push"
-    },
-    "dependencies": {
-        "@neondatabase/serverless": "^0.10.4",
-        "@trpc/server": "10.45.2",
-        "bufferutil": "^4.0.9",
-        "dotenv": "^16.4.7",
-        "drizzle-orm": "^0.38.3",
-        "superjson": "^2.2.1",
-        "ws": "^8.18.0",
-        "zod": "^3.23.8"
-    },
-    "devDependencies": {
-        "@repo/eslint": "workspace:*",
-        "@types/node": "^22.10.3",
-        "@types/ws": "^8.5.14",
-        "drizzle-kit": "^0.30.1",
-        "tsx": "^4.19.2"
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A DB package used in the web application",
+  "license": "MIT",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "bun run rm -rf dist *.tsbuildinfo",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc",
+    "studio": "drizzle-kit studio",
+    "push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "@trpc/server": "10.45.2",
+    "bufferutil": "^4.0.9",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.3",
+    "superjson": "^2.2.1",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@repo/eslint": "workspace:*",
+    "@types/node": "^22.10.3",
+    "@types/ws": "^8.5.14",
+    "drizzle-kit": "^0.30.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.0.0"
+  }
 }
