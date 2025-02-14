@@ -4,7 +4,7 @@
     pnpm install --no-frozen-lockfile
     pnpm build
   """
-  publish = ".svelte-kit/netlify"
+  publish = "./apps/web/.svelte-kit/netlify"
 
 [build.environment]
   NODE_VERSION = "18"
