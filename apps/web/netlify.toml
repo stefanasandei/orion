@@ -4,26 +4,13 @@
     pnpm install --no-frozen-lockfile
     pnpm build
   """
-  publish = "./apps/web/.svelte-kit/netlify"
+  publish = "apps/web/.svelte-kit/netlify"
 
 [build.environment]
   NODE_VERSION = "18"
   PNPM_VERSION = "8.15.6"
 
-[functions]
-  directory = ".svelte-kit/functions"
-
-# [[redirects]]
-#   from = "/*"
-#   to = "/.netlify/functions/render"
-#   status = 200
-
 [[headers]]
   for = "/manifest.webmanifest"
   [headers.values]
     Content-Type = "application/manifest+json"
-
-[[headers]]
-  for = "/_app/*"
-  [headers.values]
-    cache-control = "public, max-age=31536000, immutable"
