@@ -5,7 +5,11 @@ import { createJiti } from 'jiti';
 
 import dotenv from 'dotenv';
 dotenv.config();
-console.log(process.env['GITHUB_CLIENT_ID'] != undefined ? 'env loaded' : 'error loading env');
+if (process.env['GITHUB_CLIENT_ID'] != undefined) {
+	console.log('env loaded');
+} else {
+	console.error('failed to load env');
+}
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 // await jiti.import('./src/lib/utils/env.ts');
