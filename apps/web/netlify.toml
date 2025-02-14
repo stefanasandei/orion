@@ -2,6 +2,9 @@
   command = """
     corepack enable
     pnpm install --no-frozen-lockfile
+    cd apps/web
+    pnpm exec svelte-kit sync
+    cd ../..
     pnpm build
   """
   publish = ".svelte-kit/netlify"
@@ -9,9 +12,11 @@
 [build.environment]
   NODE_VERSION = "18"
   PNPM_VERSION = "8.15.6"
+  NODE_ENV = "production"
 
 [functions]
   directory = ".svelte-kit/functions"
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/*"
