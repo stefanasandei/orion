@@ -3,6 +3,10 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { fileURLToPath } from 'node:url';
 import { createJiti } from 'jiti';
 
+import dotenv from 'dotenv';
+dotenv.config();
+console.log(process.env['GITHUB_CLIENT_ID'] != undefined ? 'env loaded' : 'error loading env');
+
 const jiti = createJiti(fileURLToPath(import.meta.url));
 // await jiti.import('./src/lib/utils/env.ts');
 
