@@ -1,6 +1,9 @@
 [build]
   command = """
-    pnpm install
+    npm i -g pnpm@8.15.6 typescript
+    pnpm config set auto-install-peers true
+    pnpm config set strict-peer-dependencies false
+    pnpm install --no-frozen-lockfile
     pnpm build
   """
   publish = ".svelte-kit/netlify"
@@ -8,6 +11,7 @@
 [build.environment]
   NODE_VERSION = "18"
   PNPM_VERSION = "8.15.6"
+  NPM_FLAGS = "--no-audit --no-fund"
   
 [functions]
   directory = ".svelte-kit/functions"
