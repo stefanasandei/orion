@@ -100,3 +100,12 @@ export class GithubOAuthProvider {
         return userId;
     }
 }
+
+const GITHUB_CLIENT_ID = process.env["GITHUB_CLIENT_ID"] ?? "";
+const GITHUB_CLIENT_SECRET = process.env["GITHUB_CLIENT_SECRET"] ?? "";
+
+if (GITHUB_CLIENT_ID.length == 0) {
+    console.log("github client id env undefined");
+}
+
+export const githubOAuth = new GithubOAuthProvider(GITHUB_CLIENT_ID ?? "", GITHUB_CLIENT_SECRET);

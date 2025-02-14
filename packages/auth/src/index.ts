@@ -1,4 +1,4 @@
-export { GithubOAuthProvider } from './oauth/github';
+export { GithubOAuthProvider, githubOAuth } from './oauth/github';
 
 export { generateSessionToken, createSession, validateSessionToken, invalidateSession } from "./session";
 export type { SessionValidationResult } from "./session";
