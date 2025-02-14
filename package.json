@@ -2,6 +2,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:packages": "turbo run build --filter=./packages/*",
+    "build:apps": "turbo run build --filter=./apps/*",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write .",
@@ -10,7 +12,9 @@
     "test:unit": "pnpm --filter=unit test",
     "db:studio": "pnpm --filter=db studio",
     "db:push": "pnpm --filter=db push",
-    "docs:dev": "cd apps/docs && mintlify dev --port 3333"
+    "docs:dev": "cd apps/docs && mintlify dev --port 3333",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "clean:build": "turbo run clean"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
