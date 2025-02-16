@@ -14,6 +14,7 @@
 	import { trpc } from '@/utils/trpc/client';
 	import { goto } from '$app/navigation';
 	import { t } from '@/utils/i18n/translations';
+	import { activeWorkspaceId } from '../utils/state';
 
 	let { user }: { user: { name: string; email: string } } = $props();
 	const sidebar = useSidebar();
@@ -25,6 +26,7 @@
 
 	const logout = trpc().user.logout.createMutation({
 		onSuccess: async () => {
+			activeWorkspaceId.current = -1;
 			await goto('/login', { invalidateAll: true });
 		}
 	});
