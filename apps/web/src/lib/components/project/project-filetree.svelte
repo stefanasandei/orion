@@ -7,33 +7,16 @@
 	import * as Sidebar from '@/components/ui/sidebar';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import { File, Folder } from 'lucide-svelte';
+	import { NoteTreeService, type NoteTreeNode, type VizTree } from '@repo/api/services';
 
 	interface Props {
 		project: Project & { notes: Note[] };
+		noteTree: NoteTreeNode[];
 	}
 
-	const { project }: Props = $props();
+	const { noteTree }: Props = $props();
 
-	// todo: sample data
-	const data = {
-		tree: [
-			['lib', ['components', 'button.svelte', 'card.svelte'], 'utils.ts'],
-			[
-				'routes',
-				['hello', '+page.svelte', '+page.ts'],
-				'+page.svelte',
-				'+page.server.ts',
-				'+layout.svelte'
-			],
-			['static', 'favicon.ico', 'svelte.svg'],
-			'eslint.config.js',
-			'.gitignore',
-			'svelte.config.js',
-			'tailwind.config.js',
-			'package.json',
-			'README.md'
-		]
-	};
+	const data = $derived(NoteTreeService.toVizFormat(noteTree));
 </script>
 
 <div>
@@ -44,28 +27,27 @@
 	</div>
 
 	<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
-	{#snippet Tree({ item }: { item: string | any[] })}
-		{@const [name, ...items] = Array.isArray(item) ? item : [item]}
+	{#snippet Tree({ item }: { item: VizTree })}
+		{@const [note, ...items] = Array.isArray(item) ? item : [item]}
 		{#if !items.length}
 			<Sidebar.MenuButton
-				isActive={name === 'button.svelte'}
+				isActive={note.name === 'button.svelte'}
 				class="data-[active=true]:bg-transparent"
 			>
 				<File />
-				{name}
+				{note.name}
 			</Sidebar.MenuButton>
 		{:else}
 			<Sidebar.MenuItem>
 				<Collapsible.Root
 					class="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
-					open={name === 'lib' || name === 'components'}
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}
 							<Sidebar.MenuButton {...props}>
 								<ChevronRight className="transition-transform" />
 								<Folder />
-								{name}
+								{note.name}
 							</Sidebar.MenuButton>
 						{/snippet}
 					</Collapsible.Trigger>

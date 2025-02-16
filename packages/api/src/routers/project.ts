@@ -2,6 +2,8 @@ import { db, projectTable } from '@repo/db';
 import { createRouter, protectedProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq } from 'drizzle-orm';
+import { TRPCError } from '@trpc/server';
+import { NoteTreeService } from '../services/note-tree';
 
 export const projectRouter = createRouter({
   delete: protectedProcedure
@@ -24,7 +26,19 @@ export const projectRouter = createRouter({
           where: and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId))
         });
 
-      return project;
+      if (!project) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Project not found'
+        });
+      }
+
+      const noteTree = NoteTreeService.buildTree(project.notes);
+
+      return {
+        project,
+        noteTree: noteTree
+      };
     }),
 
   update: protectedProcedure

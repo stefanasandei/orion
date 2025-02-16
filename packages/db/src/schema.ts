@@ -7,7 +7,8 @@ import {
   text,
   timestamp,
   varchar,
-  AnyPgColumn
+  AnyPgColumn,
+  primaryKey
 } from 'drizzle-orm/pg-core';
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
@@ -143,8 +144,16 @@ export const noteTable = pgTable('note', {
   content: text('content').notNull(),
   description: text('description'),
 
-  parentNote: integer('parent_id').references((): AnyPgColumn => noteTable.id)
+  parentNote: integer('parent_id').references((): AnyPgColumn => noteTable.id, { onDelete: 'cascade' })
 });
+
+export const notesRelationshipTable = pgTable('notes_relationship', {
+  parentId: integer('parent_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),
+  childId: integer('child_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),
+}, (table) => [
+  primaryKey({ columns: [table.parentId, table.childId] }),
+]);
+
 
 // Relations
 export const userRelations = relations(userTable, ({ one, many }) => ({

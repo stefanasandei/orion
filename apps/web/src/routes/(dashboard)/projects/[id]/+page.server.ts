@@ -15,7 +15,7 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     const projectId = parseInt(event.params.id!);
 
     const caller = createCaller({ event: event as CtxRequestEvent });
-    const project = await caller.project.get({ id: projectId });
+    const { project, noteTree } = await caller.project.get({ id: projectId });
 
     if (project === undefined) {
         redirect(302, "/");
@@ -23,6 +23,7 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
 
     return {
         user: event.locals!,
-        project
+        project,
+        noteTree
     };
 }) satisfies PageServerLoad;

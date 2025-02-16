@@ -4,10 +4,12 @@
 	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
 	import OverviewProject from '$base/src/lib/components/project/overview-project.svelte';
+	import type { NoteTreeNode } from '@repo/api/services';
 
 	interface Props {
 		user: UserLocals;
 		project: Project & { notes: Note[] };
+		noteTree: NoteTreeNode[];
 	}
 
 	const { data }: { data: Props } = $props();
@@ -18,5 +20,5 @@
 </script>
 
 <DashboardShell pageName={'Project'} {user}>
-	<OverviewProject {project} />
+	<OverviewProject noteTree={data.noteTree} {project} />
 </DashboardShell>

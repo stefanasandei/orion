@@ -6,12 +6,14 @@
 	import { Icons } from '../icons.svelte';
 	import OverviewHeader from './overview-header.svelte';
 	import ProjectFiletree from './project-filetree.svelte';
+	import type { NoteTreeNode } from '@repo/api/services';
 
 	interface Props {
 		project: Project & { notes: Note[] };
+		noteTree: NoteTreeNode[];
 	}
 
-	const { project }: Props = $props();
+	const { noteTree, project }: Props = $props();
 </script>
 
 <OverviewHeader {project} />
@@ -29,6 +31,6 @@
 			<p class="text-2xl">Documents</p>
 			<Button class="ml-3" size={'small-icon'} variant={'secondary'}><Icons.add /></Button>
 		</div>
-		<ProjectFiletree {project} />
+		<ProjectFiletree {noteTree} {project} />
 	</div>
 </div>
