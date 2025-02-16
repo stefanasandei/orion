@@ -6,6 +6,7 @@
 	import Plus from 'lucide-svelte/icons/plus';
 	import { t } from '@/utils/i18n/translations';
 	import { activeWorkspaceId } from '../utils/state';
+	import { goto } from '$app/navigation';
 
 	// This should be `Component` after lucide-svelte updates types
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,6 +15,11 @@
 	const sidebar = useSidebar();
 
 	let activeworkspace = $derived(workspaces.find((v) => v.id == activeWorkspaceId.current));
+
+	const changeWorkspace = async (id: number) => {
+		activeWorkspaceId.current = id;
+		await goto('/');
+	};
 </script>
 
 <Sidebar.Menu class="bg-background rounded-lg p-2">
@@ -54,7 +60,7 @@
 				>
 				{#each workspaces as workspace, index (workspace.id)}
 					<DropdownMenu.Item
-						onSelect={() => (activeWorkspaceId.current = workspace.id)}
+						onSelect={async () => await changeWorkspace(workspace.id)}
 						class="gap-2 p-2"
 					>
 						<div class="flex size-6 items-center justify-center rounded-sm border">

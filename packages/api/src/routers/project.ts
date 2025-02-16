@@ -10,5 +10,20 @@ export const projectRouter = createRouter({
       return await db
         .delete(projectTable)
         .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
+    }),
+
+  get: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input, ctx }) => {
+      // return the requested project's metadata, if it is owned by the current user
+      const project = await db.query.projectTable
+        .findFirst({
+          with: {
+            notes: true
+          },
+          where: and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId))
+        });
+
+      return project;
     })
 });
