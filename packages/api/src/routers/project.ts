@@ -25,5 +25,16 @@ export const projectRouter = createRouter({
         });
 
       return project;
+    }),
+
+  update: protectedProcedure
+    .input(z.object({ id: z.number(), name: z.string(), description: z.string().nullable() }))
+    .mutation(async ({ input, ctx }) => {
+      const res = await db
+        .update(projectTable)
+        .set({ name: input.name, description: input.description })
+        .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
+
+      return res.rowCount == 1;
     })
 });

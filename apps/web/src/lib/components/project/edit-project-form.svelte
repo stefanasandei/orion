@@ -1,0 +1,93 @@
+<script lang="ts">
+	import type { Note, Project } from '@repo/db';
+	import { t } from '@/utils/i18n/translations';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import {
+		projectFormSchema,
+		type ProjectFormSchema
+	} from '$base/src/routes/(dashboard)/projects/edit/[id]/schema';
+	import CategoryShell from '../settings/category-shell.svelte';
+	import { Textarea } from '../ui/textarea';
+	import { toast } from 'svelte-sonner';
+	import { goto } from '$app/navigation';
+
+	interface Props {
+		project: Project & { notes: Note[] };
+		form: SuperValidated<Infer<ProjectFormSchema>>;
+	}
+
+	const data: Props = $props();
+	const project = data.project;
+
+	const form = superForm(data.form, {
+		validators: zodClient(projectFormSchema),
+		multipleSubmits: 'allow',
+		onResult: async ({ result }) => {
+			if (result.type === 'success' && result.data) {
+				toast.success('Project successfully updated!');
+				await goto(`/projects/${project.id}`, { invalidateAll: true });
+			} else {
+				toast.error('There was an unexpected error.');
+			}
+		}
+	});
+
+	const { form: formData, enhance } = form;
+
+	const defaultValues = {
+		projectId: project.id,
+		name: project.name,
+		description: project.description
+	};
+	formData.set(defaultValues);
+</script>
+
+<CategoryShell title={'Edit project'} description={'Change the display properties of a project'}>
+	<form method="POST" class="space-y-6" use:enhance>
+		<Form.Field {form} name="projectId" class={'hidden'}>
+			<Form.Control>
+				{#snippet children({ props })}
+					<Input {...props} bind:value={$formData.projectId} disabled={false} />
+				{/snippet}
+			</Form.Control>
+		</Form.Field>
+
+		<Form.Field {form} name="name">
+			<Form.Control>
+				{#snippet children({ props })}
+					<Form.Label>Name</Form.Label>
+					<Input {...props} bind:value={$formData.name} />
+				{/snippet}
+			</Form.Control>
+			<Form.Description>The title of your work.</Form.Description>
+			<Form.FieldErrors />
+		</Form.Field>
+		<Form.Field {form} name="description">
+			<Form.Control>
+				{#snippet children({ props })}
+					<Form.Label>Description</Form.Label>
+					<Textarea {...props} bind:value={$formData.description} />
+				{/snippet}
+			</Form.Control>
+			<Form.Description>What is this project about?</Form.Description>
+			<Form.FieldErrors />
+		</Form.Field>
+		<!-- TODO: allow to publish projects; add edit tags
+          <Form.Field {form} name="isPublic" class="flex-1">
+			<Form.Control>
+				{#snippet children({ props })}
+					<div class="flex flex-row items-center gap-4">
+						<Checkbox {...props} bind:checked={$formData.isPublic} />
+						<Form.Label>{$t('settings.public_profile')}</Form.Label>
+					</div>
+				{/snippet}
+			</Form.Control>
+			<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
+			<Form.FieldErrors />
+		</Form.Field> -->
+		<Form.Button>Update</Form.Button>
+	</form>
+</CategoryShell>

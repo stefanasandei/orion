@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
-	import Button from '@/components/ui/button/button.svelte';
+	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { Badge } from '@/components/ui/badge';
 	import { Clock, Book } from 'lucide-svelte';
 	import { Icons } from '../icons.svelte';
@@ -66,7 +66,10 @@
 				<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
 			</div>
 
-			<Button variant={'outline'} size="sm">Edit</Button>
+			<a
+				href={`/projects/edit/${project.id}`}
+				class={buttonVariants({ variant: 'outline', size: 'sm' })}>Edit</a
+			>
 		</div>
 	</div>
 </div>
