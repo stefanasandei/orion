@@ -11,7 +11,10 @@
 	}
 
 	const { data }: { data: Props } = $props();
-	const { user, project } = data;
+	const { user } = data;
+
+	// makes navigating to another slug route reactive
+	const project = $derived(data.project);
 </script>
 
 <DashboardShell pageName={'Project'} {user}>

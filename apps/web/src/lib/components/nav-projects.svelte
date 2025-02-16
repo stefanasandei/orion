@@ -35,11 +35,11 @@
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton>
 					{#snippet child({ props })}
-						<div class="flex flex-row justify-between" {...props}>
-							<a href={item.url} class="flex flex-row items-center gap-2">
+						<a href={item.url} class="flex flex-row justify-between" {...props}>
+							<span class="flex flex-row items-center gap-2">
 								<item.icon class="p-1" />
 								<span>{item.name}</span>
-							</a>
+							</span>
 							<DropdownMenu.Root>
 								<DropdownMenu.Trigger>
 									{#snippet child({ props })}
@@ -70,7 +70,7 @@
 									</DropdownMenu.Item>
 								</DropdownMenu.Content>
 							</DropdownMenu.Root>
-						</div>
+						</a>
 					{/snippet}
 				</Sidebar.MenuButton>
 			</Sidebar.MenuItem>

@@ -26,7 +26,7 @@
 
 <div class="border-border md:border-background -mx-2 border-b-2 md:px-2">
 	<div
-		class="md:bg-muted/40 grid h-full grid-rows-4 items-end gap-6 rounded-lg px-3 pb-3 md:mx-auto md:max-w-5xl md:py-3"
+		class="md:bg-muted/40 grid h-full grid-rows-4 items-center gap-6 rounded-lg px-3 pb-3 md:mx-auto md:max-w-5xl md:py-3"
 	>
 		<!-- type info pill & share button row -->
 		<div class="row-span-1 mb-3 flex flex-row items-center justify-between">
@@ -37,10 +37,10 @@
 		<!-- project title & some brief info -->
 		<div class="row-span-2">
 			<p class="mt-2 text-4xl">{project.name}</p>
-			<p class="mt-2 text-xl">
-				<!-- <span class="text-foreground/80">Description:{' '}</span> -->
+			<!-- <p class="mt-2 text-xl">
+				<span class="text-foreground/80">Description:{' '}</span>
 				{project.description}
-			</p>
+			</p> -->
 
 			<div class="text-foreground/80 mt-2 flex flex-col gap-2 md:flex-row md:gap-6">
 				<div class="flex flex-row items-center gap-1">
