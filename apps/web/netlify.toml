@@ -4,7 +4,6 @@
     pnpm install --no-frozen-lockfile
     pnpm build
   """
-  publish = "apps/web/build"
 
 [build.environment]
   NODE_VERSION = "18"

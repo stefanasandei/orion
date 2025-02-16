@@ -1,6 +1,4 @@
 <script lang="ts">
-	// TODO
-
 	import * as Avatar from '@/components/ui/avatar';
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Sidebar from '@/components/ui/sidebar';
@@ -8,9 +6,7 @@
 	import BadgeCheck from 'lucide-svelte/icons/badge-check';
 	import Bell from 'lucide-svelte/icons/bell';
 	import EllipsisVertical from 'lucide-svelte/icons/ellipsis-vertical';
-	import CreditCard from 'lucide-svelte/icons/credit-card';
 	import LogOut from 'lucide-svelte/icons/log-out';
-	import Sparkles from 'lucide-svelte/icons/sparkles';
 	import { trpc } from '@/utils/trpc/client';
 	import { goto } from '$app/navigation';
 	import { t } from '@/utils/i18n/translations';
