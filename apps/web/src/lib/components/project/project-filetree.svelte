@@ -8,6 +8,7 @@
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import { File, Folder } from 'lucide-svelte';
 	import { NoteTreeService, type NoteTreeNode, type VizTree } from '@repo/api/services';
+	import FiletreeItemContext from './filetree-item-context.svelte';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -30,13 +31,15 @@
 	{#snippet Tree({ item }: { item: VizTree })}
 		{@const [note, ...items] = Array.isArray(item) ? item : [item]}
 		{#if !items.length}
-			<Sidebar.MenuButton
-				isActive={note.name === 'button.svelte'}
-				class="data-[active=true]:bg-transparent"
-			>
-				<File />
-				{note.name}
-			</Sidebar.MenuButton>
+			<FiletreeItemContext {note}>
+				<Sidebar.MenuButton
+					isActive={note.name === 'button.svelte'}
+					class="data-[active=true]:bg-transparent"
+				>
+					<File />
+					{note.name}
+				</Sidebar.MenuButton>
+			</FiletreeItemContext>
 		{:else}
 			<Sidebar.MenuItem>
 				<Collapsible.Root
@@ -44,11 +47,13 @@
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}
-							<Sidebar.MenuButton {...props}>
-								<ChevronRight className="transition-transform" />
-								<Folder />
-								{note.name}
-							</Sidebar.MenuButton>
+							<FiletreeItemContext {note}>
+								<Sidebar.MenuButton {...props}>
+									<ChevronRight className="transition-transform" />
+									<Folder />
+									{note.name}
+								</Sidebar.MenuButton>
+							</FiletreeItemContext>
 						{/snippet}
 					</Collapsible.Trigger>
 					<Collapsible.Content>
