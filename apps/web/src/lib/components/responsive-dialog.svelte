@@ -21,14 +21,23 @@
 		DrawerTrigger
 	} from '@/components/ui/drawer';
 
-	let { triggerButton, title, description, children,  open = $bindable(false) } = $props();
+	let {
+		triggerButton,
+		title,
+		description,
+		children,
+		open = $bindable(false),
+		hasTrigger = true
+	} = $props();
 
-const isDesktop = new MediaQuery('(min-width: 768px)');
+	const isDesktop = new MediaQuery('(min-width: 768px)');
 </script>
 
 {#if isDesktop.current}
 	<Dialog bind:open>
-		<DialogTrigger asChild>{@render triggerButton()}</DialogTrigger>
+		{#if hasTrigger}
+			<DialogTrigger asChild>{@render triggerButton()}</DialogTrigger>
+		{/if}
 		<DialogContent class="flex h-[70vh] flex-col gap-6 sm:max-w-[425px]">
 			<DialogHeader>
 				<DialogTitle>{title}</DialogTitle>
@@ -39,7 +48,9 @@ const isDesktop = new MediaQuery('(min-width: 768px)');
 	</Dialog>
 {:else}
 	<Drawer bind:open>
-		<DrawerTrigger asChild>{@render triggerButton()}</DrawerTrigger>
+		{#if hasTrigger}
+			<DrawerTrigger asChild>{@render triggerButton()}</DrawerTrigger>
+		{/if}
 		<DrawerContent class="h-[80svh]">
 			<DrawerHeader class="text-left">
 				<DrawerTitle>{title}</DrawerTitle>

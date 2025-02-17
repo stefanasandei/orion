@@ -69,6 +69,9 @@ importers:
       formsnap:
         specifier: ^2.0.0
         version: 2.0.0(svelte@5.20.1)(sveltekit-superforms@2.23.1)
+      minisearch:
+        specifier: ^7.1.1
+        version: 7.1.1
       runed:
         specifier: ^0.23.2
         version: 0.23.4(svelte@5.20.1)
@@ -4284,6 +4287,10 @@ packages:
   /minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  /minisearch@7.1.1:
+    resolution: {integrity: sha512-b3YZEYCEH4EdCAtYP7OlDyx7FdPwNzuNwLQ34SfJpM9dlbBZzeXndGavTrC+VCiRWomL21SWfMc6SCKO/U2ZNw==}
+    dev: false
 
   /mode-watcher@0.5.1(svelte@5.20.1):
     resolution: {integrity: sha512-adEC6T7TMX/kzQlaO/MtiQOSFekZfQu4MC+lXyoceQG+U5sKpJWZ4yKXqw846ExIuWJgedkOIPqAYYRk/xHm+w==}

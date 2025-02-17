@@ -71,5 +71,39 @@ export const projectRouter = createRouter({
       return await db
         .delete(noteTable)
         .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)));
+    }),
+  getNeighborNotes: protectedProcedure
+    .input(z.object({ noteId: z.number() }))
+    .query(async ({ input, ctx }) => {
+      // given a single note id, we want to find all of the other notes from its project
+
+      // 1. find the project
+      const { projectId } = (await db.query.noteTable.findFirst({
+        where: and(
+          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+        ),
+        columns: {
+          projectId: true
+        }
+      }))!;
+
+      if (projectId == null) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Project not found'
+        });
+      }
+
+      // 2. query the notes
+      return await db.select({ id: noteTable.id, name: noteTable.name }).from(noteTable)
+        .where(and(eq(noteTable.projectId, projectId), eq(noteTable.userId, ctx.session.userId)));
+    }),
+  makeNoteParentTo: protectedProcedure
+    .input(z.object({ parentNoteId: z.number().nullable(), childNoteId: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await db
+        .update(noteTable)
+        .set({ parentNote: input.parentNoteId })
+        .where(and(eq(noteTable.id, input.childNoteId), eq(noteTable.userId, ctx.session.userId)));
     })
 });

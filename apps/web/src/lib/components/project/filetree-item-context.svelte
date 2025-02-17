@@ -4,11 +4,15 @@
 	import Separator from '../ui/separator/separator.svelte';
 	import type { VizItem } from '@repo/api/services';
 	import DeleteNote from './delete-note.svelte';
+	import MoveNote from './move-note.svelte';
 
 	const { children, note }: { children: Snippet; note: VizItem } = $props();
 
 	let open = $state(false);
-	let deleteDialogOpen = $state(false); // New state for dialog control
+
+	// dirty yet it works
+	let deleteDialogOpen = $state(false);
+	let moveDialogOpen = $state(false);
 </script>
 
 <ContextMenu.Root bind:open>
@@ -18,9 +22,11 @@
 	<ContextMenu.Content>
 		<ContextMenu.Item disabled={true}>{note.name}</ContextMenu.Item>
 		<Separator />
-		<ContextMenu.Item>View</ContextMenu.Item>
-		<ContextMenu.Item>Move</ContextMenu.Item>
-		<ContextMenu.Item>Share</ContextMenu.Item>
+		<!-- <ContextMenu.Item>View</ContextMenu.Item> -->
+		<ContextMenu.Item onclick={() => (moveDialogOpen = true)} class="hover:cursor-pointer"
+			>Move</ContextMenu.Item
+		>
+		<!-- <ContextMenu.Item>Share</ContextMenu.Item> -->
 		<ContextMenu.Item onclick={() => (deleteDialogOpen = true)} class="hover:cursor-pointer"
 			>Delete note</ContextMenu.Item
 		>
@@ -28,3 +34,4 @@
 </ContextMenu.Root>
 
 <DeleteNote item={note} bind:open={deleteDialogOpen} />
+<MoveNote item={note} bind:open={moveDialogOpen} />

@@ -37,6 +37,12 @@
 		newDocName = '';
 		addNewFile = false;
 	};
+
+	const handleKeydown = (e: KeyboardEvent) => {
+		if (e.key === 'Enter' && newDocName.trim()) {
+			createFile();
+		}
+	};
 </script>
 
 <div>
@@ -54,7 +60,12 @@
 
 	{#if addNewFile}
 		<div class="mt-3 flex w-full flex-row gap-4">
-			<Input class="h-fit" bind:value={newDocName} placeholder="document name" />
+			<Input
+				class="h-fit"
+				bind:value={newDocName}
+				placeholder="document name"
+				onkeydown={handleKeydown}
+			/>
 			<Button size="sm" onclick={() => createFile()}>Add</Button>
 		</div>
 	{/if}

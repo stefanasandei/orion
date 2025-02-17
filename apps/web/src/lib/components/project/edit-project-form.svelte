@@ -15,12 +15,12 @@
 	import { goto } from '$app/navigation';
 
 	interface Props {
-		project: Project & { notes: Note[] };
+		project: { project: Project & { notes: Note[] }; noteTree: unknown };
 		form: SuperValidated<Infer<ProjectFormSchema>>;
 	}
 
 	const data: Props = $props();
-	const project = data.project;
+	const project = data.project.project;
 
 	const form = superForm(data.form, {
 		validators: zodClient(projectFormSchema),
@@ -42,6 +42,7 @@
 		name: project.name,
 		description: project.description
 	};
+
 	formData.set(defaultValues);
 </script>
 
