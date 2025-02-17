@@ -64,5 +64,12 @@ export const projectRouter = createRouter({
           content: "",
           userId: ctx.session.userId,
         });
+    }),
+  deleteNote: protectedProcedure
+    .input(z.object({ noteId: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await db
+        .delete(noteTable)
+        .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)));
     })
 });
