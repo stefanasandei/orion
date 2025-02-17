@@ -1,4 +1,4 @@
-import { db, projectTable } from '@repo/db';
+import { db, noteTable, projectTable } from '@repo/db';
 import { createRouter, protectedProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq } from 'drizzle-orm';
@@ -50,5 +50,19 @@ export const projectRouter = createRouter({
         .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
 
       return res.rowCount == 1;
+    }),
+
+  createNoteDocument: protectedProcedure
+    .input(z.object({ projectId: z.number(), noteName: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      return await db
+        .insert(noteTable)
+        .values({
+          name: input.noteName,
+          projectId: input.projectId,
+          isQuickThought: false,
+          content: "",
+          userId: ctx.session.userId,
+        });
     })
 });

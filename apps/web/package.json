@@ -13,6 +13,8 @@
 		"lint": "prettier --check ."
 	},
 	"dependencies": {
+		"@dnd-kit-svelte/core": "^0.0.7",
+		"@dnd-kit-svelte/sortable": "^0.0.7",
 		"@repo/api": "workspace:*",
 		"@repo/auth": "workspace:^",
 		"@repo/core": "workspace:^",
@@ -27,7 +29,9 @@
 		"drizzle-orm": "^0.38.3",
 		"formsnap": "^2.0.0",
 		"runed": "^0.23.2",
+		"sortable-tree": "^0.7.2",
 		"superjson": "^2.2.1",
+		"svelte-dnd-action": "^0.9.57",
 		"svelte-persisted-store": "^0.12.0",
 		"sveltekit-i18n": "^2.4.2",
 		"sveltekit-superforms": "^2.22.1",

@@ -5,7 +5,7 @@
 	import { Badge } from '@/components/ui/badge';
 	import { Icons } from '../icons.svelte';
 	import OverviewHeader from './overview-header.svelte';
-	import ProjectFiletree from './project-filetree.svelte';
+	import FileTree from './filetree.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
 
 	interface Props {
@@ -26,11 +26,5 @@
 		</div>
 	{/if}
 
-	<div>
-		<div class="flex flex-row items-center justify-between">
-			<p class="text-2xl">Documents</p>
-			<Button class="ml-3" size={'small-icon'} variant={'secondary'}><Icons.add /></Button>
-		</div>
-		<ProjectFiletree {noteTree} {project} />
-	</div>
+	<FileTree {noteTree} {project} />
 </div>
