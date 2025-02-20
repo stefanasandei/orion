@@ -6,7 +6,11 @@
 	import DeleteNote from './delete-note.svelte';
 	import MoveNote from './move-note.svelte';
 
-	const { children, note }: { children: Snippet; note: VizItem } = $props();
+	const {
+		children,
+		note,
+		hasChildren
+	}: { children: Snippet; note: VizItem; hasChildren: boolean } = $props();
 
 	let open = $state(false);
 
@@ -22,7 +26,13 @@
 	<ContextMenu.Content>
 		<ContextMenu.Item disabled={true}>{note.name}</ContextMenu.Item>
 		<Separator />
-		<!-- <ContextMenu.Item>View</ContextMenu.Item> -->
+		{#if hasChildren}
+			<ContextMenu.Item>
+				<a href="/projects/doc/{note.id}" class="w-full hover:cursor-pointer">
+					View</a
+				></ContextMenu.Item
+			>
+		{/if}
 		<ContextMenu.Item onclick={() => (moveDialogOpen = true)} class="hover:cursor-pointer"
 			>Move</ContextMenu.Item
 		>

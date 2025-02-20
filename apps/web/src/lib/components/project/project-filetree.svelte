@@ -31,14 +31,16 @@
 	{#snippet Tree({ item }: { item: VizTree })}
 		{@const [note, ...items] = Array.isArray(item) ? item : [item]}
 		{#if !items.length}
-			<FiletreeItemContext {note}>
-				<Sidebar.MenuButton
-					isActive={note.name === 'button.svelte'}
-					class="data-[active=true]:bg-transparent"
+			<FiletreeItemContext hasChildren={false} {note}>
+				<a href="/projects/doc/{note.id}" class="w-full hover:cursor-pointer">
+					<Sidebar.MenuButton
+						isActive={note.name === 'button.svelte'}
+						class="data-[active=true]:bg-transparent"
+					>
+						<File />
+						{note.name}
+					</Sidebar.MenuButton></a
 				>
-					<File />
-					{note.name}
-				</Sidebar.MenuButton>
 			</FiletreeItemContext>
 		{:else}
 			<Sidebar.MenuItem>
@@ -47,7 +49,7 @@
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}
-							<FiletreeItemContext {note}>
+							<FiletreeItemContext hasChildren={true} {note}>
 								<Sidebar.MenuButton {...props}>
 									<ChevronRight className="transition-transform" />
 									<Folder />
