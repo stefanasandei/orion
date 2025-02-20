@@ -15,7 +15,7 @@
 		noteTree: NoteTreeNode[];
 	}
 
-	const { noteTree }: Props = $props();
+	const { noteTree, project }: Props = $props();
 
 	const data = $derived(NoteTreeService.toVizFormat(noteTree));
 </script>
@@ -31,8 +31,8 @@
 	{#snippet Tree({ item }: { item: VizTree })}
 		{@const [note, ...items] = Array.isArray(item) ? item : [item]}
 		{#if !items.length}
-			<FiletreeItemContext hasChildren={false} {note}>
-				<a href="/projects/doc/{note.id}" class="w-full hover:cursor-pointer">
+			<FiletreeItemContext projectId={project.id} hasChildren={false} {note}>
+				<a href="/projects/{project.id}/doc/{note.id}" class="w-full hover:cursor-pointer">
 					<Sidebar.MenuButton
 						isActive={note.name === 'button.svelte'}
 						class="data-[active=true]:bg-transparent"
@@ -49,7 +49,7 @@
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}
-							<FiletreeItemContext hasChildren={true} {note}>
+							<FiletreeItemContext projectId={project.id} hasChildren={true} {note}>
 								<Sidebar.MenuButton {...props}>
 									<ChevronRight className="transition-transform" />
 									<Folder />

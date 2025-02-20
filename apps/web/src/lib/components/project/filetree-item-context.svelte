@@ -8,9 +8,10 @@
 
 	const {
 		children,
+		projectId,
 		note,
 		hasChildren
-	}: { children: Snippet; note: VizItem; hasChildren: boolean } = $props();
+	}: { children: Snippet; note: VizItem; hasChildren: boolean; projectId: number } = $props();
 
 	let open = $state(false);
 
@@ -28,7 +29,7 @@
 		<Separator />
 		{#if hasChildren}
 			<ContextMenu.Item>
-				<a href="/projects/doc/{note.id}" class="w-full hover:cursor-pointer">
+				<a href="/projects/{projectId}/doc/{note.id}" class="w-full hover:cursor-pointer">
 					View</a
 				></ContextMenu.Item
 			>

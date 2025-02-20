@@ -12,19 +12,20 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     }
 
     // check if project is owned by user & get its data
+    const projectId = parseInt(event.params.id!);
     const noteId = parseInt(event.params.noteId!);
 
-    // const caller = createCaller({ event: event as CtxRequestEvent });
-    // const { project, noteTree } = await caller.project.get({ id: projectId });
+    const caller = createCaller({ event: event as CtxRequestEvent });
+    const { project, noteTree } = await caller.project.get({ id: projectId });
 
-    // if (project === undefined) {
-    //     redirect(302, "/");
-    // }
+    if (project === undefined) {
+        redirect(302, "/");
+    }
 
     return {
         user: event.locals!,
+        project,
+        noteTree,
         noteId
-        // project,
-        // noteTree
     };
 }) satisfies PageServerLoad;
