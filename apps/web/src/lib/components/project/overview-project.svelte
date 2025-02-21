@@ -20,7 +20,7 @@
 
 <div class="mt-4 flex flex-col gap-6 md:mx-auto md:max-w-5xl">
 	{#if project.description !== null && project.description.length}
-		<div>
+		<div class="p-2">
 			<p class="mb-2 text-2xl">Description</p>
 			<p>{project.description}</p>
 		</div>

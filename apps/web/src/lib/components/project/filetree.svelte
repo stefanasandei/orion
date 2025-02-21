@@ -10,13 +10,15 @@
 	import { trpc } from '@/utils/trpc/client';
 	import { invalidateAll } from '$app/navigation';
 	import { File } from 'lucide-svelte';
+	import Separator from '../ui/separator/separator.svelte';
 
 	interface Props {
 		project: Project & { notes: Note[] };
 		noteTree: NoteTreeNode[];
+		sidebar?: boolean;
 	}
 
-	const { noteTree, project }: Props = $props();
+	const { noteTree, project, sidebar = false }: Props = $props();
 
 	// utils to create a new top-level note
 	let addNewFile = $state(false);
@@ -48,34 +50,45 @@
 	};
 </script>
 
-<div class="group-data-[collapsible=icon]:hidden">
-	<div class="flex flex-row items-center justify-between">
-		<p class="text-2xl">Documents</p>
-		<Button
-			class="ml-3"
-			size={'small-icon'}
-			variant={'secondary'}
-			onclick={() => (addNewFile = !addNewFile)}
-		>
-			<Icons.add />
-		</Button>
+<div class="flex h-full flex-col justify-between group-data-[collapsible=icon]:hidden">
+	<div>
+		<div class="flex flex-row items-center justify-between p-2">
+			<p class="text-2xl">Documents</p>
+
+			<Button
+				class="ml-3"
+				size={'small-icon'}
+				variant={'secondary'}
+				onclick={() => (addNewFile = !addNewFile)}
+			>
+				<Icons.add />
+			</Button>
+		</div>
+		<Separator class="bg-muted-foreground/20" />
+
+		{#if addNewFile}
+			<div class="mt-3 flex w-full flex-row gap-4">
+				<Input
+					class="h-fit"
+					bind:value={newDocName}
+					placeholder="document name"
+					onkeydown={handleKeydown}
+				/>
+				<Button size="sm" onclick={() => createFile()}>Add</Button>
+			</div>
+		{/if}
+
+		<ProjectFiletree {noteTree} {project} />
 	</div>
 
-	{#if addNewFile}
-		<div class="mt-3 flex w-full flex-row gap-4">
-			<Input
-				class="h-fit"
-				bind:value={newDocName}
-				placeholder="document name"
-				onkeydown={handleKeydown}
-			/>
-			<Button size="sm" onclick={() => createFile()}>Add</Button>
+	{#if sidebar}
+		<div class="flex flex-col items-center justify-center p-2">
+			<Separator class="bg-muted-foreground/20 mb-2" />
+			<p>{project.name}: {project.notes.length} documents</p>
 		</div>
 	{/if}
-
-	<ProjectFiletree {noteTree} {project} />
 </div>
 
 <div class="hidden items-center justify-center rounded-full group-data-[collapsible=icon]:flex">
-	<File class="" />
+	<File />
 </div>

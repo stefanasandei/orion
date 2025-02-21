@@ -32,7 +32,7 @@
 		<Sidebar.Content class="bg-muted h-full p-0">
 			<!-- <ProjectFiletree {project} {noteTree} /> -->
 			<div class="bg-background h-full rounded-lg p-2">
-				<FileTree {noteTree} {project} />
+				<FileTree {noteTree} {project} sidebar={true} />
 			</div>
 		</Sidebar.Content>
 		<Sidebar.Rail />
