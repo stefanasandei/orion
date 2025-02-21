@@ -4,7 +4,8 @@
 	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
 	import type { NoteTreeNode } from '@repo/api/services';
-	import ProjectFiletree from './project-filetree.svelte';
+	import NoteSidebar from './note-sidebar.svelte';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -15,15 +16,6 @@
 	const { children, project, noteTree }: Props = $props();
 </script>
 
-<div class="grid h-full grid-cols-12 gap-4 overflow-hidden">
-	<main class="col-span-9">
-		{@render children?.()}
-	</main>
+<Sidebar.Trigger />
 
-	<!-- make this a collapsible sidebar -->
-	<aside class="bg-muted/40 col-span-3 h-full rounded-lg px-3 py-2">
-		<div class="sticky top-0">
-			<ProjectFiletree {project} {noteTree} />
-		</div>
-	</aside>
-</div>
+{@render children?.()}

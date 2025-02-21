@@ -45,7 +45,7 @@
 		{:else}
 			<Sidebar.MenuItem>
 				<Collapsible.Root
-					class="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+					class="group/collapsible [&[data-state=open]>div>button>svg:first-child]:rotate-90"
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}

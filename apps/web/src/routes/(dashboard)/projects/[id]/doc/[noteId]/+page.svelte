@@ -9,22 +9,25 @@
 	interface Props {
 		user: UserLocals;
 		noteId: number;
-		project: Project & { notes: Note[] };
-		noteTree: NoteTreeNode[];
+		activeProject: {
+			project: Project & { notes: Note[] };
+			noteTree: NoteTreeNode[];
+		};
 	}
 
 	const { data }: { data: Props } = $props();
-	const { user, project, noteTree } = data;
+	const { user } = data;
 
 	// makes navigating to another slug route reactive
 	const note = $derived(data.noteId);
+	const activeProject = $derived(data.activeProject);
 </script>
 
 <!-- keep state also in url -->
 <!-- but keep track of opened tabs in local storage, btw filetree on the left (closeable) -->
 
-<DashboardShell pageName={'Document'} {user}>
-	<NoteShell {project} {noteTree}>
+<DashboardShell pageName={'Document'} {user} {activeProject}>
+	<NoteShell project={activeProject.project} noteTree={activeProject.noteTree}>
 		<!-- todo: make this the editor with tabs -->
 		<p>{note}</p>
 	</NoteShell>

@@ -8,17 +8,19 @@
 
 	interface Props {
 		user: UserLocals;
-		project: Project & { notes: Note[] };
-		noteTree: NoteTreeNode[];
+		activeProject: {
+			project: Project & { notes: Note[] };
+			noteTree: NoteTreeNode[];
+		};
 	}
 
 	const { data }: { data: Props } = $props();
 	const { user } = data;
 
 	// makes navigating to another slug route reactive
-	const project = $derived(data.project);
+	const activeProject = $derived(data.activeProject);
 </script>
 
-<DashboardShell pageName={'Project'} {user}>
-	<OverviewProject noteTree={data.noteTree} {project} />
+<DashboardShell pageName={'Project'} {user} {activeProject}>
+	<OverviewProject noteTree={data.activeProject.noteTree} project={activeProject.project} />
 </DashboardShell>

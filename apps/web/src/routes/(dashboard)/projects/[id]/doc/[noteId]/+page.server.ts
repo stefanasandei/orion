@@ -24,8 +24,10 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
 
     return {
         user: event.locals!,
-        project,
-        noteTree,
+        activeProject: {
+            project,
+            noteTree,
+        },
         noteId
     };
 }) satisfies PageServerLoad;

@@ -9,6 +9,7 @@
 	import { toast } from 'svelte-sonner';
 	import { trpc } from '@/utils/trpc/client';
 	import { invalidateAll } from '$app/navigation';
+	import { File } from 'lucide-svelte';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -25,6 +26,9 @@
 		onSuccess: async () => {
 			toast.success(`Created ${newDocName}!`);
 			await invalidateAll();
+		},
+		onSettled: () => {
+			newDocName = '';
 		}
 	});
 
@@ -34,7 +38,6 @@
 			projectId: project.id
 		});
 
-		newDocName = '';
 		addNewFile = false;
 	};
 
@@ -45,7 +48,7 @@
 	};
 </script>
 
-<div>
+<div class="group-data-[collapsible=icon]:hidden">
 	<div class="flex flex-row items-center justify-between">
 		<p class="text-2xl">Documents</p>
 		<Button
@@ -71,4 +74,8 @@
 	{/if}
 
 	<ProjectFiletree {noteTree} {project} />
+</div>
+
+<div class="hidden items-center justify-center rounded-full group-data-[collapsible=icon]:flex">
+	<File class="" />
 </div>

@@ -99,6 +99,7 @@
 	);
 </script>
 
+<!-- mobile sidebar: collapsed -->
 <div class="flex md:hidden">
 	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
 		<Sidebar.Header class="bg-muted p-0">
@@ -115,8 +116,9 @@
 	</Sidebar.Root>
 </div>
 
+<!-- desktop sidebar: non-collapsible -->
 <div class="hidden md:flex">
-	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'icon'} bind:ref {...restProps}>
+	<Sidebar.Root class="bg-muted h-screen py-2 pl-2" collapsible={'none'} bind:ref {...restProps}>
 		<Sidebar.Header class="bg-muted p-0">
 			<WorkspaceSwitcher workspaces={parsedWorkspaces} />
 		</Sidebar.Header>

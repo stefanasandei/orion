@@ -11,6 +11,7 @@
 		side = 'left',
 		variant = 'sidebar',
 		collapsible = 'offcanvas',
+		isRight = false,
 		class: className,
 		children,
 		...restProps
@@ -18,6 +19,7 @@
 		side?: 'left' | 'right';
 		variant?: 'sidebar' | 'floating' | 'inset';
 		collapsible?: 'offcanvas' | 'icon' | 'none';
+		isRight?: boolean;
 	} = $props();
 
 	const sidebar = useSidebar();
@@ -58,16 +60,19 @@
 		data-side={side}
 	>
 		<!-- This is what handles the sidebar gap on desktop -->
-		<div
-			class={cn(
-				'relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear',
-				'group-data-[collapsible=offcanvas]:w-0',
-				'group-data-[side=right]:rotate-180',
-				variant === 'floating' || variant === 'inset'
-					? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
-					: 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]'
-			)}
-		></div>
+		{#if !isRight}
+			<div
+				class={cn(
+					'relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear',
+					'group-data-[collapsible=offcanvas]:w-0',
+					'group-data-[side=right]:rotate-180',
+					variant === 'floating' || variant === 'inset'
+						? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
+						: 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]'
+				)}
+			></div>
+		{/if}
+
 		<div
 			class={cn(
 				'fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex',
