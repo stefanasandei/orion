@@ -1,0 +1,271 @@
+.tiptap :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.tiptap .is-empty::before {
+	@apply pointer-events-none float-left h-0 text-muted-foreground;
+	content: attr(data-placeholder);
+}
+
+.tiptap code:not(pre code) {
+	/* Remove the before and after pseudo elements */
+	@apply rounded border bg-muted/50 p-1 before:content-[''] after:content-[''];
+}
+
+.tiptap blockquote p {
+	@apply before:content-[''] after:content-[''];
+}
+
+.tiptap a {
+	@apply text-blue-600 underline;
+}
+
+.tiptap ul li p,
+.tiptap ol li p {
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
+}
+
+.tiptap ul[data-type='taskList'] {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tiptap ul[data-type='taskList'] li {
+	align-items: flex-start;
+	display: flex;
+}
+
+.tiptap ul[data-type='taskList'] li > label {
+	@apply mr-2 flex select-none items-center justify-center;
+}
+
+.tiptap ul[data-type='taskList'] li > div {
+	flex: 1 1 auto;
+}
+
+.tiptap ul[data-type='taskList'] input[type='checkbox'] {
+	cursor: pointer;
+}
+
+.tiptap ul[data-type='taskList'] ul[data-type='taskList'] {
+	margin: 0;
+}
+
+ul[data-type='taskList'] li[data-checked='true'] div {
+	@apply text-muted-foreground line-through;
+}
+
+input[type='checkbox'] {
+	-webkit-appearance: none;
+	@apply relative top-1 m-0 grid size-5 cursor-pointer appearance-none place-content-center rounded border-2 bg-transparent !important;
+
+	&:hover {
+		@apply bg-muted/50;
+	}
+
+	&:active {
+		@apply bg-muted;
+	}
+
+	&::before {
+		@apply h-3 w-3 scale-0 p-1 content-[''];
+		transform: scale(0);
+		transition: 120ms transform ease-in-out;
+		box-shadow: inset 1em 1em;
+		transform-origin: center;
+		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	}
+
+	&:checked::before {
+		transform: scale(1);
+	}
+}
+
+/* Color swatches */
+.color {
+	@apply whitespace-nowrap;
+}
+
+.color::before {
+	@apply mb-[0.15rem] mr-[0.1rem] inline-block size-[1rem] rounded border border-muted align-middle;
+	background-color: var(--color);
+	content: ' ';
+}
+
+.tiptap.resize-cursor {
+	cursor: ew-resize;
+	cursor: col-resize;
+}
+
+/* Tiptap code block */
+.tiptap pre {
+	@apply m-0 flex h-fit overflow-auto !rounded-none bg-transparent p-0;
+}
+
+.tiptap pre code {
+	@apply flex-1 !rounded-none bg-transparent p-0 text-inherit;
+}
+
+.tiptap .search-result {
+	background-color: yellow;
+}
+
+.tiptap .search-result-current {
+	background-color: orange;
+}
+
+/* Drag Handle Related CSS*/
+.drag-handle {
+	@apply fixed z-50 size-6 cursor-grab opacity-100 transition-opacity duration-200 ease-in;
+
+	&:active {
+		cursor: grabbing;
+	}
+
+	&.hide {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	@media screen and (max-width: 600px) {
+		display: none;
+		pointer-events: none;
+	}
+}
+
+.drag-handle::after {
+	@apply text-muted-foreground;
+	content: '⠿';
+}
+
+.katex {
+	@apply hover:bg-muted;
+}
+
+.katex.result {
+	@apply border-b border-green-500 bg-green-500/25;
+}
+
+.ProseMirror {
+	.tableWrapper {
+		@apply m-0 overflow-auto p-4;
+	}
+
+	table {
+		@apply my-4 box-border w-full border-collapse rounded border-muted;
+
+		td,
+		th {
+			@apply relative min-w-[100px] border border-muted p-2 text-left align-top;
+
+			&:first-of-type:not(a) {
+				@apply mt-0;
+			}
+
+			p {
+				@apply m-0;
+
+				& + p {
+					@apply mt-3;
+				}
+			}
+		}
+
+		th {
+			@apply font-bold;
+		}
+
+		.column-resize-handle {
+			@apply pointer-events-none absolute -bottom-[2px] -right-1 top-0 flex w-2;
+
+			&::before {
+				@apply ml-2 h-full w-[1px] bg-muted;
+				content: '';
+			}
+		}
+
+		.selectedCell {
+			@apply border-double border-muted bg-muted/50;
+		}
+
+		.grip-column,
+		.grip-row {
+			@apply absolute z-10 flex cursor-pointer items-center justify-center bg-muted/50;
+		}
+
+		.grip-column {
+			@apply -top-3 left-0 -ml-[1px] h-3 w-[calc(100%+1px)] border-l border-muted;
+
+			&:hover,
+			&.selected {
+				&::before {
+					content: '';
+					@apply w-2.5;
+				}
+			}
+
+			&:hover {
+				@apply bg-muted/80;
+
+				&::before {
+					@apply border-b-2 border-dotted border-muted-foreground;
+				}
+			}
+
+			&.first {
+				@apply rounded-tl-sm border-transparent;
+			}
+
+			&.last {
+				@apply rounded-tr-sm;
+			}
+
+			&.selected {
+				@apply border-muted bg-muted shadow-sm;
+
+				&::before {
+					@apply border-b-2 border-dotted;
+				}
+			}
+		}
+
+		.grip-row {
+			@apply -left-3 top-0 -mt-[1px] h-[calc(100%+1px)] w-3 border-t border-muted;
+
+			&:hover,
+			&.selected {
+				&::before {
+					@apply h-2.5;
+					content: '';
+				}
+			}
+
+			&:hover {
+				@apply bg-muted/80;
+
+				&::before {
+					@apply border-l-2 border-dotted border-muted-foreground;
+				}
+			}
+
+			&.first {
+				@apply rounded-tl-sm border-transparent;
+			}
+
+			&.last {
+				@apply rounded-bl-sm;
+			}
+
+			&.selected {
+				@apply border-muted bg-muted shadow-sm;
+
+				&::before {
+					@apply border-l-2 border-dotted;
+				}
+			}
+		}
+	}
+}
