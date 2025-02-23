@@ -30,12 +30,12 @@
 	$effect(() => {
 		// make the current note active (in the tabs & editor)
 		const currNoteId = note.id;
-		console.log('current: ' + currNoteId.toString());
+		// console.log('current: ' + currNoteId.toString());
 		initializeActiveNote(note);
 
 		return () => {
 			// acces to the old note, just in case
-			console.log('old: ' + currNoteId.toString());
+			// console.log('old: ' + currNoteId.toString());
 		};
 	});
 </script>

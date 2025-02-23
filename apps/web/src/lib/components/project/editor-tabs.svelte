@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
-	import { closeNoteTab, editorTabs, type EditorTab } from '../../utils/state';
+	import { goto } from '$app/navigation';
+	import { closeNoteTab, editorState, type EditorTab } from '../../utils/state';
 	import { Icons } from '../icons.svelte';
 
 	interface Props {
@@ -10,7 +10,7 @@
 
 	const { activeNoteId, projectId }: Props = $props();
 
-	let tabs = $derived<EditorTab[]>(editorTabs.current);
+	let tabs = $derived<EditorTab[]>(editorState.current.tabs);
 
 	const switchTab = async (noteId: number) => {
 		await goto(`/projects/${projectId}/doc/${noteId}`);

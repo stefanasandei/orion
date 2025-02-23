@@ -51,6 +51,7 @@
 	import FontSize from './custom/Extentions/FontSize.js';
 	import { AudioPlaceholder } from './custom/Extentions/AudioPlaceHolder.js';
 	import { AudioExtention } from './custom/Extentions/AudioExtended.js';
+	import { Textarea } from '../ui/textarea';
 
 	const lowlight = createLowlight(all);
 
@@ -58,17 +59,22 @@
 		class?: string;
 		content?: Content;
 		showToolbar?: boolean;
+		editor?: Editor;
 	}
 
-	let { class: className = '', content = $bindable(''), showToolbar = true }: Props = $props();
+	let {
+		class: className = '',
+		content = $bindable(''),
+		showToolbar = true,
+		editor = $bindable<Editor | undefined>()
+	}: Props = $props();
 
-	let editor = $state<Editor>();
 	let element = $state<HTMLElement>();
 
-	onMount(() => {
+	const createEditor = () => {
 		editor = new Editor({
 			element,
-			content,
+			content: content,
 			editorProps: {
 				attributes: {
 					class:
@@ -179,6 +185,10 @@
 				handlePaste: getHandlePaste(editor)
 			}
 		});
+	};
+
+	onMount(() => {
+		createEditor();
 	});
 
 	onDestroy(() => {

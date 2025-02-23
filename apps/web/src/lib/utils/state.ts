@@ -36,23 +36,25 @@ export type EditorTab = {
     isDirty: boolean;
 };
 
-export const editorTabs = new PersistedState<EditorTab[]>("editor_tabs", []);
+export const editorState = new PersistedState<{ tabs: EditorTab[] }>("editor_tabs", { tabs: [] });
 
 export function initializeActiveNote(note: Note) {
     // Only run on client-side
     if (!browser) return;
 
     // is the note already in the tabs?
-    const isThereIdx = editorTabs.current.findIndex(t => t.noteId === note.id);
+    const isThereIdx = editorState.current.tabs.findIndex(t => t.noteId === note.id);
 
     if (isThereIdx == -1) {
         // add the note
-        editorTabs.current.push({
-            noteId: note.id,
-            title: note.name,
-            content: note.content,
-            isDirty: false
-        });
+        editorState.current = {
+            tabs: [...editorState.current.tabs, {
+                noteId: note.id,
+                title: note.name,
+                content: note.content,
+                isDirty: false
+            }]
+        };
     }
 }
 
@@ -60,5 +62,7 @@ export function closeNoteTab(noteId: number) {
     // Only run on client-side
     if (!browser) return;
 
-    editorTabs.current = editorTabs.current.filter(t => t.noteId !== noteId);
+    editorState.current = {
+        tabs: editorState.current.tabs.filter(t => t.noteId !== noteId)
+    };
 }
