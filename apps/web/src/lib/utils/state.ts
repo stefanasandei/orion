@@ -1,11 +1,15 @@
 import { PersistedState } from "runed";
 import { browser } from "$app/environment";
+import { writable } from 'svelte/store';
+import type { Note } from "@repo/db";
 
+// language
 export const languageOptions = ["en", "ro"] as const;
 export type LanguageOptions = (typeof languageOptions)[number];
 
 export const language = new PersistedState<LanguageOptions>("language", "en");
 
+// workspace
 export const activeWorkspaceId = new PersistedState<number>("workspace_id", -1);
 
 export function initializeActiveWorkspace(workspaces: { id: number }[]) {
@@ -22,4 +26,39 @@ export function initializeActiveWorkspace(workspaces: { id: number }[]) {
     if (activeWorkspaceId.current === -1 || !workspaces.some(w => w.id === activeWorkspaceId.current)) {
         activeWorkspaceId.current = workspaces[0].id;
     }
+}
+
+// document editor
+export type EditorTab = {
+    noteId: number;
+    title: string;
+    content: string;
+    isDirty: boolean;
+};
+
+export const editorTabs = new PersistedState<EditorTab[]>("editor_tabs", []);
+
+export function initializeActiveNote(note: Note) {
+    // Only run on client-side
+    if (!browser) return;
+
+    // is the note already in the tabs?
+    const isThereIdx = editorTabs.current.findIndex(t => t.noteId === note.id);
+
+    if (isThereIdx == -1) {
+        // add the note
+        editorTabs.current.push({
+            noteId: note.id,
+            title: note.name,
+            content: note.content,
+            isDirty: false
+        });
+    }
+}
+
+export function closeNoteTab(noteId: number) {
+    // Only run on client-side
+    if (!browser) return;
+
+    editorTabs.current = editorTabs.current.filter(t => t.noteId !== noteId);
 }

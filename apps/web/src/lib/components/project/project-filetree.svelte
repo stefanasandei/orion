@@ -9,6 +9,7 @@
 	import { File, Folder } from 'lucide-svelte';
 	import { NoteTreeService, type NoteTreeNode, type VizTree } from '@repo/api/services';
 	import FiletreeItemContext from './filetree-item-context.svelte';
+	import { goto } from '$app/navigation';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -39,8 +40,8 @@
 					>
 						<File />
 						{note.name}
-					</Sidebar.MenuButton></a
-				>
+					</Sidebar.MenuButton>
+				</a>
 			</FiletreeItemContext>
 		{:else}
 			<Sidebar.MenuItem>

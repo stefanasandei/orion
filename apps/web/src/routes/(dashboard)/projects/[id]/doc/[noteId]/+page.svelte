@@ -5,10 +5,15 @@
 	import type { Note, Project } from '@repo/db';
 	import NoteShell from '$base/src/lib/components/project/note-shell.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
+	import NoteEditor from '$base/src/lib/components/project/note-editor.svelte';
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import { initializeActiveNote } from '$base/src/lib/utils/state';
 
+	// server-side props
 	interface Props {
 		user: UserLocals;
-		noteId: number;
+		note: Note;
 		activeProject: {
 			project: Project & { notes: Note[] };
 			noteTree: NoteTreeNode[];
@@ -19,16 +24,24 @@
 	const { user } = data;
 
 	// makes navigating to another slug route reactive
-	const note = $derived(data.noteId);
+	const note = $derived(data.note);
 	const activeProject = $derived(data.activeProject);
-</script>
 
-<!-- keep state also in url -->
-<!-- but keep track of opened tabs in local storage, btw filetree on the left (closeable) -->
+	$effect(() => {
+		// make the current note active (in the tabs & editor)
+		const currNoteId = note.id;
+		console.log('current: ' + currNoteId.toString());
+		initializeActiveNote(note);
+
+		return () => {
+			// acces to the old note, just in case
+			console.log('old: ' + currNoteId.toString());
+		};
+	});
+</script>
 
 <DashboardShell pageName={'Document'} {user} {activeProject}>
 	<NoteShell project={activeProject.project} noteTree={activeProject.noteTree}>
-		<!-- todo: make this the editor with tabs -->
-		<p>{note}</p>
+		<NoteEditor activeNoteId={note.id} />
 	</NoteShell>
 </DashboardShell>

@@ -105,5 +105,15 @@ export const projectRouter = createRouter({
         .update(noteTable)
         .set({ parentNote: input.parentNoteId })
         .where(and(eq(noteTable.id, input.childNoteId), eq(noteTable.userId, ctx.session.userId)));
+    }),
+
+  getNote: protectedProcedure
+    .input(z.object({ noteId: z.number() }))
+    .query(async ({ input, ctx }) => {
+      return await db.query.noteTable.findFirst(({
+        where: and(
+          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+        ),
+      }));
     })
 });
