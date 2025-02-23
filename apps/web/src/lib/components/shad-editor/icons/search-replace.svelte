@@ -80,12 +80,12 @@
 				<Popover.Trigger>
 					<Button variant="ghost" size="sm" class="h-8">
 						<TextSearch />
-						<ChevronDown class="size-3 text-muted-foreground" />
+						<ChevronDown class="text-muted-foreground size-3" />
 					</Button>
 				</Popover.Trigger>
 				<Popover.Content class="bg-popover shadow-lg *:my-2">
 					<Popover.Close
-						class="absolute right-2 top-0 text-muted-foreground"
+						class="text-muted-foreground absolute right-2 top-0"
 						onclick={() => {
 							clear();
 							updateSearchTerm(true);
@@ -123,7 +123,7 @@
 					</div>
 
 					<div class="flex items-center justify-between">
-						<div class="flex items-center gap-2">
+						<div class="flex items-start gap-2">
 							<input
 								type="checkbox"
 								class="checkbox"

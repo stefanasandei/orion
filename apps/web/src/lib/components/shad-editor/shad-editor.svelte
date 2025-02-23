@@ -122,8 +122,8 @@
 				Color,
 				Highlight.configure({ multicolor: true }),
 				Underline,
-				Superscript,
-				Subscript,
+				// Superscript,
+				// Subscript,
 				Link.configure({
 					openOnClick: false,
 					autolink: true,
@@ -157,12 +157,12 @@
 				ImagePlaceholder,
 				MathExtension.configure({ evaluation: true }),
 				Markdown,
-				VideoExtention,
-				VideoPlaceholder,
+				// VideoExtention,
+				// VideoPlaceholder,
 				SlashCommand,
-				FontSize,
-				AudioPlaceholder,
-				AudioExtention
+				FontSize
+				// AudioPlaceholder,
+				// AudioExtention
 			],
 			autofocus: true,
 			onUpdate: (transaction) => {
@@ -186,7 +186,7 @@
 	});
 </script>
 
-<div class={cn('flex flex-col rounded border', className)}>
+<div class={cn('flex w-full flex-col rounded border', className)}>
 	{#if editor && showToolbar}
 		<EditorToolbar {editor} />
 		<LinkBubbleMenu {editor} />

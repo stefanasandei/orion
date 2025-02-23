@@ -15,7 +15,7 @@
 	import OrderedList from './icons/ordered-list.svelte';
 	import TaskList from './icons/task-list.svelte';
 	import Highlighter from './icons/highlighter.svelte';
-	import Superscript from './icons/superscript.svelte';
+	// import Superscript from './icons/superscript.svelte';
 	import Textcolor from './icons/textcolor.svelte';
 	import Align from './icons/textalign.svelte';
 	import Quickcolor from './icons/quickcolor.svelte';
@@ -34,33 +34,38 @@
 	let { editor }: Props = $props();
 </script>
 
-<div class="flex w-full items-center overflow-auto border-b p-1 *:mx-1">
-	<Undo {editor} />
-	<Redo {editor} />
-	<Separator orientation="vertical" class="h-fit" />
-	<FontSize {editor} />
-	<Text {editor} />
-	<Bold {editor} />
-	<Italic {editor} />
-	<Underline {editor} />
-	<Strikethrough {editor} />
-	<Align {editor} />
-	<Link {editor} />
-	<Code {editor} />
-	<BlockQuote {editor} />
-	<Subscript {editor} />
-	<Superscript {editor} />
-	<ButtleList {editor} />
-	<OrderedList {editor} />
-	<TaskList {editor} />
-	<Image {editor} />
-	<Video {editor} />
-	<Audio {editor} />
-	<Table {editor} />
-	<Textcolor {editor} />
-	<Highlighter {editor} />
-	<Quickcolor {editor} />
-	<Separator orientation="vertical" class="h-fit" />
-	<SearchReplace {editor} />
-	<Export {editor} />
+<div class="flex w-full flex-row items-center justify-between gap-2">
+	<div class="flex w-full items-center overflow-auto border-b p-1 *:mx-1">
+		<Undo {editor} />
+		<Redo {editor} />
+		<Separator orientation="vertical" class="h-fit" />
+		<FontSize {editor} />
+		<Text {editor} />
+		<Bold {editor} />
+		<Italic {editor} />
+		<Underline {editor} />
+		<Strikethrough {editor} />
+		<Align {editor} />
+		<Link {editor} />
+		<Code {editor} />
+		<BlockQuote {editor} />
+		<!-- <Subscript {editor} /> -->
+		<!-- <Superscript {editor} /> -->
+		<ButtleList {editor} />
+		<OrderedList {editor} />
+		<TaskList {editor} />
+		<Image {editor} />
+		<!-- <Video {editor} /> -->
+		<!-- <Audio {editor} /> -->
+		<Table {editor} />
+		<!-- <Textcolor {editor} /> -->
+		<Highlighter {editor} />
+		<!-- <Quickcolor {editor} /> -->
+		<Separator orientation="vertical" class="h-fit" />
+	</div>
+
+	<div class="flex w-fit items-center border-b p-1 *:mx-1">
+		<SearchReplace {editor} />
+		<Export {editor} />
+	</div>
 </div>
