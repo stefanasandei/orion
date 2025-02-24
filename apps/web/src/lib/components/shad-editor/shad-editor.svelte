@@ -7,8 +7,6 @@
 	import EditorToolbar from './editor-toolbar.svelte';
 	import { cn } from '@/utils/cn';
 
-	import { Subscript } from '@tiptap/extension-subscript';
-	import { Superscript } from '@tiptap/extension-superscript';
 	import { Underline } from '@tiptap/extension-underline';
 	import { Link } from '@tiptap/extension-link';
 	import TaskList from '@tiptap/extension-task-list';
@@ -49,9 +47,6 @@
 	import { getHandlePaste } from './custom/utils.js';
 	import SlashCommand from './custom/Extentions/slash-command/slashcommand.js';
 	import FontSize from './custom/Extentions/FontSize.js';
-	import { AudioPlaceholder } from './custom/Extentions/AudioPlaceHolder.js';
-	import { AudioExtention } from './custom/Extentions/AudioExtended.js';
-	import { Textarea } from '../ui/textarea';
 
 	const lowlight = createLowlight(all);
 
@@ -128,8 +123,6 @@
 				Color,
 				Highlight.configure({ multicolor: true }),
 				Underline,
-				// Superscript,
-				// Subscript,
 				Link.configure({
 					openOnClick: false,
 					autolink: true,
@@ -163,12 +156,8 @@
 				ImagePlaceholder,
 				MathExtension.configure({ evaluation: true }),
 				Markdown,
-				// VideoExtention,
-				// VideoPlaceholder,
 				SlashCommand,
 				FontSize
-				// AudioPlaceholder,
-				// AudioExtention
 			],
 			autofocus: true,
 			onUpdate: (transaction) => {

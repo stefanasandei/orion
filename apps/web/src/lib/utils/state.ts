@@ -2,6 +2,7 @@ import { PersistedState } from "runed";
 import { browser } from "$app/environment";
 import { writable } from 'svelte/store';
 import type { Note } from "@repo/db";
+import type { Content, JSONContent } from "@tiptap/core";
 
 // language
 export const languageOptions = ["en", "ro"] as const;
@@ -32,7 +33,7 @@ export function initializeActiveWorkspace(workspaces: { id: number }[]) {
 export type EditorTab = {
     noteId: number;
     title: string;
-    content: string;
+    content: Content;
     isDirty: boolean;
 };
 
@@ -46,12 +47,19 @@ export function initializeActiveNote(note: Note) {
     const isThereIdx = editorState.current.tabs.findIndex(t => t.noteId === note.id);
 
     if (isThereIdx == -1) {
+        let noteContent = '';
+        try {
+            noteContent = JSON.parse(note.content);
+        } catch {
+            noteContent = note.content;
+        }
+
         // add the note
         editorState.current = {
             tabs: [...editorState.current.tabs, {
                 noteId: note.id,
                 title: note.name,
-                content: note.content,
+                content: noteContent,
                 isDirty: false
             }]
         };
@@ -64,5 +72,24 @@ export function closeNoteTab(noteId: number) {
 
     editorState.current = {
         tabs: editorState.current.tabs.filter(t => t.noteId !== noteId)
+    };
+}
+
+export function updateContentForNote(noteId: number, content: JSONContent) {
+    // Only run on client-side
+    if (!browser) return;
+
+    editorState.current = {
+        tabs: editorState.current.tabs.map(t => {
+            if (t.noteId === noteId) {
+                return {
+                    ...t,
+                    content,
+                    isDirty: true
+                };
+            }
+
+            return t;
+        })
     };
 }

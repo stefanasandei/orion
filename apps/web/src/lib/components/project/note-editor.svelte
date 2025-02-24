@@ -1,9 +1,10 @@
 <script lang="ts">
 	import ShadEditor from '@/components/shad-editor/shad-editor.svelte';
-	import { editorState, type EditorTab } from '$lib/utils/state';
+	import { editorState, updateContentForNote, type EditorTab } from '$lib/utils/state';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { Editor, type Content } from '@tiptap/core';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		activeNoteId: number | null;
@@ -11,32 +12,43 @@
 
 	const { activeNoteId }: Props = $props();
 
-	let tabs = $state<EditorTab[]>(editorState.current.tabs);
 	let editor = $state<Editor>();
 	let editorJSON = $derived(editor?.getJSON());
 
 	let initialContent = $derived(
 		(() => {
+			console.log(activeNoteId);
+			const tabs = untrack(() => editorState.current.tabs);
+
 			const tab = tabs.find((tab) => tab.noteId === activeNoteId);
 
 			return tab?.content;
 		})()
 	);
 
-	$effect(() => {
-		// set initial content, the one loaded from the db
-		content.set(initialContent ?? '');
-	});
-
-	$effect(() => {
-		// get realtime text updates
-		console.log(editorJSON);
-	});
-
 	const content = writable((() => initialContent)());
+
+	$effect(() => {
+		if (!initialContent) return;
+
+		// set initial content, the one loaded from the db
+		content.set(initialContent);
+	});
+
+	$effect(() => {
+		if (activeNoteId == null || editorJSON == null) return;
+
+		// get realtime text updates
+		untrack(() => {
+			updateContentForNote(activeNoteId, editorJSON);
+		});
+	});
+
 	content.subscribe((value) => {
-		if (!browser || !editor) return;
-		editor.commands.setContent(value);
+		const _editor = untrack(() => editor);
+
+		if (!browser || !_editor) return;
+		_editor.commands.setContent(value);
 	});
 </script>
 
