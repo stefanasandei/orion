@@ -32,10 +32,8 @@
 	const content = writable((() => initialContent)());
 
 	$effect(() => {
-		if (!initialContent) return;
-
 		// set initial content, the one loaded from the db
-		content.set(initialContent);
+		content.set(initialContent == undefined ? null : initialContent);
 	});
 
 	$effect(() => {

@@ -61,7 +61,11 @@
 				variant={'secondary'}
 				onclick={() => (addNewFile = !addNewFile)}
 			>
-				<Icons.add />
+				{#if !addNewFile}
+					<Icons.add />
+				{:else}
+					<Icons.close />
+				{/if}
 			</Button>
 		</div>
 		<Separator class="bg-muted-foreground/20" />
