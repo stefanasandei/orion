@@ -3,6 +3,7 @@
 	import katex from 'katex';
 	import 'katex/dist/katex.min.css';
 	import Prism from 'prismjs';
+	import sanitizeHtml from 'sanitize-html';
 
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-typescript';
@@ -50,7 +51,11 @@
 	$effect(() => {
 		const _container = untrack(() => container);
 		if (_container) {
-			_container.innerHTML = renderMath(htmlContent);
+			const html = sanitizeHtml(htmlContent, {
+				allowedTags: false,
+				allowedAttributes: false
+			});
+			_container.innerHTML = renderMath(html);
 
 			highlightCode(_container);
 		}
