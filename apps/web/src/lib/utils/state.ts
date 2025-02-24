@@ -32,6 +32,7 @@ export function initializeActiveWorkspace(workspaces: { id: number }[]) {
 // document editor
 export type EditorTab = {
     noteId: number;
+    projectId: number;
     title: string;
     content: Content;
     isDirty: boolean;
@@ -58,6 +59,7 @@ export function initializeActiveNote(note: Note) {
         editorState.current = {
             tabs: [...editorState.current.tabs, {
                 noteId: note.id,
+                projectId: note.projectId!,
                 title: note.name,
                 content: noteContent,
                 isDirty: false

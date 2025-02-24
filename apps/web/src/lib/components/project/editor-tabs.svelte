@@ -10,7 +10,9 @@
 
 	const { activeNoteId, projectId }: Props = $props();
 
-	let tabs = $derived<EditorTab[]>(editorState.current.tabs);
+	let tabs = $derived<EditorTab[]>(
+		editorState.current.tabs.filter((tab) => tab.projectId == projectId)
+	);
 
 	const switchTab = async (noteId: number) => {
 		await goto(`/projects/${projectId}/doc/${noteId}`);

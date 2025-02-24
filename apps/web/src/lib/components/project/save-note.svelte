@@ -4,6 +4,7 @@
 	import { trpc } from '../../utils/trpc/client';
 	import { toast } from 'svelte-sonner';
 	import { page } from '$app/state';
+	import { editorState } from '../../utils/state';
 
 	interface Props {
 		content: JSONContent;
@@ -28,6 +29,8 @@
 
 	const saveNote = trpc().project.saveNote.createMutation({
 		onSuccess: () => {
+			const editorTabIdx = editorState.current.tabs.findIndex((tab) => tab.noteId === activeNoteId);
+			editorState.current.tabs[editorTabIdx].isDirty = false;
 			toast.success('Note saved');
 		},
 		onError: () => {
