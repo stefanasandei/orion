@@ -27,6 +27,8 @@
 	import Video from './icons/video.svelte';
 	import FontSize from './icons/font-size.svelte';
 	import Audio from './icons/audio.svelte';
+	import Button from '../ui/button/button.svelte';
+	import SaveNote from '../project/save-note.svelte';
 	interface Props {
 		editor: Editor;
 	}
@@ -65,6 +67,7 @@
 	</div>
 
 	<div class="flex w-fit items-center border-b p-1 *:mx-1">
+		<SaveNote content={editor.getJSON()} />
 		<SearchReplace {editor} />
 		<Export {editor} />
 	</div>
