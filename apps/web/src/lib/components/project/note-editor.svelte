@@ -17,8 +17,11 @@
 
 	let initialContent = $derived(
 		(() => {
-			console.log(activeNoteId);
-			const tabs = untrack(() => editorState.current.tabs);
+			let tabs = untrack(() => editorState.current.tabs);
+
+			if (tabs.findIndex((tab) => tab.noteId === activeNoteId) === -1) {
+				tabs = editorState.current.tabs;
+			}
 
 			const tab = tabs.find((tab) => tab.noteId === activeNoteId);
 
@@ -40,6 +43,7 @@
 
 		// get realtime text updates
 		untrack(() => {
+			// only updates local storage
 			updateContentForNote(activeNoteId, editorJSON);
 		});
 	});

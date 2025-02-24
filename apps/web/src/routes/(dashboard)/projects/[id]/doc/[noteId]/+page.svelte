@@ -6,8 +6,6 @@
 	import NoteShell from '$base/src/lib/components/project/note-shell.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
 	import NoteEditor from '$base/src/lib/components/project/note-editor.svelte';
-	import { page } from '$app/state';
-	import { onMount } from 'svelte';
 	import { initializeActiveNote } from '$base/src/lib/utils/state';
 
 	// server-side props
