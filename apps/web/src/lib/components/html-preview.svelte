@@ -1,0 +1,60 @@
+<script lang="ts">
+	import { untrack } from 'svelte';
+	import katex from 'katex';
+	import 'katex/dist/katex.min.css';
+	import Prism from 'prismjs';
+
+	import 'prismjs/components/prism-javascript';
+	import 'prismjs/components/prism-typescript';
+	import 'prismjs/components/prism-python';
+	import 'prismjs/components/prism-java';
+	import 'prismjs/components/prism-c';
+
+	// import 'prism-themes/themes/prism-atom-dark.min.css';
+	// import 'prism-themes/themes/prism-material-oceanic.min.css';
+	import 'prism-themes/themes/prism-nord.min.css';
+
+	interface Props {
+		htmlContent: string;
+	}
+
+	const { htmlContent }: Props = $props();
+
+	let container = $state<HTMLDivElement>();
+
+	function renderMath(content: string): string {
+		// this regex matches both inline ($...$) and display ($$...$$) math.
+		// tt replaces each match with the corresponding KaTeX-rendered string.
+		return content.replace(/(\${1,2})([^\$]+?)\1/g, (match, delimiter, math) => {
+			try {
+				// use display mode for $$...$$, inline mode for $...$
+				const displayMode = delimiter.length === 2;
+				return katex.renderToString(math, { displayMode, throwOnError: false });
+			} catch (err) {
+				console.error('KaTeX render error:', err);
+				return match;
+			}
+		});
+	}
+
+	function highlightCode(container: HTMLElement) {
+		const codeBlocks = container.querySelectorAll('pre code');
+		try {
+			codeBlocks.forEach((block) => {
+				Prism.highlightElement(block);
+			});
+		} catch {}
+	}
+
+	// update the container's inner HTML whenever htmlContent changes.
+	$effect(() => {
+		const _container = untrack(() => container);
+		if (_container) {
+			_container.innerHTML = renderMath(htmlContent);
+
+			highlightCode(_container);
+		}
+	});
+</script>
+
+<div bind:this={container} class="prose prose-lg dark:prose-invert"></div>
