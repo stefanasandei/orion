@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { JSONContent } from '@tiptap/core';
+	import type { HTMLContent, JSONContent } from '@tiptap/core';
 	import { Button } from '../ui/button';
 	import { trpc } from '../../utils/trpc/client';
 	import { toast } from 'svelte-sonner';
@@ -7,10 +7,12 @@
 	import { editorState } from '../../utils/state';
 
 	interface Props {
-		content: JSONContent;
+		jsonContent: JSONContent;
+		htmlContent: HTMLContent;
+		textContent: string;
 	}
 
-	const { content }: Props = $props();
+	const { jsonContent, htmlContent, textContent }: Props = $props();
 
 	const activeNoteId = $derived(
 		(() => {
@@ -44,7 +46,9 @@
 	onclick={() =>
 		$saveNote.mutate({
 			noteId: activeNoteId!,
-			content: JSON.stringify(content)
+			jsonContent: JSON.stringify(jsonContent),
+			htmlContent: htmlContent,
+			textContent: textContent
 		})}
 	variant={'outline'}
 >

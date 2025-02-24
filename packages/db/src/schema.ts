@@ -8,7 +8,8 @@ import {
   timestamp,
   varchar,
   AnyPgColumn,
-  primaryKey
+  primaryKey,
+  pgEnum
 } from 'drizzle-orm/pg-core';
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
@@ -128,8 +129,12 @@ export const projectTable = pgTable('project', {
     .$onUpdate(() => new Date()),
 
   name: varchar('name', { length: 64 }).notNull(),
-  description: text('description')
+  description: text('description'),
+
+  isPublic: boolean('is_public').default(false).notNull(),
 });
+
+export const noteEnum = pgEnum('type', ['document', 'thought', 'file']);
 
 export const noteTable = pgTable('note', {
   id: serial('id').primaryKey(),
@@ -138,11 +143,14 @@ export const noteTable = pgTable('note', {
     .references(() => userTable.id),
   projectId: integer('project_id').references(() => projectTable.id),
 
-  isQuickThought: boolean('is_thought').notNull(),
+  type: noteEnum().default('document').notNull(),
 
   name: varchar('name', { length: 64 }).notNull(),
-  content: text('content').notNull(),
   description: text('description'),
+
+  jsonContent: text('json_content').notNull(), // for the rich text editor
+  htmlContent: text('html_content').notNull(), // for previews
+  textContent: text('text_content').notNull(), // for RAG, etc.
 
   parentNote: integer('parent_id').references((): AnyPgColumn => noteTable.id, { onDelete: 'cascade' })
 });

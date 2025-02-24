@@ -60,8 +60,10 @@ export const projectRouter = createRouter({
         .values({
           name: input.noteName,
           projectId: input.projectId,
-          isQuickThought: false,
-          content: "",
+          type: "document",
+          textContent: "",
+          jsonContent: "",
+          htmlContent: "",
           userId: ctx.session.userId,
         });
     }),
@@ -117,12 +119,14 @@ export const projectRouter = createRouter({
       }));
     }),
   saveNote: protectedProcedure
-    .input(z.object({ noteId: z.number(), content: z.string() }))
+    .input(z.object({ noteId: z.number(), textContent: z.string(), jsonContent: z.string(), htmlContent: z.string() }))
     .mutation(async ({ input, ctx }) => {
       return await db
         .update(noteTable)
         .set({
-          content: input.content
+          textContent: input.textContent,
+          jsonContent: input.jsonContent,
+          htmlContent: input.htmlContent
         })
         .where(and(
           eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)

@@ -67,7 +67,11 @@
 	</div>
 
 	<div class="flex w-fit items-center border-b p-1 *:mx-1">
-		<SaveNote content={editor.getJSON()} />
+		<SaveNote
+			jsonContent={editor.getJSON()}
+			htmlContent={editor.getHTML()}
+			textContent={editor.getText()}
+		/>
 		<SearchReplace {editor} />
 		<Export {editor} />
 	</div>

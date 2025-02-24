@@ -53,9 +53,9 @@ export function initializeActiveNote(note: Note) {
     if (isThereIdx == -1) {
         let noteContent = '';
         try {
-            noteContent = JSON.parse(note.content);
+            noteContent = JSON.parse(note.jsonContent);
         } catch {
-            noteContent = note.content;
+            noteContent = note.textContent;
         }
 
         // add the note
