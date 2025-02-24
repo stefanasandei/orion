@@ -29,6 +29,9 @@ export function initializeActiveWorkspace(workspaces: { id: number }[]) {
     }
 }
 
+// note view state
+export const noteViewState = new PersistedState<'read' | 'edit' | 'loading'>("view_state", 'edit');
+
 // document editor
 export type EditorTab = {
     noteId: number;

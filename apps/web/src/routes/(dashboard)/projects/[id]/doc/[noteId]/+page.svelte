@@ -6,7 +6,8 @@
 	import NoteShell from '$base/src/lib/components/project/note-shell.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
 	import NoteEditor from '$base/src/lib/components/project/note-editor.svelte';
-	import { initializeActiveNote } from '$base/src/lib/utils/state';
+	import { initializeActiveNote, noteViewState } from '$base/src/lib/utils/state';
+	import { onMount } from 'svelte';
 
 	// server-side props
 	interface Props {
@@ -20,6 +21,12 @@
 
 	const { data }: { data: Props } = $props();
 	const { user } = data;
+
+	onMount(() => {
+		if (noteViewState.current == 'loading') {
+			noteViewState.current = 'edit';
+		}
+	});
 
 	// makes navigating to another slug route reactive
 	const note = $derived(data.note);

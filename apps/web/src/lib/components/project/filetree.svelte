@@ -8,9 +8,10 @@
 	import type { NoteTreeNode } from '@repo/api/services';
 	import { toast } from 'svelte-sonner';
 	import { trpc } from '@/utils/trpc/client';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { File } from 'lucide-svelte';
 	import Separator from '../ui/separator/separator.svelte';
+	import { editorState } from '../../utils/state';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -87,6 +88,18 @@
 
 	{#if sidebar}
 		<div class="flex flex-col items-center justify-center p-2">
+			<Button
+				size="sm"
+				variant="outline"
+				class="mb-2 w-full"
+				onclick={async () => {
+					editorState.current = { tabs: [] };
+					toast('Cleared all tabs!');
+					await goto(`/projects/${project.id}`, {
+						invalidateAll: true
+					});
+				}}>Clear all tabs</Button
+			>
 			<Separator class="bg-muted-foreground/20 mb-2" />
 			<p>{project.name}: {project.notes.length} documents</p>
 		</div>

@@ -1,10 +1,16 @@
 <script lang="ts">
 	import ShadEditor from '@/components/shad-editor/shad-editor.svelte';
-	import { editorState, updateContentForNote, type EditorTab } from '$lib/utils/state';
+	import {
+		editorState,
+		noteViewState,
+		updateContentForNote,
+		type EditorTab
+	} from '$lib/utils/state';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { Editor, type Content } from '@tiptap/core';
 	import { untrack } from 'svelte';
+	import NoteViewer from './note-viewer.svelte';
 
 	interface Props {
 		activeNoteId: number | null;
@@ -13,7 +19,9 @@
 	const { activeNoteId }: Props = $props();
 
 	let editor = $state<Editor>();
+
 	let editorJSON = $derived(editor?.getJSON());
+	let editorHTML = $derived(editor?.getHTML());
 
 	let initialContent = $derived(
 		(() => {
@@ -55,5 +63,17 @@
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center">
-	<ShadEditor bind:editor class="h-full w-full rounded-lg" content={$content} />
+	{#if noteViewState.current == 'edit'}
+		<ShadEditor bind:editor class="h-full w-full rounded-lg" content={$content} />
+	{:else if noteViewState.current == 'loading'}
+		<div class="bg-background h-full w-full">
+			<div class="flex h-full w-full items-center justify-center">
+				<div
+					class="border-primary size-16 animate-spin rounded-full border-4 border-t-transparent"
+				></div>
+			</div>
+		</div>
+	{:else if noteViewState.current == 'read'}
+		<NoteViewer noteId={activeNoteId!} />
+	{/if}
 </main>

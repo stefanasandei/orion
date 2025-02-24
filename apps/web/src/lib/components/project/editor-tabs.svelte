@@ -29,7 +29,7 @@
 	};
 </script>
 
-<div class="flex flex-row gap-2">
+<div class="flex w-fit max-w-[60svw] flex-row gap-2 overflow-auto">
 	{#each tabs as tab, index}
 		<div
 			class="flex flex-row items-center gap-2 rounded-lg border p-2 transition-all duration-75

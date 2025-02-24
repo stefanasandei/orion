@@ -6,6 +6,9 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import EditorTabs from './editor-tabs.svelte';
 	import { page } from '$app/state';
+	import * as Tabs from '$lib/components/ui/tabs';
+	import { noteViewState } from '../../utils/state';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -35,7 +38,23 @@
 	<div class="mb-2 flex flex-row items-center justify-between">
 		<EditorTabs {activeNoteId} projectId={project.id} />
 
-		<Sidebar.Trigger />
+		<div class="flex flex-row items-center gap-2">
+			<Tabs.Root
+				bind:value={noteViewState.current}
+				onValueChange={async (v) => {
+					if (v === 'edit') {
+						noteViewState.current = 'loading';
+						window.location.reload();
+					}
+				}}
+			>
+				<Tabs.List>
+					<Tabs.Trigger value="read">Read</Tabs.Trigger>
+					<Tabs.Trigger value="edit">Edit</Tabs.Trigger>
+				</Tabs.List>
+			</Tabs.Root>
+			<Sidebar.Trigger />
+		</div>
 	</div>
 	{@render children?.()}
 </div>
