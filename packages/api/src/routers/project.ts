@@ -42,11 +42,11 @@ export const projectRouter = createRouter({
     }),
 
   update: protectedProcedure
-    .input(z.object({ id: z.number(), name: z.string(), description: z.string().nullable() }))
+    .input(z.object({ id: z.number(), name: z.string(), description: z.string().nullable(), isPublic: z.boolean() }))
     .mutation(async ({ input, ctx }) => {
       const res = await db
         .update(projectTable)
-        .set({ name: input.name, description: input.description })
+        .set({ name: input.name, description: input.description, isPublic: input.isPublic })
         .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
 
       return res.rowCount == 1;

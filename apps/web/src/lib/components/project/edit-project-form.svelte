@@ -13,6 +13,7 @@
 	import { Textarea } from '../ui/textarea';
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
+	import { Checkbox } from '../ui/checkbox';
 
 	interface Props {
 		project: { project: Project & { notes: Note[] }; noteTree: unknown };
@@ -40,7 +41,8 @@
 	const defaultValues = {
 		projectId: project.id,
 		name: project.name,
-		description: project.description
+		description: project.description,
+		isPublic: project.isPublic
 	};
 
 	formData.set(defaultValues);
@@ -76,8 +78,7 @@
 			<Form.Description>What is this project about?</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
-		<!-- TODO: allow to publish projects; add edit tags
-          <Form.Field {form} name="isPublic" class="flex-1">
+		<Form.Field {form} name="isPublic" class="flex-1">
 			<Form.Control>
 				{#snippet children({ props })}
 					<div class="flex flex-row items-center gap-4">
@@ -88,7 +89,7 @@
 			</Form.Control>
 			<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
 			<Form.FieldErrors />
-		</Form.Field> -->
+		</Form.Field>
 		<Form.Button>Update</Form.Button>
 	</form>
 </CategoryShell>

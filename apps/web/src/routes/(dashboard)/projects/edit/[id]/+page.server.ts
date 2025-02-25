@@ -45,7 +45,8 @@ export const actions: Actions = {
         const response = await caller.project.update({
             id: form.data.projectId,
             name: form.data.name,
-            description: form.data.description
+            description: form.data.description,
+            isPublic: form.data.isPublic,
         });
 
         return response;
