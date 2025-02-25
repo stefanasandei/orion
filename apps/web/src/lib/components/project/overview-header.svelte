@@ -5,6 +5,8 @@
 	import { Badge } from '@/components/ui/badge';
 	import { Clock, Book } from 'lucide-svelte';
 	import { Icons } from '../icons.svelte';
+	import { toast } from 'svelte-sonner';
+	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -32,7 +34,19 @@
 		<!-- type info pill & share button row -->
 		<div class="row-span-1 mb-3 flex flex-row items-center justify-between">
 			<Badge variant="secondary">Project</Badge>
-			<Button variant={'outline'} size="sm">Share</Button>
+
+			{#if project.isPublic}
+				<Button
+					variant={'outline'}
+					size="sm"
+					onclick={() => {
+						const publicUrl = `${PUBLIC_WEBSITE_URL}/browse/project/${project.id}`;
+						navigator.clipboard.writeText(publicUrl).then(() => {
+							toast.success('Copied to clipboard!');
+						});
+					}}>Share</Button
+				>
+			{/if}
 		</div>
 
 		<!-- project title & some brief info -->
