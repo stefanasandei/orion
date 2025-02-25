@@ -5,9 +5,9 @@
 	import type { Note, Project } from '@repo/db';
 	import NoteShell from '$base/src/lib/components/project/note-shell.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
-	import NoteEditor from '$base/src/lib/components/project/note-editor.svelte';
 	import { initializeActiveNote, noteViewState } from '$base/src/lib/utils/state';
 	import { onMount } from 'svelte';
+	import NoteViewer from '$base/src/lib/components/project/note-viewer.svelte';
 
 	// server-side props
 	interface Props {
@@ -24,7 +24,7 @@
 
 	onMount(() => {
 		if (noteViewState.current == 'loading') {
-			noteViewState.current = 'edit';
+			noteViewState.current = 'read';
 		}
 	});
 
@@ -33,20 +33,12 @@
 	const activeProject = $derived(data.activeProject);
 
 	$effect(() => {
-		// make the current note active (in the tabs & editor)
-		const currNoteId = note.id;
-		// console.log('current: ' + currNoteId.toString());
 		initializeActiveNote(note);
-
-		return () => {
-			// acces to the old note, just in case
-			// console.log('old: ' + currNoteId.toString());
-		};
 	});
 </script>
 
 <DashboardShell pageName={'Document'} {user} {activeProject}>
-	<NoteShell project={activeProject.project} isPublicView={false}>
-		<NoteEditor activeNoteId={note.id} />
+	<NoteShell project={activeProject.project} isPublicView={true}>
+		<NoteViewer {note} noteId={note.id} />
 	</NoteShell>
 </DashboardShell>

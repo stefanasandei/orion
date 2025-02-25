@@ -86,7 +86,7 @@
 			</div>
 		{/if}
 
-		<ProjectFiletree {noteTree} {project} />
+		<ProjectFiletree {isPublicView} {noteTree} {project} />
 	</div>
 
 	{#if sidebar}
@@ -96,12 +96,13 @@
 				variant="outline"
 				class="mb-2 w-full"
 				onclick={async () => {
+					// todo: clear only tabs for the current project
 					editorState.current = { tabs: [] };
 					toast('Cleared all tabs!');
 					await goto(`/projects/${project.id}`, {
 						invalidateAll: true
 					});
-				}}>Clear all tabs</Button
+				}}>Clear all tabs & go home</Button
 			>
 			<Separator class="bg-muted-foreground/20 mb-2" />
 			<p>{project.name}: {project.notes.length} documents</p>

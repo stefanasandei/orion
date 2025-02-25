@@ -7,11 +7,18 @@
 	import MoveNote from './move-note.svelte';
 
 	const {
+		isPublicView,
 		children,
 		projectId,
 		note,
 		hasChildren
-	}: { children: Snippet; note: VizItem; hasChildren: boolean; projectId: number } = $props();
+	}: {
+		children: Snippet;
+		note: VizItem;
+		hasChildren: boolean;
+		projectId: number;
+		isPublicView: boolean;
+	} = $props();
 
 	let open = $state(false);
 
@@ -29,7 +36,12 @@
 		<Separator />
 		{#if hasChildren}
 			<ContextMenu.Item>
-				<a href="/projects/{projectId}/doc/{note.id}" class="w-full hover:cursor-pointer">
+				<a
+					href={!isPublicView
+						? `/projects/${projectId}/doc/${note.id}`
+						: `/browse/project/${projectId}/${note.id}`}
+					class="w-full hover:cursor-pointer"
+				>
 					View</a
 				></ContextMenu.Item
 			>

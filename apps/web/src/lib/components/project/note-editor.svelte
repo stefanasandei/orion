@@ -1,14 +1,9 @@
 <script lang="ts">
 	import ShadEditor from '@/components/shad-editor/shad-editor.svelte';
-	import {
-		editorState,
-		noteViewState,
-		updateContentForNote,
-		type EditorTab
-	} from '$lib/utils/state';
+	import { editorState, noteViewState, updateContentForNote } from '$lib/utils/state';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
-	import { Editor, type Content } from '@tiptap/core';
+	import { Editor } from '@tiptap/core';
 	import { untrack } from 'svelte';
 	import NoteViewer from './note-viewer.svelte';
 	import LoadingSpinner from '../loading-spinner.svelte';

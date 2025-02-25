@@ -1,22 +1,20 @@
 <script lang="ts">
 	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
-	import Button from '@/components/ui/button/button.svelte';
-	import { Icons } from '../icons.svelte';
 	import * as Collapsible from '@/components/ui/collapsible';
 	import * as Sidebar from '@/components/ui/sidebar';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import { File, Folder } from 'lucide-svelte';
 	import { NoteTreeService, type NoteTreeNode, type VizTree } from '@repo/api/services';
 	import FiletreeItemContext from './filetree-item-context.svelte';
-	import { goto } from '$app/navigation';
 
 	interface Props {
+		isPublicView?: boolean;
 		project: Project & { notes: Note[] };
 		noteTree: NoteTreeNode[];
 	}
 
-	const { noteTree, project }: Props = $props();
+	const { noteTree, project, isPublicView = false }: Props = $props();
 
 	const data = $derived(NoteTreeService.toVizFormat(noteTree));
 </script>
@@ -32,8 +30,13 @@
 	{#snippet Tree({ item }: { item: VizTree })}
 		{@const [note, ...items] = Array.isArray(item) ? item : [item]}
 		{#if !items.length}
-			<FiletreeItemContext projectId={project.id} hasChildren={false} {note}>
-				<a href="/projects/{project.id}/doc/{note.id}" class="w-full hover:cursor-pointer">
+			<FiletreeItemContext projectId={project.id} {isPublicView} hasChildren={false} {note}>
+				<a
+					href={!isPublicView
+						? `/projects/${project.id}/doc/${note.id}`
+						: `/browse/project/${project.id}/${note.id}`}
+					class="w-full hover:cursor-pointer"
+				>
 					<Sidebar.MenuButton
 						isActive={note.name === 'button.svelte'}
 						class="data-[active=true]:bg-transparent"
@@ -50,7 +53,7 @@
 				>
 					<Collapsible.Trigger>
 						{#snippet child({ props })}
-							<FiletreeItemContext projectId={project.id} hasChildren={true} {note}>
+							<FiletreeItemContext {isPublicView} projectId={project.id} hasChildren={true} {note}>
 								<Sidebar.MenuButton {...props}>
 									<ChevronRight className="transition-transform" />
 									<Folder />

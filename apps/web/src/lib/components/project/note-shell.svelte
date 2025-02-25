@@ -8,15 +8,14 @@
 	import { page } from '$app/state';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { noteViewState } from '../../utils/state';
-	import { goto, invalidateAll } from '$app/navigation';
 
 	interface Props {
+		isPublicView: boolean;
 		project: Project & { notes: Note[] };
-		noteTree: NoteTreeNode[];
 		children: Snippet;
 	}
 
-	const { children, project, noteTree }: Props = $props();
+	const { children, project, isPublicView }: Props = $props();
 
 	const activeNoteId = $derived(
 		(() => {
@@ -36,23 +35,25 @@
 
 <div class="flex h-full flex-col">
 	<div class="mb-2 flex flex-row items-center justify-between">
-		<EditorTabs {activeNoteId} projectId={project.id} />
+		<EditorTabs {isPublicView} {activeNoteId} projectId={project.id} />
 
 		<div class="flex flex-row items-center gap-2">
-			<Tabs.Root
-				bind:value={noteViewState.current}
-				onValueChange={async (v) => {
-					if (v === 'edit') {
-						noteViewState.current = 'loading';
-						window.location.reload();
-					}
-				}}
-			>
-				<Tabs.List>
-					<Tabs.Trigger value="read">Read</Tabs.Trigger>
-					<Tabs.Trigger value="edit">Edit</Tabs.Trigger>
-				</Tabs.List>
-			</Tabs.Root>
+			{#if !isPublicView}
+				<Tabs.Root
+					bind:value={noteViewState.current}
+					onValueChange={async (v) => {
+						if (v === 'edit') {
+							noteViewState.current = 'loading';
+							window.location.reload();
+						}
+					}}
+				>
+					<Tabs.List>
+						<Tabs.Trigger value="read">Read</Tabs.Trigger>
+						<Tabs.Trigger value="edit">Edit</Tabs.Trigger>
+					</Tabs.List>
+				</Tabs.Root>
+			{/if}
 			<Sidebar.Trigger />
 		</div>
 	</div>

@@ -67,7 +67,7 @@
 		</Sidebar.Inset>
 
 		<!-- document navigation -->
-		{#if pathname.includes('/projects/') && activeProject !== null}
+		{#if pathname.includes('/project') && activeProject !== null}
 			<NoteSidebar project={activeProject.project} noteTree={activeProject.noteTree} />
 		{/if}
 	</Sidebar.Provider>

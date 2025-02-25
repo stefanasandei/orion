@@ -6,6 +6,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { type ComponentProps } from 'svelte';
 	import FileTree from './filetree.svelte';
+	import { page } from '$app/state';
 
 	interface Props {
 		project: Project & { notes: Note[] };
@@ -32,7 +33,12 @@
 		<Sidebar.Content class="bg-muted h-full p-0">
 			<!-- <ProjectFiletree {project} {noteTree} /> -->
 			<div class="bg-background h-full rounded-lg p-2">
-				<FileTree {noteTree} {project} sidebar={true} />
+				<FileTree
+					isPublicView={page.url.pathname.includes('browse')}
+					{noteTree}
+					{project}
+					sidebar={true}
+				/>
 			</div>
 		</Sidebar.Content>
 		<Sidebar.Rail />

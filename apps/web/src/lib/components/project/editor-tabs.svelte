@@ -4,18 +4,22 @@
 	import { Icons } from '../icons.svelte';
 
 	interface Props {
+		isPublicView: boolean;
 		activeNoteId: number | null;
 		projectId: number;
 	}
 
-	const { activeNoteId, projectId }: Props = $props();
+	const { activeNoteId, projectId, isPublicView }: Props = $props();
 
 	let tabs = $derived<EditorTab[]>(
 		editorState.current.tabs.filter((tab) => tab.projectId == projectId)
 	);
 
 	const switchTab = async (noteId: number) => {
-		await goto(`/projects/${projectId}/doc/${noteId}`);
+		const url = !isPublicView
+			? `/projects/${projectId}/doc/${noteId}`
+			: `/browse/project/${projectId}/${noteId}`;
+		await goto(url);
 	};
 
 	const closeTab = async (index: number) => {
@@ -38,7 +42,7 @@
 				: 'bg-background hover:bg-muted/50 border-border'}"
 		>
 			<button onclick={async () => await switchTab(tab.noteId)}
-				>{tab.title}{tab.isDirty ? '*' : ''}</button
+				>{tab.title}{tab.isDirty && !isPublicView ? '*' : ''}</button
 			>
 
 			{#if tab.noteId !== activeNoteId}
