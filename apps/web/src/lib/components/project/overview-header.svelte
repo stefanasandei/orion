@@ -7,6 +7,7 @@
 	import { Icons } from '../icons.svelte';
 	import { toast } from 'svelte-sonner';
 	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
+	import AddTag from './add-tag.svelte';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -73,7 +74,7 @@
 				{/each}
 
 				{#if !isPublicView}
-					<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
+					<AddTag {project} />
 				{/if}
 			</div>
 

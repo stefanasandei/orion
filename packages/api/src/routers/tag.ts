@@ -8,13 +8,6 @@ export const tagRouter = createRouter({
   create: protectedProcedure
     .input(z.object({ name: z.string(), projectId: z.number().optional(), noteId: z.number().optional() }))
     .mutation(async ({ input, ctx }) => {
-      if (input.noteId === undefined && input.projectId === undefined) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Either projectId or noteId must be provided'
-        });
-      }
-
       return await db
         .insert(tagTable)
         .values({
@@ -48,4 +41,27 @@ export const tagRouter = createRouter({
         )
       });
     }),
+
+  addToEntity: protectedProcedure
+    .input(z.object({ tagId: z.number(), projectId: z.number().optional(), noteId: z.number().optional() }))
+    .mutation(async ({ input, ctx }) => {
+      if (input.noteId === undefined && input.projectId === undefined) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Either projectId or noteId must be provided'
+        });
+      }
+
+      return await db
+        .update(tagTable)
+        .set(input.noteId ? {
+          noteId: input.noteId
+        } : {
+          projectId: input.projectId!
+        })
+        .where(and(
+          eq(tagTable.id, input.tagId),
+          eq(tagTable.userId, ctx.session.userId)
+        )).returning()
+    })
 });
