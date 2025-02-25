@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from '@/utils/i18n/translations';
-	import type { Note, Project } from '@repo/db';
+	import type { Note, Project, Tag } from '@repo/db';
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { Badge } from '@/components/ui/badge';
 	import { Clock, Book } from 'lucide-svelte';
@@ -10,7 +10,7 @@
 
 	interface Props {
 		isPublicView?: boolean;
-		project: Project & { notes: Note[] };
+		project: Project & { notes: Note[]; tags: Tag[] };
 	}
 
 	const { project, isPublicView = false }: Props = $props();
@@ -52,11 +52,6 @@
 		<!-- project title & some brief info -->
 		<div class="row-span-2">
 			<p class="mt-2 text-4xl">{project.name}</p>
-			<!-- <p class="mt-2 text-xl">
-				<span class="text-foreground/80">Description:{' '}</span>
-				{project.description}
-			</p> -->
-
 			<div class="text-foreground/80 mt-2 flex flex-col gap-2 md:flex-row md:gap-6">
 				<div class="flex flex-row items-center gap-1">
 					<Clock class="size-5" />
@@ -73,10 +68,9 @@
 		<!-- tags & edit buttons -->
 		<div class="row-span-1 flex h-fit flex-row justify-between">
 			<div class="flex flex-row items-center gap-1">
-				<Badge variant={'secondary'}>tags</Badge>
-				<Badge variant={'secondary'}>will</Badge>
-				<Badge variant={'secondary'}>go</Badge>
-				<Badge variant={'secondary'}>here</Badge>
+				{#each project.tags as tag}
+					<Badge variant={'secondary'}>{tag.name}</Badge>
+				{/each}
 
 				{#if !isPublicView}
 					<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>

@@ -196,7 +196,8 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
     fields: [projectTable.userId],
     references: [userTable.id]
   }),
-  notes: many(noteTable)
+  notes: many(noteTable),
+  tags: many(tagTable)
 }));
 
 export const noteRelations = relations(noteTable, ({ one, many }) => ({
@@ -214,9 +215,6 @@ export const noteRelations = relations(noteTable, ({ one, many }) => ({
     relationName: 'note_parent'
   }),
   tags: many(tagTable)
-  // children: many(noteTable, {
-  //     relationName: "note_children"
-  // })
 }));
 
 export const tagRelations = relations(tagTable, ({ one }) => ({

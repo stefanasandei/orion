@@ -21,7 +21,8 @@ export const projectRouter = createRouter({
       const project = await db.query.projectTable
         .findFirst({
           with: {
-            notes: true
+            notes: true,
+            tags: true
           },
           where: and(eq(projectTable.id, input.id), or(
             eq(projectTable.userId, ctx.session.userId), eq(projectTable.isPublic, true)
