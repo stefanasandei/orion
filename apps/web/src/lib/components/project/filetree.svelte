@@ -14,12 +14,13 @@
 	import { editorState } from '../../utils/state';
 
 	interface Props {
+		isPublicView?: boolean;
 		project: Project & { notes: Note[] };
 		noteTree: NoteTreeNode[];
 		sidebar?: boolean;
 	}
 
-	const { noteTree, project, sidebar = false }: Props = $props();
+	const { noteTree, project, sidebar = false, isPublicView = false }: Props = $props();
 
 	// utils to create a new top-level note
 	let addNewFile = $state(false);
@@ -56,18 +57,20 @@
 		<div class="flex flex-row items-center justify-between p-2">
 			<p class="text-2xl">Documents</p>
 
-			<Button
-				class="ml-3"
-				size={'small-icon'}
-				variant={'secondary'}
-				onclick={() => (addNewFile = !addNewFile)}
-			>
-				{#if !addNewFile}
-					<Icons.add />
-				{:else}
-					<Icons.close />
-				{/if}
-			</Button>
+			{#if !isPublicView}
+				<Button
+					class="ml-3"
+					size={'small-icon'}
+					variant={'secondary'}
+					onclick={() => (addNewFile = !addNewFile)}
+				>
+					{#if !addNewFile}
+						<Icons.add />
+					{:else}
+						<Icons.close />
+					{/if}
+				</Button>
+			{/if}
 		</div>
 		<Separator class="bg-muted-foreground/20" />
 

@@ -9,14 +9,15 @@
 	import type { NoteTreeNode } from '@repo/api/services';
 
 	interface Props {
+		isPublicView?: boolean;
 		project: Project & { notes: Note[] };
 		noteTree: NoteTreeNode[];
 	}
 
-	const { noteTree, project }: Props = $props();
+	const { noteTree, project, isPublicView = false }: Props = $props();
 </script>
 
-<OverviewHeader {project} />
+<OverviewHeader {isPublicView} {project} />
 
 <div class="mt-4 flex flex-col gap-6 md:mx-auto md:max-w-5xl">
 	{#if project.description !== null && project.description.length}
@@ -26,5 +27,5 @@
 		</div>
 	{/if}
 
-	<FileTree {noteTree} {project} />
+	<FileTree {isPublicView} {noteTree} {project} />
 </div>

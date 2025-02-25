@@ -20,7 +20,12 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     const caller = createCaller({ event: event as CtxRequestEvent });
     const project = await caller.project.get({ id: projectId });
 
-    if (project === undefined) {
+    if (project === undefined || project.project === undefined) {
+        redirect(302, "/");
+    }
+
+    // only the author can edit the project
+    if (project.project.userId !== event.locals!.session.userId) {
         redirect(302, "/");
     }
 

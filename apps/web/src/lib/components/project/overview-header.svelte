@@ -7,10 +7,11 @@
 	import { Icons } from '../icons.svelte';
 
 	interface Props {
+		isPublicView?: boolean;
 		project: Project & { notes: Note[] };
 	}
 
-	const { project }: Props = $props();
+	const { project, isPublicView = false }: Props = $props();
 
 	const createdAtDate = $derived(
 		(() => {
@@ -63,13 +64,17 @@
 				<Badge variant={'secondary'}>go</Badge>
 				<Badge variant={'secondary'}>here</Badge>
 
-				<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
+				{#if !isPublicView}
+					<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
+				{/if}
 			</div>
 
-			<a
-				href={`/projects/edit/${project.id}`}
-				class={buttonVariants({ variant: 'outline', size: 'sm' })}>Edit</a
-			>
+			{#if !isPublicView}
+				<a
+					href={`/projects/edit/${project.id}`}
+					class={buttonVariants({ variant: 'outline', size: 'sm' })}>Edit</a
+				>
+			{/if}
 		</div>
 	</div>
 </div>

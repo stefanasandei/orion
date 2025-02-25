@@ -1,7 +1,7 @@
 import { db, noteTable, projectTable } from '@repo/db';
-import { createRouter, protectedProcedure } from '../context';
+import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
 
@@ -23,14 +23,16 @@ export const projectRouter = createRouter({
           with: {
             notes: true
           },
-          where: and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId))
+          where: and(eq(projectTable.id, input.id), or(
+            eq(projectTable.userId, ctx.session.userId), eq(projectTable.isPublic, true)
+          ))
         });
 
       if (!project) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Project not found'
-        });
+        return {
+          project: undefined,
+          noteTree: undefined
+        }
       }
 
       const noteTree = NoteTreeService.buildTree(project.notes);
@@ -39,6 +41,14 @@ export const projectRouter = createRouter({
         project,
         noteTree: noteTree
       };
+    }),
+
+  getAllPublic: publicProcedure
+    .query(async () => {
+      // todo: this is a hacky solution, might want to look into stuff like elasticsearch
+      return await db.query.projectTable.findMany({
+        where: eq(projectTable.isPublic, true)
+      });
     }),
 
   update: protectedProcedure

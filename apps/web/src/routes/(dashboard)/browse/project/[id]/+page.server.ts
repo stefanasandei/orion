@@ -5,18 +5,27 @@ import { createCaller } from '@repo/api';
 import type { CtxRequestEvent } from '@repo/core';
 
 export const load: PageServerLoad = (async (event: RequestEvent) => {
-    // todo: would this be required?
+    // general auth check
     const redirectUrl = authMiddleware(event);
     if (redirectUrl !== undefined) {
         redirect(302, redirectUrl);
     }
 
-    // query public projects
+    // check if project is owned by user & get its data
+    const projectId = parseInt(event.params.id!);
+
     const caller = createCaller({ event: event as CtxRequestEvent });
-    const projects = await caller.project.getAllPublic();
+    const { project, noteTree } = await caller.project.get({ id: projectId });
+
+    if (project === undefined) {
+        redirect(302, "/browse");
+    }
 
     return {
         user: event.locals!,
-        projects
+        activeProject: {
+            project,
+            noteTree
+        }
     };
 }) satisfies PageServerLoad;
