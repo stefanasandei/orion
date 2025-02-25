@@ -25,7 +25,7 @@ export const userMetadataTable = pgTable('user_metadata', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'date'
@@ -55,7 +55,7 @@ export const sessionTable = pgTable('session', {
   id: text('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
 
   expiresAt: timestamp('expires_at', {
     withTimezone: true,
@@ -69,7 +69,7 @@ export const workspaceTable = pgTable('workspace', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', {
     withTimezone: true,
@@ -92,10 +92,10 @@ export const tagTable = pgTable('tag', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
 
-  noteId: integer('note_id').references(() => noteTable.id),
-  projectId: integer('project_id').references(() => projectTable.id),
+  noteId: integer('note_id').references(() => noteTable.id, { onDelete: 'cascade' }),
+  projectId: integer('project_id').references(() => projectTable.id, { onDelete: 'cascade' }),
 
   name: varchar('name', { length: 64 }).notNull(),
   color: varchar('color', {
@@ -110,10 +110,10 @@ export const projectTable = pgTable('project', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
   workspaceId: integer('workspace_id')
     .notNull()
-    .references(() => workspaceTable.id),
+    .references(() => workspaceTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', {
     withTimezone: true,
@@ -140,8 +140,8 @@ export const noteTable = pgTable('note', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
-    .references(() => userTable.id),
-  projectId: integer('project_id').references(() => projectTable.id),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+  projectId: integer('project_id').references(() => projectTable.id, { onDelete: 'cascade' }),
 
   type: noteEnum().default('document').notNull(),
 
