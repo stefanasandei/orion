@@ -22,7 +22,12 @@
 	>
 		<!-- type info pill & share button row -->
 		<div class="row-span-1 mb-3 flex flex-row items-center justify-between">
-			<Badge variant="secondary">{$t('project.overview.project_type')}</Badge>
+			<div class="flex flex-row gap-2">
+				<Badge variant="secondary">{$t('project.overview.project_type')}</Badge>
+				{#if isPublicView}
+					<Badge variant="secondary">Public</Badge>
+				{/if}
+			</div>
 
 			{#if project.isPublic}
 				<Button

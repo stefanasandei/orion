@@ -9,6 +9,7 @@
 	import { toast } from 'svelte-sonner';
 	import type { UserLocals } from '@repo/core';
 	import { t } from '@/utils/i18n/translations';
+	import { Button, buttonVariants } from '../ui/button';
 
 	let { data }: { data: { form: SuperValidated<Infer<ProfileFormSchema>>; user: UserLocals } } =
 		$props();
@@ -81,5 +82,8 @@
 		<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button disabled={$timeout}>{$t('settings.update_profile')}</Form.Button>
+	<div class="flex flex-col justify-between gap-3 md:flex-row">
+		<Form.Button disabled={$timeout}>{$t('settings.update_profile')}</Form.Button>
+		<a href="/profile" class={buttonVariants({ variant: 'secondary' })}>View profile page</a>
+	</div>
 </form>

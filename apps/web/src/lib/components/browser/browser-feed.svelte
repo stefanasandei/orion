@@ -7,10 +7,11 @@
 	import Separator from '../ui/separator/separator.svelte';
 
 	interface Props {
-		projects: (Project & { notesCount: number })[];
+		projects: (Project & { notesCount?: number })[];
 	}
 
 	const { projects }: Props = $props();
+	// TODO
 	const mockProject = projects[0];
 </script>
 

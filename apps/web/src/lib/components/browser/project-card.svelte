@@ -2,17 +2,22 @@
 	import type { Project } from '@repo/db';
 	import * as Card from '@/components/ui/card';
 	import ProjectInfoPills from '../project/project-info-pills.svelte';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
-		project: Project & { notesCount: number };
+		large?: boolean;
+		project: Project & { notesCount?: number };
 	}
 
-	const { project }: Props = $props();
+	const { project, large = false }: Props = $props();
 </script>
 
 <a href={`/browse/project/${project.id}`}>
 	<Card.Root
-		class="hover:bg-card/30 hover:ring-secondary flex h-72 flex-col justify-between transition-all hover:cursor-pointer hover:ring-2 md:w-80"
+		class={cn(
+			'hover:bg-card/30 hover:ring-secondary flex h-72 flex-col justify-between transition-all hover:cursor-pointer hover:ring-2',
+			large ? 'w-full' : 'md:w-80'
+		)}
 	>
 		<div>
 			<Card.Header>

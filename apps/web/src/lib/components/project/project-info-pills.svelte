@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { Project } from '@repo/db';
-	import { Clock, Book } from 'lucide-svelte';
+	import { Clock, Book, User } from 'lucide-svelte';
 	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		project: Project;
+		authorName?: string;
 		notesCount?: number;
 	}
 
-	const { project, notesCount }: Props = $props();
+	const { project, notesCount, authorName }: Props = $props();
 
 	const createdAtDate = $derived(
 		(() => {
@@ -36,6 +37,13 @@
 					notesCount === 1 ? 'project.overview.document' : 'project.overview.documents'
 				)}`}
 			</p>
+		</div>
+	{/if}
+
+	{#if authorName != undefined}
+		<div class="flex flex-row items-center gap-1">
+			<User class="size-5" />
+			<p>{authorName}</p>
 		</div>
 	{/if}
 </div>
