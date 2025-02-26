@@ -10,10 +10,11 @@
 
 	interface Props {
 		isPublicView?: boolean;
+		authorName?: string;
 		project: Project & { notes: Note[]; tags: Tag[] };
 	}
 
-	const { project, isPublicView = false }: Props = $props();
+	const { project, isPublicView = false, authorName }: Props = $props();
 </script>
 
 <div class="border-border md:border-background -mx-2 border-b-2 md:px-2">
@@ -47,7 +48,7 @@
 		<div class="row-span-2">
 			<p class="mt-2 text-4xl">{project.name}</p>
 
-			<ProjectInfoPills {project} notesCount={project.notes.length} />
+			<ProjectInfoPills {authorName} {project} notesCount={project.notes.length} />
 		</div>
 
 		<!-- tags & edit buttons -->

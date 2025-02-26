@@ -2,14 +2,16 @@
 	import type { Project } from '@repo/db';
 	import { Clock, Book, User } from 'lucide-svelte';
 	import { t } from '@/utils/i18n/translations';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
 		project: Project;
 		authorName?: string;
 		notesCount?: number;
+		col?: boolean;
 	}
 
-	const { project, notesCount, authorName }: Props = $props();
+	const { project, notesCount, authorName, col = false }: Props = $props();
 
 	const createdAtDate = $derived(
 		(() => {
@@ -23,7 +25,7 @@
 	);
 </script>
 
-<div class="text-foreground/80 mt-2 flex flex-col gap-2 md:flex-row md:gap-6">
+<div class={cn('text-foreground/80 mt-2 flex flex-col gap-2', col ? '' : 'md:flex-row md:gap-6')}>
 	<div class="flex flex-row items-center gap-1">
 		<Clock class="size-5" />
 		<p>{$t('project.overview.created')} {createdAtDate}</p>

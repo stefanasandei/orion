@@ -6,7 +6,7 @@
 
 	interface Props {
 		large?: boolean;
-		project: Project & { notesCount?: number };
+		project: Project & { notesCount: number; user: { metadata: { name: string } } };
 	}
 
 	const { project, large = false }: Props = $props();
@@ -28,7 +28,12 @@
 			</Card.Content>
 		</div>
 		<Card.Footer>
-			<ProjectInfoPills {project} notesCount={project.notesCount} />
+			<ProjectInfoPills
+				{project}
+				col={true}
+				notesCount={project.notesCount}
+				authorName={project.user.metadata.name}
+			/>
 		</Card.Footer>
 	</Card.Root>
 </a>

@@ -22,7 +22,16 @@ export const projectRouter = createRouter({
         .findFirst({
           with: {
             notes: true,
-            tags: true
+            tags: true,
+            user: {
+              with: {
+                metadata: {
+                  columns: {
+                    name: true
+                  }
+                }
+              }
+            }
           },
           where: and(eq(projectTable.id, input.id), or(
             eq(projectTable.userId, ctx.session.userId), eq(projectTable.isPublic, true)
@@ -48,7 +57,18 @@ export const projectRouter = createRouter({
     .query(async () => {
       // todo: this is a hacky solution, might want to look into stuff like elasticsearch
       return await db.query.projectTable.findMany({
-        where: eq(projectTable.isPublic, true)
+        where: eq(projectTable.isPublic, true),
+        with: {
+          user: {
+            with: {
+              metadata: {
+                columns: {
+                  name: true
+                }
+              }
+            }
+          }
+        },
       });
     }),
 

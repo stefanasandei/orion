@@ -9,7 +9,7 @@
 	interface Props {
 		user: UserLocals;
 		activeProject: {
-			project: Project & { notes: Note[]; tags: Tag[] };
+			project: Project & { notes: Note[]; tags: Tag[]; user: { metadata: { name: string } } };
 			noteTree: NoteTreeNode[];
 		};
 	}
@@ -25,6 +25,7 @@
 	<OverviewProject
 		isPublicView={true}
 		noteTree={data.activeProject.noteTree}
+		authorName={data.activeProject.project.user.metadata.name}
 		project={activeProject.project}
 	/>
 </DashboardShell>

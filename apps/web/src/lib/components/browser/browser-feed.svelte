@@ -7,7 +7,7 @@
 	import Separator from '../ui/separator/separator.svelte';
 
 	interface Props {
-		projects: (Project & { notesCount?: number })[];
+		projects: (Project & { notesCount: number; user: { metadata: { name: string } } })[];
 	}
 
 	const { projects }: Props = $props();

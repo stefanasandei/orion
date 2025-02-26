@@ -5,8 +5,14 @@
 	import type { UserLocals } from '@repo/core';
 	import type { Project } from '@repo/db';
 
-	let { data }: { data: { user: UserLocals; projects: (Project & { notesCount: number })[] } } =
-		$props();
+	let {
+		data
+	}: {
+		data: {
+			user: UserLocals;
+			projects: (Project & { notesCount: number; user: { metadata: { name: string } } })[];
+		};
+	} = $props();
 	const { user, projects } = data;
 </script>
 

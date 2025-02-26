@@ -7,14 +7,15 @@
 
 	interface Props {
 		isPublicView?: boolean;
+		authorName?: string;
 		project: Project & { notes: Note[]; tags: Tag[] };
 		noteTree: NoteTreeNode[];
 	}
 
-	const { noteTree, project, isPublicView = false }: Props = $props();
+	const { noteTree, project, isPublicView = false, authorName }: Props = $props();
 </script>
 
-<OverviewHeader {isPublicView} {project} />
+<OverviewHeader {authorName} {isPublicView} {project} />
 
 <div class="mt-4 flex flex-col gap-6 md:mx-auto md:max-w-5xl">
 	{#if project.description !== null && project.description.length}
