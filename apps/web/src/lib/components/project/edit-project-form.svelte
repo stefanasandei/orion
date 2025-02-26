@@ -90,6 +90,9 @@
 			<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
+
+		<!-- todo: remove tags -->
+
 		<Form.Button>Update</Form.Button>
 	</form>
 </CategoryShell>

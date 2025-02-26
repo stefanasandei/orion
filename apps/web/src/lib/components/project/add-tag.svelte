@@ -4,7 +4,6 @@
 	import { Button } from '../ui/button';
 	import ResponsiveDialog from '../responsive-dialog.svelte';
 	import { Input } from '../ui/input';
-	import { Badge } from '../ui/badge';
 	import LoadingSpinner from '../loading-spinner.svelte';
 	import { trpc } from '../../utils/trpc/client';
 	import { Separator } from '../ui/separator';
