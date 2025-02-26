@@ -1,0 +1,24 @@
+{
+    "export_data": "Export Data",
+    "export": {
+        "as_html": "Export as HTML",
+        "as_markdown": "Export as Markdown",
+        "as_text": "Export as Text",
+        "as_json": "Export as JSON"
+    },
+    "search": {
+        "tooltip": "Search And Replace Text",
+        "placeholder": "Enter Text to search..",
+        "replace_placeholder": "Enter Text to Replace..",
+        "case_sensitive": "Case Sensitive",
+        "of": "/"
+    },
+    "font_size": {
+        "title": "Font Size",
+        "smaller": "Smaller",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "extra_large": "Extra Large"
+    }
+}

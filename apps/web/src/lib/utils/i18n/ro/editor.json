@@ -1,0 +1,24 @@
+{
+    "export_data": "Exportă date",
+    "export": {
+        "as_html": "Exportă ca HTML",
+        "as_markdown": "Exportă ca Markdown",
+        "as_text": "Exportă ca text",
+        "as_json": "Exportă ca JSON"
+    },
+    "search": {
+        "tooltip": "Caută și înlocuiește text",
+        "placeholder": "textul de căutat...",
+        "replace_placeholder": "textul de înlocuit...",
+        "case_sensitive": "Sensibil la majuscule",
+        "of": "/"
+    },
+    "font_size": {
+        "title": "Mărime font",
+        "smaller": "Mai mic",
+        "small": "Mic",
+        "medium": "Mediu",
+        "large": "Mare",
+        "extra_large": "Foarte mare"
+    }
+}

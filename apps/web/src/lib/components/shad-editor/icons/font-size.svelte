@@ -4,6 +4,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 	import type { Editor } from '@tiptap/core';
 	import { ChevronDown } from 'lucide-svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		editor: Editor;
@@ -12,19 +13,19 @@
 	let { editor }: Props = $props();
 
 	const FONT_SIZE = [
-		{ label: 'Smaller', value: '12px' },
-		{ label: 'Small', value: '14px' },
-		{ label: 'Medium', value: '' },
-		{ label: 'Large', value: '18px' },
-		{ label: 'Extra Large', value: '24px' }
+		{ label: $t('editor.font_size.smaller'), value: '12px' },
+		{ label: $t('editor.font_size.small'), value: '14px' },
+		{ label: $t('editor.font_size.medium'), value: '' },
+		{ label: $t('editor.font_size.large'), value: '18px' },
+		{ label: $t('editor.font_size.extra_large'), value: '24px' }
 	];
 
 	let currentSize = $derived.by(() => editor.getAttributes('textStyle').fontSize || '');
 
 	const currentLabel = $derived.by(() => {
 		const l = FONT_SIZE.find((f) => f.value === currentSize);
-		if (l) return l.label.split(' ')[0];
-		return 'Medium';
+		if (l) return l.label;
+		return $t('editor.font_size.medium');
 	});
 </script>
 
@@ -34,13 +35,13 @@
 			<Tooltip.Root>
 				<Tooltip.Trigger class={buttonVariants({ variant: 'ghost', class: 'h-8 w-fit gap-1 p-1' })}>
 					<span>{currentLabel}</span>
-					<ChevronDown class="!size-2 text-muted-foreground" />
+					<ChevronDown class="text-muted-foreground !size-2" />
 				</Tooltip.Trigger>
 				<Tooltip.Content
 					avoidCollisions
-					class="border bg-background p-2 font-medium text-foreground"
+					class="bg-background text-foreground border p-2 font-medium"
 				>
-					<p>Font Size</p>
+					<p>{$t('editor.font_size.title')}</p>
 				</Tooltip.Content>
 			</Tooltip.Root>
 		</Tooltip.Provider>

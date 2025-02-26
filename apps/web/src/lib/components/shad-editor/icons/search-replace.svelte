@@ -13,6 +13,7 @@
 		ReplaceAll,
 		ChevronDown
 	} from 'lucide-svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	let { editor }: { editor: Editor } = $props();
 
@@ -95,10 +96,10 @@
 					</Popover.Close>
 					<div class="flex items-center justify-between">
 						<Input
-							placeholder="Enter Text to search.."
+							placeholder={$t('editor.search.placeholder')}
 							bind:value={searchText}
 							oninput={() => updateSearchTerm()}
-							class="mr-1 "
+							class="mr-1"
 						/>
 						<Button variant="ghost" class="ml-1 size-8" onclick={previous}>
 							<ArrowLeft />
@@ -109,10 +110,10 @@
 					</div>
 					<div class="flex items-center justify-between">
 						<Input
-							placeholder="Enter Text to Replace.."
+							placeholder={$t('editor.search.replace_placeholder')}
 							bind:value={replaceText}
 							oninput={() => updateSearchTerm()}
-							class="mr-1 "
+							class="mr-1"
 						/>
 						<Button variant="ghost" class="ml-1 size-8" onclick={replace}>
 							<Replace />
@@ -130,17 +131,19 @@
 								bind:checked={caseSensitive}
 								onchange={() => updateSearchTerm()}
 							/>
-							<p>Case Sensitive</p>
+							<p>{$t('editor.search.case_sensitive')}</p>
 						</div>
 						<div class="flex items-center gap-2">
-							{searchCount > 0 ? searchIndex + 1 : 0} / {searchCount}
+							{searchCount > 0 ? searchIndex + 1 : 0}
+							{$t('editor.search.of')}
+							{searchCount}
 						</div>
 					</div>
 				</Popover.Content>
 			</Popover.Root>
 		</Tooltip.Trigger>
 		<Tooltip.Content>
-			<p>Search And Replace Text</p>
+			<p>{$t('editor.search.tooltip')}</p>
 		</Tooltip.Content>
 	</Tooltip.Root>
 </Tooltip.Provider>
