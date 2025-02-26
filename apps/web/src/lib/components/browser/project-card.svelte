@@ -38,7 +38,7 @@
 		<Card.Footer>
 			<ProjectInfoPills
 				{project}
-				col={true}
+				col={!large}
 				notesCount={0}
 				authorName={project.user.metadata.name}
 			/>
