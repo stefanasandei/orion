@@ -4,6 +4,9 @@
 	import { Separator } from '$base/src/lib/components/ui/sidebar';
 	import { Badge } from '$base/src/lib/components/ui/badge/index.js';
 	import ProjectCard from '../browser/project-card.svelte';
+	import { Button } from '../ui/button';
+	import { toast } from 'svelte-sonner';
+	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 
 	interface Props {
 		isOwn?: boolean;
@@ -23,7 +26,16 @@
 			<div class="flex flex-row items-center gap-2">
 				<Badge variant="secondary">Public profile</Badge>
 				{#if isOwn}
-					<Badge variant="secondary"><a href={`/profile/${user.metadata.name}`}>Link </a></Badge>
+					<Button
+						variant={'outline'}
+						size="sm"
+						onclick={() => {
+							const publicUrl = `${PUBLIC_WEBSITE_URL}/profile/${user.metadata.name}`;
+							navigator.clipboard.writeText(publicUrl).then(() => {
+								toast.success($t('project.overview.copied'));
+							});
+						}}>{$t('project.overview.share')}</Button
+					>
 				{/if}
 			</div>
 		</div>

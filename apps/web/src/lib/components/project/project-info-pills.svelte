@@ -3,6 +3,7 @@
 	import { Clock, Book, User } from 'lucide-svelte';
 	import { t } from '@/utils/i18n/translations';
 	import { cn } from '../../utils/cn';
+	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 
 	interface Props {
 		project: Project;
@@ -45,7 +46,10 @@
 	{#if authorName != undefined}
 		<div class="flex flex-row items-center gap-1">
 			<User class="size-5" />
-			<p>{authorName}</p>
+			<a
+				href={`${PUBLIC_WEBSITE_URL}/profile/${authorName}`}
+				class="hover:cursor-pointer hover:underline">{authorName}</a
+			>
 		</div>
 	{/if}
 </div>
