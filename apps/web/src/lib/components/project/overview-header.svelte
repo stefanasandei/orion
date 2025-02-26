@@ -3,10 +3,10 @@
 	import type { Note, Project, Tag } from '@repo/db';
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { Badge } from '@/components/ui/badge';
-	import { Clock, Book } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 	import AddTag from './add-tag.svelte';
+	import ProjectInfoPills from './project-info-pills.svelte';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -14,17 +14,6 @@
 	}
 
 	const { project, isPublicView = false }: Props = $props();
-
-	const createdAtDate = $derived(
-		(() => {
-			const day = project.createdAt.getDate();
-			const month = project.createdAt.toLocaleString('default', { month: 'long' });
-			const year = project.createdAt.getFullYear();
-
-			// quicker than researching some library
-			return `${day} ${month} ${year}`;
-		})()
-	);
 </script>
 
 <div class="border-border md:border-background -mx-2 border-b-2 md:px-2">
@@ -52,23 +41,8 @@
 		<!-- project title & some brief info -->
 		<div class="row-span-2">
 			<p class="mt-2 text-4xl">{project.name}</p>
-			<div class="text-foreground/80 mt-2 flex flex-col gap-2 md:flex-row md:gap-6">
-				<div class="flex flex-row items-center gap-1">
-					<Clock class="size-5" />
-					<p>{$t('project.overview.created')} {createdAtDate}</p>
-				</div>
 
-				<div class="flex flex-row items-center gap-1">
-					<Book class="size-5" />
-					<p>
-						{`${project.notes.length} ${$t(
-							project.notes.length === 1
-								? 'project.overview.document'
-								: 'project.overview.documents'
-						)}`}
-					</p>
-				</div>
-			</div>
+			<ProjectInfoPills {project} notesCount={project.notes.length} />
 		</div>
 
 		<!-- tags & edit buttons -->

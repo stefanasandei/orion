@@ -16,6 +16,7 @@
 	interface Props {
 		pageName: string;
 		user: UserLocals;
+		fixedScroll?: boolean;
 		activeProject?: {
 			project: Project & { notes: Note[] };
 			noteTree: NoteTreeNode[];
@@ -23,7 +24,13 @@
 		children: Snippet;
 	}
 
-	const { pageName, user: _user, children, activeProject: _activeProject = null }: Props = $props();
+	const {
+		pageName,
+		user: _user,
+		children,
+		activeProject: _activeProject = null,
+		fixedScroll = false
+	}: Props = $props();
 	const user = _user.user!;
 
 	const pathname = $derived(page.url.pathname);
@@ -62,7 +69,13 @@
 				</div>
 			</header>
 			<div class="bg-background h-full overflow-hidden rounded-md p-2 md:m-2">
-				{@render children?.()}
+				{#if fixedScroll}
+					<div class="h-full max-h-[95svh] overflow-y-scroll">
+						{@render children?.()}
+					</div>
+				{:else}
+					{@render children?.()}
+				{/if}
 			</div>
 		</Sidebar.Inset>
 

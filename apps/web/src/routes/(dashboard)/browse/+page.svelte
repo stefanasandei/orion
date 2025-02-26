@@ -1,21 +1,15 @@
 <script lang="ts">
+	import BrowserFeed from '@/components/browser/browser-feed.svelte';
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
 	import type { Project } from '@repo/db';
 
-	let { data }: { data: { user: UserLocals; projects: Project[] } } = $props();
+	let { data }: { data: { user: UserLocals; projects: (Project & { notesCount: number })[] } } =
+		$props();
 	const { user, projects } = data;
 </script>
 
-<DashboardShell pageName={$t('dashboard.browse_content')} {user}>
-	<p>{$t('dashboard.browse_content')}:</p>
-
-	<div class="mt-3 flex flex-col gap-2">
-		{#each projects as project}
-			<a href={`/browse/project/${project.id}`} class="hover:cursor-pointer hover:underline"
-				>{project.name}</a
-			>
-		{/each}
-	</div>
+<DashboardShell fixedScroll={true} pageName={$t('dashboard.browse_content')} {user}>
+	<BrowserFeed {projects} />
 </DashboardShell>
