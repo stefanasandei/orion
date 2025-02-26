@@ -37,32 +37,40 @@
 </script>
 
 <div class="flex w-full flex-row items-center justify-between gap-2">
-	<div class="flex w-full items-center overflow-auto border-b p-1 *:mx-1">
+	<div class="flex h-full w-full items-center overflow-auto border-b p-1 *:mx-1">
 		<Undo {editor} />
 		<Redo {editor} />
 		<Separator orientation="vertical" class="h-fit" />
-		<FontSize {editor} />
-		<Text {editor} />
+		<div class="hidden sm:flex">
+			<FontSize {editor} />
+		</div>
+		<div class="hidden xl:flex">
+			<Text {editor} />
+		</div>
 		<Bold {editor} />
 		<Italic {editor} />
 		<Underline {editor} />
 		<Strikethrough {editor} />
-		<Align {editor} />
-		<Link {editor} />
-		<Code {editor} />
-		<BlockQuote {editor} />
-		<!-- <Subscript {editor} /> -->
-		<!-- <Superscript {editor} /> -->
-		<ButtleList {editor} />
-		<OrderedList {editor} />
-		<TaskList {editor} />
-		<Image {editor} />
-		<!-- <Video {editor} /> -->
-		<!-- <Audio {editor} /> -->
-		<Table {editor} />
-		<!-- <Textcolor {editor} /> -->
-		<Highlighter {editor} />
-		<!-- <Quickcolor {editor} /> -->
+		<div class="hidden xl:flex">
+			<Align {editor} />
+			<Link {editor} />
+			<!-- <Subscript {editor} /> -->
+			<!-- <Superscript {editor} /> -->
+			<div class="hidden 2xl:flex">
+				<Code {editor} />
+				<BlockQuote {editor} />
+				<ButtleList {editor} />
+				<OrderedList {editor} />
+				<TaskList {editor} />
+				<Image {editor} />
+				<!-- <Video {editor} /> -->
+				<!-- <Audio {editor} /> -->
+				<Table {editor} />
+			</div>
+			<!-- <Textcolor {editor} /> -->
+			<Highlighter {editor} />
+			<!-- <Quickcolor {editor} /> -->
+		</div>
 		<Separator orientation="vertical" class="h-fit" />
 	</div>
 
@@ -72,7 +80,9 @@
 			htmlContent={editor.getHTML()}
 			textContent={editor.getText()}
 		/>
-		<SearchReplace {editor} />
-		<Export {editor} />
+		<div class="hidden xl:flex">
+			<SearchReplace {editor} />
+			<Export {editor} />
+		</div>
 	</div>
 </div>
