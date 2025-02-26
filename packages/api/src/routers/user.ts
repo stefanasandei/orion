@@ -191,7 +191,6 @@ export const userRouter = createRouter({
         }),
 
     delete: protectedProcedure
-
         .mutation(async ({ ctx }) => {
             const userId = ctx.session.userId;
 
@@ -222,5 +221,53 @@ export const userRouter = createRouter({
             });
 
             return true;
+        }),
+
+    getPublicProfile: publicProcedure
+        .input(z.object({ name: z.string() }))
+        .query(async ({ input }) => {
+            const profile = await db.query.userMetadataTable.findFirst({
+                where: and(
+                    eq(userMetadataTable.name, input.name),
+                    eq(userMetadataTable.isPublic, true)
+                ),
+            });
+
+            if (!profile) {
+                // Profile not found or is private
+                return undefined;
+            }
+
+            const projects = await db.query.projectTable.findMany({
+                where: and(
+                    eq(projectTable.isPublic, true),
+                    eq(projectTable.userId, profile.userId)
+                ),
+                // columns: {
+                //     id: true,
+                //     name: true,
+                //     description: true,
+                //     createdAt: true,
+                //     updatedAt: true
+                // },
+
+                // to get the author's name
+                with: {
+                    user: {
+                        with: {
+                            metadata: {
+                                columns: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                },
+            })
+
+            return {
+                metadata: profile,
+                projects: projects
+            };
         })
 })

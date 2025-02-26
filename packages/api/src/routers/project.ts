@@ -1,4 +1,4 @@
-import { db, noteTable, projectTable } from '@repo/db';
+import { db, noteTable, projectTable, userMetadataTable } from '@repo/db';
 import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
@@ -56,8 +56,37 @@ export const projectRouter = createRouter({
   getAllPublic: publicProcedure
     .query(async () => {
       // todo: this is a hacky solution, might want to look into stuff like elasticsearch
+      // this returns ALL projects: to be used only for /browse (until a better solution)
       return await db.query.projectTable.findMany({
         where: eq(projectTable.isPublic, true),
+        with: {
+          user: {
+            with: {
+              metadata: {
+                columns: {
+                  name: true
+                }
+              }
+            }
+          }
+        },
+      });
+    }),
+  getAllPublicFromUser: publicProcedure
+    .input(z.object({ name: z.string() }))
+    .query(async ({ input }) => {
+      // 1. find the user by the username
+      const author = await db.query.userMetadataTable.findFirst({
+        where: eq(userMetadataTable.name, input.name),
+      });
+
+      if (author == undefined) {
+        return undefined;
+      }
+
+      // return his public projects and the username
+      return await db.query.projectTable.findMany({
+        where: and(eq(projectTable.isPublic, true), eq(projectTable.userId, author.userId)),
         with: {
           user: {
             with: {

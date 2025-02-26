@@ -4,9 +4,17 @@
 	import ProjectInfoPills from '../project/project-info-pills.svelte';
 	import { cn } from '../../utils/cn';
 
+	interface ProjectWithMetadata extends Project {
+		user: {
+			metadata: {
+				name: string;
+			};
+		};
+	}
+
 	interface Props {
 		large?: boolean;
-		project: Project & { notesCount: number; user: { metadata: { name: string } } };
+		project: ProjectWithMetadata;
 	}
 
 	const { project, large = false }: Props = $props();
@@ -31,7 +39,7 @@
 			<ProjectInfoPills
 				{project}
 				col={true}
-				notesCount={project.notesCount}
+				notesCount={0}
 				authorName={project.user.metadata.name}
 			/>
 		</Card.Footer>
