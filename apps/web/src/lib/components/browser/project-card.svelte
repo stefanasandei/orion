@@ -12,7 +12,7 @@
 
 <a href={`/browse/project/${project.id}`}>
 	<Card.Root
-		class="hover:bg-card/30 hover:ring-secondary flex h-72 flex-col justify-between transition-all hover:cursor-pointer hover:ring-1 md:w-80"
+		class="hover:bg-card/30 hover:ring-secondary flex h-72 flex-col justify-between transition-all hover:cursor-pointer hover:ring-2 md:w-80"
 	>
 		<div>
 			<Card.Header>
