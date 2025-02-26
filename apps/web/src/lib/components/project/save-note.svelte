@@ -5,6 +5,7 @@
 	import { toast } from 'svelte-sonner';
 	import { page } from '$app/state';
 	import { editorState } from '../../utils/state';
+	import { t } from '../../utils/i18n/translations';
 
 	interface Props {
 		jsonContent: JSONContent;
@@ -33,10 +34,10 @@
 		onSuccess: () => {
 			const editorTabIdx = editorState.current.tabs.findIndex((tab) => tab.noteId === activeNoteId);
 			editorState.current.tabs[editorTabIdx].isDirty = false;
-			toast.success('Note saved');
+			toast.success($t('project.save_success'));
 		},
 		onError: () => {
-			toast.error('Failed to save note');
+			toast.error($t('project.save_error'));
 		}
 	});
 </script>
@@ -52,5 +53,5 @@
 		})}
 	variant={'outline'}
 >
-	Save
+	{$t('project.save')}
 </Button>

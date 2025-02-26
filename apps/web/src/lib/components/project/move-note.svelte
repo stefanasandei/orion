@@ -50,27 +50,31 @@
 	// mutation
 	const moveNote = trpc().project.makeNoteParentTo.createMutation({
 		onSuccess: async () => {
-			toast('Note moved!');
+			toast($t('project.note_moved'));
 			open = false;
 			await invalidateAll();
 		},
 
 		onError: () => {
-			toast.error('Unexpected error');
+			toast.error($t('project.update_error'));
 			open = false;
 		}
 	});
 </script>
 
 <ResponsiveDialog
-	title={'Move note'}
-	description={'Choose a new parent node. A note can have multiple children, treat is categorical sorting.'}
+	title={$t('project.move_note_title')}
+	description={$t('project.move_note_desc')}
 	hasTrigger={false}
 	bind:open
 	>{#snippet triggerButton()}{/snippet}
 
-	<Label>Search for a note</Label>
-	<Input bind:value={query} disabled={$neigborNotes.isLoading} placeholder="Document filename" />
+	<Label>{$t('project.search_note')}</Label>
+	<Input
+		bind:value={query}
+		disabled={$neigborNotes.isLoading}
+		placeholder={$t('project.doc_filename')}
+	/>
 
 	{#if $neigborNotes.isLoading}
 		<div class="flex h-full w-full items-center justify-center">
@@ -111,7 +115,10 @@
 					});
 				}}
 				variant={'default'}
-				size="sm">Select {selectedNote ? selectedNote.name : 'none'}</Button
+				size="sm"
+				>{selectedNote
+					? $t('project.select_note', { default: selectedNote.name })
+					: $t('project.select_none')}</Button
 			>
 		</div>
 	{/if}

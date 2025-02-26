@@ -28,7 +28,7 @@
 
 	const createNoteDocument = trpc().project.createNoteDocument.createMutation({
 		onSuccess: async () => {
-			toast.success(`Created ${newDocName}!`);
+			toast.success($t('project.created_doc', { default: newDocName }));
 			await invalidateAll();
 		},
 		onSettled: () => {
@@ -55,7 +55,7 @@
 <div class="flex h-full flex-col justify-between group-data-[collapsible=icon]:hidden">
 	<div>
 		<div class="flex flex-row items-center justify-between p-2">
-			<p class="text-2xl">Documents</p>
+			<p class="text-2xl">{$t('project.documents')}</p>
 
 			{#if !isPublicView}
 				<Button
@@ -79,10 +79,10 @@
 				<Input
 					class="h-fit"
 					bind:value={newDocName}
-					placeholder="document name"
+					placeholder={$t('project.document_name')}
 					onkeydown={handleKeydown}
 				/>
-				<Button size="sm" onclick={() => createFile()}>Add</Button>
+				<Button size="sm" onclick={() => createFile()}>{$t('project.add')}</Button>
 			</div>
 		{/if}
 
@@ -98,14 +98,14 @@
 				onclick={async () => {
 					// todo: clear only tabs for the current project
 					editorState.current = { tabs: [] };
-					toast('Cleared all tabs!');
+					toast($t('project.cleared_tabs'));
 					await goto(`/projects/${project.id}`, {
 						invalidateAll: true
 					});
-				}}>Clear all tabs & go home</Button
+				}}>{$t('project.clear_tabs')}</Button
 			>
 			<Separator class="bg-muted-foreground/20 mb-2" />
-			<p>{project.name}: {project.notes.length} documents</p>
+			<p>{`${project.name}: ` + $t('project.doc_count', { default: project.notes.length })}</p>
 		</div>
 	{/if}
 </div>

@@ -9,6 +9,7 @@
 	import { Separator } from '../ui/separator';
 	import { toast } from 'svelte-sonner';
 	import { invalidateAll } from '$app/navigation';
+	import { t } from '../../utils/i18n/translations';
 
 	// props
 	interface Props {
@@ -29,7 +30,7 @@
 
 	const addTagToProject = trpc().tag.addToEntity.createMutation({
 		onSuccess: async (value) => {
-			toast(`Added "${value[0]!.name}" tag`);
+			toast($t('project.added_tag', { default: value[0]!.name }));
 
 			// roll back the state to default
 			selectedTag = null;
@@ -56,7 +57,7 @@
 	);
 </script>
 
-<ResponsiveDialog title={'Add a tag'} description={''} bind:open>
+<ResponsiveDialog title={$t('project.add_tag')} description={''} bind:open>
 	{#snippet triggerButton()}
 		<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
 	{/snippet}
@@ -64,18 +65,18 @@
 	<div class="flex h-full flex-col justify-between">
 		<div class="h-full">
 			<div class="flex flex-row gap-2">
-				<Input bind:value={tagName} placeholder="create a new tag" />
+				<Input bind:value={tagName} placeholder={$t('project.create_tag')} />
 				<Button
 					onclick={() => {
 						$createTag.mutate({
 							name: tagName
 						});
-					}}>Create</Button
+					}}>{$t('project.create')}</Button
 				>
 			</div>
 
 			{#if !$allTags.isLoading}
-				<p class="mt-4">{tagsCount} {tagsCount == 1 ? 'tag' : 'tags'}</p>
+				<p class="mt-4">{tagsCount} {tagsCount == 1 ? $t('project.tag') : $t('project.tags')}</p>
 				<Separator class="mt-4" />
 				{#if tagsCount != 0}
 					<div class="mt-4 grid grid-cols-4 gap-2">
@@ -91,7 +92,7 @@
 					</div>
 				{:else}
 					<div class="flex h-full w-full items-center justify-center">
-						<p>no tags created</p>
+						<p>{$t('project.no_tags')}</p>
 					</div>
 				{/if}
 			{:else}
@@ -109,7 +110,7 @@
 					tagId: selectedTag!,
 					projectId: project.id
 				});
-			}}>Add</Button
+			}}>{$t('project.add')}</Button
 		>
 	</div></ResponsiveDialog
 >

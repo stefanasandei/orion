@@ -2,14 +2,14 @@
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import type { UserLocals } from '@repo/core';
 	import { t } from '@/utils/i18n/translations';
-	import type { Note, Project } from '@repo/db';
+	import type { Note, Project, Tag } from '@repo/db';
 	import OverviewProject from '$base/src/lib/components/project/overview-project.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
 
 	interface Props {
 		user: UserLocals;
 		activeProject: {
-			project: Project & { notes: Note[] };
+			project: Project & { notes: Note[]; tags: Tag[] };
 			noteTree: NoteTreeNode[];
 		};
 	}
@@ -21,7 +21,7 @@
 	const activeProject = $derived(data.activeProject);
 </script>
 
-<DashboardShell pageName={'Project'} {user} {activeProject}>
+<DashboardShell pageName={$t('project.page_names.project')} {user} {activeProject}>
 	<OverviewProject
 		isPublicView={true}
 		noteTree={data.activeProject.noteTree}

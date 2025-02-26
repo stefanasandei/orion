@@ -15,13 +15,13 @@
 
 	const deleteNote = trpc().project.deleteNote.createMutation({
 		onSuccess: async () => {
-			toast('Note deleted!');
+			toast($t('project.note_deleted'));
 			open = false;
 			await invalidateAll();
 		},
 
 		onError: () => {
-			toast.error('Unexpected error');
+			toast.error($t('project.update_error'));
 			open = false;
 		}
 	});
@@ -32,13 +32,13 @@
 		<AlertDialog.Header>
 			<AlertDialog.Title>{$t('settings.ru_sure')}</AlertDialog.Title>
 			<AlertDialog.Description>
-				{'This cannot be undone.'}
+				{$t('project.delete_note_desc')}
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>{$t('common.cancel')}</AlertDialog.Cancel>
 			<AlertDialog.Action onclick={() => $deleteNote.mutate({ noteId: item.id })}>
-				{`Delete "${item.name}"`}
+				{$t('project.delete_note_btn', { default: item.name })}
 			</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>

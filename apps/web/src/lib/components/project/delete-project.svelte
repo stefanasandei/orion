@@ -14,7 +14,7 @@
 
 	const deleteProject = trpc().project.delete.createMutation({
 		onSuccess: async () => {
-			toast('Project deleted!');
+			toast($t('project.deleted_msg'));
 			open = false;
 			location.reload();
 		}

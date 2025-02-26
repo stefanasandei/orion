@@ -5,6 +5,7 @@
 	import type { VizItem } from '@repo/api/services';
 	import DeleteNote from './delete-note.svelte';
 	import MoveNote from './move-note.svelte';
+	import { t } from '../../utils/i18n/translations';
 
 	const {
 		isPublicView,
@@ -42,16 +43,16 @@
 						: `/browse/project/${projectId}/${note.id}`}
 					class="w-full hover:cursor-pointer"
 				>
-					View</a
+					{$t('project.view')}</a
 				></ContextMenu.Item
 			>
 		{/if}
 		<ContextMenu.Item onclick={() => (moveDialogOpen = true)} class="hover:cursor-pointer"
-			>Move</ContextMenu.Item
+			>{$t('project.move')}</ContextMenu.Item
 		>
-		<!-- <ContextMenu.Item>Share</ContextMenu.Item> -->
+		<!-- <ContextMenu.Item>{$t('project.share')}</ContextMenu.Item> -->
 		<ContextMenu.Item onclick={() => (deleteDialogOpen = true)} class="hover:cursor-pointer"
-			>Delete note</ContextMenu.Item
+			>{$t('project.delete_note_menu')}</ContextMenu.Item
 		>
 	</ContextMenu.Content>
 </ContextMenu.Root>

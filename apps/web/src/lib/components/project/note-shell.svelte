@@ -2,7 +2,6 @@
 	import type { Snippet } from 'svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
-	import type { NoteTreeNode } from '@repo/api/services';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import EditorTabs from './editor-tabs.svelte';
 	import { page } from '$app/state';
@@ -49,8 +48,8 @@
 					}}
 				>
 					<Tabs.List>
-						<Tabs.Trigger value="read">Read</Tabs.Trigger>
-						<Tabs.Trigger value="edit">Edit</Tabs.Trigger>
+						<Tabs.Trigger value="read">{$t('project.view_mode.read')}</Tabs.Trigger>
+						<Tabs.Trigger value="edit">{$t('project.view_mode.edit')}</Tabs.Trigger>
 					</Tabs.List>
 				</Tabs.Root>
 			{/if}

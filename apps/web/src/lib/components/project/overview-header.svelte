@@ -4,7 +4,6 @@
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { Badge } from '@/components/ui/badge';
 	import { Clock, Book } from 'lucide-svelte';
-	import { Icons } from '../icons.svelte';
 	import { toast } from 'svelte-sonner';
 	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 	import AddTag from './add-tag.svelte';
@@ -34,7 +33,7 @@
 	>
 		<!-- type info pill & share button row -->
 		<div class="row-span-1 mb-3 flex flex-row items-center justify-between">
-			<Badge variant="secondary">Project</Badge>
+			<Badge variant="secondary">{$t('project.overview.project_type')}</Badge>
 
 			{#if project.isPublic}
 				<Button
@@ -43,9 +42,9 @@
 					onclick={() => {
 						const publicUrl = `${PUBLIC_WEBSITE_URL}/browse/project/${project.id}`;
 						navigator.clipboard.writeText(publicUrl).then(() => {
-							toast.success('Copied to clipboard!');
+							toast.success($t('project.overview.copied'));
 						});
-					}}>Share</Button
+					}}>{$t('project.overview.share')}</Button
 				>
 			{/if}
 		</div>
@@ -56,12 +55,18 @@
 			<div class="text-foreground/80 mt-2 flex flex-col gap-2 md:flex-row md:gap-6">
 				<div class="flex flex-row items-center gap-1">
 					<Clock class="size-5" />
-					<p>Created {createdAtDate}</p>
+					<p>{$t('project.overview.created')} {createdAtDate}</p>
 				</div>
 
 				<div class="flex flex-row items-center gap-1">
 					<Book class="size-5" />
-					<p>{project.notes.length} document{project.notes.length == 1 ? '' : 's'}</p>
+					<p>
+						{`${project.notes.length} ${$t(
+							project.notes.length === 1
+								? 'project.overview.document'
+								: 'project.overview.documents'
+						)}`}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -81,7 +86,8 @@
 			{#if !isPublicView}
 				<a
 					href={`/projects/edit/${project.id}`}
-					class={buttonVariants({ variant: 'outline', size: 'sm' })}>Edit</a
+					class={buttonVariants({ variant: 'outline', size: 'sm' })}
+					>{$t('project.overview.edit')}</a
 				>
 			{/if}
 		</div>

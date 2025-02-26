@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { t } from '@/utils/i18n/translations';
 	import type { Note, Project } from '@repo/db';
 	import type { NoteTreeNode } from '@repo/api/services';
-	import ProjectFiletree from './project-filetree.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { type ComponentProps } from 'svelte';
 	import FileTree from './filetree.svelte';

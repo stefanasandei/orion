@@ -28,10 +28,10 @@
 		multipleSubmits: 'allow',
 		onResult: async ({ result }) => {
 			if (result.type === 'success' && result.data) {
-				toast.success('Project successfully updated!');
+				toast.success($t('project.update_success'));
 				await goto(`/projects/${project.id}`, { invalidateAll: true });
 			} else {
-				toast.error('There was an unexpected error.');
+				toast.error($t('project.update_error'));
 			}
 		}
 	});
@@ -48,7 +48,7 @@
 	formData.set(defaultValues);
 </script>
 
-<CategoryShell title={'Edit project'} description={'Change the display properties of a project'}>
+<CategoryShell title={$t('project.edit_project')} description={$t('project.edit_project_desc')}>
 	<form method="POST" class="space-y-6" use:enhance>
 		<Form.Field {form} name="projectId" class={'hidden'}>
 			<Form.Control>
@@ -61,21 +61,21 @@
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>{$t('project.name_label')}</Form.Label>
 					<Input {...props} bind:value={$formData.name} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>The title of your work.</Form.Description>
+			<Form.Description>{$t('project.name_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 		<Form.Field {form} name="description">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Description</Form.Label>
+					<Form.Label>{$t('project.description_label')}</Form.Label>
 					<Textarea {...props} bind:value={$formData.description} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>What is this project about?</Form.Description>
+			<Form.Description>{$t('project.description_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 		<Form.Field {form} name="isPublic" class="flex-1">
@@ -93,6 +93,6 @@
 
 		<!-- todo: remove tags -->
 
-		<Form.Button>Update</Form.Button>
+		<Form.Button>{$t('project.update_btn')}</Form.Button>
 	</form>
 </CategoryShell>

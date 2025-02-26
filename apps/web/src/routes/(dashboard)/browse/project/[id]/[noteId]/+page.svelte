@@ -37,7 +37,7 @@
 	});
 </script>
 
-<DashboardShell pageName={'Document'} {user} {activeProject}>
+<DashboardShell pageName={$t('project.page_names.document')} {user} {activeProject}>
 	<NoteShell project={activeProject.project} isPublicView={true}>
 		<NoteViewer {note} noteId={note.id} />
 	</NoteShell>

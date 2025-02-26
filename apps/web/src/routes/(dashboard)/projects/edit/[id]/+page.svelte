@@ -13,6 +13,6 @@
 	const project = $derived(data.project);
 </script>
 
-<DashboardShell pageName={'Project'} {user}>
+<DashboardShell pageName={$t('project.page_names.project')} {user}>
 	<EditProjectForm {form} {project} />
 </DashboardShell>

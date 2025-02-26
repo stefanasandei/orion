@@ -5,6 +5,7 @@
 	import type { Note } from '@repo/db';
 	import { writable } from 'svelte/store';
 	import { cn } from '../../utils/cn';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		noteId: number;
@@ -43,7 +44,7 @@
 		<LoadingSpinner />
 	{:else if htmlContent.length === 0}
 		<div class="flex h-full w-full items-center justify-center">
-			<p class="text-center text-gray-500">No content</p>
+			<p class="text-center text-gray-500">{$t('project.no_content')}</p>
 		</div>
 	{:else}
 		<div
