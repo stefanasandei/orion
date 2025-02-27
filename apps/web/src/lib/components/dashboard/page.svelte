@@ -15,6 +15,8 @@
 	const { user, notes: _notes }: Props = $props();
 	const { metadata } = user.user!;
 	const notes = $derived(_notes);
+
+	const thoughts = $derived(_notes.filter((n) => n.type == 'thought'));
 </script>
 
 <div class="flex h-full flex-col gap-4">
@@ -25,7 +27,7 @@
 			<p class="text-2xl font-semibold md:text-4xl">{$t('dashboard.hello')}, {metadata.name}!</p>
 
 			<div class="mt-6 flex flex-col gap-4">
-				<QuickThoughts />
+				<QuickThoughts {thoughts} />
 
 				<RecentWork />
 			</div>

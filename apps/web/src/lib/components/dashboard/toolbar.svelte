@@ -4,14 +4,14 @@
 	import { Bell, EllipsisVertical } from 'lucide-svelte';
 </script>
 
-<div class="mx-2 flex flex-row items-center justify-between">
+<div class="bg-muted/50 flex flex-row items-center justify-between rounded-lg p-2">
 	<Input placeholder="Search from your work" class="max-w-fit md:max-w-md" />
 
 	<div class="flex flex-row gap-4">
-		<a href="/notifications" class={buttonVariants({ variant: 'secondary', size: 'icon' })}>
+		<a href="/notifications" class={buttonVariants({ variant: 'outline', size: 'icon' })}>
 			<Bell />
 		</a>
-		<a href="/settings" class={buttonVariants({ variant: 'secondary', size: 'icon' })}>
+		<a href="/settings" class={buttonVariants({ variant: 'outline', size: 'icon' })}>
 			<EllipsisVertical />
 		</a>
 	</div>
