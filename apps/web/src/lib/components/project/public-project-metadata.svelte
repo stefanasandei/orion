@@ -7,9 +7,10 @@
 	import { trpc } from '../../utils/trpc/client';
 	import { toast } from 'svelte-sonner';
 	import { invalidateAll } from '$app/navigation';
+	import CommentPreview from './comment-preview.svelte';
 
 	interface Props {
-		post: ProjectPost & { comments: Comment[] };
+		post: ProjectPost & { comments: (Comment & { user: { metadata: { name: string } } })[] };
 	}
 
 	const { post }: Props = $props();
@@ -54,9 +55,9 @@
 	</div>
 
 	<!-- comments list -->
-	<div class="flex flex-col gap-4">
+	<div class="mt-6 flex flex-col gap-4">
 		{#each post.comments as comment}
-			<p>{comment.content}</p>
+			<CommentPreview {comment} />
 		{/each}
 	</div>
 </div>

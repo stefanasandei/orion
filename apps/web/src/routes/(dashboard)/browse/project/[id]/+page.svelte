@@ -14,7 +14,7 @@
 				notes: Note[];
 				tags: Tag[];
 				user: { metadata: { name: string } };
-				post: ProjectPost & { comments: Comment[] };
+				post: ProjectPost & { comments: (Comment & { user: { metadata: { name: string } } })[] };
 			};
 			noteTree: NoteTreeNode[];
 		};

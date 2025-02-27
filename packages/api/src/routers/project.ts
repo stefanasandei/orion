@@ -34,7 +34,20 @@ export const projectRouter = createRouter({
             },
             post: {
               with: {
-                comments: true
+                comments: {
+                  with: {
+                    user: {
+                      columns: {},
+                      with: {
+                        metadata: {
+                          columns: {
+                            name: true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           },
