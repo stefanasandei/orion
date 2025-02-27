@@ -114,9 +114,6 @@ export const projectTable = pgTable('project', {
   workspaceId: integer('workspace_id')
     .notNull()
     .references(() => workspaceTable.id, { onDelete: 'cascade' }),
-  postId: integer('post_id')
-    .references(() => projectPostTable.id, { onDelete: 'cascade' }),
-
 
   createdAt: timestamp('created_at', {
     withTimezone: true,
@@ -140,6 +137,10 @@ export const projectTable = pgTable('project', {
 // metadata for a project once it's public
 export const projectPostTable = pgTable("project_post", {
   id: serial('id').primaryKey(),
+  projectId: integer('project_id')
+    .notNull()
+    .unique()
+    .references(() => projectTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', {
     withTimezone: true,
@@ -159,9 +160,9 @@ export const projectPostTable = pgTable("project_post", {
 
 export const commentTable = pgTable("comment", {
   id: serial("id").primaryKey(),
-  projectId: integer('project_id')
+  postId: integer('post_id')
     .notNull()
-    .references(() => projectTable.id, { onDelete: 'cascade' }),
+    .references(() => projectPostTable.id, { onDelete: 'cascade' }),
   userId: integer('user_id')
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
@@ -245,15 +246,30 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
     references: [userTable.id]
   }),
   post: one(projectPostTable, {
-    fields: [projectTable.postId],
-    references: [projectPostTable.id]
+    fields: [projectTable.id],
+    references: [projectPostTable.projectId]
   }),
   notes: many(noteTable),
   tags: many(tagTable),
 }));
 
-export const projectPostRelations = relations(projectPostTable, ({ many }) => ({
+export const projectPostRelations = relations(projectPostTable, ({ many, one }) => ({
+  project: one(projectTable, {
+    fields: [projectPostTable.projectId],
+    references: [projectTable.id]
+  }),
   comments: many(commentTable)
+}));
+
+export const commentRelations = relations(commentTable, ({ one }) => ({
+  post: one(projectPostTable, {  // Changed from project to post
+    fields: [commentTable.postId],
+    references: [projectPostTable.id]
+  }),
+  user: one(userTable, {
+    fields: [commentTable.userId],
+    references: [userTable.id]
+  })
 }));
 
 export const noteRelations = relations(noteTable, ({ one, many }) => ({

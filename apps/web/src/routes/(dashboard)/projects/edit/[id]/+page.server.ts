@@ -45,14 +45,26 @@ export const actions: Actions = {
             });
         }
 
-        // call the api with the profile updates
+        // call the api with the project updates
         const caller = createCaller({ event: event as CtxRequestEvent });
         const response = await caller.project.update({
             id: form.data.projectId,
             name: form.data.name,
             description: form.data.description,
-            isPublic: form.data.isPublic,
         });
+
+        // update the public status in another call
+        // this will also manage metadata related to public projects
+        const publicResponse = await caller.project.updatePublicity({
+            id: form.data.projectId,
+            isPublic: form.data.isPublic
+        });
+
+        if (!publicResponse) {
+            return fail(400, {
+                form,
+            });
+        }
 
         return response;
     },

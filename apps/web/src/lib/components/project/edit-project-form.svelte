@@ -83,11 +83,13 @@
 				{#snippet children({ props })}
 					<div class="flex flex-row items-center gap-4">
 						<Checkbox {...props} bind:checked={$formData.isPublic} />
-						<Form.Label>{$t('settings.public_profile')}</Form.Label>
+						<Form.Label>Public project</Form.Label>
 					</div>
 				{/snippet}
 			</Form.Control>
-			<Form.Description>{$t('settings.public_profile_desc')}</Form.Description>
+			<Form.Description
+				>Anyone can read a public project. Users will be able to access, share and leave comments.</Form.Description
+			>
 			<Form.FieldErrors />
 		</Form.Field>
 

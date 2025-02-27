@@ -1,4 +1,4 @@
-import { db, noteTable, projectTable, userMetadataTable } from '@repo/db';
+import { db, noteTable, projectTable, userMetadataTable, projectPostTable } from '@repo/db';
 import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
@@ -102,14 +102,72 @@ export const projectRouter = createRouter({
     }),
 
   update: protectedProcedure
-    .input(z.object({ id: z.number(), name: z.string(), description: z.string().nullable(), isPublic: z.boolean() }))
+    .input(z.object({
+      id: z.number(),
+      name: z.string(),
+      description: z.string().nullable()
+    }))
     .mutation(async ({ input, ctx }) => {
       const res = await db
         .update(projectTable)
-        .set({ name: input.name, description: input.description, isPublic: input.isPublic })
-        .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
+        .set({
+          name: input.name,
+          description: input.description
+        })
+        .where(and(
+          eq(projectTable.id, input.id),
+          eq(projectTable.userId, ctx.session.userId)
+        ))
+        .returning();
 
-      return res.rowCount == 1;
+      return res.length === 1;
+    }),
+
+  updatePublicity: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      isPublic: z.boolean()
+    }))
+    .mutation(async ({ input, ctx }) => {
+      // find the project first, need to know if it has a post
+      const project = await db.query.projectTable.findFirst({
+        where: and(
+          eq(projectTable.id, input.id),
+          eq(projectTable.userId, ctx.session.userId)
+        ),
+        with: {
+          post: true
+        }
+      });
+
+      if (!project) return false;
+
+      // it's public but no post?
+      if (input.isPublic && !project.post) {
+        // Create new project post when making public
+        const [post] = await db
+          .insert(projectPostTable)
+          .values({
+            projectId: project.id,
+          })
+          .returning();
+
+        if (!post) return false;
+      } else if (!input.isPublic && project.post) {
+        // Remove project post when making private
+        await db
+          .delete(projectPostTable)
+          .where(eq(projectPostTable.projectId, project.id));
+      }
+
+      // Update project publicity
+      const res = await db
+        .update(projectTable)
+        .set({ isPublic: input.isPublic })
+        .where(eq(projectTable.id, input.id))
+        .returning();
+
+      return res.length === 1;
     }),
 
   createNoteDocument: protectedProcedure
