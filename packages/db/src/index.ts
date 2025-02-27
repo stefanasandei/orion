@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { config } from "dotenv";
 import ws from 'ws';
 
-import * as schema from "./schema"    
+import * as schema from "./schema"
 
 config({ path: ".env" });
 
@@ -16,5 +16,5 @@ export const db = drizzle({
     schema: schema
 });
 
-export { userTable, sessionTable, userMetadataTable, workspaceTable, projectTable, noteTable, tagTable } from "./schema";
-export type { User, Session, UserMetadata, Workspace, Project, Note, Tag } from "./schema";
+export { userTable, sessionTable, userMetadataTable, workspaceTable, projectTable, noteTable, tagTable, projectPostRelations, commentTable } from "./schema";
+export type { User, Session, UserMetadata, Workspace, Project, Note, Tag, ProjectPost, Comment } from "./schema";

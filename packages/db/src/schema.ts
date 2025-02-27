@@ -114,6 +114,9 @@ export const projectTable = pgTable('project', {
   workspaceId: integer('workspace_id')
     .notNull()
     .references(() => workspaceTable.id, { onDelete: 'cascade' }),
+  postId: integer('post_id')
+    .references(() => projectPostTable.id, { onDelete: 'cascade' }),
+
 
   createdAt: timestamp('created_at', {
     withTimezone: true,
@@ -133,6 +136,51 @@ export const projectTable = pgTable('project', {
 
   isPublic: boolean('is_public').default(false).notNull(),
 });
+
+// metadata for a project once it's public
+export const projectPostTable = pgTable("project_post", {
+  id: serial('id').primaryKey(),
+
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .$onUpdate(() => new Date()),
+
+  likeCount: integer('like_count').default(0).notNull(),
+});
+
+export const commentTable = pgTable("comment", {
+  id: serial("id").primaryKey(),
+  projectId: integer('project_id')
+    .notNull()
+    .references(() => projectTable.id, { onDelete: 'cascade' }),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .$onUpdate(() => new Date()),
+
+  content: text("content").notNull()
+})
 
 export const noteEnum = pgEnum('type', ['document', 'thought', 'file']);
 
@@ -196,8 +244,16 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
     fields: [projectTable.userId],
     references: [userTable.id]
   }),
+  post: one(projectPostTable, {
+    fields: [projectTable.postId],
+    references: [projectPostTable.id]
+  }),
   notes: many(noteTable),
-  tags: many(tagTable)
+  tags: many(tagTable),
+}));
+
+export const projectPostRelations = relations(projectPostTable, ({ many }) => ({
+  comments: many(commentTable)
 }));
 
 export const noteRelations = relations(noteTable, ({ one, many }) => ({
@@ -241,3 +297,5 @@ export type Workspace = InferSelectModel<typeof workspaceTable>;
 export type Tag = InferSelectModel<typeof tagTable>;
 export type Project = InferSelectModel<typeof projectTable>;
 export type Note = InferSelectModel<typeof noteTable>;
+export type ProjectPost = InferSelectModel<typeof projectPostTable>;
+export type Comment = InferSelectModel<typeof commentTable>;
