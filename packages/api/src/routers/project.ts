@@ -32,6 +32,9 @@ export const projectRouter = createRouter({
                 }
               }
             },
+
+            // meaning: also returns its public metadata (post), along with its comments
+            // return the name of each user who wrote a comment
             post: {
               with: {
                 comments: {
@@ -214,6 +217,24 @@ export const projectRouter = createRouter({
           userId: ctx.session.userId,
         });
     }),
+  createQuickNote: protectedProcedure
+    .input(z.object({ content: z.string(), type: z.enum(["thought", "task", "newsfeed"]) }))
+    .mutation(async ({ input, ctx }) => {
+      // used to create a note, which is not accessible in the editor
+      // aka a quick-thought, a todo task, or an item on the news feed
+      return await db
+        .insert(noteTable)
+        .values({
+          name: input.content,
+          type: input.type,
+          userId: ctx.session.userId,
+
+          textContent: "",
+          jsonContent: "",
+          htmlContent: "",
+        });
+    }),
+
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .mutation(async ({ input, ctx }) => {

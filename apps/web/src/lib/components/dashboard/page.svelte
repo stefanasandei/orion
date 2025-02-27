@@ -3,13 +3,16 @@
 	import type { UserLocals } from '@repo/core';
 	import ActivityGrid from './activity-grid.svelte';
 	import Toolbar from './toolbar.svelte';
+	import type { Note } from '@repo/db';
 
 	interface Props {
 		user: UserLocals;
+		notes: Note[];
 	}
 
-	const { user }: Props = $props();
+	const { user, notes: _notes }: Props = $props();
 	const { metadata } = user.user!;
+	const notes = $derived(_notes);
 </script>
 
 <div class="flex h-full flex-col gap-4">
@@ -20,6 +23,6 @@
 			<p class="text-3xl md:text-2xl">{$t('dashboard.hello')}, {metadata.name}!</p>
 		</div>
 
-		<ActivityGrid />
+		<ActivityGrid {notes} />
 	</div>
 </div>

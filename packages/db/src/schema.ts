@@ -183,7 +183,7 @@ export const commentTable = pgTable("comment", {
   content: text("content").notNull()
 })
 
-export const noteEnum = pgEnum('type', ['document', 'thought', 'file']);
+export const noteEnum = pgEnum('type', ['document', 'thought', 'file', "task", "newsfeed"]);
 
 export const noteTable = pgTable('note', {
   id: serial('id').primaryKey(),

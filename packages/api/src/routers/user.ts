@@ -269,5 +269,17 @@ export const userRouter = createRouter({
                 metadata: profile,
                 projects: projects
             };
+        }),
+
+    getQuickNotes: protectedProcedure
+        .query(async ({ ctx }) => {
+            return await db.query.noteTable.findMany({
+                where: eq(noteTable.userId, ctx.session.userId),
+                columns: {
+                    type: true,
+                    name: true,
+                    id: true,
+                },
+            })
         })
 })

@@ -5,9 +5,15 @@
 	import Dashboard from '@/components/dashboard/page.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
+	import type { Note } from '@repo/db';
 
-	let { data }: { data: { user: UserLocals } } = $props();
-	const { user } = data;
+	let { data: _data }: { data: { user: UserLocals; notes: Note[] } } = $props();
+	const { user, notes: _notes } = $derived(_data);
+	const notes = $derived(_notes);
+
+	$effect(() => {
+		console.log(notes);
+	});
 </script>
 
 {#if user.session === null}
@@ -16,6 +22,6 @@
 	</MarketingShell>
 {:else}
 	<DashboardShell pageName={$t('dashboard.home')} {user}>
-		<Dashboard {user} />
+		<Dashboard {user} {notes} />
 	</DashboardShell>
 {/if}
