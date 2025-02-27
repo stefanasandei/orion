@@ -4,7 +4,7 @@
 	import { Bell, EllipsisVertical } from 'lucide-svelte';
 </script>
 
-<div class="flex flex-row items-center justify-between">
+<div class="mx-2 flex flex-row items-center justify-between">
 	<Input placeholder="Search from your work" class="max-w-fit md:max-w-md" />
 
 	<div class="flex flex-row gap-4">

@@ -4,6 +4,8 @@
 	import ActivityGrid from './activity-grid.svelte';
 	import Toolbar from './toolbar.svelte';
 	import type { Note } from '@repo/db';
+	import QuickThoughts from './quick-thoughts.svelte';
+	import RecentWork from './recent-work.svelte';
 
 	interface Props {
 		user: UserLocals;
@@ -19,8 +21,14 @@
 	<Toolbar />
 
 	<div class="grid h-full md:grid-cols-3 lg:grid-cols-4">
-		<div class="mx-4 h-full pt-4 md:col-span-2 lg:col-span-3">
-			<p class="text-3xl md:text-2xl">{$t('dashboard.hello')}, {metadata.name}!</p>
+		<div class="mx-2 h-full pt-4 md:col-span-2 lg:col-span-3">
+			<p class="text-2xl font-semibold md:text-4xl">{$t('dashboard.hello')}, {metadata.name}!</p>
+
+			<div class="mt-6 flex flex-col gap-4">
+				<QuickThoughts />
+
+				<RecentWork />
+			</div>
 		</div>
 
 		<ActivityGrid {notes} />

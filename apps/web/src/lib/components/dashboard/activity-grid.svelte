@@ -63,7 +63,7 @@
 </script>
 
 <div
-	class="border-muted hover:bord bg-card hover:bg-card/30 flex flex-col gap-4 rounded-lg border-2 p-3 transition-all md:col-span-1 md:h-full"
+	class="border-muted bg-card hover:bg-card/10 flex flex-col gap-4 rounded-lg border-2 p-3 transition-all md:col-span-1 md:h-full"
 >
 	<div class="flex flex-col items-start gap-2">
 		<p class="text-card-foreground/90">Today it's</p>
