@@ -279,6 +279,7 @@ export const userRouter = createRouter({
                     type: true,
                     name: true,
                     id: true,
+                    createdAt: true
                 },
             })
         })

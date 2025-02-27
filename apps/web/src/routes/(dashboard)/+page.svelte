@@ -10,10 +10,6 @@
 	let { data: _data }: { data: { user: UserLocals; notes: Note[] } } = $props();
 	const { user, notes: _notes } = $derived(_data);
 	const notes = $derived(_notes);
-
-	$effect(() => {
-		console.log(notes);
-	});
 </script>
 
 {#if user.session === null}

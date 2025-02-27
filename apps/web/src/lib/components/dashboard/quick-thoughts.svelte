@@ -6,6 +6,7 @@
 	import { toast } from 'svelte-sonner';
 	import { invalidateAll } from '$app/navigation';
 	import { Button } from '../ui/button';
+	import ThoughtCard from './thought-card.svelte';
 
 	interface Props {
 		thoughts: Note[];
@@ -34,10 +35,10 @@
 </script>
 
 <div
-	class="border-muted bg-card hover:bg-card/10 flex h-80 flex-col gap-4 rounded-lg border-2 p-3 transition-all"
+	class="border-muted bg-card flex h-80 w-full flex-col gap-4 overflow-hidden rounded-lg border-2 p-3 transition-all"
 >
 	<div>
-		<div class="mb-2 flex flex-row justify-between gap-2">
+		<div class="mb-2 flex flex-col justify-between gap-2 md:flex-row">
 			<p class="text-2xl">Quick thoughts</p>
 
 			<div class="flex flex-row gap-2">
@@ -62,13 +63,12 @@
 		<Separator />
 	</div>
 
-	<div class="flex h-full gap-4 overflow-x-auto pb-4">
+	<div
+		class="mx-auto flex h-full max-w-xs touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-3 pb-4 md:-mx-3 md:w-full lg:max-w-full"
+	>
 		{#each thoughts as thought}
-			<!-- TODO -->
-			<div
-				class="bg-muted flex h-full w-52 shrink-0 snap-start items-center justify-center rounded-lg"
-			>
-				<p>{thought.name}</p>
+			<div class="flex h-full w-64 shrink-0 snap-start flex-col justify-between gap-6 pl-3">
+				<ThoughtCard {thought} />
 			</div>
 		{/each}
 	</div>

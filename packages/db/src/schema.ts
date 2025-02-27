@@ -192,9 +192,23 @@ export const noteTable = pgTable('note', {
     .references(() => userTable.id, { onDelete: 'cascade' }),
   projectId: integer('project_id').references(() => projectTable.id, { onDelete: 'cascade' }),
 
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .$onUpdate(() => new Date())
+    .defaultNow(),
+
   type: noteEnum().default('document').notNull(),
 
-  name: varchar('name', { length: 64 }).notNull(),
+  name: text('name').notNull(),
   description: text('description'),
 
   jsonContent: text('json_content').notNull(), // for the rich text editor
