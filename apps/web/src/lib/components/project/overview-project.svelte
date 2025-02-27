@@ -4,6 +4,7 @@
 	import OverviewHeader from './overview-header.svelte';
 	import FileTree from './filetree.svelte';
 	import type { NoteTreeNode } from '@repo/api/services';
+	import { Separator } from '../ui/separator';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -21,6 +22,7 @@
 	{#if project.description !== null && project.description.length}
 		<div class="p-2">
 			<p class="mb-2 text-2xl">{$t('project.overview.description_title')}</p>
+			<Separator class="mb-2" />
 			<p>{project.description}</p>
 		</div>
 	{/if}

@@ -1,4 +1,4 @@
-import { db, noteTable, projectTable, userMetadataTable, projectPostTable } from '@repo/db';
+import { db, noteTable, projectTable, userMetadataTable, projectPostTable, commentTable } from '@repo/db';
 import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
@@ -30,6 +30,11 @@ export const projectRouter = createRouter({
                     name: true
                   }
                 }
+              }
+            },
+            post: {
+              with: {
+                comments: true
               }
             }
           },
@@ -168,6 +173,17 @@ export const projectRouter = createRouter({
         .returning();
 
       return res.length === 1;
+    }),
+  addCommentToPublicPost: protectedProcedure
+    .input(z.object({ content: z.string(), postId: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await db
+        .insert(commentTable)
+        .values({
+          postId: input.postId,
+          userId: ctx.session.userId,
+          content: input.content
+        });
     }),
 
   createNoteDocument: protectedProcedure

@@ -72,7 +72,7 @@
 				</Button>
 			{/if}
 		</div>
-		<Separator class="bg-muted-foreground/20" />
+		<Separator />
 
 		{#if addNewFile}
 			<div class="mt-3 flex w-full flex-row gap-4">
