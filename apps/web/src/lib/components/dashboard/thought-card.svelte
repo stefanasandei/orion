@@ -23,7 +23,9 @@
 
 <ResponsiveDialog title={thought.createdAt.toDateString()} description="">
 	{#snippet triggerButton()}
-		<Card.Root class="flex h-full w-64 shrink-0 snap-start flex-col justify-between gap-6">
+		<Card.Root
+			class="ring-secondary/70 mt-2 flex h-full w-64 shrink-0 snap-start flex-col justify-between gap-6 ring-2"
+		>
 			<Card.Header>
 				<Card.Title class="hidden text-left md:block">{thought.name.substring(0, 50)}</Card.Title>
 				<Card.Description class="text-left md:hidden"

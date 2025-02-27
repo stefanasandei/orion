@@ -67,12 +67,12 @@
 >
 	<div class="flex flex-col items-start gap-2">
 		<p class="text-card-foreground/90">Today it's</p>
-		<p class="text-primary-foreground">{currDate}</p>
+		<p class="text-muted-foreground font-semibold">{currDate}</p>
 	</div>
 
 	<div class="mt-4 flex flex-col items-start gap-2">
 		<div class="flex w-full flex-row items-center justify-between">
-			<p class="text-2xl font-semibold md:text-xl">📌 Tasks for today</p>
+			<p class=" text-2xl font-semibold md:text-xl">📌 Tasks for today</p>
 			<Button size="small-icon" onclick={() => (addNewTask = !addNewTask)}>
 				{#if !addNewTask}
 					<Icons.add />
