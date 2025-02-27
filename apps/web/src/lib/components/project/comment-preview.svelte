@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Comment } from '@repo/db';
 	import * as Avatar from '../ui/avatar';
+	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 
 	interface Props {
 		comment: Comment & { user: { metadata: { name: string } } };
@@ -20,7 +21,12 @@
 	</Avatar.Root>
 
 	<div class="flex flex-col justify-between">
-		<p class="text-muted-foreground/80">posted by {comment.user.metadata.name}</p>
+		<p class="text-muted-foreground/80">
+			posted by <a
+				href={`${PUBLIC_WEBSITE_URL}/profile/${comment.user.metadata.name}`}
+				class="hover:cursor-pointer hover:underline">{comment.user.metadata.name}</a
+			>
+		</p>
 		<p>{comment.content}</p>
 	</div>
 </div>

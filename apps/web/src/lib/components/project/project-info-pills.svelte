@@ -32,7 +32,7 @@
 		<p>{$t('project.overview.created')} {createdAtDate}</p>
 	</div>
 
-	{#if notesCount !== undefined}
+	{#if notesCount !== undefined && notesCount > 0}
 		<div class="flex flex-row items-center gap-1">
 			<Book class="size-5" />
 			<p>
