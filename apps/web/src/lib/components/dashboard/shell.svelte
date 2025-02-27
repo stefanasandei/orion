@@ -68,9 +68,9 @@
 					<p>{pageName}</p>
 				</div>
 			</header>
-			<div class="bg-background h-full overflow-hidden rounded-md p-2 md:m-2">
+			<div class="bg-background h-full overflow-x-hidden rounded-md p-2 md:m-2">
 				{#if fixedScroll}
-					<div class="h-full max-h-[95svh] overflow-y-scroll">
+					<div class="h-full max-h-[95svh] overflow-x-hidden overflow-y-scroll">
 						{@render children?.()}
 					</div>
 				{:else}

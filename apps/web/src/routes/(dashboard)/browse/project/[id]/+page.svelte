@@ -27,7 +27,12 @@
 	const activeProject = $derived(data.activeProject);
 </script>
 
-<DashboardShell pageName={$t('project.page_names.project')} {user} {activeProject}>
+<DashboardShell
+	fixedScroll={true}
+	pageName={$t('project.page_names.project')}
+	{user}
+	{activeProject}
+>
 	<OverviewProject
 		isPublicView={true}
 		noteTree={data.activeProject.noteTree}
