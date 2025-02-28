@@ -8,6 +8,6 @@
 	const { user } = data;
 </script>
 
-<DashboardShell pageName={$t('dashboard.assistant')} {user}>
+<DashboardShell fixedScroll={true} pageName={$t('dashboard.assistant')} {user}>
 	<AssistantPage />
 </DashboardShell>

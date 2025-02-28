@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@langchain/core": "^0.3.41",
+        "@langchain/mistralai": "^0.2.0",
         "@langchain/ollama": "^0.2.0",
         "@repo/core": "workspace:^",
         "ai": "^4.1.46"

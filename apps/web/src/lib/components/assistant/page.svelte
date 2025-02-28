@@ -18,7 +18,7 @@
 	// const { user }: Props = $props();
 
 	// const state = $state<'landing' | 'chat'>('chat');
-	$: state = 'chat'; // for testing, keep it 'chat' instead of 'landing'
+	$: state = 'landing'; // for testing, keep it 'chat' instead of 'landing'
 
 	// general utils
 	function formatMessageContent(content: string) {
