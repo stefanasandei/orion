@@ -65,6 +65,7 @@
 </script>
 
 <ResponsiveDialog
+	class=""
 	title={$t('project.move_note_title')}
 	description={$t('project.move_note_desc')}
 	hasTrigger={false}

@@ -1,4 +1,4 @@
-import { InferSelectModel, relations } from 'drizzle-orm';
+import { InferSelectModel, relations, sql } from 'drizzle-orm';
 import {
   integer,
   pgTableCreator,
@@ -9,7 +9,8 @@ import {
   varchar,
   AnyPgColumn,
   primaryKey,
-  pgEnum
+  pgEnum,
+  index
 } from 'drizzle-orm/pg-core';
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
@@ -216,7 +217,19 @@ export const noteTable = pgTable('note', {
   textContent: text('text_content').notNull(), // for RAG, etc.
 
   parentNote: integer('parent_id').references((): AnyPgColumn => noteTable.id, { onDelete: 'cascade' })
-});
+},
+  // used for searching
+  // the name has more priority (A) than the content (B)
+  (table) => [
+    index('search_index').using(
+      'gin',
+      sql`(
+          setweight(to_tsvector('english', ${table.name}), 'A') ||
+          setweight(to_tsvector('english', ${table.textContent}), 'B')
+      )`,
+    ),
+  ],
+);
 
 export const notesRelationshipTable = pgTable('notes_relationship', {
   parentId: integer('parent_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),

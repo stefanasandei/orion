@@ -1,4 +1,5 @@
 import { createCallerFactory, createRouter } from './context';
+import { contentRouter } from './routers/content';
 import { projectRouter } from './routers/project';
 import { tagRouter } from './routers/tag';
 import { userRouter } from './routers/user';
@@ -9,6 +10,7 @@ export const appRouter = createRouter({
   workspace: workspaceRouter,
   project: projectRouter,
   tag: tagRouter,
+  content: contentRouter
 });
 
 export type AppRouter = typeof appRouter;

@@ -6,12 +6,18 @@
 	import { trpc } from '../../utils/trpc/client';
 	import { invalidateAll } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
-		thought: Note;
+		thought: {
+			id: number;
+			name: string;
+			createdAt: Date;
+		};
+		squared?: boolean;
 	}
 
-	const { thought }: Props = $props();
+	const { thought, squared = false }: Props = $props();
 
 	const deleteNote = trpc().project.deleteNote.createMutation({
 		onSuccess: async () => {
@@ -21,10 +27,13 @@
 	});
 </script>
 
-<ResponsiveDialog title={thought.createdAt.toDateString()} description="">
+<ResponsiveDialog class="" title={thought.createdAt.toDateString()} description="">
 	{#snippet triggerButton()}
 		<Card.Root
-			class="ring-secondary/70 mt-2 flex h-full w-64 shrink-0 snap-start flex-col justify-between gap-6 ring-2"
+			class={cn(
+				'ring-secondary/70 hover:bg-muted/65 mt-2 flex shrink-0 snap-start flex-col justify-between gap-6 ring-2 transition-all duration-75',
+				squared ? 'size-64' : 'h-full w-64'
+			)}
 		>
 			<Card.Header>
 				<Card.Title class="hidden text-left md:block">{thought.name.substring(0, 50)}</Card.Title>

@@ -57,7 +57,7 @@
 	);
 </script>
 
-<ResponsiveDialog title={$t('project.add_tag')} description={''} bind:open>
+<ResponsiveDialog class="" title={$t('project.add_tag')} description={''} bind:open>
 	{#snippet triggerButton()}
 		<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
 	{/snippet}

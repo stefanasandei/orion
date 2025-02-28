@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { Button } from '@/components/ui/button';
@@ -20,11 +20,13 @@
 		DrawerTitle,
 		DrawerTrigger
 	} from '@/components/ui/drawer';
+	import { cn } from '../utils/cn';
 
 	let {
 		triggerButton,
 		title,
 		description,
+		class: className,
 		children,
 		open = $bindable(false),
 		hasTrigger = true
@@ -38,7 +40,8 @@
 		{#if hasTrigger}
 			<DialogTrigger class="h-full" asChild>{@render triggerButton()}</DialogTrigger>
 		{/if}
-		<DialogContent class="flex h-[70vh] flex-col gap-6 sm:max-w-[425px]">
+		<DialogContent class={className ? className : 'flex h-[70vh] flex-col gap-6 sm:max-w-[425px]'}>
+			<!-- <DialogContent class={cn('flex h-[70vh] flex-col gap-6 sm:max-w-[425px]', className)}> -->
 			<DialogHeader>
 				<DialogTitle>{title}</DialogTitle>
 				<DialogDescription>{description}</DialogDescription>

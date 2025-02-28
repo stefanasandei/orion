@@ -30,6 +30,7 @@
 </script>
 
 <ResponsiveDialog
+	class=""
 	title={$t('dashboard.create_project')}
 	description={$t('dashboard.project_desc')}
 	bind:open
