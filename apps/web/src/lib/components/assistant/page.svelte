@@ -35,6 +35,7 @@
 	const { input, handleSubmit, messages } = useChat();
 
 	let landingInput = '';
+	const chatInputRef = writable<HTMLInputElement | null>(null);
 
 	const handleLandingSubmit = (e: Event) => {
 		e.preventDefault();
@@ -42,8 +43,11 @@
 
 		state = 'chat';
 		$input = landingInput;
-		// Small delay to ensure state transition is complete
-		setTimeout(() => handleSubmit(e), 0);
+		// Small delay to ensure state transition and DOM update is complete
+		setTimeout(() => {
+			handleSubmit(e);
+			$chatInputRef?.focus();
+		}, 0);
 	};
 
 	const handleLandingEnter = (e: KeyboardEvent) => {
@@ -139,6 +143,7 @@
 				class="bg-accent/50 flex items-center gap-2 rounded-xl p-4 shadow-sm"
 			>
 				<Input
+					bind:ref={$chatInputRef}
 					bind:value={$input}
 					class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
 					placeholder="Type a message..."
