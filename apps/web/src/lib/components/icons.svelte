@@ -24,7 +24,8 @@
 		twitter: Twitter,
 		check: Check,
 		show: Eye,
-		hide: EyeClosed
+		hide: EyeClosed,
+		send: SendHorizonal
 	};
 </script>
 
@@ -57,6 +58,7 @@
 		X,
 		Eye,
 		EyeClosed,
-		type Icon as LucideIcon
+		type Icon as LucideIcon,
+		SendHorizonal
 	} from 'lucide-svelte';
 </script>
