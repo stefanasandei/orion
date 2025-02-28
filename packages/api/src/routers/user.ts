@@ -3,7 +3,7 @@ import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
 import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable } from '@repo/db';
-import { eq, and, sql } from 'drizzle-orm';
+import { eq, and, sql, or, desc } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
 import { resendService } from '../services/email';
@@ -274,13 +274,19 @@ export const userRouter = createRouter({
     getQuickNotes: protectedProcedure
         .query(async ({ ctx }) => {
             return await db.query.noteTable.findMany({
-                where: eq(noteTable.userId, ctx.session.userId),
+                where: or(
+                    eq(noteTable.userId, ctx.session.userId),
+                    eq(noteTable.type, 'newsfeed')
+                ),
+
                 columns: {
                     type: true,
                     name: true,
                     id: true,
                     createdAt: true
                 },
+
+                orderBy: desc(noteTable.createdAt)
             })
         })
 })
