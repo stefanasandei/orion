@@ -20,7 +20,10 @@
         "typecheck": "tsc"
     },
     "dependencies": {
-        "@repo/core": "workspace:^"
+        "@langchain/core": "^0.3.41",
+        "@langchain/ollama": "^0.2.0",
+        "@repo/core": "workspace:^",
+        "ai": "^4.1.46"
     },
     "devDependencies": {
         "@repo/eslint": "workspace:*",

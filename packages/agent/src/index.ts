@@ -1,1 +1,1 @@
-export const testAgent = () => "hello it works";
+export { chatHandler } from "./handler";
