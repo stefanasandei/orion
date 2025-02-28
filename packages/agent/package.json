@@ -1,0 +1,29 @@
+{
+    "name": "@repo/agent",
+    "version": "0.0.0",
+    "private": true,
+    "description": "agent",
+    "license": "MIT",
+    "sideEffects": false,
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json",
+        "clean": "bun run rm -rf dist *.tsbuildinfo",
+        "dev": "tsc -w -p tsconfig.build.json",
+        "lint": "eslint .  --max-warnings 0",
+        "typecheck": "tsc"
+    },
+    "dependencies": {
+        "@repo/core": "workspace:^"
+    },
+    "devDependencies": {
+        "@repo/eslint": "workspace:*",
+        "@types/node": "^22.10.3"
+    }
+}

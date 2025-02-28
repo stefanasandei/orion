@@ -1,6 +1,7 @@
 import { createOllama } from 'ollama-ai-provider';
 import { streamText } from 'ai';
 import type { RequestHandler } from './$types';
+import { testAgent } from "@repo/agent";
 
 const ollama = createOllama({});
 
@@ -8,8 +9,10 @@ const ollama = createOllama({});
 export const POST = (async ({ request }) => {
     const { messages } = await request.json();
 
+    console.log(testAgent());
+
     const result = streamText({
-        model: ollama('smollm2:135m'),
+        model: ollama('llama3.2:3b'),
         messages,
     });
 

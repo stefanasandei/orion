@@ -9,5 +9,5 @@
 </script>
 
 <DashboardShell pageName={$t('dashboard.assistant')} {user}>
-	<AssistantPage user={user.user!.intern} />
+	<AssistantPage />
 </DashboardShell>
