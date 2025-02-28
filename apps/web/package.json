@@ -13,6 +13,7 @@
 		"lint": "prettier --check ."
 	},
 	"dependencies": {
+		"@ai-sdk/svelte": "^1.1.19",
 		"@dnd-kit-svelte/core": "^0.0.7",
 		"@dnd-kit-svelte/sortable": "^0.0.7",
 		"@repo/api": "workspace:*",
@@ -24,11 +25,13 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tanstack/svelte-query": "^5.62.9",
 		"@trpc/client": "^10.45.2",
+		"ai": "^4.1.46",
 		"arctic": "^3.2.1",
 		"dotenv": "^16.4.7",
 		"drizzle-orm": "^0.38.3",
 		"formsnap": "^2.0.0",
 		"minisearch": "^7.1.1",
+		"ollama-ai-provider": "^1.2.0",
 		"prism-themes": "^1.9.0",
 		"prismjs": "^1.29.0",
 		"runed": "^0.23.2",
