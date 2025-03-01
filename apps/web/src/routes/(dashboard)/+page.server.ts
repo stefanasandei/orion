@@ -1,5 +1,6 @@
 import { createCaller } from "@repo/api";
 import type { CtxRequestEvent } from "@repo/core";
+import type { Note } from "@repo/db";
 import { redirect } from "@sveltejs/kit";
 
 export const load = async (event) => {
@@ -9,12 +10,18 @@ export const load = async (event) => {
         }
     }
 
-    // get non-workspace content (such as thoughts and tasks)
-    const caller = createCaller({ event: event as CtxRequestEvent });
-    const notes = await caller.user.getQuickNotes();
+    if (event.locals.session.userId !== undefined) {
+        // get non-workspace content (such as thoughts and tasks)
+        const caller = createCaller({ event: event as CtxRequestEvent });
+        const notes = await caller.user.getQuickNotes();
+
+        return {
+            user: event.locals!,
+            notes
+        };
+    }
 
     return {
         user: event.locals!,
-        notes
     };
 };
