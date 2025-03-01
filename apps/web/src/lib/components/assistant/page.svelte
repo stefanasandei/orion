@@ -2,7 +2,7 @@
 <svelte:options runes={false} />
 
 <script lang="ts">
-	import { Brain, FileSearch, Globe } from 'lucide-svelte';
+	import { Brain, FileSearch } from 'lucide-svelte';
 	import { Icons } from '../icons.svelte';
 	import Button from '../ui/button/button.svelte';
 	import Input from '../ui/input/input.svelte';
@@ -12,6 +12,7 @@
 	import HtmlPreview from '../html-preview.svelte';
 	import { cn } from '../../utils/cn';
 	import { formatMessageContent } from '../../utils/assistant-msg';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		user: { id: number };
@@ -58,7 +59,9 @@
 	<div class="flex h-full w-full flex-col">
 		<main class="flex flex-1 items-center justify-center p-4">
 			<div class="flex w-full max-w-3xl flex-col justify-center gap-6">
-				<h2 class="text-center text-2xl font-semibold md:text-4xl">What would you want to know?</h2>
+				<h2 class="text-center text-2xl font-semibold md:text-4xl">
+					{$t('dashboard.assistant_page.landing.title')}
+				</h2>
 
 				<form
 					onsubmit={handleLandingSubmit}
@@ -68,7 +71,7 @@
 						bind:value={landingInput}
 						onkeydown={handleLandingEnter}
 						class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-						placeholder="Ask me anything..."
+						placeholder={$t('dashboard.assistant_page.landing.input_placeholder')}
 					/>
 
 					<div class="-mb-0 flex flex-row items-center justify-between">
@@ -79,7 +82,7 @@
 									value="chat"
 								>
 									<Brain class="mr-2 size-5" />
-									Chat
+									{$t('dashboard.assistant_page.landing.chat_tab')}
 								</Tabs.Trigger>
 								<Tabs.Trigger
 									disabled={true}
@@ -87,7 +90,7 @@
 									value="report"
 								>
 									<FileSearch class="mr-2 size-5" />
-									Report
+									{$t('dashboard.assistant_page.landing.report_tab')}
 								</Tabs.Trigger>
 							</Tabs.List>
 						</Tabs.Root>
@@ -102,13 +105,12 @@
 
 		<footer class="p-4">
 			<p class="text-muted-foreground text-center text-sm">
-				<!-- todo: better text -->
-				Chat with your documents, search using natural language. Powered by an LLM.
+				{$t('dashboard.assistant_page.landing.footer_text')}
 			</p>
 		</footer>
 	</div>
 {:else}
-	<div class="flex h-full max-h-[94svh] w-full flex-col justify-between gap-4 p-4 md:max-h-[98svh]">
+	<div class="flex h-full w-full flex-col justify-between gap-4 p-4 md:max-h-[98svh]">
 		<div class="flex-1 space-y-6 overflow-y-auto px-1 md:px-4">
 			{#each $messages as message}
 				<div class="flex flex-col {message.role === 'user' ? 'items-end' : 'items-start'}">
@@ -120,7 +122,9 @@
 					>
 						<div class="flex flex-col gap-1 md:max-w-[80%]">
 							<div class={'text-muted-foreground w-full text-sm'}>
-								{message.role === 'user' ? 'You' : 'Assistant'}
+								{message.role === 'user'
+									? $t('dashboard.assistant_page.chat.you')
+									: $t('dashboard.assistant_page.chat.assistant')}
 							</div>
 
 							<div
@@ -146,7 +150,7 @@
 					bind:ref={$chatInputRef}
 					bind:value={$input}
 					class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-					placeholder="Type a message..."
+					placeholder={$t('dashboard.assistant_page.chat.input_placeholder')}
 					onkeydown={handleEnter}
 				/>
 				<Button variant="default" size="sm" type="submit">

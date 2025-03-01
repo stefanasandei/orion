@@ -7,7 +7,6 @@
 	"free": "Free",
 	"home": "Personal dashboard",
 	"settings": "Settings",
-	"profile": "Profile",
 	"account": "Account",
 	"appearance": "Appearance",
 	"notifications": "Notifications",
@@ -28,6 +27,7 @@
 	"description_placeholder": "Theory and sample exercises for the first semester of 11th grade.",
 	"project_created": "Project created successfully",
 	"workspace_created": "Workspace created successfully",
+	"workspace_deleted": "Workspace deleted!",
 	"activity": {
 		"today": "Today it's",
 		"tasks_title": "Tasks for today",
@@ -35,7 +35,9 @@
 		"add_task": "Add",
 		"no_tasks": "no tasks 🎉",
 		"newsfeed_title": "Newsfeed",
-		"no_news": "no news 👀"
+		"no_news": "no news 👀",
+		"task_created": "Task created successfully",
+		"task_deleted": "Task deleted!"
 	},
 	"recent_work": {
 		"title": "Recent work",
@@ -45,7 +47,8 @@
 		"title": "Quick thoughts",
 		"placeholder": "write something...",
 		"add": "Add",
-		"success": "Thought added! 😊"
+		"success": "Thought added! 😊",
+		"deleted": "Thought deleted!"
 	},
 	"search": {
 		"button": "Search through your work",
@@ -53,5 +56,29 @@
 		"placeholder": "search for anything...",
 		"ask": "Ask",
 		"empty": "try searching for something!"
+	},
+	"assistant_page": {
+		"landing": {
+			"title": "What would you want to know?",
+			"input_placeholder": "Ask me anything...",
+			"chat_tab": "Chat",
+			"report_tab": "Report",
+			"footer_text": "Chat with your documents, search using natural language. Powered by an LLM."
+		},
+		"chat": {
+			"you": "You",
+			"assistant": "Assistant",
+			"input_placeholder": "Type a message..."
+		}
+	},
+	"profile": {
+		"title": "Profile",
+		"user_profile": "{{name}}'s Profile",
+		"badge": "Public profile",
+		"description": "Description: ",
+		"projects_created": "Created {{count}} projects",
+		"published_projects": "Published projects",
+		"comment_added": "Comment added!",
+		"add_comment": "Write a comment..."
 	}
 }

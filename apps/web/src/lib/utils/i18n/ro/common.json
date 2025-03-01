@@ -1,6 +1,7 @@
 {
-    "or": "sau",
-    "and": "și",
-    "generic_form_error": "Vă rugăm să corectați erorile din formular.",
-    "cancel": "Anulează"
+	"or": "sau",
+	"and": "și",
+	"generic_form_error": "Vă rugăm să corectați erorile din formular.",
+	"cancel": "Anulează",
+	"delete": "Șterge"
 }

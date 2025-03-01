@@ -20,7 +20,7 @@
 
 	const createComment = trpc().project.addCommentToPublicPost.createMutation({
 		onSuccess: async () => {
-			toast.success('Comment added!');
+			toast.success($t('dashboard.profile.comment_added'));
 			commentText = '';
 			await invalidateAll();
 		}
@@ -44,7 +44,11 @@
 
 	<!-- add new comment -->
 	<div class="flex flex-row gap-2">
-		<Input bind:value={commentText} placeholder="Write a comment..." onkeydown={handleEnter} />
+		<Input
+			bind:value={commentText}
+			placeholder={$t('dashboard.profile.add_comment')}
+			onkeydown={handleEnter}
+		/>
 		<Button
 			onclick={() =>
 				$createComment.mutate({

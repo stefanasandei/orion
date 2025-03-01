@@ -15,7 +15,7 @@
 	const deleteWorkspace = trpc().workspace.delete.createMutation({
 		onSuccess: async () => {
 			initializeActiveWorkspace(data.workspaces);
-			toast('Workspace deleted!');
+			toast.success($t('dashboard.workspace_deleted'));
 
 			await invalidateAll();
 			goto('/');

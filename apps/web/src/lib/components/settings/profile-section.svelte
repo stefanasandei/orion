@@ -24,7 +24,7 @@
 		<div class="mb-3 flex flex-row items-center justify-between">
 			<h3 class="text-4xl font-medium">{user.metadata.name}</h3>
 			<div class="flex flex-row items-center gap-2">
-				<Badge variant="secondary">Public profile</Badge>
+				<Badge variant="secondary">{$t('dashboard.profile.badge')}</Badge>
 				{#if isOwn}
 					<Button
 						variant={'outline'}
@@ -41,17 +41,19 @@
 		</div>
 
 		<p class="text-muted-foreground text-md">
-			<span class="text-muted-foreground/85">Description: </span>
+			<span class="text-muted-foreground/85">{$t('dashboard.profile.description')}</span>
 			{user.metadata.bio}
 		</p>
 
-		<p class="my-4">Created {user.projects.length} projects</p>
+		<p class="my-4">
+			{$t('dashboard.profile.projects_created', { default: user.projects.length })}
+		</p>
 		<Separator class="-mx-2 mb-3" />
 	</div>
 
 	<div class="flex flex-col gap-4">
 		<div>
-			<h2 class="mb-1 text-2xl font-semibold">Published projects</h2>
+			<h2 class="mb-1 text-2xl font-semibold">{$t('dashboard.profile.published_projects')}</h2>
 
 			<div class="flex w-full flex-col gap-4">
 				{#each user.projects as project}

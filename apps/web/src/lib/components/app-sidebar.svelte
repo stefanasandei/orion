@@ -42,7 +42,7 @@
 			icon: Settings2,
 			items: [
 				{
-					title: $t('dashboard.profile'),
+					title: $t('dashboard.profile.title'),
 					url: '/settings'
 				},
 				{

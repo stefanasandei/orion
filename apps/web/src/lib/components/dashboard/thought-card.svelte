@@ -7,6 +7,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
 	import { cn } from '../../utils/cn';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		thought: {
@@ -21,7 +22,7 @@
 
 	const deleteNote = trpc().project.deleteNote.createMutation({
 		onSuccess: async () => {
-			toast('Thought deleted!');
+			toast.success($t('dashboard.quick_thoughts.deleted'));
 			await invalidateAll();
 		}
 	});
@@ -56,7 +57,7 @@
 			onclick={() =>
 				$deleteNote.mutate({
 					noteId: thought.id
-				})}>Delete</Button
+				})}>{$t('common.delete')}</Button
 		>
 	</div>
 </ResponsiveDialog>

@@ -30,7 +30,7 @@
 
 	const createQuickNote = trpc().project.createQuickNote.createMutation({
 		onSuccess: async () => {
-			toast.success('Task created successfully');
+			toast.success($t('dashboard.activity.task_created'));
 			newTaskName = '';
 			addNewTask = false;
 			await invalidateAll();
@@ -39,7 +39,7 @@
 
 	const deleteNote = trpc().project.deleteNote.createMutation({
 		onSuccess: async () => {
-			toast.success('Task deleted');
+			toast.success($t('dashboard.activity.task_deleted'));
 			await invalidateAll();
 		}
 	});

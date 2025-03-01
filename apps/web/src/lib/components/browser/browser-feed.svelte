@@ -19,15 +19,17 @@
 	class="mx-auto w-full max-w-sm space-y-12 p-4 md:max-w-lg md:p-8 lg:max-w-2xl xl:max-w-4xl 2xl:max-w-7xl"
 >
 	<div class="flex w-full flex-col items-center">
-		<h1 class="mb-6 text-2xl font-bold md:text-4xl">Discover new projects</h1>
+		<h1 class="mb-6 text-2xl font-bold md:text-4xl">{$t('project.browser.title')}</h1>
 		<div class="flex w-full max-w-sm flex-col gap-4 md:max-w-xl md:flex-row">
-			<Input class="md:flex-1" placeholder="Search for projects..." />
-			<Button>Search</Button>
+			<Input class="md:flex-1" placeholder={$t('project.browser.search.placeholder')} />
+			<Button>{$t('project.browser.search.button')}</Button>
 		</div>
 	</div>
 
 	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">Featured projects</h2>
+		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+			{$t('project.browser.sections.featured')}
+		</h2>
 		<Separator class="mb-2" />
 		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
 			{#if mockProject}
@@ -41,7 +43,9 @@
 	</section>
 
 	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">Trending now</h2>
+		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+			{$t('project.browser.sections.trending')}
+		</h2>
 		<Separator class="mb-2" />
 		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
 			{#if mockProject}
@@ -55,7 +59,7 @@
 	</section>
 
 	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">Recently published</h2>
+		<h2 class="mb-2 text-xl font-semibold md:text-3xl">{$t('project.browser.sections.recent')}</h2>
 		<Separator class="mb-2" />
 		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
 			{#if mockProject}
