@@ -33,15 +33,15 @@
 	};
 </script>
 
-<div class="flex w-fit max-w-[60svw] flex-row gap-2 overflow-auto">
+<div class="flex w-full max-w-md flex-row gap-2">
 	{#each tabs as tab, index}
 		<div
-			class="flex flex-row items-center gap-2 rounded-lg border p-2 transition-all duration-75
+			class="flex flex-shrink-0 flex-row items-center gap-2 rounded-lg border p-2 transition-all duration-75
 				{tab.noteId === activeNoteId
 				? 'bg-muted border-primary'
 				: 'bg-background hover:bg-muted/50 border-border'}"
 		>
-			<button onclick={async () => await switchTab(tab.noteId)}
+			<button class="truncate" onclick={async () => await switchTab(tab.noteId)}
 				>{tab.title}{tab.isDirty && !isPublicView ? '*' : ''}</button
 			>
 

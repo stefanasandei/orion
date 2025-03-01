@@ -32,11 +32,17 @@
 	);
 </script>
 
-<div class="flex h-full flex-col">
-	<div class="mb-2 flex flex-row items-center justify-between">
-		<EditorTabs {isPublicView} {activeNoteId} projectId={project.id} />
+<div class="flex h-full w-full flex-col">
+	<div class="mb-2 flex w-full flex-row items-center gap-4">
+		<div class="min-w-0 flex-1">
+			<div class="scrollbar-none -mr-4 overflow-x-auto pr-4">
+				<div class="w-full">
+					<EditorTabs {isPublicView} {activeNoteId} projectId={project.id} />
+				</div>
+			</div>
+		</div>
 
-		<div class="flex flex-row items-center gap-2">
+		<div class="flex flex-none shrink-0 flex-row items-center gap-2">
 			{#if !isPublicView}
 				<Tabs.Root
 					bind:value={noteViewState.current}
