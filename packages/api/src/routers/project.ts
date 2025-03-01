@@ -280,11 +280,25 @@ export const projectRouter = createRouter({
   getNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .query(async ({ input, ctx }) => {
-      return await db.query.noteTable.findFirst(({
+      const data = await db.query.noteTable.findFirst(({
         where: and(
-          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+          eq(noteTable.id, input.noteId)
         ),
+        with: {
+          project: {
+            columns: {
+              isPublic: true
+            }
+          }
+        }
       }));
+
+      if (!data) return undefined;
+
+      if (data.userId != ctx.session.userId && !data.project!.isPublic)
+        return undefined;
+
+      return data;
     }),
   saveNote: protectedProcedure
     .input(z.object({ noteId: z.number(), textContent: z.string(), jsonContent: z.string(), htmlContent: z.string() }))
