@@ -11,6 +11,7 @@
 	import { writable } from 'svelte/store';
 	import HtmlPreview from '../html-preview.svelte';
 	import { cn } from '../../utils/cn';
+	import { formatMessageContent } from '../../utils/assistant-msg';
 
 	interface Props {
 		user: { id: number };
@@ -20,11 +21,6 @@
 
 	// const state = $state<'landing' | 'chat'>('chat');
 	$: state = 'landing';
-
-	// general utils
-	function formatMessageContent(content: string) {
-		return content.split('\n').join('<br>');
-	}
 
 	const handleEnter = (e: KeyboardEvent) => {
 		if (e.key === 'Enter' && $input.trim()) {
@@ -116,7 +112,12 @@
 		<div class="flex-1 space-y-6 overflow-y-auto px-1 md:px-4">
 			{#each $messages as message}
 				<div class="flex flex-col {message.role === 'user' ? 'items-end' : 'items-start'}">
-					<div class="flex flex-row items-start gap-2.5">
+					<div
+						class={cn(
+							'flex items-start gap-2.5',
+							message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+						)}
+					>
 						<div class="flex flex-col gap-1 md:max-w-[80%]">
 							<div class={'text-muted-foreground w-full text-sm'}>
 								{message.role === 'user' ? 'You' : 'Assistant'}
@@ -128,7 +129,7 @@
 									message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
 								)}
 							>
-								{@html formatMessageContent(message.content)}
+								<HtmlPreview htmlContent={formatMessageContent(message.content)} />
 							</div>
 						</div>
 					</div>

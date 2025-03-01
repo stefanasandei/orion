@@ -1,4 +1,3 @@
-import { createOllama } from 'ollama-ai-provider';
 import type { RequestHandler } from './$types';
 import { chatHandler } from "@repo/agent";
 
