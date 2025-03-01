@@ -6,6 +6,7 @@
 	import { writable } from 'svelte/store';
 	import { cn } from '../../utils/cn';
 	import { t } from '@/utils/i18n/translations';
+	import { formatMessageContent } from '../../utils/assistant-msg';
 
 	interface Props {
 		noteId: number;
@@ -24,7 +25,8 @@
 			: trpc().project.getNote.createQuery({ noteId })
 	);
 
-	const htmlContent = $derived($note.data!.htmlContent);
+	// const htmlContent = $derived($note.data!.htmlContent);
+	const htmlContent = $derived(formatMessageContent($note.data!.textContent));
 	let HtmlPreview = $state<Component<{}, {}, any> | null>(null);
 
 	let centerContent = false;

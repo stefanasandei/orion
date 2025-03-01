@@ -10,7 +10,7 @@ export const load = async (event) => {
         }
     }
 
-    if (event.locals.session.userId !== undefined) {
+    if (event.locals.session != undefined) {
         // get non-workspace content (such as thoughts and tasks)
         const caller = createCaller({ event: event as CtxRequestEvent });
         const notes = await caller.user.getQuickNotes();

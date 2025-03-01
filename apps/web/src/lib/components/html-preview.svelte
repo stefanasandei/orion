@@ -10,6 +10,7 @@
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-java';
 	import 'prismjs/components/prism-c';
+	import 'prismjs/components/prism-cpp';
 
 	// import 'prism-themes/themes/prism-atom-dark.min.css';
 	// import 'prism-themes/themes/prism-material-oceanic.min.css';
