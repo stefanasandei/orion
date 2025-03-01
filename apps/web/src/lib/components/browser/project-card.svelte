@@ -31,11 +31,11 @@
 	const description = (() => {
 		if (!large) {
 			return project.description!.length > 50
-				? project.name.substring(0, 50) + '...'
+				? project.description!.substring(0, 50) + '...'
 				: project.description;
 		}
 		return project.description!.length > 250
-			? project.name.substring(0, 250) + '...'
+			? project.description!.substring(0, 250) + '...'
 			: project.description;
 	})();
 </script>

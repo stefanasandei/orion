@@ -5,14 +5,59 @@
 	import Button from '../ui/button/button.svelte';
 	import ProjectCard from './project-card.svelte';
 	import Separator from '../ui/separator/separator.svelte';
+	import MiniSearch from 'minisearch';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		projects: (Project & { notesCount: number; user: { metadata: { name: string } } })[];
 	}
 
+	type ProjectWithMeta = Props['projects'][number];
+	type DisplayState = 'recent' | 'search';
+
 	const { projects }: Props = $props();
-	// TODO
-	const mockProject = projects[0];
+
+	let displayState = $state<DisplayState>('recent');
+
+	// Setup MiniSearch
+	const miniSearch = new MiniSearch({
+		fields: ['name'],
+		storeFields: ['name', 'id', 'notesCount', 'user'] as const,
+		searchOptions: {
+			fuzzy: true
+		}
+	});
+
+	let query = $state('');
+	let searchResults = $derived<ProjectWithMeta[]>(
+		(() => {
+			const trimmedQuery = query.trim();
+
+			if (!trimmedQuery) {
+				untrack(() => (displayState = 'recent'));
+				return projects;
+			}
+			untrack(() => (displayState = 'search'));
+
+			const results = miniSearch.search(trimmedQuery, { fields: ['name'] });
+			return results.map((result) => {
+				const project = projects.find((p) => p.id === result.id);
+				if (!project) throw new Error('Project not found');
+				return project;
+			});
+		})()
+	);
+
+	$effect(() => {
+		miniSearch.addAll(
+			projects.map((p) => ({
+				id: p.id,
+				name: p.name,
+				notesCount: p.notesCount,
+				user: p.user
+			}))
+		);
+	});
 </script>
 
 <div
@@ -21,24 +66,45 @@
 	<div class="flex w-full flex-col items-center">
 		<h1 class="mb-6 text-2xl font-bold md:text-4xl">{$t('project.browser.title')}</h1>
 		<div class="flex w-full max-w-sm flex-col gap-4 md:max-w-xl md:flex-row">
-			<Input class="md:flex-1" placeholder={$t('project.browser.search.placeholder')} />
-			<Button>{$t('project.browser.search.button')}</Button>
+			<Input
+				bind:value={query}
+				class="md:flex-1"
+				placeholder={$t('project.browser.search.placeholder')}
+			/>
 		</div>
 	</div>
 
 	<section>
 		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+			{displayState === 'recent'
+				? $t('project.browser.sections.recent')
+				: $t('project.browser.sections.search_results')}
+		</h2>
+		<Separator class="mb-2" />
+		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
+			{#each searchResults as project}
+				<div class="shrink-0 snap-start p-2">
+					<ProjectCard {project} />
+				</div>
+			{/each}
+		</div>
+		{#if displayState === 'search' && searchResults.length === 0}
+			<p class="text-muted-foreground text-center">{$t('project.browser.no_results')}</p>
+		{/if}
+	</section>
+
+	<!-- TODO: featured & trending projects implementation -->
+	<!-- <section>
+		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
 			{$t('project.browser.sections.featured')}
 		</h2>
 		<Separator class="mb-2" />
 		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#if mockProject}
-				{#each Array(6) as _}
-					<div class="shrink-0 snap-start p-2">
-						<ProjectCard project={mockProject} />
-					</div>
-				{/each}
-			{/if}
+			{#each projects as project}
+				<div class="shrink-0 snap-start p-2">
+					<ProjectCard {project} />
+				</div>
+			{/each}
 		</div>
 	</section>
 
@@ -48,27 +114,11 @@
 		</h2>
 		<Separator class="mb-2" />
 		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#if mockProject}
-				{#each Array(3) as _}
-					<div class="shrink-0 snap-start p-2">
-						<ProjectCard project={mockProject} />
-					</div>
-				{/each}
-			{/if}
+			{#each projects as project}
+				<div class="shrink-0 snap-start p-2">
+					<ProjectCard {project} />
+				</div>
+			{/each}
 		</div>
-	</section>
-
-	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">{$t('project.browser.sections.recent')}</h2>
-		<Separator class="mb-2" />
-		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#if mockProject}
-				{#each Array(2) as _}
-					<div class="shrink-0 snap-start p-2">
-						<ProjectCard project={mockProject} />
-					</div>
-				{/each}
-			{/if}
-		</div>
-	</section>
+	</section> -->
 </div>
