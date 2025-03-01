@@ -26,6 +26,7 @@
 	);
 
 	// const htmlContent = $derived($note.data!.htmlContent);
+	// TODO: check proper content
 	const htmlContent = $derived(formatMessageContent($note.data!.textContent));
 	let HtmlPreview = $state<Component<{}, {}, any> | null>(null);
 

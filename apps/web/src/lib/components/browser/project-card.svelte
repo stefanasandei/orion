@@ -18,6 +18,26 @@
 	}
 
 	const { project, large = false }: Props = $props();
+
+	// it might not be the best code
+	// but the deadline is approaching fast
+	const name = (() => {
+		if (!large) {
+			return project.name.length > 30 ? project.name.substring(0, 30) + '...' : project.name;
+		}
+		return project.name;
+	})();
+
+	const description = (() => {
+		if (!large) {
+			return project.description!.length > 50
+				? project.name.substring(0, 50) + '...'
+				: project.description;
+		}
+		return project.description!.length > 250
+			? project.name.substring(0, 250) + '...'
+			: project.description;
+	})();
 </script>
 
 <a href={`/browse/project/${project.id}`}>
@@ -29,10 +49,12 @@
 	>
 		<div>
 			<Card.Header>
-				<Card.Title>{project.name}</Card.Title>
+				<Card.Title>{name}</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<p>{project.description}</p>
+				<p>
+					{description}
+				</p>
 			</Card.Content>
 		</div>
 		<Card.Footer>
