@@ -42,7 +42,7 @@
 						class="data-[active=true]:bg-transparent"
 					>
 						<File />
-						{note.name}
+						{note.name.length > 20 ? note.name.substring(0, 20) + '...' : note.name}
 					</Sidebar.MenuButton>
 				</a>
 			</FiletreeItemContext>
@@ -57,7 +57,7 @@
 								<Sidebar.MenuButton {...props}>
 									<ChevronRight className="transition-transform" />
 									<Folder />
-									{note.name}
+									{note.name.length > 20 ? note.name.substring(0, 20) + '...' : note.name}
 								</Sidebar.MenuButton>
 							</FiletreeItemContext>
 						{/snippet}

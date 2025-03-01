@@ -53,13 +53,15 @@
 
 		<!-- tags & edit buttons -->
 		<div class="row-span-1 flex h-fit flex-row justify-between">
-			<div class="flex flex-row items-center gap-1">
+			<div class={'flex flex-row items-center gap-1'}>
 				{#each project.tags as tag}
 					<Badge variant={'secondary'}>{tag.name}</Badge>
 				{/each}
 
 				{#if !isPublicView}
-					<AddTag {project} />
+					<div class={project.tags.length > 0 ? 'ml-3' : ''}>
+						<AddTag {project} />
+					</div>
 				{/if}
 			</div>
 

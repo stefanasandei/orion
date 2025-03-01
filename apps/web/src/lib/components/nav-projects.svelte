@@ -38,7 +38,8 @@
 						<a href={item.url} class="flex flex-row justify-between" {...props}>
 							<span class="flex flex-row items-center gap-2">
 								<item.icon class="p-1" />
-								<span>{item.name}</span>
+								<span>{item.name.length > 20 ? item.name.substring(0, 20) + '...' : item.name}</span
+								>
 							</span>
 							<DropdownMenu.Root>
 								<DropdownMenu.Trigger>
@@ -56,6 +57,7 @@
 								>
 									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>
 										<Folder class="text-muted-foreground" />
+										<!-- TODO: i18n -->
 										<span>View Project</span>
 									</DropdownMenu.Item>
 									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>

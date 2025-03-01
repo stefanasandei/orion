@@ -59,7 +59,7 @@
 
 <ResponsiveDialog class="" title={$t('project.add_tag')} description={''} bind:open>
 	{#snippet triggerButton()}
-		<Button class="ml-3" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
+		<Button class="ml-0" size={'small-icon'} variant={'outline'}><Icons.add /></Button>
 	{/snippet}
 
 	<div class="flex h-full flex-col justify-between">
