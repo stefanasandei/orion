@@ -10,6 +10,7 @@
 	import { useChat } from '@ai-sdk/svelte';
 	import { writable } from 'svelte/store';
 	import HtmlPreview from '../html-preview.svelte';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
 		user: { id: number };
@@ -18,7 +19,7 @@
 	// const { user }: Props = $props();
 
 	// const state = $state<'landing' | 'chat'>('chat');
-	$: state = 'landing'; // for testing, keep it 'chat' instead of 'landing'
+	$: state = 'landing';
 
 	// general utils
 	function formatMessageContent(content: string) {
@@ -115,19 +116,17 @@
 		<div class="flex-1 space-y-6 overflow-y-auto px-1 md:px-4">
 			{#each $messages as message}
 				<div class="flex flex-col {message.role === 'user' ? 'items-end' : 'items-start'}">
-					<div
-						class="flex items-start gap-2.5 {message.role === 'user'
-							? 'flex-row-reverse'
-							: 'flex-row'}"
-					>
+					<div class="flex flex-row items-start gap-2.5">
 						<div class="flex flex-col gap-1 md:max-w-[80%]">
 							<div class={'text-muted-foreground w-full text-sm'}>
 								{message.role === 'user' ? 'You' : 'Assistant'}
 							</div>
+
 							<div
-								class="min-w-16 rounded-lg {message.role === 'user'
-									? 'bg-primary text-primary-foreground'
-									: 'bg-muted'} px-4 py-2"
+								class={cn(
+									'flex w-fit items-start rounded-lg px-4 py-2',
+									message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
+								)}
 							>
 								{@html formatMessageContent(message.content)}
 							</div>
