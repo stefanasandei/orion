@@ -7,6 +7,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { Button } from '../ui/button';
 	import ThoughtCard from './thought-card.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		thoughts: Note[];
@@ -19,7 +20,7 @@
 	const addNewThought = trpc().project.createQuickNote.createMutation({
 		onSuccess: async () => {
 			newThought = '';
-			toast.success('Thought added! 😊');
+			toast.success($t('dashboard.quick_thoughts.success'));
 			await invalidateAll();
 		}
 	});
@@ -39,12 +40,12 @@
 >
 	<div>
 		<div class="mb-2 flex flex-col justify-between gap-2 md:flex-row">
-			<p class="text-2xl">Quick thoughts</p>
+			<p class="text-2xl">{$t('dashboard.quick_thoughts.title')}</p>
 
 			<div class="flex flex-row gap-2">
 				<Input
 					class="w-fit"
-					placeholder="write something..."
+					placeholder={$t('dashboard.quick_thoughts.placeholder')}
 					bind:value={newThought}
 					onkeydown={handleKeydown}
 				/>
@@ -56,7 +57,7 @@
 								type: 'thought'
 							});
 						}
-					}}>Add</Button
+					}}>{$t('dashboard.quick_thoughts.add')}</Button
 				>
 			</div>
 		</div>

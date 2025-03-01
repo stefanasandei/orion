@@ -7,6 +7,7 @@
 	import Separator from '../ui/separator/separator.svelte';
 	import { Debounced } from 'runed';
 	import ThoughtCard from './thought-card.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	// state related to the search query
 	let search = $state('');
@@ -17,17 +18,17 @@
 </script>
 
 <ResponsiveDialog
-	title="Search through your work"
+	title={$t('dashboard.search.title')}
 	class="flex h-fit max-w-5xl flex-col gap-6 transition-all"
 	description=""
 >
 	{#snippet triggerButton()}
-		<Button variant={'outline'} class="w-fit lg:w-full">Search through your work</Button>
+		<Button variant={'outline'} class="w-fit lg:w-full">{$t('dashboard.search.button')}</Button>
 	{/snippet}
 
 	<div class="flex flex-row gap-4">
-		<Input bind:value={search} placeholder="search for anything..." class="w-full" />
-		<Button>Ask</Button>
+		<Input bind:value={search} placeholder={$t('dashboard.search.placeholder')} class="w-full" />
+		<Button>{$t('dashboard.search.ask')}</Button>
 	</div>
 	<Separator />
 
@@ -52,7 +53,7 @@
 		{/if}
 	{:else}
 		<div class="flex h-full w-full items-center justify-center">
-			<p>try searching for something!</p>
+			<p>{$t('dashboard.search.empty')}</p>
 		</div>
 	{/if}
 </ResponsiveDialog>

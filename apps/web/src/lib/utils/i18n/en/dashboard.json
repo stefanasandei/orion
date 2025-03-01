@@ -27,5 +27,31 @@
 	"name_placeholder": "Physics: Oscillatory motion",
 	"description_placeholder": "Theory and sample exercises for the first semester of 11th grade.",
 	"project_created": "Project created successfully",
-	"workspace_created": "Workspace created successfully"
+	"workspace_created": "Workspace created successfully",
+	"activity": {
+		"today": "Today it's",
+		"tasks_title": "Tasks for today",
+		"new_task_placeholder": "New task...",
+		"add_task": "Add",
+		"no_tasks": "no tasks 🎉",
+		"newsfeed_title": "Newsfeed",
+		"no_news": "no news 👀"
+	},
+	"recent_work": {
+		"title": "Recent work",
+		"no_documents": "no recent documents!"
+	},
+	"quick_thoughts": {
+		"title": "Quick thoughts",
+		"placeholder": "write something...",
+		"add": "Add",
+		"success": "Thought added! 😊"
+	},
+	"search": {
+		"button": "Search through your work",
+		"title": "Search through your work",
+		"placeholder": "search for anything...",
+		"ask": "Ask",
+		"empty": "try searching for something!"
+	}
 }

@@ -9,6 +9,7 @@
 	import { toast } from 'svelte-sonner';
 	import type { Note } from '@repo/db';
 	import { invalidateAll } from '$app/navigation';
+	import { t } from '@/utils/i18n/translations';
 
 	// props
 	interface Props {
@@ -66,13 +67,13 @@
 	class="border-muted bg-card hover:bg-card/10 flex flex-col gap-4 rounded-lg border-2 p-3 transition-all md:col-span-1 md:h-full"
 >
 	<div class="flex flex-col items-start gap-2">
-		<p class="text-card-foreground/90">Today it's</p>
+		<p class="text-card-foreground/90">{$t('dashboard.activity.today')}</p>
 		<p class="text-muted-foreground font-semibold">{currDate}</p>
 	</div>
 
 	<div class="mt-4 flex flex-col items-start gap-2">
 		<div class="flex w-full flex-row items-center justify-between">
-			<p class=" text-2xl font-semibold md:text-xl">📌 Tasks for today</p>
+			<p class=" text-2xl font-semibold md:text-xl">📌 {$t('dashboard.activity.tasks_title')}</p>
 			<Button size="small-icon" onclick={() => (addNewTask = !addNewTask)}>
 				{#if !addNewTask}
 					<Icons.add />
@@ -88,10 +89,10 @@
 				<Input
 					class="h-fit"
 					bind:value={newTaskName}
-					placeholder="New task..."
+					placeholder={$t('dashboard.activity.new_task_placeholder')}
 					onkeydown={handleKeydown}
 				/>
-				<Button size="sm" onclick={() => createTask()}>Add</Button>
+				<Button size="sm" onclick={() => createTask()}>{$t('dashboard.activity.add_task')}</Button>
 			</div>
 		{/if}
 
@@ -113,13 +114,13 @@
 			{/each}
 
 			{#if taskCount == 0}
-				<p class="text-foreground/80 w-full text-center">no tasks 🎉</p>
+				<p class="text-foreground/80 w-full text-center">{$t('dashboard.activity.no_tasks')}</p>
 			{/if}
 		</ul>
 	</div>
 
 	<div class="mt-4 flex flex-col items-start gap-2">
-		<p class="text-2xl font-semibold md:text-xl">🗞 Newsfeed</p>
+		<p class="text-2xl font-semibold md:text-xl">🗞 {$t('dashboard.activity.newsfeed_title')}</p>
 		<Separator />
 
 		<ul class="ml-4 w-full list-inside list-disc space-y-4 md:text-lg">
@@ -130,7 +131,7 @@
 			{/each}
 
 			{#if feedCount == 0}
-				<p class="text-foreground/80 w-full text-center">no news 👀</p>
+				<p class="text-foreground/80 w-full text-center">{$t('dashboard.activity.no_news')}</p>
 			{/if}
 		</ul>
 	</div>
