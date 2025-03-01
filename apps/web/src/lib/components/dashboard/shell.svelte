@@ -12,6 +12,7 @@
 	import NoteSidebar from '../project/note-sidebar.svelte';
 	import type { Note, Project } from '@repo/db';
 	import type { NoteTreeNode } from '@repo/api/services';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
 		pageName: string;
@@ -69,13 +70,11 @@
 				</div>
 			</header>
 			<div class="bg-background h-full overflow-x-hidden rounded-md p-2 md:m-2">
-				{#if fixedScroll}
-					<div class="h-full max-h-[95svh] overflow-x-hidden overflow-y-scroll">
-						{@render children?.()}
-					</div>
-				{:else}
+				<div
+					class={cn('max-h-[95svh] overflow-y-auto overflow-x-hidden', fixedScroll ? 'h-full' : '')}
+				>
 					{@render children?.()}
-				{/if}
+				</div>
 			</div>
 		</Sidebar.Inset>
 

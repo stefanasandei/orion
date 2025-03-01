@@ -42,7 +42,10 @@
 				: 'bg-background hover:bg-muted/50 border-border'}"
 		>
 			<button class="truncate" onclick={async () => await switchTab(tab.noteId)}
-				>{tab.title}{tab.isDirty && !isPublicView ? '*' : ''}</button
+				>{tab.title.length > 20 ? tab.title.substring(0, 20) + '...' : tab.title}{tab.isDirty &&
+				!isPublicView
+					? '*'
+					: ''}</button
 			>
 
 			{#if tab.noteId !== activeNoteId}
