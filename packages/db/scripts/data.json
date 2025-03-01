@@ -1,0 +1,248 @@
+{
+    "userMetadata": [
+        {
+            "name": "Admin",
+            "email": "admin@orion.asandei.com",
+            "passwordHash": "ec9f373faf23f84aef910e6b07be1673b2bc665ec896ca10843ca235147436c8",
+            "bio": "",
+            "isPublic": true
+        },
+        {
+            "name": "Stefan Asandei",
+            "email": "asandei.stefanel@gmail.com",
+            "passwordHash": "ec9f373faf23f84aef910e6b07be1673b2bc665ec896ca10843ca235147436c8",
+            "bio": "",
+            "isPublic": true
+        },
+        {
+            "name": "Andrei Popescu",
+            "email": "amcbn@example.com",
+            "passwordHash": "ec9f373faf23f84aef910e6b07be1673b2bc665ec896ca10843ca235147436c8",
+            "bio": "",
+            "isPublic": true
+        }
+    ],
+    "workspaces": [
+        {
+            "forUsername": "Stefan Asandei",
+            "name": "Scoala"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "name": "Programare"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "name": "Scoala"
+        }
+    ],
+    "projects": [
+        {
+            "forUsername": "Stefan Asandei",
+            "forWorkspace": "Scoala",
+            "name": "Mişcare oscilatorie armonică",
+            "description": "Acest proiect explorează principiile de bază ale mișcării oscilatorii armonice, incluzând legile fizicii, ecuațiile de mișcare și aplicațiile practice în inginerie.",
+            "isPublic": true
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forWorkspace": "Programare",
+            "name": "Grafuri",
+            "description": "Un studiu aprofundat al teoriei grafurilor, punând accent pe algoritmi de parcurgere, conexiuni și aplicații în optimizarea rețelelor.",
+            "isPublic": true
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forWorkspace": "Scoala",
+            "name": "Anatomie clasa a 11-a",
+            "description": "Materiale educaționale pentru cursul de anatomie, abordând structura corpului uman, funcțiile sistemelor și elemente de biologie aplicată la nivel de liceu.",
+            "isPublic": true
+        }
+    ],
+    "notes": [
+        {
+            "forUsername": "Stefan Asandei",
+            "type": "thought",
+            "name": "inscriere infomatrix pana pe 20 Martie"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "type": "thought",
+            "name": "pinecone pentru a stoca vector embeddings"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "type": "thought",
+            "name": "proiect informatica pana pe 3 Martie"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "type": "thought",
+            "name": "Barron's pentru admitere"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "type": "task",
+            "name": "de scris documentatia"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "type": "task",
+            "name": "de facut tema matematica"
+        },
+        {
+            "type": "newsfeed",
+            "forUsername": "Admin",
+            "name": "Concursul Prosoft@NT va avea loc 4-7 Martie."
+        },
+        {
+            "type": "newsfeed",
+            "forUsername": "Admin",
+            "name": "Olimpiada Judeţeană de Informatică va avea loc pe 15-16 Martie."
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Mişcare oscilatorie armonică",
+            "parentNote": null,
+            "type": "document",
+            "name": "Teorie",
+            "textContent": ""
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Mişcare oscilatorie armonică",
+            "parentNote": null,
+            "type": "document",
+            "name": "Formule",
+            "textContent": "# Formule fundamentale în mișcarea oscilatorie armonică\n\n## Ecuația de mișcare\n$$x(t)=A\\cos(\\omega t+\\phi)$$\nunde:\n- **A** = amplitudinea (deplasarea maximă față de poziția de echilibru) [m]\n- **ω** = pulsația (frecvența unghiulară) [rad/s]\n- **φ** = faza inițială [rad]\n\n*Explicație:* Această ecuație descrie variația în timp a poziției unui corp în mișcare oscilatorie. Funcția cosinus arată caracterul periodic, iar faza inițială φ determină poziția la momentul t=0.\n\n## Relații derivate\n\n### Viteza instantanee\n$$v(t)=\\frac{dx}{dt}=-A\\omega\\sin(\\omega t+\\phi)$$\n\n*Interpretare fizică:* Viteza atinge valoarea maximă \\(v_{max}=A\\omega\\) când corpul trece prin poziția de echilibru.\n\n### Accelerația instantanee\n$$a(t)=\\frac{d^2x}{dt^2}=-A\\omega^2\\cos(\\omega t+\\phi)$$\n\n*Semnificație:* Accelerația este proporțională cu elongația și de sens opus (caracteristică forței elastice). Valoarea maximă \\(a_{max}=A\\omega^2\\).\n\n## Energii în sistem\n\n### Energia potențială elastică\n$$E_p=\\frac{1}{2}kx^2=\\frac{1}{2}kA^2\\cos^2(\\omega t+\\phi)$$\n\n### Energia cinetică\n$$E_c=\\frac{1}{2}mv^2=\\frac{1}{2}m\\omega^2A^2\\sin^2(\\omega t+\\phi)$$\n\n### Energia mecanică totală\n$$E_{total}=E_p+E_c=\\frac{1}{2}kA^2$$\n\n*Demonstrație:* Folosind relația \\(\\omega^2=\\frac{k}{m}\\), se observă că energia totală este constantă.\n\n## Relații între parametri\n\n### Perioada și frecvența\n$$T=\\frac{2\\pi}{\\omega}=2\\pi\\sqrt{\\frac{m}{k}}$$\n$$f=\\frac{1}{T}=\\frac{\\omega}{2\\pi}$$\n\n*Aplicație practică:* Pentru un resort, măsurarea perioadei permite calcularea constantei elastice: \\(k=\\frac{4\\pi^2m}{T^2}\\).\n\n## Oscilații forțate și rezonanță\nCând sistemul este supus unei forțe periodice externe \\(F(t)=F_0\\cos(\\Omega t)\\), ecuația devine:\n$$\\frac{d^2x}{dt^2}+2\\beta\\frac{dx}{dt}+\\omega_0^2x=\\frac{F_0}{m}\\cos(\\Omega t)$$\nRezonanța apare când \\(\\Omega=\\sqrt{\\omega_0^2-2\\beta^2}\\)."
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Mişcare oscilatorie armonică",
+            "parentNote": "Teorie",
+            "type": "document",
+            "name": "Fenomen",
+            "textContent": "# Fenomenologia mișcării oscilatorii armonice\n\n## Definiție și condiții de apariție\nMișcarea oscilatorie armonică apare când asupra unui corp acționează o **forță de revenire** proporțională cu deplasarea față de poziția de echilibru. Acest tip de forță este descris de legea lui Hooke:\n\n$$\\vec{F}=-k\\vec{x}$$\n\nunde k este constanta elastică a sistemului. Această dependență liniară este esențială pentru caracterul armonic al mișcării.\n\n## Mecanisme fizice\n1. **Sisteme elastice** (resorturi): Deformații elastice în materiale\n2. **Sisteme gravitaționale** (pendule): Componenta tangențială a greutății\n3. **Sisteme electromagnetice**: Forțe Lorentz în circuite LC\n\n*Exemplu practic:* În cazul unui pendul gravitațional, pentru unghiuri mici (<15°), forța de revenire este aproximativ proporțională cu deplasarea unghiulară.\n\n## Analogii între sisteme\n\n| Sistem        | Mărime de stare | Forță de revenire | Constanta elastică echivalentă |\n|---------------|-----------------|--------------------|-------------------------------|\n| Resort        | Elongație x     | F = -kx            | k                             |\n| Pendul        | Unghi θ         | τ = -mglθ          | mgl                           |\n| Circuit LC    | Sarcină q       | ε = - (1/C)q       | 1/C                           |\n\n## Aplicații tehnologiche\n- **Ceasuri mecanice**: Utilizează oscilații regulate ale balansierului\n- **Seismografe**: Detectează vibrații terestre\n- **Sisteme de suspensie**: Amortizoare pentru controlul oscilațiilor\n- **Laseri**: Cavități rezonante optice\n\n## Istoric\nPrima formulare matematică aparține lui Robert Hooke (1676), iar ecuația diferențială a fost rezolvată de Leonhard Euler în 1739. Conceptul a jucat un rol cheie în dezvoltarea mecanicii cuantice."
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Mişcare oscilatorie armonică",
+            "parentNote": "Teorie",
+            "type": "document",
+            "name": "Oscilatie amortizata",
+            "textContent": "# Oscilații amortizate - Teorie detaliată\n\n## Mecanisme de amortizare\nEnergia sistemului oscilator se disipează prin:\n1. **Frecare vâscoasă** (forță proporțională cu viteza): $$F_f=-bv$$\n2. **Rezistența aerului**\n3. **Deformări plastice** în materiale\n\n## Clasificarea regimurilor\n\n### 1. Regim subamortizat (β < ω₀)\n$$x(t)=Ae^{-\\beta t}\\cos(\\omega t+\\phi)$$\nunde:\n- **β** = coeficient de amortizare\n- **ω** = pulsație modificată: $$\\omega=\\sqrt{\\omega_0^2-\\beta^2}$$\n\n*Caracteristici:*\n- Oscilații cu amplitudine descrescătoare exponențial\n- Menținerea caracterului oscilator\n\n### 2. Amortizare critică (β = ω₀)\n$$x(t)=(A+Bt)e^{-\\beta t}$$\n\n*Aplicații:*\n- Sisteme de suspensie auto\n- Uși automate\n\n### 3. Regim supraamortizat (β > ω₀)\n$$x(t)=e^{-\\beta t}(Ae^{\\sqrt{\\beta^2-\\omega_0^2}t}+Be^{-\\sqrt{\\beta^2-\\omega_0^2}t})$$\n\n*Comportament:*\n- Revenire lentă spre echilibru fără oscilații\n\n## Factorul de calitate Q\n$$Q=2\\pi\\frac{\\text{Energia stocată}}{\\text{Energia disipată per ciclu}}$$\n\nPentru oscilatorul armonic:\n$$Q=\\frac{\\omega_0}{2\\beta}$$\n\n- Q < 0.5: Sistem supraamortizat\n- Q = 0.5: Amortizare critică\n- Q > 0.5: Subamortizat\n\n## Metode de combatere a amortizării\n1. **Alimentare externă** (oscilații forțate)\n2. **Materiale cu pierderi mici** (cuarț în ceasuri)\n3. **Sisteme izolate** (vid pentru pendule)"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Mişcare oscilatorie armonică",
+            "parentNote": "Teorie",
+            "type": "document",
+            "name": "Marimi fizice",
+            "textContent": "# Sistemul de mărimi fizice în MOA\n\n## Tabel de mărimi fundamentale\n\n| Mărime | Simbol | Unitate | Relații importante |\n|--------|--------|---------|--------------------|\n| Amplitudine | A | m | \\(A=\\frac{F_0}{m\\sqrt{(\\omega_0^2-\\Omega^2)^2+4\\beta^2\\Omega^2}\\) |\n| Pulsație proprie | ω₀ | rad/s | \\(\\omega_0=\\sqrt{\\frac{k}{m}\\) |\n| Frecvență | f | Hz | \\(f=\\frac{1}{T}=\\frac{\\omega}{2\\pi\\) |\n| Constanta elastică | k | N/m | \\(k=m\\omega_0^2\\) |\n| Factor de calitate | Q | adimensional | \\(Q=\\frac{1}{2\\beta}\\sqrt{\\frac{k}{m}\\) |\n| Coeficient de amortizare | β | s⁻¹ | \\(\\beta=\\frac{b}{2m\\) |\n\n## Tehnici experimentale de măsurare\n1. **Determinarea constantei k**:\n- Metoda statică: \\(k=\\frac{mg}{\\Delta l\\)\n- Metoda dinamică: \\(k=\\frac{4\\pi^2m}{T^2\\)\n\n2. **Măsurarea amortizării**:\n- Logaritmul decrementului: \\(\\Lambda=\\ln\\frac{A_n}{A_{n+1}}=\\beta T\\)\n\n3. **Determinarea factorului Q**:\n- Lărgimea la jumătate din maxim: \\(Q=\\frac{\\omega_0}{\\Delta\\omega\\)\n\n## Conversii utile\n$$1\\,\\text{Hz}=2\\pi\\,\\text{rad/s}$$\n$$1\\,\\text{N/m}=1\\,\\text{kg/s}^2$$\n$$1\\,\\text{J}=1\\,\\text{N·m}=1\\,\\text{kg·m}^2/\\text{s}^2$$\n\n## Ordine de mărime\n- Pendul gravitațional: T ≈ 1-10s\n- Sistem masă-resort: T ≈ 0.1-5s\n- Cristal de cuarț: f ≈ 32kHz\n- Electron în atom: f ≈ 10¹⁵Hz"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Grafuri",
+            "parentNote": null,
+            "type": "document",
+            "name": "Terminologie",
+            "textContent": "# Terminologie în teoria grafurilor\n\n## Concepte de bază\n1. **Graf** - Pereche ordonată \\(G=(V,E)\\) unde:\n   - \\(V\\) = mulțime de vârfuri/noduri\n   - \\(E\\) = mulțime de muchii/arce\n2. **Graf orientat** vs **neorientat**\n3. **Grad**:\n   - **Grad interior**: Numărul de arce intrănte într-un nod\n   - **Grad exterior**: Numărul de arce ieșente dintr-un nod\n\n## Tipuri speciale de grafuri\n- **Graf complet**: \\(K_n\\) - toate nodurile sunt conectate\n- **Graf bipartit**: Nodurile se împart în două mulțimi disjuncte\n- **Arbore**: Graf conex fără cicluri\n- **Graf eulerian**: Conține un ciclu care trece prin fiecare muchie exact o dată\n\n## Matrice și liste de adiacență\n```cpp\n// Reprezentare matrice de adiacență\nint adjMatrix[NMAX][NMAX];\n\n// Reprezentare liste de adiacență\nvector<int> adjList[NMAX];\n\n// Reprezentare cu structuri\nstruct Edge {\n    int u, v, weight;\n};\nvector<Edge> edges;\n```"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Grafuri",
+            "parentNote": null,
+            "type": "document",
+            "name": "Componente tare conexe: Kosaraju",
+            "textContent": "# Algoritmul Kosaraju pentru componente tare conexe\n\n## Pași algoritmici\n1. **Parcurgere DFS** pentru ordonarea nodurilor după timpul de finalizare\n2. **Transpunerea grafului** (inversarea tuturor arcelor)\n3. **DFS pe graful transpus** în ordinea descrescătoare a timpilor de finalizare\n\n## Complexitate\n- Timp: \\(O(V+E)\\)\n- Spațiu: \\(O(V)\\)\n\n## Implementare C++\n```cpp\n#include <vector>\n#include <stack>\nusing namespace std;\n\nvoid dfs1(int u, vector<bool>& visited, stack<int>& order, const vector<vector<int>>& adj) {\n    visited[u] = true;\n    for(int v : adj[u])\n        if(!visited[v])\n            dfs1(v, visited, order, adj);\n    order.push(u);\n}\n\nvoid dfs2(int u, vector<bool>& visited, const vector<vector<int>>& adj, vector<int>& component) {\n    visited[u] = true;\n    component.push_back(u);\n    for(int v : adj[u])\n        if(!visited[v])\n            dfs2(v, visited, adj, component);\n}\n\nvector<vector<int>> kosaraju(const vector<vector<int>>& adj, int n) {\n    stack<int> order;\n    vector<bool> visited(n, false);\n    \n    // Primul DFS\n    for(int i=0; i<n; ++i)\n        if(!visited[i])\n            dfs1(i, visited, order, adj);\n    \n    // Transpunere graf\n    vector<vector<int>> adjT(n);\n    for(int u=0; u<n; ++u)\n        for(int v : adj[u])\n            adjT[v].push_back(u);\n    \n    // Al doilea DFS\n    fill(visited.begin(), visited.end(), false);\n    vector<vector<int>> components;\n    while(!order.empty()) {\n        int u = order.top();\n        order.pop();\n        \n        if(!visited[u]) {\n            vector<int> component;\n            dfs2(u, visited, adjT, component);\n            components.push_back(component);\n        }\n    }\n    return components;\n}\n```\n\n## Aplicații\n- Detectarea comunităților în rețele sociale\n- Analiza circuitelor în sisteme electronice\n- Optimizarea compilatoarelor"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Grafuri",
+            "parentNote": null,
+            "type": "document",
+            "name": "Drum minim: Roy Floyd, Dijkstra",
+            "textContent": "# Algoritmi pentru drumuri minime\n\n## Algoritmul Roy-Floyd\nCalculează drumurile minime între toate perechile de noduri\n\n### Ecuația principală\n$$d_{ij}^{(k)} = \\min(d_{ij}^{(k-1)}, d_{ik}^{(k-1)} + d_{kj}^{(k-1)})$$\n\n### Implementare C++\n```cpp\nvoid royFloyd(int dist[NMAX][NMAX], int n) {\n    for(int k=0; k<n; ++k)\n        for(int i=0; i<n; ++i)\n            for(int j=0; j<n; ++j)\n                if(dist[i][j] > dist[i][k] + dist[k][j])\n                    dist[i][j] = dist[i][k] + dist[k][j];\n}\n```\n\n## Algoritmul Dijkstra\nGăsește drumurile minime dintr-un nod sursă în grafuri cu ponderi nenegative\n\n### Pseudocod\n1. Inițializează distanțe cu ∞ și coadă de prioritate\n2. Setează distanța sursei la 0\n3. Extrage nodul cu distanța minimă\n4. Actualizează distanțele vecinilor\n5. Repetă până când toate nodurile sunt procesate\n\n### Implementare C++\n```cpp\n#include <queue>\nusing namespace std;\n\ntypedef pair<int, int> pii;\n\nvector<int> dijkstra(const vector<vector<pii>>& adj, int start, int n) {\n    vector<int> dist(n, INT_MAX);\n    priority_queue<pii, vector<pii>, greater<pii>> pq;\n    \n    dist[start] = 0;\n    pq.push({0, start});\n    \n    while(!pq.empty()) {\n        int u = pq.top().second;\n        int d = pq.top().first;\n        pq.pop();\n        \n        if(d > dist[u]) continue;\n        \n        for(auto& edge : adj[u]) {\n            int v = edge.first;\n            int w = edge.second;\n            \n            if(dist[v] > dist[u] + w) {\n                dist[v] = dist[u] + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    return dist;\n}\n```\n\n## Comparație\n| Criteriu          | Roy-Floyd       | Dijkstra        |\n|-------------------|-----------------|-----------------|\n| Tipul grafurilor  | Orientate/Negative | Nenegative     |\n| Complexitate      | \\(O(V^3)\\)      | \\(O((V+E)\\log V)\\) |\n| Spațiu            | \\(O(V^2)\\)      | \\(O(V+E)\\)      |"
+        },
+        {
+            "forUsername": "Stefan Asandei",
+            "forProject": "Grafuri",
+            "parentNote": null,
+            "type": "document",
+            "name": "Parcurgere: DFS, BFS",
+            "textContent": "# Algoritmi de parcurgere grafuri\n\n## Depth-First Search (DFS)\n### Caracteristici\n- Utilizează stivă (recursivitate sau explicită)\n- Explorează în adâncime\n- Util pentru: detectare componente conexe, sortare topologică\n\n### Implementare iterativă\n```cpp\nvoid dfsIterative(int start, const vector<vector<int>>& adj) {\n    vector<bool> visited(adj.size(), false);\n    stack<int> s;\n    s.push(start);\n    \n    while(!s.empty()) {\n        int u = s.top();\n        s.pop();\n        \n        if(visited[u]) continue;\n        visited[u] = true;\n        \n        // Procesează nodul u\n        \n        for(auto it = adj[u].rbegin(); it != adj[u].rend(); ++it)\n            if(!visited[*it])\n                s.push(*it);\n    }\n}\n```\n\n## Breadth-First Search (BFS)\n### Caracteristici\n- Utilizează coadă\n- Explorează în lățime\n- Util pentru: drumuri minime în grafuri neponderate\n\n### Implementare\n```cpp\nvoid bfs(int start, const vector<vector<int>>& adj) {\n    vector<bool> visited(adj.size(), false);\n    queue<int> q;\n    q.push(start);\n    visited[start] = true;\n    \n    while(!q.empty()) {\n        int u = q.front();\n        q.pop();\n        \n        // Procesează nodul u\n        \n        for(int v : adj[u])\n            if(!visited[v]) {\n                visited[v] = true;\n                q.push(v);\n            }\n    }\n}\n```\n\n## Comparație DFS vs BFS\n| Criteriu          | DFS               | BFS               |\n|-------------------|-------------------|-------------------|\n| Structură de date | Stivă             | Coadă             |\n| Spațiu            | \\(O(h)\\)          | \\(O(b^d)\\)        |\n| Aplicații         | Componente conexe | Drumuri minime    |\n| Complexitate      | \\(O(V+E)\\)        | \\(O(V+E)\\)        |\n\n## Variante avansate\n- DFS cu timpi de descoperire/finalizare\n- BFS bidirecțional\n- BFS pe nivele pentru grafuri de dimensiuni mari"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": null,
+            "type": "document",
+            "name": "Introducere în Anatomie",
+            "textContent": "# Introducere în anatomia umană\n\n## Definiție și domeniu\nAnatomia este știința care studiază structura corpului uman și relațiile dintre diferitele componente. Se împarte în:\n1. **Anatomie macroscopică** (studiu cu ochiul liber)\n2. **Anatomie microscopică** (histologie)\n3. **Anatomie dezvoltare** (embriologie)\n\n## Sisteme principale\n$$\\text{Corp uman} = \\bigcup_{i=1}^{11} \\text{Sistem}_i$$\nPrincipalele sisteme studiate:\n- Sistemul locomotor (osos + muscular)\n- Sistemul nervos\n- Sistemul circulator\n- Sistemul respirator\n\n## Metode de studiu\n1. **Palpație** - examinare manuală\n2. **Disecție** - studiu pe cadavru\n3. **Imagini medicale** (RMN, CT, radiografie)\n4. **Modele 3D** computazionale\n\n## Terminologie anatomică\n- **Planuri corp**: sagital, frontal, transversal\n- **Direcții**: medial/lateral, proximal/distal\n- **Cavități**: cranial, toracic, abdominal"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": null,
+            "type": "document",
+            "name": "Sistemul Osos",
+            "textContent": "# Folder: Sistemul Osos"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Osos",
+            "type": "document",
+            "name": "Structura osoasă",
+            "textContent": "## Structura macroscopică a osului\n\n### Componente:\n1. **Diifiză** - porțiunea cilindrică lungă\n2. **Epifiză** - capetele osoase\n3. **Metafiză** - zona de creștere\n\n### Țesut osos:\n$$\\text{Os} = \\begin{cases} \\text{Os compact} & 80\\% \\\\ \\text{Os spongios} & 20\\% \\end{cases}$$\n\n**Compoziție chimică:**\n- 25% apă\n- 30% substanțe organice (colagen)\n- 45% substanțe anorganice ($$\\text{Ca}_{10}(\\text{PO}_4)_6(\\text{OH})_2$$ - hidroxiapatit)\n\n```mermaid\ngraph TD\nA[Os] --> B[Os Compact]\nA --> C[Os Spongios]\nB --> D[Osteon]\nD --> E[Canale Havers]\nD --> F[Lamelae concentrice]\nC --> G[Trabecule osoase]\n```"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Osos",
+            "type": "document",
+            "name": "Tipuri de oase",
+            "textContent": "## Clasificarea oaselor\n\n### După formă:\n1. **Oase lungi** (femur, humerus)\n   - Structură: diafiză + 2 epize\n   - Funcție: pârghii\n2. **Oase scurte** (carpiene, tarsiene)\n   - Formă cuboidă\n   - Funcție: absorbție șoc\n3. **Oase plate** (craniu, stern)\n   - Structură: diploe\n   - Funcție: protecție\n4. **Oase neregulate** (vertebre)\n\n### După dezvoltare:\n- **Oase intramembranoase**: formare directă din țesut conjunctiv (ex. craniu)\n- **Oase endocondrale**: formare prin înlocuirea cartilajului (ex. oase lungi)"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Osos",
+            "type": "document",
+            "name": "Articulații",
+            "textContent": "## Clasificarea articulațiilor\n\n### 1. Sinartroze (fixe)\n- **Suturi** craniene\n- **Sindesmoze** (legamente)\n\n### 2. Amfiartroze (semi-mobile)\n- Între vertebre (disc intervertebral)\n- Simfiza pubiană\n\n### 3. Diartroze (mobile)\n**Componente:**\n- Capsulă articulară\n- Lichid sinovial\n- Cartilaj hialin\n\n**Tipuri:**\n- **Ginglim** (cotul)\n- **Sferică** (șold)\n- **Pivot** (atlas-axis)\n\n$$\\text{Mobilitate} \\propto \\frac{1}{\\text{Stabilitate}}$$"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": null,
+            "type": "document",
+            "name": "Sistemul Muscular",
+            "textContent": "# Folder: Sistemul Muscular"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Muscular",
+            "type": "document",
+            "name": "Tipuri de mușchi",
+            "textContent": "## Clasificarea țesutului muscular\n\n### 1. Mușchi scheletic\n- Striat\n- Control voluntar\n- 40% din masa corporală\n\n### 2. Mușchi cardiac\n- Striat involuntar\n- Celule conectate prin discuri intercalare\n\n### 3. Mușchi neted\n- Nestriat\n- Control involuntar\n- Perete viscerelor\n\n```cpp\n// Analogie structură fascicul muscular\nstruct Fasciculus {\n    vector<FibraMusculara> fibre;\n    TejConjunctiv perimysiu;\n};\n\nclass Muschi {\nprivate:\n    vector<Fasciculus> fasciculi;\n    TejConjunctiv epimysiu;\npublic:\n    void contractie(float intensitate);\n};\n```"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Muscular",
+            "type": "document",
+            "name": "Contracția musculară",
+            "textContent": "## Mecanismul contracției\n\n**Teoria filamentelor glisante**\n1. Liberare Ca²⁺ din reticul sarcoplasmic\n2. Legare Ca²⁺ de troponină\n3. Deplasare tropomiozină → expunere situri actină\n4. Formare punți actino-miozice\n5. Glisare filament subțire peste gros\n\n**Ecuația energiei:**\n$$\\text{ATP} + \\text{H}_2\\text{O} \\xrightarrow{\\text{ATP-ază}} \\text{ADP} + \\text{P}_i + 30.5\\, \\text{kJ/mol}$$\n\nFaze contracție:\n1. Faza de latență\n2. Contracție\n3. Relaxare\n\n**Legea lui Starling:**\n$$F \\propto l_0$$\nForța de contracție depinde de lungimea inițială"
+        },
+        {
+            "forUsername": "Andrei Popescu",
+            "forProject": "Anatomie clasa a 11-a",
+            "parentNote": "Sistemul Muscular",
+            "type": "document",
+            "name": "Grupe musculare",
+            "textContent": "## Grupări musculare principale\n\n### Membrul superior:\n1. Deltoid\n2. Biceps brahial\n3. Triceps brahial\n\n### Torso:\n- Pectorali\n- Dorsal lat\n- Intercostali\n\n### Membrul inferior:\n- Quadriceps femural\n- Ischiocrurale\n- Gastrocnemian\n\n### Cap:\n- Masseter\n- Temporal\n- Orbicular\n\n```mermaid\npie title Distribuție masa musculară\n\"Membre inferioare\" : 40\n\"Torso\" : 30\n\"Membre superioare\" : 20\n\"Cap\" : 10\n```"
+        }
+    ]
+}

@@ -11,6 +11,7 @@
     "test:e2e": "pnpm --filter=e2e test",
     "test:unit": "pnpm --filter=unit test",
     "db:studio": "pnpm --filter=db studio",
+    "db:seed": "pnpm --filter=db seed",
     "db:push": "pnpm --filter=db push",
     "docs:dev": "cd apps/docs && mintlify dev --port 3333",
     "clean": "turbo run clean && rm -rf node_modules",
