@@ -1,4 +1,4 @@
-import { db, userMetadataTable, userTable, workspaceTable, projectTable, noteTable, projectPostTable } from "@/index";
+import { db, userMetadataTable, userTable, workspaceTable, projectTable, noteTable, projectPostTable, tagTable, commentTable } from "@/index";
 import data from "./data.json";
 
 const name2id = new Map<string, number>();
@@ -42,14 +42,38 @@ for (let project of data.projects) {
         isPublic: project.isPublic
     }).returning();
 
+    const projectId = newProject[0]!.id;
+
     // Create project post for public projects
     if (project.isPublic) {
-        await db.insert(projectPostTable).values({
-            projectId: newProject[0]!.id
-        });
+        const newPost = await db.insert(projectPostTable).values({
+            projectId: projectId
+        }).returning();
+
+        // Add comments
+        if (project.comments) {
+            for (let comment of project.comments) {
+                await db.insert(commentTable).values({
+                    postId: newPost[0]!.id,
+                    userId: name2id.get(comment.from)!,
+                    content: comment.content
+                });
+            }
+        }
     }
 
-    project2id.set(`${project.forUsername}:${project.name}`, newProject[0]!.id);
+    // Add tags
+    if (project.tags) {
+        for (let tagName of project.tags) {
+            await db.insert(tagTable).values({
+                name: tagName,
+                userId: name2id.get(project.forUsername)!,
+                projectId: projectId
+            }).returning();
+        }
+    }
+
+    project2id.set(`${project.forUsername}:${project.name}`, projectId);
 }
 
 // 4. create notes

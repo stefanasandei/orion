@@ -41,6 +41,20 @@
             "forUsername": "Stefan Asandei",
             "forWorkspace": "Scoala",
             "name": "Mişcare oscilatorie armonică",
+            "tags": [
+                "physics",
+                "school"
+            ],
+            "comments": [
+                {
+                    "content": "Interesant!",
+                    "from": "Andrei Popescu"
+                },
+                {
+                    "content": "Folositor",
+                    "from": "Andrei Popescu"
+                }
+            ],
             "description": "Acest proiect explorează principiile de bază ale mișcării oscilatorii armonice, incluzând legile fizicii, ecuațiile de mișcare și aplicațiile practice în inginerie.",
             "isPublic": true
         },
@@ -48,6 +62,15 @@
             "forUsername": "Stefan Asandei",
             "forWorkspace": "Programare",
             "name": "Grafuri",
+            "tags": [
+                "computer science"
+            ],
+            "comments": [
+                {
+                    "content": "Folositor",
+                    "from": "Andrei Popescu"
+                }
+            ],
             "description": "Un studiu aprofundat al teoriei grafurilor, punând accent pe algoritmi de parcurgere, conexiuni și aplicații în optimizarea rețelelor.",
             "isPublic": true
         },
@@ -55,6 +78,10 @@
             "forUsername": "Andrei Popescu",
             "forWorkspace": "Scoala",
             "name": "Anatomie clasa a 11-a",
+            "tags": [
+                "school",
+                "biology"
+            ],
             "description": "Materiale educaționale pentru cursul de anatomie, abordând structura corpului uman, funcțiile sistemelor și elemente de biologie aplicată la nivel de liceu.",
             "isPublic": true
         }
