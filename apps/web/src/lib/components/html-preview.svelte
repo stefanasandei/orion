@@ -63,4 +63,4 @@
 	});
 </script>
 
-<div bind:this={container} class="prose prose-lg dark:prose-invert"></div>
+<div bind:this={container} class="prose prose-lg dark:prose-invert min-w-full"></div>

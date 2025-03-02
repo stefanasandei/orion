@@ -6,7 +6,7 @@
 	import { writable } from 'svelte/store';
 	import { cn } from '../../utils/cn';
 	import { t } from '@/utils/i18n/translations';
-	import { formatMessageContent } from '../../utils/assistant-msg';
+	// import { formatMessageContent } from '../../utils/assistant-msg';
 
 	interface Props {
 		noteId: number;
@@ -25,12 +25,10 @@
 			: trpc().project.getNote.createQuery({ noteId })
 	);
 
-	// const htmlContent = $derived($note.data!.htmlContent);
-	// TODO: check proper content
-	const htmlContent = $derived(formatMessageContent($note.data!.textContent));
+	const htmlContent = $derived($note.data!.htmlContent);
 	let HtmlPreview = $state<Component<{}, {}, any> | null>(null);
 
-	let centerContent = false;
+	let centerContent = true;
 
 	$effect(() => {
 		if ($note.isLoading) return;
@@ -42,7 +40,7 @@
 	});
 </script>
 
-<div class="prose prose-lg dark:prose-invert h-full w-full">
+<div class="h-full w-full">
 	{#if $note.isLoading}
 		<LoadingSpinner />
 	{:else if htmlContent.length === 0}
@@ -51,7 +49,10 @@
 		</div>
 	{:else}
 		<div
-			class={cn('h-full w-full overflow-auto', centerContent ? 'md:mx-auto md:max-w-[50vw]' : '')}
+			class={cn(
+				'h-full w-full',
+				centerContent ? 'overflow-hidden md:mx-auto md:max-w-[50vw]' : 'overflow-auto'
+			)}
 		>
 			<!-- svelte-ignore svelte_component_deprecated -->
 			<svelte:component this={HtmlPreview} {htmlContent} />
