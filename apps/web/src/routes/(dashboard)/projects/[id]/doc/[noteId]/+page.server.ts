@@ -24,6 +24,10 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
         redirect(302, "/");
     }
 
+    if (project.userId != event.locals!.session.userId) {
+        redirect(302, "/");
+    }
+
     return {
         user: event.locals!,
         activeProject: {
