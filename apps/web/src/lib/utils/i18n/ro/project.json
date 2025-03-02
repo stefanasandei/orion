@@ -70,8 +70,10 @@
 		"sections": {
 			"featured": "Proiecte recomandate",
 			"trending": "În trend acum",
-			"recent": "Publicate recent"
-		}
+			"recent": "Publicate recent",
+			"search_results": "Rezultatele căutării"
+		},
+		"no_results": "Nu există încă rezultate. Încearcă să fii mai specific!"
 	},
 	"comment": {
 		"posted_by": "postat de"

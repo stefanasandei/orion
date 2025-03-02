@@ -70,8 +70,10 @@
 		"sections": {
 			"featured": "Featured projects",
 			"trending": "Trending now",
-			"recent": "Recently published"
-		}
+			"recent": "Recently published",
+			"search_results": "Search results"
+		},
+		"no_results": "No results yet. Try to be more specific!"
 	},
 	"comment": {
 		"posted_by": "posted by"
