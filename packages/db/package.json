@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@repo/eslint": "workspace:*",
+    "@repo/agent": "workspace:*",
     "@types/node": "^22.10.3",
     "@types/ws": "^8.5.14",
     "drizzle-kit": "^0.30.1",

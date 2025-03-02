@@ -328,6 +328,12 @@ importers:
       '@langchain/ollama':
         specifier: ^0.2.0
         version: 0.2.0(@langchain/core@0.3.41)
+      '@langchain/pinecone':
+        specifier: ^0.2.0
+        version: 0.2.0(@langchain/core@0.3.41)(@pinecone-database/pinecone@5.1.0)
+      '@pinecone-database/pinecone':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@repo/core':
         specifier: workspace:^
         version: link:../core
@@ -553,6 +559,9 @@ importers:
         specifier: ^3.23.8
         version: 3.24.2
     devDependencies:
+      '@repo/agent':
+        specifier: workspace:*
+        version: link:../agent
       '@repo/eslint':
         specifier: workspace:*
         version: link:../config/eslint
@@ -2132,6 +2141,19 @@ packages:
       zod-to-json-schema: 3.24.1(zod@3.24.2)
     dev: false
 
+  /@langchain/pinecone@0.2.0(@langchain/core@0.3.41)(@pinecone-database/pinecone@5.1.0):
+    resolution: {integrity: sha512-O3tWSCIbm1uDLh0J4R0ETmYeRFtQAI2qcSAMC/VW1+xBb+o/IJ5VMyJhGKc4RsmyWE0wG4kOuwfIcCP+XV0clw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@langchain/core': '>=0.2.21 <0.4.0'
+      '@pinecone-database/pinecone': ^5.0.2
+    dependencies:
+      '@langchain/core': 0.3.41
+      '@pinecone-database/pinecone': 5.1.0
+      flat: 5.0.2
+      uuid: 10.0.0
+    dev: false
+
   /@mistralai/mistralai@1.5.0(zod@3.24.2):
     resolution: {integrity: sha512-AIn8pwAwA/fDvEUvmkt+40zH1ZmfaG3Q7oUWl17GUEC1tU7ZPwYz8Cv9P59lyS1SisHdDSu81oknO7f1ywkz8Q==}
     peerDependencies:
@@ -2233,6 +2255,11 @@ packages:
     resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
     dependencies:
       '@noble/hashes': 1.7.1
+    dev: false
+
+  /@pinecone-database/pinecone@5.1.0:
+    resolution: {integrity: sha512-Bj64DPk0A7wBZf4Je8wVLSUXOfdrEeb5CuA1bQUril/fsJT79gmQgMeXZj14DEnnJMXWgtKQC1Dd7XApAizWpw==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@pkgjs/parseargs@0.11.0:
@@ -4676,6 +4703,11 @@ packages:
       flatted: 3.3.2
       keyv: 4.5.4
     dev: true
+
+  /flat@5.0.2:
+    resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
+    hasBin: true
+    dev: false
 
   /flatted@3.3.2:
     resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}

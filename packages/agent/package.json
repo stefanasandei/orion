@@ -23,6 +23,8 @@
         "@langchain/core": "^0.3.41",
         "@langchain/mistralai": "^0.2.0",
         "@langchain/ollama": "^0.2.0",
+        "@langchain/pinecone": "^0.2.0",
+        "@pinecone-database/pinecone": "^5.1.0",
         "@repo/core": "workspace:^",
         "ai": "^4.1.46"
     },
