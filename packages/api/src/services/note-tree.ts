@@ -36,6 +36,14 @@ export class NoteTreeService {
             }
         });
 
+        // Sort all children arrays alphabetically
+        Object.values(noteMap).forEach((node) => {
+            node.children.sort((a, b) => a.name.localeCompare(b.name));
+        });
+
+        // Sort root nodes alphabetically
+        roots.sort((a, b) => a.name.localeCompare(b.name));
+
         return roots;
     }
 
