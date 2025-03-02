@@ -17,27 +17,33 @@
 		project: ProjectWithMetadata;
 	}
 
-	const { project, large = false }: Props = $props();
+	const { project: _project, large = false }: Props = $props();
+
+	const project = $derived(_project);
 
 	// it might not be the best code
 	// but the deadline is approaching fast
-	const name = (() => {
-		if (!large) {
-			return project.name.length > 30 ? project.name.substring(0, 30) + '...' : project.name;
-		}
-		return project.name;
-	})();
+	let name = $derived(
+		(() => {
+			if (!large) {
+				return project.name.length > 30 ? project.name.substring(0, 30) + '...' : project.name;
+			}
+			return project.name;
+		})()
+	);
 
-	const description = (() => {
-		if (!large) {
-			return project.description!.length > 50
-				? project.description!.substring(0, 50) + '...'
+	let description = $derived(
+		(() => {
+			if (!large) {
+				return project.description!.length > 50
+					? project.description!.substring(0, 50) + '...'
+					: project.description;
+			}
+			return project.description!.length > 250
+				? project.description!.substring(0, 250) + '...'
 				: project.description;
-		}
-		return project.description!.length > 250
-			? project.description!.substring(0, 250) + '...'
-			: project.description;
-	})();
+		})()
+	);
 </script>
 
 <a href={`/browse/project/${project.id}`}>

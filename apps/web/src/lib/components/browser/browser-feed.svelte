@@ -2,11 +2,9 @@
 	import { t } from '@/utils/i18n/translations';
 	import type { Project } from '@repo/db';
 	import { Input } from '../ui/input';
-	import Button from '../ui/button/button.svelte';
 	import ProjectCard from './project-card.svelte';
 	import Separator from '../ui/separator/separator.svelte';
 	import MiniSearch from 'minisearch';
-	import { untrack } from 'svelte';
 
 	interface Props {
 		projects: (Project & { notesCount: number; user: { metadata: { name: string } } })[];
@@ -17,9 +15,7 @@
 
 	const { projects }: Props = $props();
 
-	let displayState = $state<DisplayState>('recent');
-
-	// Setup MiniSearch
+	// search utils
 	const miniSearch = new MiniSearch({
 		fields: ['name'],
 		storeFields: ['name', 'id', 'notesCount', 'user'] as const,
@@ -29,24 +25,24 @@
 	});
 
 	let query = $state('');
-	let searchResults = $derived<ProjectWithMeta[]>(
-		(() => {
-			const trimmedQuery = query.trim();
+	let displayState = $derived<DisplayState>(query.trim().length == 0 ? 'recent' : 'search');
 
-			if (!trimmedQuery) {
-				untrack(() => (displayState = 'recent'));
-				return projects;
-			}
-			untrack(() => (displayState = 'search'));
+	let searchResults = $state<ProjectWithMeta[]>([]);
 
-			const results = miniSearch.search(trimmedQuery, { fields: ['name'] });
-			return results.map((result) => {
-				const project = projects.find((p) => p.id === result.id);
-				if (!project) throw new Error('Project not found');
-				return project;
-			});
-		})()
-	);
+	$effect(() => {
+		const trimmedQuery = query.trim();
+
+		const results = miniSearch.search(trimmedQuery, {
+			fields: ['name'],
+			prefix: true
+		});
+
+		searchResults = results.map((result) => {
+			const project = projects.find((p) => p.id === result.id);
+			if (!project) throw new Error('Project not found');
+			return project;
+		});
+	});
 
 	$effect(() => {
 		miniSearch.addAll(
@@ -58,6 +54,20 @@
 			}))
 		);
 	});
+
+	// featured & recent projects
+	// TODO: obv. proper stuff
+	const FEATURED_PROJECT_NAMES = [
+		'Mişcare oscilatorie armonică',
+		'Grafuri',
+		'Anatomie clasa a 11-a'
+	];
+	const recentProjects = projects.filter(
+		(p) => FEATURED_PROJECT_NAMES.findIndex((v) => v == p.name) == -1
+	);
+	const featuredProjects = projects.filter(
+		(p) => FEATURED_PROJECT_NAMES.findIndex((v) => v == p.name) != -1
+	);
 </script>
 
 <div
@@ -74,51 +84,50 @@
 		</div>
 	</div>
 
-	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
-			{displayState === 'recent'
-				? $t('project.browser.sections.recent')
-				: $t('project.browser.sections.search_results')}
-		</h2>
-		<Separator class="mb-2" />
-		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#each searchResults as project}
-				<div class="shrink-0 snap-start p-2">
-					<ProjectCard {project} />
-				</div>
-			{/each}
-		</div>
-		{#if displayState === 'search' && searchResults.length === 0}
-			<p class="text-muted-foreground text-center">{$t('project.browser.no_results')}</p>
-		{/if}
-	</section>
+	{#if displayState === 'recent'}
+		<section>
+			<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+				{$t('project.browser.sections.featured')}
+			</h2>
+			<Separator class="mb-2" />
+			<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
+				{#each featuredProjects as project}
+					<div class="shrink-0 snap-start p-2">
+						<ProjectCard {project} />
+					</div>
+				{/each}
+			</div>
+		</section>
 
-	<!-- TODO: featured & trending projects implementation -->
-	<!-- <section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
-			{$t('project.browser.sections.featured')}
-		</h2>
-		<Separator class="mb-2" />
-		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#each projects as project}
-				<div class="shrink-0 snap-start p-2">
-					<ProjectCard {project} />
-				</div>
-			{/each}
-		</div>
-	</section>
-
-	<section>
-		<h2 class="mb-2 text-xl font-semibold md:text-3xl">
-			{$t('project.browser.sections.trending')}
-		</h2>
-		<Separator class="mb-2" />
-		<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
-			{#each projects as project}
-				<div class="shrink-0 snap-start p-2">
-					<ProjectCard {project} />
-				</div>
-			{/each}
-		</div>
-	</section> -->
+		<section>
+			<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+				{$t('project.browser.sections.recent')}
+			</h2>
+			<Separator class="mb-2" />
+			<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
+				{#each recentProjects as project}
+					<div class="shrink-0 snap-start p-2">
+						<ProjectCard {project} />
+					</div>
+				{/each}
+			</div>
+		</section>
+	{:else}
+		<section>
+			<h2 class="mb-2 text-xl font-semibold md:text-3xl">
+				{$t('project.browser.sections.search_results')}
+			</h2>
+			<Separator class="mb-2" />
+			<div class="scrollbar-none -mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto">
+				{#each searchResults as project}
+					<div class="shrink-0 snap-start p-2">
+						<ProjectCard {project} />
+					</div>
+				{/each}
+			</div>
+			{#if searchResults.length === 0}
+				<p class="text-muted-foreground text-center">{$t('project.browser.no_results')}</p>
+			{/if}
+		</section>
+	{/if}
 </div>
