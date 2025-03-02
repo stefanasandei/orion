@@ -8,7 +8,7 @@ if (index == undefined) {
     console.error("env not loaded");
 }
 
-export const createVectorStore = async (production: boolean = false) => {
+export const createVectorStore = async ({ production }: { production: boolean } = { production: false }) => {
     const pinecone = new PineconeClient();
     const pineconeIndex = pinecone.Index(index);
 
