@@ -91,8 +91,8 @@ for (let note of data.notes) {
         projectId: projectId,
         type: note.type as NoteType,
         name: note.name,
-        jsonContent: '',
-        htmlContent: '',
+        jsonContent: note.jsonContent || '',
+        htmlContent: note.htmlContent || '',
         textContent: note.textContent || note.name,
     }).returning();
 
@@ -115,8 +115,8 @@ for (let note of data.notes) {
         parentNote: parentId,
         type: note.type as NoteType,
         name: note.name,
-        jsonContent: '',
-        htmlContent: '',
+        jsonContent: note.jsonContent || '',
+        htmlContent: note.htmlContent || '',
         textContent: note.textContent || note.name,
     }).returning();
 

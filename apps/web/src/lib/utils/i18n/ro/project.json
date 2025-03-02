@@ -42,6 +42,7 @@
 	"save": "Salvează",
 	"save_success": "Notiță salvată",
 	"save_error": "Eroare la salvarea notiței",
+	"empty": "Proiect fără fisiere.",
 	"view_mode": {
 		"read": "Citește",
 		"edit": "Editează"

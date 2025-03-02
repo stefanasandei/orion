@@ -86,7 +86,11 @@
 			</div>
 		{/if}
 
-		<ProjectFiletree {isPublicView} {noteTree} {project} />
+		{#if noteTree.length != 0}
+			<ProjectFiletree {isPublicView} {noteTree} {project} />
+		{:else}
+			<p class="text-foreground/60 mt-4 text-center">{$t('project.empty')}</p>
+		{/if}
 	</div>
 
 	{#if sidebar}
