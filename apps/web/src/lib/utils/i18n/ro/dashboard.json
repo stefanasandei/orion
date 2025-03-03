@@ -63,7 +63,7 @@
 			"input_placeholder": "Întreabă-mă orice...",
 			"chat_tab": "Chat",
 			"report_tab": "Raport",
-			"footer_text": "Discută cu documentele tale, caută folosind limbaj natural. Alimentat de un LLM."
+			"footer_text": "Discută cu documentele tale, folosind limbaj natural."
 		},
 		"chat": {
 			"you": "Tu",

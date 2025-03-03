@@ -133,7 +133,11 @@
 									message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
 								)}
 							>
-								<HtmlPreview htmlContent={formatMessageContent(message.content)} />
+								{#if message.role == 'assistant'}
+									<HtmlPreview htmlContent={formatMessageContent(message.content)} />
+								{:else}
+									<p>{message.content}</p>
+								{/if}
 							</div>
 						</div>
 					</div>

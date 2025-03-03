@@ -38,7 +38,7 @@
 
 <div class="mt-4 md:mx-auto md:max-w-5xl">
 	<div>
-		<p class="mb-2 text-2xl">Comments</p>
+		<p class="mb-2 text-2xl">{$t('project.comment.comments')}</p>
 		<Separator class="mb-2" />
 	</div>
 
@@ -54,7 +54,7 @@
 				$createComment.mutate({
 					content: commentText,
 					postId: post.id
-				})}>Post</Button
+				})}>{$t('project.comment.post')}</Button
 		>
 	</div>
 

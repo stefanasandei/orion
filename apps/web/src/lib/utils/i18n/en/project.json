@@ -77,6 +77,8 @@
 		"no_results": "No results yet. Try to be more specific!"
 	},
 	"comment": {
-		"posted_by": "posted by"
+		"posted_by": "posted by",
+		"comments": "Comments",
+		"post": "Post"
 	}
 }

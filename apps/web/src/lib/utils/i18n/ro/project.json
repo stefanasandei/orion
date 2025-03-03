@@ -29,7 +29,7 @@
 	"documents": "Documente",
 	"document_name": "numele documentului",
 	"created_doc": "Creat {{name}}!",
-	"clear_tabs": "Șterge toate filele și mergi la pagina principală",
+	"clear_tabs": "Șterge filele și mergi acasă",
 	"cleared_tabs": "Toate filele au fost șterse!",
 	"doc_count": "{{count}} documente",
 	"move_note_title": "Mută notița",
@@ -77,6 +77,8 @@
 		"no_results": "Nu există încă rezultate. Încearcă să fii mai specific!"
 	},
 	"comment": {
-		"posted_by": "postat de"
+		"posted_by": "postat de",
+		"comments": "Comentarii",
+		"post": "Adăugați"
 	}
 }
