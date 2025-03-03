@@ -29,6 +29,7 @@
         "@oslojs/encoding": "^1.1.0",
         "@oslojs/otp": "^1.1.0",
         "@repo/auth": "workspace:^",
+        "@repo/agent": "workspace:^",
         "@repo/core": "workspace:^",
         "@repo/db": "workspace:*",
         "@trpc/server": "10.45.2",
