@@ -38,14 +38,18 @@
 				<div
 					class="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full flex-1 overflow-x-auto"
 				>
-					<div class="flex snap-x snap-mandatory gap-4 pb-4">
-						{#each $content.data! as thought}
-							<div class="p-2">
-								<!-- TODO: this is only for type 'thought' -->
-								<ThoughtCard squared={true} {thought} />
-							</div>
-						{/each}
-					</div>
+					{#if $content.data!.length > 0}
+						<div class="flex snap-x snap-mandatory gap-4 pb-4">
+							{#each $content.data! as thought}
+								<div class="p-2">
+									<!-- TODO: this is only for type 'thought' -->
+									<ThoughtCard squared={true} {thought} />
+								</div>
+							{/each}
+						</div>
+					{:else}
+						<p>{$t('project.browser.no_results')}</p>
+					{/if}
 				</div>
 			</div>
 		{:else}

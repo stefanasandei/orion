@@ -1,6 +1,6 @@
 import { CoreMessage, LangChainAdapter, Message } from "ai";
 
-import { createLLM, getContentFromMsg, LLMChatFactory } from "./llm";
+import { createLLM, LLMChatFactory } from "./llm";
 import { createRAGAgent } from "./agents/rag";
 import { createVectorStore } from "./vector";
 
@@ -20,6 +20,6 @@ export const ragHandler = async (question: string) => {
 
     const agent = await createRAGAgent(vectorStore, llm);
 
-    const result = await agent.invoke({ question });
-    return getContentFromMsg(result.answer);
+    const stream = await agent.stream({ question });
+    return LangChainAdapter.toDataStreamResponse(stream);
 }
