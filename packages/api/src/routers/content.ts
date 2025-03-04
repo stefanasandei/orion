@@ -45,11 +45,14 @@ export const contentRouter = createRouter({
             return searchResult;
         }),
 
-    askRAG: protectedProcedure
+    askRag: protectedProcedure
         .input(z.object({ query: z.string() }))
-        .mutation(async ({ input }) => {
-            const ans = await ragHandler(input.query);
-            console.log(ans);
-            return ans;
-        })
+        .mutation(async ({ input, ctx }) => {
+            const res = await (ctx.event as any).fetch('/api/chat/rag', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: [{ role: 'user', content: input.query }] })
+            });
+            return res.json();
+        }),
 });

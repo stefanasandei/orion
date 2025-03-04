@@ -15,7 +15,8 @@ export class LLMChatFactory {
             });
         }
         return new ChatOllama({
-            model: "llama3.2:3b"
+            model: "llama3.2:3b",
+            streaming: true
         });
     }
 }

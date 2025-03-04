@@ -1,8 +1,9 @@
 import { CoreMessage, LangChainAdapter, Message } from "ai";
 
-import { createLLM, LLMChatFactory } from "./llm";
+import { createLLM, getContentFromMsg, LLMChatFactory } from "./llm";
 import { createRAGAgent } from "./agents/rag";
 import { createVectorStore } from "./vector";
+import { AIMessage } from "@langchain/core/messages";
 
 export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]) => {
     const model = LLMChatFactory.create({ production: false });
@@ -12,7 +13,7 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
     return LangChainAdapter.toDataStreamResponse(stream);
 }
 
-export const ragHandler = async (question: string) => {
+export const ragHandler = async (question: string): Promise<Response> => {
     const config = { production: false };
 
     const vectorStore = await createVectorStore(config)
@@ -20,6 +21,11 @@ export const ragHandler = async (question: string) => {
 
     const agent = await createRAGAgent(vectorStore, llm);
 
-    const stream = await agent.stream({ question });
-    return LangChainAdapter.toDataStreamResponse(stream);
+    const result = await agent.invoke({ question });
+
+    const msg = new AIMessage({
+        content: getContentFromMsg(result.answer),
+    })
+
+    return new Response(JSON.stringify(msg));
 }
