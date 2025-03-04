@@ -1,18 +1,18 @@
 import { Embeddings } from "@langchain/core/embeddings";
 import { OllamaEmbeddings } from "@langchain/ollama";
-import { MistralAIEmbeddings } from "@langchain/mistralai";
+// import { MistralAIEmbeddings } from "@langchain/mistralai";
 
 export interface EmbeddingsConfig {
     production: boolean;
 }
 
 export class EmbeddingsFactory {
-    static create(config: EmbeddingsConfig): Embeddings {
-        if (config.production && false) {
-            return new MistralAIEmbeddings({
-                model: "mistral-embed"
-            });
-        }
+    static create(_config: EmbeddingsConfig): Embeddings {
+        // if (config.production && false) {
+        //     return new MistralAIEmbeddings({
+        //         model: "mistral-embed"
+        //     });
+        // }
         return new OllamaEmbeddings({
             model: "nomic-embed-text:latest"
         });
