@@ -8,7 +8,7 @@ export interface EmbeddingsConfig {
 
 export class EmbeddingsFactory {
     static create(config: EmbeddingsConfig): Embeddings {
-        if (config.production) {
+        if (config.production && false) {
             return new MistralAIEmbeddings({
                 model: "mistral-embed"
             });

@@ -11,7 +11,8 @@ export class LLMChatFactory {
     static create(config: LLMChatConfig): BaseChatModel {
         if (config.production) {
             return new ChatMistralAI({
-                model: "mistral-small-latest"
+                // model: "mistral-small-latest",
+                model: "open-mistral-nemo"
             });
         }
         return new ChatOllama({

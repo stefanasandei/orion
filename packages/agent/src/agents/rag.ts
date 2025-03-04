@@ -26,7 +26,7 @@ export const createRAGAgent = async (
 
     // retrieve & generate functions
     const retrieve = async (state: typeof InputStateAnnotation.State) => {
-        const retrievedDocs = await vectorStore.similaritySearch(state.question);
+        const retrievedDocs = await vectorStore.similaritySearch(state.question, 1);
         return { context: retrievedDocs };
     };
 

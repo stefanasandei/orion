@@ -2,7 +2,6 @@ import { db, noteTable } from '@repo/db';
 import { createRouter, protectedProcedure } from '../context';
 import { z } from 'zod';
 import { and, desc, eq, sql } from 'drizzle-orm';
-import { ragHandler } from '@repo/agent';
 
 // used as a query engine for content (documents / thoughts / tasks / etc)
 export const contentRouter = createRouter({
