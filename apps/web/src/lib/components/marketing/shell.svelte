@@ -33,7 +33,7 @@
 	<header
 		class="fixed inset-x-0 top-0 z-50 mx-5 rounded-b-3xl bg-background/75 ring-2 ring-ring backdrop-blur-lg md:mx-auto md:w-[80vw]"
 	>
-		<div class="container flex h-20 items-center justify-between py-6">
+		<div class="container flex h-14 items-center justify-between py-6">
 			<MainNav items={config.navItems} name={config.siteName} />
 
 			<nav class="flex items-center gap-4">

@@ -50,6 +50,7 @@
 	},
 	"devDependencies": {
 		"@aarkue/tiptap-math-extension": "^1.3.4",
+		"@lucide/svelte": "^0.488.0",
 		"@repo/eslint": "workspace:*",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-netlify": "^4.4.1",
