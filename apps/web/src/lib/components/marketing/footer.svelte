@@ -2,7 +2,7 @@
 	import { Icons } from '../icons.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import { Button } from '../ui/button';
-	import { GithubIcon, Mail, Send } from 'lucide-svelte';
+	import { Mail, Send } from 'lucide-svelte';
 	import { Input } from '../ui/input';
 	import { toast } from 'svelte-sonner';
 

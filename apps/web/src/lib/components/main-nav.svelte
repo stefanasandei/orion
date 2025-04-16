@@ -30,7 +30,7 @@
 	<!-- desktop menu items -->
 	<nav class="hidden gap-6 md:flex">
 		{#each items as item}
-			<a href={item.href} class={buttonVariants({ variant: 'secondary', size: 'sm' })}>
+			<a href={item.href} class={buttonVariants({ variant: 'ghost', size: 'sm' })}>
 				{item.title}
 			</a>
 		{/each}
