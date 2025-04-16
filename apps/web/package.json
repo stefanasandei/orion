@@ -93,6 +93,7 @@
 		"katex": "^0.16.21",
 		"lowlight": "^3.3.0",
 		"lucide-svelte": "^0.471.0",
+		"mini-svg-data-uri": "^1.4.4",
 		"mode-watcher": "^0.5.1",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",

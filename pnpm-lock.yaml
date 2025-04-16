@@ -259,6 +259,9 @@ importers:
       lucide-svelte:
         specifier: ^0.471.0
         version: 0.471.0(svelte@5.20.1)
+      mini-svg-data-uri:
+        specifier: ^1.4.4
+        version: 1.4.4
       mode-watcher:
         specifier: ^0.5.1
         version: 0.5.1(svelte@5.20.1)
@@ -5328,7 +5331,6 @@ packages:
   /mini-svg-data-uri@1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
-    dev: false
 
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
