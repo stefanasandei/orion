@@ -12,10 +12,12 @@
 	const subscribeToNewsletter = (e: Event) => {
 		e.preventDefault();
 
+		// TODO: actual logic
+
 		subscribed = false;
 		email = '';
 
-		toast.success('Subscribed to our newsletter!');
+		toast.success('Subscribed to our newsletter! (TODO)');
 	};
 </script>
 

@@ -22,7 +22,11 @@ pre {
 }
 
 .text-gradient {
-	@apply via-tech-darkPurple bg-gradient-to-br from-primary to-primary bg-clip-text text-transparent;
+	@apply bg-gradient-to-br from-primary via-tech-darkPurple to-primary bg-clip-text text-transparent;
+}
+
+.text-gradient-cool {
+	@apply bg-gradient-to-br from-primary to-purple-400 bg-clip-text text-transparent;
 }
 
 .glass {
@@ -38,11 +42,11 @@ pre {
 }
 
 .card-gradient {
-	@apply from-tech-purple/10 to-tech-blue/10 dark:from-tech-purple/20 dark:to-tech-blue/20 bg-gradient-to-br via-background dark:via-background;
+	@apply bg-gradient-to-br from-tech-purple/10 via-background to-tech-blue/10 dark:from-tech-purple/20 dark:via-background dark:to-tech-blue/20;
 }
 
 .tech-gradient {
-	@apply from-tech-purple via-tech-darkPurple to-tech-deepPurple bg-gradient-to-br;
+	@apply bg-gradient-to-br from-tech-purple via-tech-darkPurple to-tech-deepPurple;
 }
 
 @keyframes fadeIn {

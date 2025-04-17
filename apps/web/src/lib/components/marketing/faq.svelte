@@ -5,34 +5,23 @@
 
 	const faqs = [
 		{
-			question: 'What makes this platform different from competitors?',
-			answer:
-				'Our platform combines cutting-edge technology with an intuitive user experience. We offer advanced features like real-time collaboration, AI-powered insights, and a fully customizable interface while maintaining fast performance and bank-level security.'
+			question: 'When will it be ready?',
+			answer: "We're still cooking. Expect a launch in summer 2025."
 		},
 		{
-			question: 'How secure is the platform?',
+			question: 'How will the pricing be?',
 			answer:
-				'We implement enterprise-grade security measures including end-to-end encryption, SOC 2 compliance, regular security audits, and two-factor authentication. Your data is stored in ISO 27001 certified data centers with automated backups.'
+				"Haven't decided yet. We are still in early development and we want to make sure we get it right."
 		},
 		{
-			question: 'Can I integrate with my existing tools?',
+			question: 'What are the main features?',
 			answer:
-				'Absolutely! Our platform offers seamless integration with over 100+ popular tools and services through our API and native integrations. If you need a custom integration, our development team can help create a tailored solution.'
+				'You write your content the way you like it, without friction. Behind the curtain, everything is fed into your Agentic Knowledge System. Basically, you can chat with all your knowledge, query it instatly and get a helpful specialized assistant.'
 		},
 		{
-			question: 'What kind of support do you offer?',
+			question: 'How is it different from the competition?',
 			answer:
-				'We provide 24/7 technical support through chat, email, and phone. Enterprise customers receive a dedicated account manager and priority support. Our extensive knowledge base and community forums are also available to all users.'
-		},
-		{
-			question: 'Is there a free trial available?',
-			answer:
-				'Yes, we offer a 14-day free trial with access to all features. No credit card is required to start your trial. After your trial ends, you can choose the plan that best fits your needs or continue with our free tier with limited features.'
-		},
-		{
-			question: 'How often do you release updates?',
-			answer:
-				'We have a continuous development cycle with minor updates released weekly and major feature updates quarterly. All updates are automatically applied with zero downtime, ensuring your workflow is never interrupted.'
+				'Convenience. Write your notes in a developer friendly way and then interact with it using powerful open tools. No lock down, open import/export, privacy. We are a team of passionate people, users of our own product, willing to improve it as much as possible.'
 		}
 	];
 </script>
@@ -42,7 +31,7 @@
 		<div class="mb-16 text-center">
 			<h2 class="mb-4 text-3xl font-bold md:text-4xl">Frequently Asked Questions</h2>
 			<p class="mx-auto max-w-2xl text-lg text-muted-foreground">
-				Everything you need to know about our platform
+				Everything you need to know about our platform.
 			</p>
 		</div>
 
@@ -62,6 +51,15 @@
 					</AccordionItem>
 				{/each}
 			</Accordion>
+		</div>
+
+		<div class="mt-16 text-center">
+			<p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+				Expected public release date:
+				<span class="font-bold">Summer 2025</span>. Contact by
+				<a class="underline hover:cursor-pointer" href="mailto:asandei.stefanel@gmail.com">email</a>
+				for more details.
+			</p>
 		</div>
 	</div>
 </section>

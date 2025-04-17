@@ -1,48 +1,56 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
-	import { Check, Clock, Shield, Star, Users, Zap } from 'lucide-svelte';
+	import {
+		BrainCircuit,
+		Check,
+		Clock,
+		Computer,
+		Library,
+		Notebook,
+		Shield,
+		Star,
+		Users,
+		Zap
+	} from 'lucide-svelte';
 
 	const features = [
+		// TODO: redo pictures once the platform is done (dark mode btw)
 		{
 			id: 1,
-			title: 'Team Collaboration',
-			description: 'Work together seamlessly with your team',
-			icon: Users,
+			title: 'Knowledge System',
+			description: 'Build a second brain',
+			icon: BrainCircuit,
 			fullDescription:
-				'Our platform makes team collaboration feel natural and effortless. Share ideas, provide feedback, and work together on projects in real-time with an interface that feels as comfortable as your living room.',
-			imageSrc:
-				'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+				'The content you write will be indexed into your personal Knowledge System. You can query it, chat with it and use it to improve your workflows.',
+			imageSrc: '/images/chat.png'
 		},
 		{
 			id: 2,
-			title: 'Time Management',
-			description: 'Track and optimize your working hours',
-			icon: Clock,
+			title: 'Projects',
+			description: 'Organize your content',
+			icon: Notebook,
 			fullDescription:
-				'Take control of your time without the stress. Our intuitive time tracking features help you maintain a healthy work-life balance while maximizing productivity during your focused hours.',
-			imageSrc:
-				'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=800&q=80'
+				'You can create projects to organize your content. Each workspace has multiple projects, where you can write notes, upload documents and more.',
+			imageSrc: '/images/editor.png'
 		},
 		{
 			id: 4,
-			title: 'Performance Boost',
-			description: 'Optimize your workflow efficiency',
-			icon: Zap,
+			title: 'Community',
+			description: 'Share and find interesting work',
+			icon: Library,
 			fullDescription:
-				'Experience the perfect balance of power and simplicity. Our performance-focused tools help you accomplish more in less time, without the overwhelming complexity of traditional enterprise software.',
-			imageSrc:
-				'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80'
+				'You can choose to make your projects public. This way, you can share your work with the community and find interesting projects to follow.',
+			imageSrc: '/images/browser.png'
 		},
 		{
 			id: 5,
-			title: 'Premium Support',
-			description: 'Get help whenever you need it',
-			icon: Star,
+			title: 'Developer friendly',
+			description: 'Built for power users',
+			icon: Computer,
 			fullDescription:
-				'Our friendly support team is like having a helpful neighbor next door. Reach out anytime and receive personalized assistance from people who genuinely care about your success.',
-			imageSrc:
-				'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80'
+				'We are developers too. We know how to build tools that are powerful and easy to use. You can use our API, CLI and more to integrate with your workflows.',
+			imageSrc: '/images/project.png'
 		}
 	];
 
@@ -92,7 +100,7 @@
 			</p>
 		</div>
 
-		<div class="center mb-16 flex flex-col items-center justify-center gap-4 md:flex-row">
+		<div class="center mb-16 flex flex-col items-stretch justify-center gap-4 md:flex-row">
 			{#each features as feature, index}
 				<button
 					class="relative w-full cursor-pointer overflow-hidden rounded-lg border border-muted bg-card p-5 text-left shadow-lg transition-all duration-300 hover:shadow-xl"

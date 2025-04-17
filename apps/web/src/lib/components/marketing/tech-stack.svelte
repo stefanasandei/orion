@@ -1,50 +1,39 @@
 <script lang="ts">
+	import { Button } from '../ui/button';
 	import FadeIn from './fade-in.svelte';
-	import { Code, Database, Cpu, Zap, LineChart, ShieldCheck } from 'lucide-svelte';
+	import { Code, Database, Cpu, Zap, LineChart, ShieldCheck, Sparkles } from 'lucide-svelte';
 
 	const cards = [
 		{
 			icon: Code,
 			title: 'Modern Architecture',
 			description:
-				'Built with a microservices architecture using TypeScript, React, and Node.js for maximum flexibility and performance.'
+				'Built with a microservices architecture using TypeScript, SvelteKit and tRPC for maximum flexibility and performance. Deploy using Docker Compose.'
 		},
 		{
 			icon: Database,
 			title: 'Intelligent Data Storage',
 			description:
-				'Multi-model database approach combining SQL and NoSQL solutions for optimized data access patterns.'
+				'Multi-model database approach combining relational (PostgreSQL), vector (Pinecone) and caching (Redis) solutions for optimized data access patterns.'
 		},
 		{
-			icon: Cpu,
-			title: 'AI-Powered Features',
+			icon: Sparkles,
+			title: 'Agentic tools',
 			description:
-				'Machine learning algorithms that analyze your data to provide actionable insights and automated workflows.'
+				'Our interface is natually integrated with agentic tools to improve your workflows. Benefit from AI, without the struggle.'
 		},
 		{
 			icon: Zap,
 			title: 'Lightning Performance',
 			description:
-				'Global CDN, edge computing, and aggressive caching strategies ensure sub-100ms response times.'
-		},
-		{
-			icon: LineChart,
-			title: 'Real-time Analytics',
-			description:
-				'Live data processing with streaming ETL pipelines for immediate insights and reporting.'
-		},
-		{
-			icon: ShieldCheck,
-			title: 'Enterprise Security',
-			description:
-				'End-to-end encryption, continuous security monitoring, and compliance with global standards.'
+				'Optimized queries, edge computing, and aggressive caching strategies ensure optimal response times.'
 		}
 	];
 </script>
 
 <section
 	id="tech-stack"
-	class="section-padding from-tech-blue/5 to-tech-purple/5 dark:from-tech-blue/10 dark:to-tech-purple/10 bg-gradient-to-br via-background dark:via-background"
+	class="section-padding bg-gradient-to-br from-tech-blue/5 via-background to-tech-purple/5 dark:from-tech-blue/10 dark:via-background dark:to-tech-purple/10"
 >
 	<div class="container mx-auto px-4 md:px-6">
 		<div>
@@ -57,7 +46,7 @@
 			</div>
 		</div>
 
-		<div class="grid gap-8 md:grid-cols-3">
+		<div class="grid gap-8 md:grid-cols-2">
 			<div class="grid gap-6 sm:grid-cols-2 md:col-span-2">
 				{#each cards as feature, index}
 					<FadeIn delay={index * 0.1}>
@@ -72,7 +61,7 @@
 				{/each}
 			</div>
 
-			<div class="relative">
+			<!-- <div class="relative">
 				<div class="relative flex h-full flex-col items-center justify-center p-8 text-center">
 					<div class="mb-4 rounded-full bg-primary/20 px-3 py-1 font-mono text-xs text-primary">
 						System Architecture
@@ -99,7 +88,7 @@ app.deploy();`}</code
 						Our modular architecture allows for rapid development and seamless scaling
 					</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </section>

@@ -10,7 +10,7 @@
 	const config = {
 		siteName: 'Orion',
 		navItems: [
-			{ title: $t('marketing.home'), href: '/' },
+			// { title: $t('marketing.home'), href: '/' },
 			{ title: $t('marketing.about'), href: '/about' },
 			{ title: $t('marketing.contact'), href: '/contact' }
 		]
