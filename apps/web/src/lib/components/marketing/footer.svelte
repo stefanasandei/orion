@@ -59,13 +59,37 @@
 			<div>
 				<h3 class="mb-4 font-semibold">Product</h3>
 				<ul class="space-y-3">
-					{#each ['Features', 'Integrations', 'Pricing', 'FAQ', 'Roadmap'] as item}
-						<li>
-							<a href="#" class="text-muted-foreground transition-colors hover:text-foreground">
-								{item}
-							</a>
-						</li>
-					{/each}
+					<li>
+						<a
+							href="#features"
+							class="text-muted-foreground transition-colors hover:text-foreground"
+						>
+							Features
+						</a>
+					</li>
+					<li>
+						<a
+							href="#tech-stack"
+							class="text-muted-foreground transition-colors hover:text-foreground"
+						>
+							Tech
+						</a>
+					</li>
+					<li>
+						<a href="#faq" class="text-muted-foreground transition-colors hover:text-foreground">
+							Pricing (wip)
+						</a>
+					</li>
+					<li>
+						<a href="#faq" class="text-muted-foreground transition-colors hover:text-foreground">
+							FAQ
+						</a>
+					</li>
+					<li>
+						<a href="#faq" class="text-muted-foreground transition-colors hover:text-foreground">
+							Roadmap (wip)
+						</a>
+					</li>
 				</ul>
 			</div>
 
@@ -74,8 +98,8 @@
 				<ul class="space-y-3">
 					{#each ['About Us', 'Careers', 'Blog', 'Legal', 'Contact'] as item}
 						<li>
-							<a href="#" class="text-muted-foreground transition-colors hover:text-foreground">
-								{item}
+							<a href="#faq" class="text-muted-foreground transition-colors hover:text-foreground">
+								{item} (wip)
 							</a>
 						</li>
 					{/each}

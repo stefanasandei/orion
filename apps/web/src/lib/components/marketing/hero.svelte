@@ -33,7 +33,7 @@
 			</div>
 
 			<div>
-				<h1 class="max-w-3xl animate-moveUp text-4xl font-bold tracking-tighter md:text-6xl">
+				<h1 class="max-w-3xl animate-moveUp text-3xl font-bold tracking-tighter md:text-6xl">
 					✨ Learn anything ✨ <br />
 					<span class="text-gradient">faster</span> and
 					<span class="text-gradient">smarter</span>.
@@ -41,7 +41,9 @@
 			</div>
 
 			<div>
-				<p class="max-w-2xl animate-moveUp text-pretty text-lg text-muted-foreground md:text-xl">
+				<p
+					class="max-w-2xl animate-moveUp text-balance text-lg text-muted-foreground md:text-pretty md:text-xl"
+				>
 					Experience the perfect blend of power and simplicity. Our tools provide the best
 					enviorment to learn academic subjects, passions or general knowledge.
 				</p>
