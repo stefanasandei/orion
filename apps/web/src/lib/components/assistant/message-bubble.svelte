@@ -5,10 +5,27 @@
 	import Button from '../ui/button/button.svelte';
 	import { Icons } from '../icons.svelte';
 	import { toast } from 'svelte-sonner';
+	import { parse } from 'marked';
 
 	type Message = { role: 'user' | 'assistant' | 'data' | 'system'; content: string };
 
 	export let msg: Message;
+
+	$: cachedHtml = new Map();
+
+	function renderHtml(content: string) {
+		if (cachedHtml.has(content)) {
+			return cachedHtml.get(content)!;
+		}
+
+		const rendered = parse(content, {
+			async: false
+		}) as string;
+
+		cachedHtml.set(content, rendered);
+
+		return rendered;
+	}
 </script>
 
 {#if msg.role == 'user'}
@@ -16,7 +33,7 @@
 		<div
 			class="border-primary/80 bg-primary/80 group relative inline-block max-w-[80%] break-words rounded-xl border px-4 py-3 text-left"
 		>
-			<HtmlPreview htmlContent={msg.content} />
+			<HtmlPreview htmlContent={renderHtml(msg.content)} />
 
 			{@render userControls(msg)}
 		</div>

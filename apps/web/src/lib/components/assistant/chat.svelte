@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { useChat } from '@ai-sdk/svelte';
-	import { Input } from '@/components/ui/input';
+	import { Textarea } from '@/components/ui/textarea';
 	import { Button } from '@/components/ui/button';
 	import { writable, type Writable } from 'svelte/store';
 	import MessageBubble from './message-bubble.svelte';
@@ -11,11 +11,12 @@
 	import { page } from '$app/state';
 
 	const prompt = page.url.searchParams.get('prompt');
-
 	export let userInput: Writable<string>;
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
 	const { input, handleSubmit, messages } = useChat();
+	const chatContainerRef = writable<HTMLDivElement | null>(null);
+	const showScrollButton = writable(false);
 
 	let state: Writable<'landing' | 'chat'>;
 
@@ -30,11 +31,38 @@
 	}
 
 	function handleEnter(e: KeyboardEvent) {
-		if (e.key === 'Enter' && $input.trim()) handleSubmit(e);
+		if (e.key === 'Enter' && !e.shiftKey && $input.trim()) handleSubmit(e);
+	}
+
+	function scrollToBottom() {
+		if ($chatContainerRef) {
+			$chatContainerRef.scrollTo({
+				top: $chatContainerRef.scrollHeight,
+				behavior: 'smooth'
+			});
+		}
+	}
+
+	// Check scroll position to show/hide scroll button
+	function handleScroll(e: Event) {
+		const container = e.target as HTMLDivElement;
+		const threshold = 100; // Show button when user has scrolled up this many pixels from bottom
+		const isNearBottom =
+			container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+		showScrollButton.set(!isNearBottom);
+	}
+
+	// Auto-scroll to bottom when new messages arrive
+	$: if ($messages.length > 0) {
+		scrollToBottom();
 	}
 </script>
 
-<div class="mx-auto flex h-full w-full max-w-4xl flex-1 flex-col space-y-12">
+<div
+	bind:this={$chatContainerRef}
+	on:scroll={handleScroll}
+	class="no-scrollbar mx-auto flex h-full w-full max-w-4xl flex-1 flex-col space-y-12 overflow-y-auto"
+>
 	{#each $messages as msg}
 		{#if msg.role != 'system' && msg.role != 'data'}
 			<MessageBubble {msg} />
@@ -47,15 +75,34 @@
 
 <div class="pointer-events-none absolute bottom-0 z-10 w-full">
 	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl">
-		<!-- scroll to bottom todo -->
+		{#if $showScrollButton}
+			<div class="flex justify-center pb-4">
+				<button
+					on:click={scrollToBottom}
+					class="bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-ring pointer-events-auto flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2"
+					><span class="pb-0.5">Scroll to bottom</span><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-chevron-down -mr-1 h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg
+					></button
+				>
+			</div>
+		{/if}
 
 		<div class="pointer-events-auto mb-2 w-full flex-1">
 			<div class="bg-background w-full rounded-t-xl">
 				<form
 					on:submit={handleSubmit}
-					class="bg-accent/50 flex items-center gap-2 rounded-t-xl px-4 py-2 shadow-sm"
+					class="bg-accent/50 flex resize-none items-center gap-2 rounded-t-xl px-4 py-2 shadow-sm"
 				>
-					<Input
+					<Textarea
 						bind:ref={$chatInputRef}
 						bind:value={$input}
 						class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
