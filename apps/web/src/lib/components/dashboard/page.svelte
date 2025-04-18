@@ -9,6 +9,7 @@
 	import type { Note } from '@repo/db';
 	import { Textarea } from '../ui/textarea';
 	import * as Select from '@/components/ui/select';
+	import { goto } from '$app/navigation';
 
 	interface Props {
 		user: UserLocals;
@@ -29,7 +30,18 @@
 		e.preventDefault();
 		if (!input.trim()) return;
 
-		toast('yeah');
+		// redirect to the assistant page for chats
+		if (queryType == 'chat') {
+			goto(`/assistant?prompt=${input}`);
+		} else toast('TODO: unimplemented!');
+	}
+
+	function handleTextareaKeydown(e: KeyboardEvent) {
+		// this way we can send on enter, and add a new line on shift+enter
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleSubmit(e);
+		}
 	}
 </script>
 
@@ -50,6 +62,7 @@
 				class="hover:ring-accent bg-accent/50 flex flex-col gap-6 rounded-xl p-4 shadow-sm ring-inset transition-all hover:ring-2"
 			>
 				<Textarea
+					onkeydown={handleTextareaKeydown}
 					bind:value={input}
 					class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
 					placeholder={'Ask your library a question...'}

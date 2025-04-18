@@ -8,6 +8,9 @@
 	import { Icons } from '../icons.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { Brain, FileSearch } from 'lucide-svelte';
+	import { page } from '$app/state';
+
+	const prompt = page.url.searchParams.get('prompt');
 
 	export let userInput: Writable<string>;
 
