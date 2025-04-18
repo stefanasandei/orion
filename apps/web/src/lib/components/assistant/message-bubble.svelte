@@ -10,6 +10,7 @@
 	type Message = { role: 'user' | 'assistant' | 'data' | 'system'; content: string };
 
 	export let msg: Message;
+	export let isStreaming: boolean;
 
 	$: cachedHtml = new Map();
 
@@ -17,6 +18,11 @@
 		if (cachedHtml.has(content)) {
 			return cachedHtml.get(content)!;
 		}
+
+		// don't rerender everytime
+		// TODO: perf issue
+		if (isStreaming) {
+		} //return;
 
 		const rendered = parse(content, {
 			async: false

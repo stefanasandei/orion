@@ -7,14 +7,15 @@
 	import { t } from '@/utils/i18n/translations';
 	import { Icons } from '../icons.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { Brain, FileSearch } from 'lucide-svelte';
+	import { Brain, FileSearch, Square } from 'lucide-svelte';
 	import { page } from '$app/state';
+	import * as Tooltip from '@/components/ui/tooltip';
 
 	const prompt = page.url.searchParams.get('prompt');
 	export let userInput: Writable<string>;
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
-	const { input, handleSubmit, messages } = useChat();
+	const { input, handleSubmit, messages, status, stop } = useChat();
 	const chatContainerRef = writable<HTMLDivElement | null>(null);
 	const showScrollButton = writable(false);
 
@@ -65,7 +66,7 @@
 >
 	{#each $messages as msg}
 		{#if msg.role != 'system' && msg.role != 'data'}
-			<MessageBubble {msg} />
+			<MessageBubble isStreaming={$status == 'streaming'} {msg} />
 		{/if}
 	{/each}
 
@@ -109,13 +110,13 @@
 						placeholder={$t('dashboard.assistant_page.chat.input_placeholder')}
 						onkeydown={handleEnter}
 					/>
-					<Button variant="default" class="rounded-xl" size="icon" type="submit">
+					<Button variant="default" size="icon" type="submit">
 						<Icons.send />
 					</Button>
 				</form>
 
 				<!-- controls -->
-				<div class="bg-accent/50 flex w-full flex-row px-4 py-2">
+				<div class="bg-accent/50 flex w-full flex-row justify-between px-4 py-2">
 					<Tabs.Root value="chat">
 						<Tabs.List class="bg-accent/0 text-accent-foreground space-x-2">
 							<Tabs.Trigger
@@ -135,6 +136,21 @@
 							</Tabs.Trigger>
 						</Tabs.List>
 					</Tabs.Root>
+
+					<Tooltip.Root>
+						<Tooltip.Trigger>
+							<Button
+								size="icon"
+								onclick={() => stop()}
+								variant={'outline'}
+								disabled={$status != 'streaming'}
+								><Square />
+							</Button>
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							<p>Stop generation</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
 				</div>
 			</div>
 		</div>
