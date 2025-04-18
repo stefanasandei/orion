@@ -15,12 +15,14 @@
 	// import 'prism-themes/themes/prism-atom-dark.min.css';
 	// import 'prism-themes/themes/prism-material-oceanic.min.css';
 	import 'prism-themes/themes/prism-nord.min.css';
+	import { cn } from '../utils/cn';
 
 	interface Props {
+		className?: string;
 		htmlContent: string;
 	}
 
-	const { htmlContent }: Props = $props();
+	const { htmlContent, className }: Props = $props();
 
 	let container = $state<HTMLDivElement>();
 
@@ -65,5 +67,8 @@
 
 <div
 	bind:this={container}
-	class="prose dark:prose-invert text-primary-foreground min-w-full text-justify"
+	class={cn(
+		'prose dark:prose-invert text-primary-foreground min-w-full text-justify',
+		className ?? ''
+	)}
 ></div>

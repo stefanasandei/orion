@@ -26,7 +26,8 @@
 		check: Check,
 		show: Eye,
 		hide: EyeClosed,
-		send: SendHorizonal
+		send: SendHorizonal,
+		delete: Trash
 	};
 </script>
 

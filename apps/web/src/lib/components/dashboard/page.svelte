@@ -9,7 +9,8 @@
 	import type { Note } from '@repo/db';
 	import { Textarea } from '../ui/textarea';
 	import * as Select from '@/components/ui/select';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
+	import { trpc } from '../../utils/trpc/client';
 
 	interface Props {
 		user: UserLocals;
@@ -26,6 +27,13 @@
 	let queryType = $state<'chat' | 'quick-save' | 'search'>('quick-save');
 	let query2text = { chat: 'Chat', 'quick-save': 'Quick Save', search: 'Search' };
 
+	const addNewThought = trpc().project.createQuickNote.createMutation({
+		onSuccess: async () => {
+			toast.success($t('dashboard.quick_thoughts.success'));
+			await invalidateAll();
+		}
+	});
+
 	function handleSubmit(e: Event) {
 		e.preventDefault();
 		if (!input.trim()) return;
@@ -33,6 +41,14 @@
 		// redirect to the assistant page for chats
 		if (queryType == 'chat') {
 			goto(`/assistant?prompt=${input}`);
+		} else if (queryType == 'quick-save') {
+			const data = input;
+			input = '';
+
+			$addNewThought.mutate({
+				content: data,
+				type: 'thought'
+			});
 		} else toast('TODO: unimplemented!');
 	}
 
@@ -41,6 +57,14 @@
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
 			handleSubmit(e);
+		}
+
+		if (e.key == 'q' && e.ctrlKey) {
+			e.preventDefault();
+			queryType = 'quick-save';
+		} else if (e.key == 'c' && e.ctrlKey) {
+			e.preventDefault();
+			queryType = 'chat';
 		}
 	}
 </script>
@@ -107,12 +131,13 @@
 					<Plus class="size-5" />
 					<p>Create a document</p>
 				</div>
-				<div
+				<a
+					href="/thoughts"
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
 					<BrainCircuit class="size-5" />
-					<p>Knowledge graph</p>
-				</div>
+					<p>Thoughts</p>
+				</a>
 			</div>
 		</div>
 	</main>

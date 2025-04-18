@@ -38,7 +38,11 @@
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>{$t('common.cancel')}</AlertDialog.Cancel>
 			<AlertDialog.Action onclick={() => $deleteNote.mutate({ noteId: item.id })}>
-				{$t('project.delete_note_btn', { default: item.name })}
+				{#if item.name.length > 0}
+					{$t('project.delete_note_btn', { default: item.name })}
+				{:else}
+					Delete Note
+				{/if}
 			</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
