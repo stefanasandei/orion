@@ -20,11 +20,11 @@
 		<LandingPage />
 	</MarketingShell>
 {:else}
-	<DashboardShell pageName={$t('dashboard.home')} {user}>
+	<DashboardShell className="flex flex-col h-full" pageName={$t('dashboard.home')} {user}>
 		{#if $preferences.dashboard != 'clean'}
 			<ActivityGridDashboard {user} {notes} />
 		{:else}
-			<CleanDashboard />
+			<CleanDashboard {user} {notes} />
 		{/if}
 	</DashboardShell>
 {/if}

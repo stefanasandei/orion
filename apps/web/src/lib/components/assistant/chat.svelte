@@ -90,22 +90,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- 
-<div class="bg-background absolute bottom-10 z-10 w-full px-2">
-	<form
-		on:submit={handleSubmit}
-		class="bg-accent/50 flex items-center gap-2 rounded-xl px-4 py-2 shadow-sm"
-	>
-		<Input
-			bind:ref={$chatInputRef}
-			bind:value={$input}
-			class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-			placeholder={$t('dashboard.assistant_page.chat.input_placeholder')}
-			onkeydown={handleEnter}
-		/>
-		<Button variant="default" size="sm" type="submit">
-			<Icons.send />
-		</Button>
-	</form>
-</div> -->

@@ -13,6 +13,7 @@
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
 	import { activeWorkspaceId } from '../utils/state';
+	import { SearchIcon } from 'lucide-svelte';
 
 	const navItems = $derived([
 		{
@@ -23,12 +24,20 @@
 			items: []
 		},
 		{
-			title: $t('dashboard.assistant'),
-			url: '/assistant',
-			icon: SquareTerminal,
+			title: 'Search',
+			url: 'search',
+			icon: SearchIcon,
 			isActive: true,
 			items: []
 		},
+		// {
+		// todo: plan is this page will only be so we redirect here from homepage, when the user wants to chat
+		// 	title: $t('dashboard.assistant'),
+		// 	url: '/assistant',
+		// 	icon: SquareTerminal,
+		// 	isActive: true,
+		// 	items: []
+		// },
 		{
 			title: $t('dashboard.browse_content'),
 			url: '/browse',

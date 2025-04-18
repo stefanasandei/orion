@@ -5,6 +5,7 @@
 	import type { ComponentType } from 'svelte';
 	import { cn } from '../utils/cn';
 	import { t } from '@/utils/i18n/translations';
+	import UniversalSearch from './dashboard/universal-search.svelte';
 
 	interface MenuItem {
 		title: string;
@@ -90,17 +91,21 @@
 				</Collapsible.Root>
 			{:else}
 				<Sidebar.MenuItem>
-					<a href={mainItem.url}>
-						<Sidebar.MenuButton class={cn(pathname == mainItem.url ? 'bg-muted/50' : '')}>
-							{#snippet tooltipContent()}
-								{mainItem.title}
-							{/snippet}
-							{#if mainItem.icon}
-								<mainItem.icon />
-							{/if}
-							<span>{mainItem.title}</span>
-						</Sidebar.MenuButton>
-					</a>
+					{#if mainItem.url == 'search'}
+						<UniversalSearch />
+					{:else}
+						<a href={mainItem.url}>
+							<Sidebar.MenuButton class={cn(pathname == mainItem.url ? 'bg-muted/50' : '')}>
+								{#snippet tooltipContent()}
+									{mainItem.title}
+								{/snippet}
+								{#if mainItem.icon}
+									<mainItem.icon />
+								{/if}
+								<span>{mainItem.title}</span>
+							</Sidebar.MenuButton>
+						</a>
+					{/if}
 				</Sidebar.MenuItem>
 			{/if}
 		{/each}
