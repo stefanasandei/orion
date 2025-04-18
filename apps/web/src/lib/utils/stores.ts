@@ -1,19 +1,19 @@
-import { persisted } from 'svelte-persisted-store'
-
-type Theme = 'light' | 'dark';
+import { persisted } from 'svelte-persisted-store';
+import type { Theme, DashboardLayout } from './settings';
 
 interface Preferences {
     theme: Theme;
+    dashboard: DashboardLayout;
 }
 
+const getInitialTheme = (): Theme => {
+    if (typeof window === 'undefined') return 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
 export const preferences = persisted<Preferences>('preferences', {
-    theme: typeof window !== 'undefined'
-        ? window?.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light'
-        : 'light'
+    theme: getInitialTheme(),
+    dashboard: 'clean'
 });
 
 export const lastVerificationEmailSent = persisted<number>('lastVerificationEmailSent', 0);
-
-// export const sidebarCollapsed = persisted<boolean>('preferences', false);
