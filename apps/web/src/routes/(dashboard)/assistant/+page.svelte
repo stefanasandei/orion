@@ -8,6 +8,6 @@
 	const { user } = data;
 </script>
 
-<DashboardShell fixedScroll={true} pageName={$t('dashboard.assistant')} {user}>
+<DashboardShell className="flex flex-col h-full" pageName={$t('dashboard.assistant')} {user}>
 	<AssistantPage />
 </DashboardShell>

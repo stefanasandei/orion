@@ -9,6 +9,7 @@
 		post: FileText,
 		page: File,
 		media: Image,
+		copy: Clipboard,
 		settings: Settings,
 		billing: CreditCard,
 		ellipsis: MoreVertical,
@@ -59,6 +60,7 @@
 		Eye,
 		EyeClosed,
 		type Icon as LucideIcon,
-		SendHorizonal
+		SendHorizonal,
+		Clipboard
 	} from 'lucide-svelte';
 </script>

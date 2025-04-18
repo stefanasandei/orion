@@ -7,8 +7,10 @@
 	const userInput = writable('');
 </script>
 
-{#if $state === 'landing'}
-	<Landing {state} {userInput} />
-{:else}
-	<Chat {userInput} />
-{/if}
+<div class="flex h-full w-full flex-1 flex-col">
+	{#if $state === 'landing'}
+		<Landing {state} {userInput} />
+	{:else}
+		<Chat {userInput} />
+	{/if}
+</div>

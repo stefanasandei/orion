@@ -18,6 +18,7 @@
 		pageName: string;
 		user: UserLocals;
 		fixedScroll?: boolean;
+		className?: string;
 		activeProject?: {
 			project: Project & { notes: Note[] };
 			noteTree: NoteTreeNode[];
@@ -27,6 +28,7 @@
 
 	const {
 		pageName,
+		className,
 		user: _user,
 		children,
 		activeProject: _activeProject = null,
@@ -71,7 +73,11 @@
 			</header>
 			<div class="bg-background h-full overflow-x-hidden rounded-md p-2 md:m-2">
 				<div
-					class={cn('max-h-[95svh] overflow-y-auto overflow-x-hidden', fixedScroll ? 'h-full' : '')}
+					class={cn(
+						'max-h-[95svh] overflow-y-auto overflow-x-hidden',
+						fixedScroll ? 'h-full' : '',
+						className ?? ''
+					)}
 				>
 					{@render children?.()}
 				</div>
