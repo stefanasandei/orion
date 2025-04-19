@@ -11,6 +11,7 @@
 	import * as Select from '@/components/ui/select';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { trpc } from '../../utils/trpc/client';
+	import { CommandShortcut } from '@/components/ui/command';
 
 	interface Props {
 		user: UserLocals;
@@ -58,7 +59,9 @@
 			e.preventDefault();
 			handleSubmit(e);
 		}
+	}
 
+	function handleGlobalKeydown(e: KeyboardEvent) {
 		if (e.key == 'q' && e.ctrlKey) {
 			e.preventDefault();
 			queryType = 'quick-save';
@@ -68,6 +71,8 @@
 		}
 	}
 </script>
+
+<svelte:document onkeydown={handleGlobalKeydown} />
 
 <div class="flex h-full w-full flex-col">
 	<main class="flex flex-1 items-center justify-center p-4">
@@ -88,12 +93,12 @@
 				<Textarea
 					onkeydown={handleTextareaKeydown}
 					bind:value={input}
-					class="bg-accent/0 flex-1 border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+					class="bg-accent/0 flex-1 resize-none border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
 					placeholder={'Ask your library a question...'}
 				/>
 
 				<div class="-mb-0 flex flex-row items-center justify-between">
-					<div class="flex flex-row gap-4">
+					<div class="flex flex-row items-center gap-4">
 						<Select.Root type="single" bind:value={queryType}>
 							<Select.Trigger class="bg-accent/0 border-0 md:w-[180px]"
 								>{query2text[queryType]}</Select.Trigger
@@ -104,6 +109,18 @@
 								<Select.Item value="search">Search</Select.Item>
 							</Select.Content>
 						</Select.Root>
+
+						{#if queryType == 'quick-save'}
+							<p class="text-muted-foreground text-sm">
+								<CommandShortcut>⌘ C</CommandShortcut>
+								to switch to Chat
+							</p>
+						{:else}
+							<p class="text-muted-foreground text-sm">
+								<CommandShortcut>⌘ Q</CommandShortcut>
+								to switch to Quick Save
+							</p>
+						{/if}
 					</div>
 
 					<Button type="submit" variant="secondary" size="small-icon">

@@ -39,16 +39,11 @@
 	<div class="mx-auto flex w-full max-w-4xl flex-col gap-8">
 		<Card.Root class="bg-card transition-colors duration-75">
 			<Card.Content class="flex flex-col justify-between space-y-2 pb-2">
-				<button
-					onclick={() => goto(`/thoughts/${thought.id}`)}
-					class="group relative w-full flex-1 cursor-pointer overflow-hidden"
-				>
-					<div class="w-full overflow-x-auto">
-						<div class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md xl:max-w-full">
-							<HtmlPreview className="text-xl" htmlContent={renderHtml(thought.name)} />
-						</div>
+				<div class="w-full overflow-x-auto">
+					<div class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md xl:max-w-full">
+						<HtmlPreview className="text-xl" htmlContent={renderHtml(thought.name)} />
 					</div>
-				</button>
+				</div>
 
 				<div class="flex flex-row items-end justify-between">
 					<p class="text-muted-foreground text-sm">

@@ -47,7 +47,7 @@
 {:else}
 	<div class="flex justify-start">
 		<div class="group relative w-full max-w-full break-words">
-			<HtmlPreview htmlContent={msg.content} />
+			<HtmlPreview htmlContent={renderHtml(msg.content)} />
 
 			{@render botControls(msg)}
 		</div>
