@@ -127,13 +127,17 @@
 			<button
 				bind:this={containerEl.containers[thought.id]}
 				onclick={() => goto(`/thoughts/${thought.id}`)}
-				class="group relative max-h-60 cursor-pointer overflow-hidden"
+				class="group relative max-h-60 w-full flex-1 cursor-pointer overflow-hidden"
 			>
-				<HtmlPreview className="text-xl" htmlContent={renderHtml(thought.name)} />
+				<div class="w-full overflow-x-auto">
+					<div class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md xl:max-w-full">
+						<HtmlPreview className="text-xl" htmlContent={renderHtml(thought.name)} />
+					</div>
+				</div>
 
 				{#if isOverflowing.containers[thought.id]}
 					<div
-						class="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 group-hover:opacity-50"
+						class="from-card pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t to-transparent transition-opacity duration-300 group-hover:opacity-50"
 					></div>
 				{/if}
 			</button>
@@ -150,7 +154,7 @@
 							deleteDialogOpen = true;
 						}}
 						size="icon"
-						variant={'outline'}
+						variant="outline"
 					>
 						<Icons.delete />
 					</Button>

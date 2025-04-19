@@ -6,9 +6,11 @@
 	import { invalidateAll } from '$app/navigation';
 
 	let {
+		onSuccess,
 		open = $bindable(),
 		item
 	}: {
+		onSuccess?: () => Promise<void>;
 		open: boolean;
 		item: { id: number; name: string };
 	} = $props();
@@ -16,8 +18,12 @@
 	const deleteNote = trpc().project.deleteNote.createMutation({
 		onSuccess: async () => {
 			toast($t('project.note_deleted'));
-			open = false;
+
+			if (onSuccess) await onSuccess();
+
 			await invalidateAll();
+
+			open = false;
 		},
 
 		onError: () => {
