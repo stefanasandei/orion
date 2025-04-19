@@ -234,6 +234,7 @@ export const projectRouter = createRouter({
           htmlContent: "",
         });
     }),
+  // todo create note file
 
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))

@@ -12,6 +12,9 @@
 	import { File } from 'lucide-svelte';
 	import Separator from '../ui/separator/separator.svelte';
 	import { editorState } from '../../utils/state';
+	import * as Select from '@/components/ui/select';
+	import { createUploadThing } from '@/utils/uploadthing/utils';
+	import { Label } from '@/components/ui/label';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -25,6 +28,8 @@
 	// utils to create a new top-level note
 	let addNewFile = $state(false);
 	let newDocName = $state('');
+	let newDocType = $state<'note' | 'file'>('note');
+	let uploadProgress = $state(0);
 
 	const createNoteDocument = trpc().project.createNoteDocument.createMutation({
 		onSuccess: async () => {
@@ -50,6 +55,23 @@
 			createFile();
 		}
 	};
+
+	const { startUpload } = createUploadThing('imageUploader', {
+		onUploadBegin: () => {
+			toast('Upload begun!');
+		},
+		onUploadProgress: (p) => (uploadProgress = p),
+		onClientUploadComplete: (res) => {
+			toast.success('Upload Completed');
+
+			addNewFile = false;
+			uploadProgress = 0;
+			newDocType = 'note';
+		},
+		onUploadError: (error: Error) => {
+			toast.error(`ERROR! ${error.message}`);
+		}
+	});
 </script>
 
 <div class="flex h-full flex-col justify-between group-data-[collapsible=icon]:hidden">
@@ -58,32 +80,71 @@
 			<p class="text-2xl">{$t('project.documents')}</p>
 
 			{#if !isPublicView}
-				<Button
-					class="ml-3"
-					size={'small-icon'}
-					variant={'secondary'}
-					onclick={() => (addNewFile = !addNewFile)}
-				>
-					{#if !addNewFile}
+				{#if !addNewFile}
+					<Button
+						class="ml-3"
+						size={'small-icon'}
+						variant={'secondary'}
+						onclick={() => (addNewFile = !addNewFile)}
+					>
 						<Icons.add />
-					{:else}
-						<Icons.close />
-					{/if}
-				</Button>
+					</Button>
+				{:else}
+					<div class="flex flex-row items-center gap-2">
+						<Select.Root bind:value={newDocType} type="single">
+							<Select.Trigger class="w-fit md:w-[120px]">{newDocType}</Select.Trigger>
+							<Select.Content>
+								<Select.Item value="note">note</Select.Item>
+								<Select.Item value="file">file</Select.Item>
+							</Select.Content>
+						</Select.Root>
+
+						<Button
+							class="ml-3"
+							size={'small-icon'}
+							variant={'secondary'}
+							onclick={() => (addNewFile = !addNewFile)}
+						>
+							<Icons.close />
+						</Button>
+					</div>
+				{/if}
 			{/if}
 		</div>
 		<Separator />
 
 		{#if addNewFile}
-			<div class="mt-3 flex w-full flex-row gap-4">
-				<Input
-					class="h-fit"
-					bind:value={newDocName}
-					placeholder={$t('project.document_name')}
-					onkeydown={handleKeydown}
-				/>
-				<Button size="sm" onclick={() => createFile()}>{$t('project.add')}</Button>
-			</div>
+			{#if newDocType == 'note'}
+				<div class="mt-3 flex w-full flex-row gap-4">
+					<Input
+						class="h-fit"
+						bind:value={newDocName}
+						placeholder={$t('project.document_name')}
+						onkeydown={handleKeydown}
+					/>
+
+					<Button size="sm" onclick={() => createFile()}>{$t('project.add')}</Button>
+				</div>
+			{:else}
+				<div class="mt-3 grid w-full grid-cols-2 items-center gap-4">
+					<Input
+						id="file"
+						type="file"
+						onchange={async (e) => {
+							const file = e.currentTarget.files?.[0];
+							if (!file) return;
+
+							await startUpload([file], { projectId: project.id });
+						}}
+					/>
+
+					{#if uploadProgress == 0}
+						<Label for="file">File upload</Label>
+					{:else}
+						<Label for="file">Uploaded {uploadProgress}%</Label>
+					{/if}
+				</div>
+			{/if}
 		{/if}
 
 		{#if noteTree.length != 0}

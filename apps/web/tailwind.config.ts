@@ -4,10 +4,11 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 import tailwindcssTypography from '@tailwindcss/typography';
 import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
 import svgToDataUri from 'mini-svg-data-uri';
+import { withUt } from "uploadthing/tw";
 
-const config: Config = {
+const config: Config = withUt({
 	darkMode: ['class'],
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/@uploadthing/svelte/dist**'],
 	safelist: ['dark'],
 	theme: {
 		container: {
@@ -150,7 +151,7 @@ const config: Config = {
 			);
 		}
 	]
-};
+});
 
 function addVariablesForColors({ addBase, theme }: any) {
 	let allColors = flattenColorPalette(theme('colors'));

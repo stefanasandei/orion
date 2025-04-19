@@ -4,6 +4,11 @@ import ws from 'ws';
 
 import * as schema from "./schema"
 
+if (typeof process == typeof undefined) {
+    console.error("This should NOT be imported from the client.");
+    console.trace();
+}
+
 config({ path: ".env" });
 
 // the fetch-based connect does not support transactions
