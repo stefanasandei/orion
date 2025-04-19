@@ -12,9 +12,9 @@
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-cpp';
 
-	// import 'prism-themes/themes/prism-atom-dark.min.css';
+	import 'prism-themes/themes/prism-atom-dark.min.css';
 	// import 'prism-themes/themes/prism-material-oceanic.min.css';
-	import 'prism-themes/themes/prism-nord.min.css';
+	// import 'prism-themes/themes/prism-nord.min.css';
 	import { cn } from '../utils/cn';
 
 	interface Props {
@@ -55,7 +55,7 @@
 		const _container = untrack(() => container);
 		if (_container) {
 			const html = sanitizeHtml(htmlContent, {
-				allowedTags: false,
+				// allowedTags: false,
 				allowedAttributes: false
 			});
 			_container.innerHTML = renderMath(html);
