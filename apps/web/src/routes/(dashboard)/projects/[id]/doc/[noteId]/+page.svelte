@@ -47,7 +47,7 @@
 </script>
 
 <DashboardShell pageName={$t('project.page_names.document')} {user} {activeProject}>
-	<NoteShell project={activeProject.project} isPublicView={false}>
+	<NoteShell project={activeProject.project} activeNote={note} isPublicView={false}>
 		{#if note.type == 'document'}
 			<NoteEditor activeNoteId={note.id} />
 		{:else if note.type == 'file'}

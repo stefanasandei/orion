@@ -7,14 +7,18 @@
 	import { page } from '$app/state';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { noteViewState } from '../../utils/state';
+	import Button from '../ui/button/button.svelte';
+	import { Icons } from '../icons.svelte';
+	import * as Tooltip from '@/components/ui/tooltip';
 
 	interface Props {
 		isPublicView: boolean;
 		project: Project & { notes: Note[] };
 		children: Snippet;
+		activeNote: Note;
 	}
 
-	const { children, project, isPublicView }: Props = $props();
+	const { children, project, isPublicView, activeNote }: Props = $props();
 
 	const activeNoteId = $derived(
 		(() => {
@@ -30,6 +34,32 @@
 			return null;
 		})()
 	);
+
+	const downloadDocument = () => {
+		/* TODO: exporting documents requires way more work, needs to work nicely and be usable */
+
+		const text = activeNote.textContent;
+		const isUrl = /^https?:\/\//i.test(text);
+
+		const a = document.createElement('a');
+		a.style.display = 'none';
+		a.target = '_blank';
+
+		if (isUrl) {
+			a.href = text;
+			a.download = activeNote.name;
+		} else {
+			const blob = new Blob([activeNote.htmlContent], { type: 'text/plain' });
+			a.href = URL.createObjectURL(blob);
+			a.download = `${encodeURI(activeNote.name)}.html`;
+		}
+
+		a.click();
+
+		if (!isUrl) {
+			URL.revokeObjectURL(a.href);
+		}
+	};
 </script>
 
 <div class="flex h-full w-full flex-col">
@@ -45,6 +75,17 @@
 		</div>
 
 		<div class="flex flex-none shrink-0 flex-row items-center gap-2">
+			<Tooltip.Root>
+				<Tooltip.Trigger>
+					<Button onclick={downloadDocument} size="sm" class="mr-2" variant={'outline'}>
+						<Icons.download />
+					</Button>
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					<p>Download document</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
+
 			{#if !isPublicView}
 				<Tabs.Root
 					bind:value={noteViewState.current}
@@ -61,7 +102,8 @@
 					</Tabs.List>
 				</Tabs.Root>
 			{/if}
-			<Sidebar.Trigger />
+
+			<!-- <Sidebar.Trigger /> -->
 		</div>
 	</div>
 

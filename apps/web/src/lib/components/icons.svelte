@@ -27,7 +27,8 @@
 		show: Eye,
 		hide: EyeClosed,
 		send: SendHorizonal,
-		delete: Trash
+		delete: Trash,
+		download: Download
 	};
 </script>
 
@@ -62,6 +63,7 @@
 		EyeClosed,
 		type Icon as LucideIcon,
 		SendHorizonal,
-		Clipboard
+		Clipboard,
+		Download
 	} from 'lucide-svelte';
 </script>
