@@ -61,12 +61,14 @@
 			toast('Upload begun!');
 		},
 		onUploadProgress: (p) => (uploadProgress = p),
-		onClientUploadComplete: (res) => {
+		onClientUploadComplete: async (res) => {
 			toast.success('Upload Completed');
 
 			addNewFile = false;
 			uploadProgress = 0;
 			newDocType = 'note';
+
+			await invalidateAll();
 		},
 		onUploadError: (error: Error) => {
 			toast.error(`ERROR! ${error.message}`);

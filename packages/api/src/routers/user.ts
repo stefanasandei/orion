@@ -1,4 +1,4 @@
-import { registerUser, loginUser, logoutUser, AuthFailReason } from '@repo/auth';
+import { registerUser, loginUser, logoutUser, AuthFailReason, validateSessionToken } from '@repo/auth';
 import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
@@ -154,6 +154,16 @@ export const userRouter = createRouter({
                 .where(eq(sessionTable.userId, ctx.session.userId));
 
             return valid;
+        }),
+
+    verifySession: publicProcedure
+        .input(z.object({ session: z.string() }))
+        .query(async ({ input }) => {
+            const { session, user } = await validateSessionToken(input.session);
+            if (!session || !user) {
+                return null;
+            }
+            return { id: user.id };
         }),
 
     updateProfile: protectedProcedure

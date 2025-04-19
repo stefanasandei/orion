@@ -234,7 +234,22 @@ export const projectRouter = createRouter({
           htmlContent: "",
         });
     }),
-  // todo create note file
+  createFileNote: publicProcedure
+    .input(z.object({ fileUrl: z.string(), filename: z.string(), projectId: z.number(), userId: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db
+        .insert(noteTable)
+        .values({
+          name: input.filename,
+          projectId: input.projectId,
+          type: "file",
+          userId: input.userId,
+
+          textContent: input.fileUrl,
+          jsonContent: "",
+          htmlContent: "",
+        });
+    }),
 
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))

@@ -1,7 +1,8 @@
 import { createUploadthing } from "uploadthing/server";
 import type { FileRouter } from "uploadthing/server";
-// import { validateSessionToken } from "@repo/auth";
 import { z } from "zod";
+import type { CtxRequestEvent } from "@repo/core";
+import { createCaller } from "@repo/api";
 
 const f = createUploadthing();
 
@@ -10,17 +11,13 @@ export const ourFileRouter = {
     // Define as many FileRoutes as you like, each with a unique routeSlug
     imageUploader: f({
         image: {
-            /**
-             * For full list of options and defaults, see the File Route API reference
-             * @see https://docs.uploadthing.com/file-routes#route-config
-             */
-            maxFileSize: "4MB",
+            maxFileSize: "64MB",
             maxFileCount: 1,
         },
     })
         .input(z.object({ projectId: z.number() }))
-        // Set permissions and file types for this FileRoute
         .middleware(async ({ req, input }) => {
+            // 1. get the session token value
             const cookieHeader = req.headers.get("cookie");
             if (!cookieHeader) {
                 throw new Error("Unauthorized");
@@ -34,19 +31,30 @@ export const ourFileRouter = {
                 throw new Error("Unauthorized");
             }
 
-            // TODO: this has to be on the server
-            // const { session, user } = await validateSessionToken(sessionCookie);
-            // if (!session || !user) {
-            //     throw new Error("Unauthorized");
-            // }
+            // 2. check if it's valid
+            const caller = createCaller({ event: req as unknown as CtxRequestEvent });
+            const user = await caller.user.verifySession({
+                session: sessionCookie
+            });
 
-            const metadata = { userId: 0, projectId: input.projectId };
+            if (user == null) {
+                throw new Error("Unauthorized");
+            }
+
+            // 3. return metadata
+            const metadata = { userId: user.id, projectId: input.projectId };
             return metadata;
         })
-        .onUploadComplete(async ({ metadata, file }) => {
-            // todo: link file url as a new note (type file) to the user's project
-            // create trpc roue
-            const urfsUrl = file.ufsUrl;
+        .onUploadComplete(async ({ metadata, file, req }) => {
+            const caller = createCaller({ event: req as unknown as CtxRequestEvent });
+
+            await caller.project.createFileNote({
+                fileUrl: file.ufsUrl,
+                filename: file.name,
+
+                projectId: metadata.projectId,
+                userId: metadata.userId
+            });
         }),
 } satisfies FileRouter;
 
