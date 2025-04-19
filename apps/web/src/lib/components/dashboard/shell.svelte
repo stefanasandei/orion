@@ -48,6 +48,9 @@
 			goto('/create-workspace');
 		}
 	});
+
+	const pathRegex = /^\/projects\/\d+\/doc\/\d+$/;
+	const browseRegex = /^\/browse\/project\/\d+\/\d+$/;
 </script>
 
 <Seo title={pageName} description="" />
@@ -85,7 +88,7 @@
 		</Sidebar.Inset>
 
 		<!-- document navigation -->
-		{#if pathname.includes('/project') && activeProject !== null}
+		{#if (pathRegex.test(pathname) || browseRegex.test(pathname)) && activeProject !== null}
 			<NoteSidebar project={activeProject.project} noteTree={activeProject.noteTree} />
 		{/if}
 	</Sidebar.Provider>
