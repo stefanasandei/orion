@@ -67,8 +67,5 @@
 
 <div
 	bind:this={container}
-	class={cn(
-		'prose dark:prose-invert text-primary-foreground min-w-full text-justify',
-		className ?? ''
-	)}
+	class={cn('prose dark:prose-invert min-w-full text-justify', className ?? '')}
 ></div>

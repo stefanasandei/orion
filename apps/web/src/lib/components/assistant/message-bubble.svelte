@@ -39,7 +39,7 @@
 		<div
 			class="border-primary/80 bg-primary/80 group relative inline-block max-w-[80%] break-words rounded-xl border px-4 py-3 text-left"
 		>
-			<HtmlPreview htmlContent={renderHtml(msg.content)} />
+			<HtmlPreview className="text-primary-foreground" htmlContent={renderHtml(msg.content)} />
 
 			{@render userControls(msg)}
 		</div>
