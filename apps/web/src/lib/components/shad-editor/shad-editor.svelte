@@ -187,10 +187,20 @@
 
 <div class={cn('flex w-full flex-col rounded border', className)}>
 	{#if editor && showToolbar}
-		<EditorToolbar {editor} />
-		<LinkBubbleMenu {editor} />
-		<TableColumnMenu {editor} />
-		<TableRowMenu {editor} />
+		<div
+			class="bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky top-[2.6rem] z-10 mb-2 flex w-full flex-row items-center gap-4 backdrop-blur"
+		>
+			<div class="min-w-0 flex-1">
+				<div class="scrollbar-none -mr-4 overflow-x-auto pr-4">
+					<div class="w-full">
+						<EditorToolbar {editor} />
+						<LinkBubbleMenu {editor} />
+						<TableColumnMenu {editor} />
+						<TableRowMenu {editor} />
+					</div>
+				</div>
+			</div>
+		</div>
 	{/if}
 	<div bind:this={element} spellcheck="false" class="h-full w-full flex-1 overflow-auto"></div>
 </div>
