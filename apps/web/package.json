@@ -34,6 +34,7 @@
 		"marked": "^15.0.7",
 		"minisearch": "^7.1.1",
 		"ollama-ai-provider": "^1.2.0",
+		"pdfjs-dist": "^5.1.91",
 		"prism-themes": "^1.9.0",
 		"prismjs": "^1.29.0",
 		"runed": "^0.23.2",

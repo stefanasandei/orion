@@ -14,6 +14,10 @@ export const ourFileRouter = {
             maxFileSize: "64MB",
             maxFileCount: 1,
         },
+        pdf: {
+            maxFileSize: "128MB",
+            maxFileCount: 1,
+        }
     })
         .input(z.object({ projectId: z.number() }))
         .middleware(async ({ req, input }) => {

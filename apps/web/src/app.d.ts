@@ -21,4 +21,6 @@ declare global {
 	}
 }
 
+declare module "pdfjs-dist/build/pdf.worker.mjs";
+
 export { };

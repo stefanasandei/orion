@@ -8,6 +8,7 @@
 	import NoteEditor from '$base/src/lib/components/project/note-editor.svelte';
 	import { initializeActiveNote, noteViewState } from '$base/src/lib/utils/state';
 	import { onMount } from 'svelte';
+	import NoteFileViewer from '$base/src/lib/components/project/note-file-viewer.svelte';
 
 	// server-side props
 	interface Props {
@@ -47,6 +48,10 @@
 
 <DashboardShell pageName={$t('project.page_names.document')} {user} {activeProject}>
 	<NoteShell project={activeProject.project} isPublicView={false}>
-		<NoteEditor activeNoteId={note.id} />
+		{#if note.type == 'document'}
+			<NoteEditor activeNoteId={note.id} />
+		{:else if note.type == 'file'}
+			<NoteFileViewer {note} />
+		{/if}
 	</NoteShell>
 </DashboardShell>

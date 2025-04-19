@@ -34,7 +34,7 @@
 
 <div class="flex h-full w-full flex-col">
 	<div
-		class="bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky top-0 z-10 mb-2 flex w-full flex-row items-center gap-4 backdrop-blur"
+		class="bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky top-0 z-10 flex w-full flex-row items-center gap-4 pb-2 backdrop-blur"
 	>
 		<div class="min-w-0 flex-1">
 			<div class="scrollbar-none -mr-4 overflow-x-auto pr-4">
