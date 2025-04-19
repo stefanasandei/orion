@@ -79,7 +79,9 @@
 <div class="flex h-full flex-col justify-between group-data-[collapsible=icon]:hidden">
 	<div>
 		<div class="flex flex-row items-center justify-between p-2">
-			<p class="text-2xl">{$t('project.documents')}</p>
+			{#if !addNewFile}
+				<p class="text-2xl">{$t('project.documents')}</p>
+			{/if}
 
 			{#if !isPublicView}
 				{#if !addNewFile}
@@ -92,14 +94,17 @@
 						<Icons.add />
 					</Button>
 				{:else}
-					<div class="flex flex-row items-center gap-2">
-						<Select.Root bind:value={newDocType} type="single">
-							<Select.Trigger class="w-fit md:w-[120px]">{newDocType}</Select.Trigger>
-							<Select.Content>
-								<Select.Item value="note">note</Select.Item>
-								<Select.Item value="file">file</Select.Item>
-							</Select.Content>
-						</Select.Root>
+					<div class="flex w-full flex-row items-center justify-between gap-2">
+						<div class="flex flex-row items-center gap-2">
+							<p>Note type</p>
+							<Select.Root bind:value={newDocType} type="single">
+								<Select.Trigger class="w-fit">{newDocType}</Select.Trigger>
+								<Select.Content>
+									<Select.Item value="note">note</Select.Item>
+									<Select.Item value="file">file</Select.Item>
+								</Select.Content>
+							</Select.Root>
+						</div>
 
 						<Button
 							class="ml-3"

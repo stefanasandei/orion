@@ -1,5 +1,7 @@
 import { BaseChatModel } from "@langchain/core/language_models/chat_models";
-import { ChatOllama } from "@langchain/ollama";
+// import { ChatOllama } from "@langchain/ollama";
+import { ChatOpenAI } from "@langchain/openai";
+
 // import { ChatMistralAI } from "@langchain/mistralai";
 import { AIMessage } from "@langchain/core/messages";
 
@@ -17,9 +19,18 @@ export class LLMChatFactory {
         //         model: "open-mistral-nemo"
         //     });
         // }
-        return new ChatOllama({
-            model: "smollm2:135m",
-            streaming: true
+
+        // return new ChatOllama({
+        //     model: "smollm2:135m",
+        //     streaming: true
+        // });
+
+        return new ChatOpenAI({
+            model: "google/gemini-2.0-flash-exp:free",
+            configuration: {
+                baseURL: "https://openrouter.ai/api/v1",
+                apiKey: process.env["OPENROUTER_API_KEY"],
+            }
         });
     }
 }
