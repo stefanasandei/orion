@@ -6,6 +6,8 @@
 	import DeleteNote from './delete-note.svelte';
 	import MoveNote from './move-note.svelte';
 	import { t } from '../../utils/i18n/translations';
+	import { toast } from 'svelte-sonner';
+	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 
 	const {
 		isPublicView,
@@ -26,6 +28,12 @@
 	// dirty yet it works
 	let deleteDialogOpen = $state(false);
 	let moveDialogOpen = $state(false);
+
+	let noteURL = $derived(
+		!isPublicView
+			? `/projects/${projectId}/doc/${note.id}`
+			: `/browse/project/${projectId}/${note.id}`
+	);
 </script>
 
 <ContextMenu.Root bind:open>
@@ -37,23 +45,28 @@
 		<Separator />
 		{#if hasChildren}
 			<ContextMenu.Item>
-				<a
-					href={!isPublicView
-						? `/projects/${projectId}/doc/${note.id}`
-						: `/browse/project/${projectId}/${note.id}`}
-					class="w-full hover:cursor-pointer"
-				>
+				<a href={noteURL} class="w-full hover:cursor-pointer">
 					{$t('project.view')}</a
 				></ContextMenu.Item
 			>
 		{/if}
-		<ContextMenu.Item onclick={() => (moveDialogOpen = true)} class="hover:cursor-pointer"
-			>{$t('project.move')}</ContextMenu.Item
+
+		<ContextMenu.Item
+			class="hover:cursor-pointer"
+			onclick={() => {
+				navigator.clipboard.writeText(`${PUBLIC_WEBSITE_URL}${noteURL}`);
+				toast('Document URL copied!');
+			}}>{$t('project.share')}</ContextMenu.Item
 		>
-		<!-- <ContextMenu.Item>{$t('project.share')}</ContextMenu.Item> -->
-		<ContextMenu.Item onclick={() => (deleteDialogOpen = true)} class="hover:cursor-pointer"
-			>{$t('project.delete_note_menu')}</ContextMenu.Item
-		>
+
+		{#if !isPublicView}
+			<ContextMenu.Item onclick={() => (moveDialogOpen = true)} class="hover:cursor-pointer"
+				>{$t('project.move')}</ContextMenu.Item
+			>
+			<ContextMenu.Item onclick={() => (deleteDialogOpen = true)} class="hover:cursor-pointer"
+				>{$t('project.delete_note_menu')}</ContextMenu.Item
+			>
+		{/if}
 	</ContextMenu.Content>
 </ContextMenu.Root>
 
