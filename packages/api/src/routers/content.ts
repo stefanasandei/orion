@@ -8,25 +8,33 @@ export const contentRouter = createRouter({
     searchNotes: protectedProcedure
         .input(z.object({ query: z.string() }))
         .query(async ({ input, ctx }) => {
-            // guide: https://orm.drizzle.team/docs/guides/postgresql-full-text-search
+            // Prepare search terms: split words and join with '&' for AND operation
+            const searchTerms = input.query
+                .trim()
+                .split(/\s+/)
+                .filter(term => term.length > 0)
+                .map(term => term + ':*')  // Add prefix matching
+                .join(' & ');
 
-            // create the word vectors on the fly
-            const matchQuery = sql`(
-                setweight(to_tsvector('english', ${noteTable.name}), 'A') ||
-                setweight(to_tsvector('english', ${noteTable.textContent}), 'B')
-                ), to_tsquery('english', ${input.query})`;
+            if (!searchTerms) {
+                return [];
+            }
 
+            // create the word vectors and match against the search query
             const searchResult = await db
                 .select({
                     id: noteTable.id,
-                    name: noteTable.name,
-                    type: noteTable.type,
                     createdAt: noteTable.createdAt,
 
-                    // ts_rank -> the frequency of query terms throughout the document.
-                    // ts_rank_cd -> the proximity of query terms within the document.
-                    rank: sql`ts_rank(${matchQuery})`,
-                    rankCd: sql`ts_rank_cd(${matchQuery})`,
+                    name: noteTable.name,
+                    type: noteTable.type,
+                    projectId: noteTable.projectId,
+
+                    rank: sql`ts_rank(
+                        setweight(to_tsvector('english', ${noteTable.name}), 'A') ||
+                        setweight(to_tsvector('english', ${noteTable.textContent}), 'B'),
+                        to_tsquery('english', ${searchTerms})
+                    )`
                 })
                 .from(noteTable)
                 .where(
@@ -34,13 +42,14 @@ export const contentRouter = createRouter({
                         sql`(
                             setweight(to_tsvector('english', ${noteTable.name}), 'A') ||
                             setweight(to_tsvector('english', ${noteTable.textContent}), 'B')
-                        ) @@ to_tsquery('english', ${input.query})`,
+                        ) @@ to_tsquery('english', ${searchTerms})`,
                         eq(noteTable.userId, ctx.session.userId)
-                    ),
+                    )
                 )
                 .orderBy((t) => desc(t.rank))
                 .limit(10);
 
+            console.log(searchResult)
             return searchResult;
         }),
 
