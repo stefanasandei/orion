@@ -8,18 +8,14 @@
 	import { Icons } from '../icons.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { Brain, FileSearch, Square } from 'lucide-svelte';
-	import { page } from '$app/state';
 	import * as Tooltip from '@/components/ui/tooltip';
 
-	const prompt = page.url.searchParams.get('prompt');
 	export let userInput: Writable<string>;
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
 	const { input, handleSubmit, messages, status, stop } = useChat();
 	const chatContainerRef = writable<HTMLDivElement | null>(null);
 	const showScrollButton = writable(false);
-
-	let state: Writable<'landing' | 'chat'>;
 
 	// Auto-send user input from landing
 	$: if ($userInput) {
@@ -101,7 +97,7 @@
 			<div class="bg-background w-full rounded-t-xl">
 				<form
 					on:submit={handleSubmit}
-					class="bg-accent/50 flex resize-none items-center gap-2 rounded-t-xl px-4 py-2 shadow-sm"
+					class="bg-accent/50 flex resize-none items-start gap-2 rounded-t-xl px-4 py-2 shadow-sm"
 				>
 					<Textarea
 						bind:ref={$chatInputRef}
@@ -110,9 +106,44 @@
 						placeholder={$t('dashboard.assistant_page.chat.input_placeholder')}
 						onkeydown={handleEnter}
 					/>
-					<Button variant="default" size="icon" type="submit">
-						<Icons.send />
-					</Button>
+
+					{#if $status == 'ready'}
+						<!-- send message -->
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								<Button variant="default" size="icon" type="submit">
+									<Icons.send />
+								</Button>
+							</Tooltip.Trigger>
+							<Tooltip.Content>
+								<p>Send message</p>
+							</Tooltip.Content>
+						</Tooltip.Root>
+					{:else if $status == 'submitted'}
+						<!-- loading spinner -->
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								<Button size="icon" disabled={true} variant={'outline'}>
+									<div
+										class="border-primary size-4 animate-spin rounded-full border-2 border-t-transparent"
+									></div>
+								</Button>
+							</Tooltip.Trigger>
+							<Tooltip.Content>
+								<p>Loading...</p>
+							</Tooltip.Content>
+						</Tooltip.Root>
+					{:else if $status == 'streaming'}
+						<!-- stop generation button -->
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								<Button size="icon" onclick={() => stop()} variant={'outline'}><Square /></Button>
+							</Tooltip.Trigger>
+							<Tooltip.Content>
+								<p>Stop generation</p>
+							</Tooltip.Content>
+						</Tooltip.Root>
+					{/if}
 				</form>
 
 				<!-- controls -->
@@ -136,21 +167,6 @@
 							</Tabs.Trigger>
 						</Tabs.List>
 					</Tabs.Root>
-
-					<Tooltip.Root>
-						<Tooltip.Trigger>
-							<Button
-								size="icon"
-								onclick={() => stop()}
-								variant={'outline'}
-								disabled={$status != 'streaming'}
-								><Square />
-							</Button>
-						</Tooltip.Trigger>
-						<Tooltip.Content>
-							<p>Stop generation</p>
-						</Tooltip.Content>
-					</Tooltip.Root>
 				</div>
 			</div>
 		</div>
