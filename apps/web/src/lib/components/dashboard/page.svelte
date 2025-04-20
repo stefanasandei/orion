@@ -151,7 +151,7 @@
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
 					<BrainCircuit class="size-5" />
-					<p>Thoughts</p>
+					<p>Library</p>
 				</a>
 			</div>
 		</div>

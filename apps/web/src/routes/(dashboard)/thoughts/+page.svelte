@@ -16,16 +16,19 @@
 	import { onMount, untrack } from 'svelte';
 	import { mapProxy } from '$base/src/lib/utils/map-proxy';
 
+	// -------------------------------------------
+	// Props and Data Setup
+	// -------------------------------------------
 	let { data: _data }: { data: { user: UserLocals; notes: Note[] } } = $props();
 	const { user, notes: _notes } = $derived(_data);
 	const thoughts = $derived(_notes.filter((n) => n.type == 'thought'));
 
+	// -------------------------------------------
+	// New Thought Input State
+	// -------------------------------------------
 	let newThought = $state('');
-
 	let deleteThought = $state<Note>();
 	let deleteDialogOpen = $state(false);
-
-	let cachedHtml = $state<Map<string, string>>(new Map());
 
 	const addNewThought = trpc().project.createQuickNote.createMutation({
 		onSuccess: async () => {
@@ -34,20 +37,6 @@
 			await invalidateAll();
 		}
 	});
-
-	function renderHtml(content: string) {
-		if (cachedHtml.has(content)) {
-			return cachedHtml.get(content)!;
-		}
-
-		const rendered = parse(content, {
-			async: false
-		}) as string;
-
-		cachedHtml.set(content, rendered);
-
-		return rendered;
-	}
 
 	function handleSubmit() {
 		if (!newThought.trim()) return;
@@ -65,10 +54,31 @@
 		}
 	}
 
+	// -------------------------------------------
+	// Markdown Rendering and Cache
+	// -------------------------------------------
+	let cachedHtml = $state<Map<string, string>>(new Map());
+
+	function renderHtml(content: string) {
+		if (cachedHtml.has(content)) {
+			return cachedHtml.get(content)!;
+		}
+
+		const rendered = parse(content, {
+			async: false
+		}) as string;
+
+		cachedHtml.set(content, rendered);
+
+		return rendered;
+	}
+
+	// -------------------------------------------
+	// Overflow Detection Logic
+	// -------------------------------------------
 	let containerEl = $state({ containers: mapProxy(new Map<number, HTMLElement>()) });
 	let isOverflowing = $state({ containers: mapProxy(new Map<number, boolean>()) });
 
-	// whenever content (or DOM) updates, re-check overflow
 	const checkOverflow = () => {
 		const containers = containerEl.containers;
 
@@ -86,8 +96,99 @@
 		});
 	};
 
+	// -------------------------------------------
+	// Link Preview Logic
+	// -------------------------------------------
+	const METADATA_CACHE_KEY = 'thoughtsLinkMetadata';
+	type LinkMetadata = Record<string, { title: string; description: string; image: string }>;
+
+	const isURL = (text: string): boolean => {
+		const urlRegex =
+			/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+		return urlRegex.test(text);
+	};
+
+	let linkMetadata = $state<LinkMetadata>({});
+
+	function loadMetadataFromCache(): LinkMetadata {
+		try {
+			const cached = localStorage.getItem(METADATA_CACHE_KEY);
+			return cached ? JSON.parse(cached) : {};
+		} catch (error) {
+			console.error('Failed to load metadata from cache:', error);
+			return {};
+		}
+	}
+
+	function saveMetadataToCache(metadata: LinkMetadata) {
+		try {
+			localStorage.setItem(METADATA_CACHE_KEY, JSON.stringify(metadata));
+		} catch (error) {
+			console.error('Failed to save metadata to cache:', error);
+		}
+	}
+
+	async function fetchLinkMetadata(url: string) {
+		if (url in linkMetadata) return null;
+
+		try {
+			const response = await fetch(`/api/metadata?url=${encodeURIComponent(url)}`);
+			const data = await response.json();
+			return {
+				url,
+				metadata: {
+					title: data.title || url,
+					description: data.description || '',
+					image: data.image || ''
+				}
+			};
+		} catch (error) {
+			console.error('Failed to fetch metadata:', error);
+			return {
+				url,
+				metadata: {
+					title: url,
+					description: '',
+					image: ''
+				}
+			};
+		}
+	}
+
+	async function loadAndFetchMetadata() {
+		// First load from cache
+		linkMetadata = loadMetadataFromCache();
+
+		// Then fetch any missing metadata
+		const urlThoughts = thoughts.filter((thought) => isURL(thought.name));
+		const thoughtsNeedingMetadata = urlThoughts.filter(
+			(thought) => !(thought.name in linkMetadata)
+		);
+
+		if (thoughtsNeedingMetadata.length === 0) return;
+
+		const metadataPromises = thoughtsNeedingMetadata.map((thought) =>
+			fetchLinkMetadata(thought.name)
+		);
+		const results = await Promise.all(metadataPromises);
+
+		const newMetadata = { ...linkMetadata };
+		results
+			.filter((result) => result !== null)
+			.forEach((result) => {
+				newMetadata[result.url] = result.metadata;
+			});
+
+		linkMetadata = newMetadata;
+		saveMetadataToCache(newMetadata);
+	}
+
+	// -------------------------------------------
+	// Lifecycle Hooks
+	// -------------------------------------------
 	onMount(checkOverflow);
 	$effect(checkOverflow);
+	onMount(loadAndFetchMetadata);
 
 	//TODO: edit, search, tags
 </script>
@@ -113,7 +214,12 @@
 		<!-- Thoughts feed -->
 		<div class="flex flex-col gap-4">
 			{#each thoughts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as thought}
-				{@render thoughtCard(thought)}
+				{#if isURL(thought.name)}
+					{@render linkPreviewCard(thought)}
+				{:else}
+					<!-- raw text card -->
+					{@render thoughtCard(thought)}
+				{/if}
 			{/each}
 		</div>
 	</div>
@@ -148,6 +254,66 @@
 				</p>
 
 				<div class="flex flex-col justify-end gap-2">
+					<Button
+						onclick={() => {
+							deleteThought = thought;
+							deleteDialogOpen = true;
+						}}
+						size="icon"
+						variant="outline"
+					>
+						<Icons.delete />
+					</Button>
+				</div>
+			</div>
+		</Card.Content>
+	</Card.Root>
+{/snippet}
+
+{#snippet linkPreviewCard(thought: Note)}
+	<Card.Root class="bg-card hover:bg-muted/50 overflow-hidden transition-colors duration-75">
+		<Card.Content class="flex flex-col space-y-2 p-0">
+			<a
+				href={thought.name}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="group grid w-full grid-cols-[1fr_auto] gap-4 p-4 sm:grid-cols-[1fr_220px]"
+			>
+				<div class="flex flex-col justify-between gap-2">
+					<div class="space-y-1">
+						<h3 class="font-semibold leading-none tracking-tight">
+							{#if thought.name in linkMetadata}
+								{linkMetadata[thought.name].title}
+							{:else}
+								{thought.name}
+							{/if}
+						</h3>
+						{#if thought.name in linkMetadata && linkMetadata[thought.name].description}
+							<p class="text-muted-foreground line-clamp-2 text-sm">
+								{linkMetadata[thought.name].description}
+							</p>
+						{/if}
+					</div>
+					<p class="text-muted-foreground flex items-center gap-2 text-xs">
+						{new URL(thought.name).hostname}
+						<span>•</span>
+						{new Date(thought.createdAt).toLocaleString()}
+					</p>
+				</div>
+
+				{#if thought.name in linkMetadata && linkMetadata[thought.name].image}
+					<div class="relative hidden aspect-[4/3] sm:block">
+						<img
+							src={linkMetadata[thought.name].image}
+							alt=""
+							class="bg-muted absolute inset-0 h-full w-full rounded-md object-cover transition-transform duration-300 group-hover:scale-105"
+						/>
+					</div>
+				{/if}
+			</a>
+
+			<div class="border-t px-4 py-3">
+				<div class="flex justify-end">
 					<Button
 						onclick={() => {
 							deleteThought = thought;
