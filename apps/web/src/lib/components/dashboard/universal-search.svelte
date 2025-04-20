@@ -1,9 +1,21 @@
 <script lang="ts">
-	import { Calendar, Search } from 'lucide-svelte';
+	import {
+		BrainCircuit,
+		Calendar,
+		File,
+		Home,
+		MessageCircle,
+		Notebook,
+		NotepadText,
+		Search,
+		Settings,
+		Sparkle,
+		Sparkles
+	} from 'lucide-svelte';
 	import { MenuButton } from '../ui/sidebar';
 	import * as Command from '$lib/components/ui/command/index.js';
 
-	let open = $state(false);
+	let open = $state(true);
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -24,41 +36,45 @@
 	<span>Search</span>
 </MenuButton>
 
-<!-- TODO: this is just ui for now -->
-<Command.Dialog bind:open>
+<Command.Dialog class="w-full" bind:open>
 	<Command.Input placeholder="Type a command or search..." />
-	<Command.List>
+	<Command.List class="h-full max-h-max w-full">
 		<Command.Empty>No results found.</Command.Empty>
-		<Command.Group heading="Suggestions">
+		<Command.Group heading="Search results">
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
-				<span>Calendar</span>
+				<Notebook />
+				<span>Project result</span>
 			</Command.Item>
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
-				<span>Search Emoji</span>
+				<NotepadText />
+				<span>Note result</span>
 			</Command.Item>
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
-				<span>Calculator</span>
+				<File />
+				<span>File result</span>
 			</Command.Item>
 		</Command.Group>
 		<Command.Separator />
-		<Command.Group heading="Settings">
+		<Command.Group heading="Pages - quick navigation">
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
-				<span>Profile</span>
-				<Command.Shortcut>⌘P</Command.Shortcut>
+				<BrainCircuit />
+				<span>Library</span>
+				<Command.Shortcut>⌘ L</Command.Shortcut>
 			</Command.Item>
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
-				<span>Billing</span>
-				<Command.Shortcut>⌘B</Command.Shortcut>
+				<Home />
+				<span>Dashboard</span>
+				<Command.Shortcut>⌘ D</Command.Shortcut>
 			</Command.Item>
 			<Command.Item>
-				<Calendar class="mr-2 size-4" />
+				<Settings />
 				<span>Settings</span>
-				<Command.Shortcut>⌘S</Command.Shortcut>
+				<Command.Shortcut>⌘ S</Command.Shortcut>
+			</Command.Item>
+			<Command.Item>
+				<Sparkles />
+				<span>Chat</span>
+				<Command.Shortcut>⌘ A</Command.Shortcut>
 			</Command.Item>
 		</Command.Group>
 	</Command.List>
