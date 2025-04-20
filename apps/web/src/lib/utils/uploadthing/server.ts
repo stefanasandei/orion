@@ -12,11 +12,11 @@ export const ourFileRouter = {
     imageUploader: f({
         image: {
             maxFileSize: "64MB",
-            maxFileCount: 1,
+            maxFileCount: 10,
         },
         pdf: {
-            maxFileSize: "128MB",
-            maxFileCount: 1,
+            maxFileSize: "64MB",
+            maxFileCount: 10,
         }
     })
         .input(z.object({ projectId: z.number() }))

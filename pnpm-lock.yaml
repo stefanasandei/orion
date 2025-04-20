@@ -114,6 +114,9 @@ importers:
       svelte-dnd-action:
         specifier: ^0.9.57
         version: 0.9.57(svelte@5.20.1)
+      svelte-file-dropzone:
+        specifier: ^2.0.9
+        version: 2.0.9(svelte@5.20.1)
       svelte-persisted-store:
         specifier: ^0.12.0
         version: 0.12.0(svelte@5.20.1)
@@ -6863,6 +6866,15 @@ packages:
       espree: 9.6.1
       postcss: 8.5.2
       postcss-scss: 4.0.9(postcss@8.5.2)
+      svelte: 5.20.1
+    dev: false
+
+  /svelte-file-dropzone@2.0.9(svelte@5.20.1):
+    resolution: {integrity: sha512-+gS9DscyEcy2Q0jhcADPs7uUEnz56YKudKtLGteEGNi4lF7anPTyxDXoDRiNACWzsp3PF5KfYkw0GgrTieZK9Q==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5
+    dependencies:
+      file-selector: 0.6.0
       svelte: 5.20.1
     dev: false
 

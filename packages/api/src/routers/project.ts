@@ -241,7 +241,7 @@ export const projectRouter = createRouter({
         .insert(noteTable)
         .values({
           name: input.filename,
-          projectId: input.projectId,
+          projectId: (input.projectId == 0 ? null : input.projectId),
           type: "file",
           userId: input.userId,
 

@@ -12,6 +12,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { trpc } from '../../utils/trpc/client';
 	import { CommandShortcut } from '@/components/ui/command';
+	import UploadFileDialog from './upload-file-dialog.svelte';
 
 	interface Props {
 		user: UserLocals;
@@ -130,11 +131,8 @@
 			</form>
 
 			<div class="flex flex-col justify-evenly gap-4 md:flex-row">
-				<div
-					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
-				>
-					<Upload class="size-5" />
-					<p>Upload a file</p>
+				<div class="w-full">
+					<UploadFileDialog />
 				</div>
 				<div
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
