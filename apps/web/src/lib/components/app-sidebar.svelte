@@ -61,6 +61,10 @@
 				{
 					title: $t('dashboard.appearance'),
 					url: '/settings/appearance'
+				},
+				{
+					title: $t('dashboard.usage'),
+					url: '/settings/usage'
 				}
 			]
 		}

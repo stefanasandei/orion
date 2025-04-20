@@ -38,7 +38,7 @@
 {#if isDesktop.current}
 	<Dialog bind:open>
 		{#if hasTrigger}
-			<DialogTrigger class="h-full" asChild>{@render triggerButton()}</DialogTrigger>
+			<DialogTrigger class="h-full w-full" asChild>{@render triggerButton()}</DialogTrigger>
 		{/if}
 		<DialogContent class={className ? className : 'flex h-[70vh] flex-col gap-6 sm:max-w-[425px]'}>
 			<!-- <DialogContent class={cn('flex h-[70vh] flex-col gap-6 sm:max-w-[425px]', className)}> -->

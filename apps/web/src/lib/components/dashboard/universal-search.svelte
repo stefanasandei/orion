@@ -75,7 +75,10 @@
 								onclick={async () => {
 									let url = '/';
 
-									if (result.type == 'document') {
+									if (
+										result.type == 'document' ||
+										(result.type == 'file' && result.projectId != null)
+									) {
 										// projects/63/doc/282
 										url = `/projects/${result.projectId}/doc/${result.id}`;
 									} else if (result.type == 'thought') {

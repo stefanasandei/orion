@@ -10,6 +10,13 @@
 	import { toast } from 'svelte-sonner';
 	import { trpc } from '@/utils/trpc/client';
 	import { activeWorkspaceId } from '@/utils/state';
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		triggerButtonProp?: Snippet;
+	}
+
+	const { triggerButtonProp }: Props = $props();
 
 	let name = $state('');
 	let description = $state('');
@@ -36,7 +43,11 @@
 	bind:open
 >
 	{#snippet triggerButton()}
-		<Button size="small-icon" variant="ghost"><Icons.add /></Button>
+		{#if triggerButtonProp == undefined}
+			<Button size="small-icon" variant="ghost"><Icons.add /></Button>
+		{:else}
+			{@render triggerButtonProp?.()}
+		{/if}
 	{/snippet}
 
 	<div class="flex h-full flex-col justify-between">

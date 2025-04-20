@@ -1,5 +1,6 @@
 {
 	"hello": "Hello",
+	"usage": "Usage",
 	"workspace_title": "Workspaces",
 	"create_workspace": "Create a workspace",
 	"section_platform": "Platform",

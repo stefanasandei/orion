@@ -56,6 +56,8 @@ export const contentRouter = createRouter({
     askRag: protectedProcedure
         .input(z.object({ query: z.string() }))
         .mutation(async ({ input, ctx }) => {
+            // todo: do not use, just fetch the api route
+
             const res = await (ctx.event as any).fetch('/api/chat/rag', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

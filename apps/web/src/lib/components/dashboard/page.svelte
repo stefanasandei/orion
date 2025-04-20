@@ -1,5 +1,14 @@
 <script lang="ts">
-	import { Brain, BrainCircuit, File, FileSearch, Link, Plus, Upload } from 'lucide-svelte';
+	import {
+		Brain,
+		BrainCircuit,
+		ChartColumn,
+		File,
+		FileSearch,
+		Link,
+		Plus,
+		Upload
+	} from 'lucide-svelte';
 	import { Input } from '@/components/ui/input';
 	import { Button } from '@/components/ui/button';
 	import { t } from '@/utils/i18n/translations';
@@ -13,6 +22,7 @@
 	import { trpc } from '../../utils/trpc/client';
 	import { CommandShortcut } from '@/components/ui/command';
 	import UploadFileDialog from './upload-file-dialog.svelte';
+	import CreateProject from '../project/create-project.svelte';
 
 	interface Props {
 		user: UserLocals;
@@ -134,18 +144,26 @@
 				<div class="w-full">
 					<UploadFileDialog />
 				</div>
-				<div
+
+				<CreateProject>
+					{#snippet triggerButtonProp()}
+						<div
+							class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
+						>
+							<Plus class="size-5" />
+							<p>Create a project</p>
+						</div>
+					{/snippet}
+				</CreateProject>
+
+				<a
+					href="/settings/usage"
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
-					<Link class="size-5" />
-					<p>Import from URL</p>
-				</div>
-				<div
-					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
-				>
-					<Plus class="size-5" />
-					<p>Create a document</p>
-				</div>
+					<ChartColumn class="size-5" />
+					<p>View usage</p>
+				</a>
+
 				<a
 					href="/thoughts"
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"

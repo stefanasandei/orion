@@ -28,7 +28,9 @@
 <Sidebar.Group class="bg-background mt-2 h-full rounded-lg group-data-[collapsible=icon]:hidden">
 	<Sidebar.GroupLabel class="flex flex-row justify-between">
 		<p>{$t('dashboard.projects')}</p>
-		<CreateProject />
+		<div class="flex w-fit items-end justify-end">
+			<CreateProject />
+		</div>
 	</Sidebar.GroupLabel>
 	<Sidebar.Menu class="flex-1">
 		{#each projects as item (item.name)}
