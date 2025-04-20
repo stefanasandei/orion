@@ -27,10 +27,27 @@
 	);
 
 	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			open = true;
+		if (e.metaKey || e.ctrlKey) {
+			if (e.key === 'k') {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				open = true;
+			} else if (!Number.isNaN(parseInt(e.key))) {
+				const idx = parseInt(e.key);
+				if (idx > 4) return;
+
+				e.preventDefault();
+				e.stopImmediatePropagation();
+
+				const pages: Record<number, string> = {
+					1: '/thoughts',
+					2: '/',
+					3: '/settings',
+					4: '/assistant'
+				};
+
+				goto(pages[idx as keyof typeof pages]);
+			}
 		}
 
 		if (e.key === 'Escape') {
@@ -105,28 +122,27 @@
 				</Command.Loading>
 			{/if}
 		{:else}
-			<!-- todo -->
 			<Command.Separator />
 			<Command.Group heading="Pages - quick navigation">
-				<Command.Item>
+				<Command.Item onclick={() => goto('/thoughts')}>
 					<BrainCircuit />
 					<span>Library</span>
-					<Command.Shortcut>⌘ L</Command.Shortcut>
+					<Command.Shortcut>⌘ 1</Command.Shortcut>
 				</Command.Item>
-				<Command.Item>
+				<Command.Item onclick={() => goto('/')}>
 					<Home />
 					<span>Dashboard</span>
-					<Command.Shortcut>⌘ D</Command.Shortcut>
+					<Command.Shortcut>⌘ 2</Command.Shortcut>
 				</Command.Item>
-				<Command.Item>
+				<Command.Item onclick={() => goto('/settings')}>
 					<Settings />
 					<span>Settings</span>
-					<Command.Shortcut>⌘ S</Command.Shortcut>
+					<Command.Shortcut>⌘ 3</Command.Shortcut>
 				</Command.Item>
-				<Command.Item>
+				<Command.Item onclick={() => goto('/assistant')}>
 					<Sparkles />
 					<span>Chat</span>
-					<Command.Shortcut>⌘ A</Command.Shortcut>
+					<Command.Shortcut>⌘ 4</Command.Shortcut>
 				</Command.Item>
 			</Command.Group>
 		{/if}
