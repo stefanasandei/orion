@@ -190,7 +190,7 @@
 	$effect(checkOverflow);
 	onMount(loadAndFetchMetadata);
 
-	//TODO: edit, search, tags
+	//TODO: search, tags
 </script>
 
 <DashboardShell pageName={'Thoughts'} {user}>
@@ -228,7 +228,7 @@
 <DeleteNote item={{ id: deleteThought?.id!, name: '' }} bind:open={deleteDialogOpen} />
 
 {#snippet thoughtCard(thought: Note)}
-	<Card.Root class="bg-card transition-colors duration-75">
+	<Card.Root class="bg-card hover:bg-muted/50 transition-colors duration-75">
 		<Card.Content class="flex flex-col justify-between space-y-2 pb-2">
 			<button
 				bind:this={containerEl.containers[thought.id]}
@@ -296,8 +296,6 @@
 					</div>
 					<p class="text-muted-foreground flex items-center gap-2 text-xs">
 						{new URL(thought.name).hostname}
-						<span>•</span>
-						{new Date(thought.createdAt).toLocaleString()}
 					</p>
 				</div>
 
@@ -312,7 +310,10 @@
 				{/if}
 			</a>
 
-			<div class="border-t px-4 py-3">
+			<div class="flex flex-row items-end justify-between border-t px-4 py-3">
+				<p class="text-muted-foreground text-sm">
+					{new Date(thought.createdAt).toLocaleString()}
+				</p>
 				<div class="flex justify-end">
 					<Button
 						onclick={() => {

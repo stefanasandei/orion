@@ -330,4 +330,16 @@ export const projectRouter = createRouter({
           eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
         ));
     }),
+  updateQuickNote: protectedProcedure
+    .input(z.object({ noteId: z.number(), content: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      return await db
+        .update(noteTable)
+        .set({
+          name: input.content
+        })
+        .where(and(
+          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+        ));
+    }),
 });
