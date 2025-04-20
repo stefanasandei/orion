@@ -10,6 +10,7 @@
 
 	let theme = $state<'Light' | 'Dark'>($preferences.theme === 'light' ? 'Light' : 'Dark');
 	let useActivityGrid = $state($preferences.dashboard === 'activity-grid');
+	let useRichTextEditor = $state($preferences.useRichTextEditor ?? true);
 
 	$effect(() => {
 		setTheme(theme.toLowerCase() as Theme);
@@ -17,6 +18,10 @@
 
 	$effect(() => {
 		setDashboardLayout(useActivityGrid ? 'activity-grid' : 'clean');
+	});
+
+	$effect(() => {
+		preferences.update((prefs) => ({ ...prefs, useRichTextEditor: useRichTextEditor }));
 	});
 </script>
 
@@ -50,6 +55,16 @@
 				</p>
 			</div>
 			<Switch bind:checked={useActivityGrid} />
+		</div>
+
+		<div class="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
+			<div class="space-y-0.5">
+				<Label>{'Use rich text editor'}</Label>
+				<p class="text-muted-foreground text-sm">
+					{'You can choose to write Markdown code instead.'}
+				</p>
+			</div>
+			<Switch bind:checked={useRichTextEditor} />
 		</div>
 	</div>
 </CategoryShell>
