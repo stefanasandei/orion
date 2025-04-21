@@ -149,6 +149,7 @@ export const projectRouter = createRouter({
       // First remove all existing tag connections for this project
       await db
         .update(tagTable)
+        // todo: bug, we only want to remove this one connection, not for all projects
         .set({ projectId: null })
         .where(and(
           eq(tagTable.projectId, input.id),
@@ -326,6 +327,12 @@ export const projectRouter = createRouter({
           eq(noteTable.id, input.noteId)
         ),
         with: {
+          tags: {
+            columns: {
+              id: true,
+              name: true
+            }
+          },
           project: {
             columns: {
               isPublic: true
@@ -356,15 +363,37 @@ export const projectRouter = createRouter({
         ));
     }),
   updateQuickNote: protectedProcedure
-    .input(z.object({ noteId: z.number(), content: z.string() }))
+    .input(z.object({ noteId: z.number(), content: z.string(), tags: z.array(z.object({ id: z.number() })) }))
     .mutation(async ({ input, ctx }) => {
-      return await db
-        .update(noteTable)
-        .set({
-          name: input.content
-        })
-        .where(and(
-          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
-        ));
+      await db.transaction(async (tx) => {
+        // 1. update note contents
+        await tx
+          .update(noteTable)
+          .set({
+            name: input.content
+          })
+          .where(and(
+            eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+          ));
+
+        // 2. clear all tags, so none are linked to noteId
+        await tx
+          .update(tagTable)
+          // todo: bug, we only want to remove this one connection, not for all notes
+          .set({ noteId: null })
+          .where(and(
+            eq(tagTable.noteId, input.noteId),
+            eq(tagTable.userId, ctx.session.userId)
+          ));
+
+        // 3. link the proper tags
+        await tx
+          .update(tagTable)
+          .set({ noteId: input.noteId })
+          .where(and(
+            inArray(tagTable.id, input.tags.map(t => t.id)),
+            eq(tagTable.userId, ctx.session.userId)
+          ));
+      });
     }),
 });

@@ -2,7 +2,7 @@
 	import DashboardShell from '@/components/dashboard/shell.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
-	import type { Note } from '@repo/db';
+	import type { Note, Tag } from '@repo/db';
 	import { Button } from '@/components/ui/button';
 	import * as Card from '@/components/ui/card';
 	import * as Tabs from '@/components/ui/tabs';
@@ -18,15 +18,18 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import Textarea from '$base/src/lib/components/ui/textarea/textarea.svelte';
+	import MultiSelect from '$base/src/lib/components/ui/multi-select/multi-select.svelte';
 
 	let {
 		data: _data
-	}: { data: { user: UserLocals; thought: Note; form: SuperValidated<Infer<FormSchema>> } } =
-		$props();
-	const { user, thought } = $derived(_data);
+	}: {
+		data: { user: UserLocals; thought: Note; tags: Tag[]; form: SuperValidated<Infer<FormSchema>> };
+	} = $props();
+	const { user, thought, tags } = $derived(_data);
 
 	const form = superForm(_data.form, {
 		validators: zodClient(formSchema),
+		dataType: 'json',
 		onUpdated: () => {
 			toast.success('Note updated!');
 		},
@@ -34,8 +37,10 @@
 	});
 
 	const { form: formData, enhance } = form;
+
 	let activeTab = $state('edit');
 	let parsedContent = $derived(parse($formData.thought || ''));
+	const tagOptions = $derived(tags.map((t) => ({ label: t.name, id: t.id })));
 </script>
 
 <DashboardShell className="h-full flex" pageName={'Edit Thought'} {user}>
@@ -69,7 +74,7 @@
 							Preview
 						</Tabs.Trigger>
 					</Tabs.List>
-					<form method="POST" use:enhance class="flex h-fit flex-col md:h-[calc(100%-0.5rem)]">
+					<form method="POST" use:enhance class="flex h-fit flex-col md:min-h-[calc(100%-0.5rem)]">
 						<Tabs.Content value="edit" class="flex-1 border-none p-0 outline-none">
 							<Form.Field class="h-full pb-4" {form} name="thought">
 								<Form.Control>
@@ -84,6 +89,26 @@
 								</Form.Control>
 								<Form.FieldErrors class="mt-2" />
 							</Form.Field>
+
+							<Form.Field {form} name="tags">
+								<Form.Control>
+									{#snippet children({ props })}
+										<Form.Label>{'Tags'}</Form.Label>
+										<MultiSelect
+											{...props}
+											bind:selected={$formData.tags}
+											options={tagOptions}
+											name="tags"
+										/>
+									{/snippet}
+								</Form.Control>
+								<Form.Description
+									>{'Add a few tags to your note, to find it more easily.'}</Form.Description
+								>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<input type="hidden" name="tags" value={JSON.stringify($formData.tags)} />
 						</Tabs.Content>
 
 						<Tabs.Content

@@ -48,8 +48,6 @@ export const actions: Actions = {
             });
         }
 
-        console.log(form.data.tags)
-
         // call the api with project updates and publicity update in parallel
         const caller = createCaller({ event: event as CtxRequestEvent });
         const [projectResponse, publicityResponse] = await Promise.all([

@@ -22,7 +22,12 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     }
 
     const caller = createCaller({ event: event as CtxRequestEvent });
-    const thought = await caller.project.getNote({ noteId: noteId });
+
+
+    const [thought, tags] = await Promise.all([
+        caller.project.getNote({ noteId: noteId }),
+        caller.user.getTags()
+    ]);
 
     if (thought?.userId != event.locals.session.userId) {
         error(404, {
@@ -30,10 +35,13 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
         });
     }
 
+    const initialTags = thought!.tags.map((t) => ({ id: t.id, label: t.name }));
+
     return {
         user: event.locals!,
         thought,
-        form: await superValidate({ thought: thought!.name }, zod(formSchema)),
+        tags,
+        form: await superValidate({ thought: thought!.name, tags: initialTags }, zod(formSchema)),
     };
 }) satisfies PageServerLoad;
 
@@ -54,7 +62,7 @@ export const actions: Actions = {
         }
 
         const caller = createCaller({ event: event as CtxRequestEvent });
-        await caller.project.updateQuickNote({ noteId: noteId, content: form.data.thought });
+        await caller.project.updateQuickNote({ noteId: noteId, content: form.data.thought, tags: form.data.tags });
 
         return {
             form,
