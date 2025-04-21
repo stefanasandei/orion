@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Note, Project } from '@repo/db';
+	import type { Note, Project, Tag } from '@repo/db';
 	import { t } from '@/utils/i18n/translations';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
@@ -14,18 +14,23 @@
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import { Checkbox } from '../ui/checkbox';
+	import MultiSelect from '../ui/multi-select/multi-select.svelte';
 
 	interface Props {
-		project: { project: Project & { notes: Note[] }; noteTree: unknown };
+		project: { project: Project & { notes: Note[]; tags: Tag[] }; noteTree: unknown };
+		tags: { name: string; id: number }[];
 		form: SuperValidated<Infer<ProjectFormSchema>>;
 	}
 
 	const data: Props = $props();
 	const project = data.project.project;
 
+	const tagOptions = $derived(data.tags.map((t) => ({ label: t.name, id: t.id })));
+
 	const form = superForm(data.form, {
 		validators: zodClient(projectFormSchema),
 		multipleSubmits: 'allow',
+		dataType: 'json',
 		onResult: async ({ result }) => {
 			if (result.type === 'success' && result.data) {
 				toast.success($t('project.update_success'));
@@ -42,6 +47,7 @@
 		projectId: project.id,
 		name: project.name,
 		description: project.description,
+		tags: project.tags.map((t) => ({ label: t.name, id: t.id })),
 		isPublic: project.isPublic
 	};
 
@@ -68,6 +74,7 @@
 			<Form.Description>{$t('project.name_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
+
 		<Form.Field {form} name="description">
 			<Form.Control>
 				{#snippet children({ props })}
@@ -78,6 +85,22 @@
 			<Form.Description>{$t('project.description_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
+
+		<Form.Field {form} name="tags">
+			<Form.Control>
+				{#snippet children({ props })}
+					<Form.Label>{'Tags'}</Form.Label>
+					<MultiSelect {...props} bind:selected={$formData.tags} options={tagOptions} name="tags" />
+				{/snippet}
+			</Form.Control>
+			<Form.Description
+				>{'Add a few tags to your project, to find it more easily.'}</Form.Description
+			>
+			<Form.FieldErrors />
+		</Form.Field>
+
+		<input type="hidden" name="tags" value={JSON.stringify($formData.tags)} />
+
 		<Form.Field {form} name="isPublic" class="flex-1">
 			<Form.Control>
 				{#snippet children({ props })}

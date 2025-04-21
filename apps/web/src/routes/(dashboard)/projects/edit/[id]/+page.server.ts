@@ -14,11 +14,13 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
         redirect(302, redirectUrl);
     }
 
-    // check if project is owned by user & get its data
     const projectId = parseInt(event.params.id!);
-
     const caller = createCaller({ event: event as CtxRequestEvent });
-    const project = await caller.project.get({ id: projectId });
+
+    const [project, tags] = await Promise.all([
+        caller.project.get({ id: projectId }),
+        caller.user.getTags()
+    ]);
 
     if (project === undefined || project.project === undefined) {
         redirect(302, "/");
@@ -32,6 +34,7 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     return {
         user: event.locals!,
         project,
+        tags,
         form: await superValidate(zod(projectFormSchema)),
     };
 }) satisfies PageServerLoad;
@@ -45,27 +48,32 @@ export const actions: Actions = {
             });
         }
 
-        // call the api with the project updates
+        console.log(form.data.tags)
+
+        // call the api with project updates and publicity update in parallel
         const caller = createCaller({ event: event as CtxRequestEvent });
-        const response = await caller.project.update({
-            id: form.data.projectId,
-            name: form.data.name,
-            description: form.data.description,
-        });
+        const [projectResponse, publicityResponse] = await Promise.all([
+            caller.project.update({
+                id: form.data.projectId,
+                name: form.data.name,
+                description: form.data.description,
+                tags: form.data.tags
+            }),
 
-        // update the public status in another call
-        // this will also manage metadata related to public projects
-        const publicResponse = await caller.project.updatePublicity({
-            id: form.data.projectId,
-            isPublic: form.data.isPublic
-        });
+            // this is separate, because it requires different logic
+            // regarding the project metadata handling
+            caller.project.updatePublicity({
+                id: form.data.projectId,
+                isPublic: form.data.isPublic
+            })
+        ]);
 
-        if (!publicResponse) {
+        if (!publicityResponse) {
             return fail(400, {
                 form,
             });
         }
 
-        return response;
+        return projectResponse;
     },
 };

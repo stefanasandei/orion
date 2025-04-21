@@ -298,5 +298,16 @@ export const userRouter = createRouter({
 
                 orderBy: desc(noteTable.createdAt)
             })
+        }),
+    getTags: protectedProcedure
+        .query(async ({ ctx }) => {
+            return await db.query.tagTable.findMany({
+                where: eq(tagTable.userId, ctx.session.userId),
+
+                columns: {
+                    id: true,
+                    name: true
+                }
+            })
         })
 })

@@ -7,7 +7,6 @@
 	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 	import AddTag from './add-tag.svelte';
 	import ProjectInfoPills from './project-info-pills.svelte';
-	import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -16,10 +15,6 @@
 	}
 
 	const { project, isPublicView = false, authorName }: Props = $props();
-
-	// sample data
-	const ui_libs = [`Svelte`, `React`, `Vue`, `Angular`, `...`];
-	let selected = $state([]);
 </script>
 
 <div class="border-border md:border-background -mx-2 border-b-2 md:px-2">
@@ -62,14 +57,6 @@
 				{#each project.tags as tag}
 					<Badge variant={'secondary'}>{tag.name}</Badge>
 				{/each}
-
-				{#if !isPublicView}
-					<MultiSelect bind:selected options={ui_libs} placeholder="Select frameworks..." />
-
-					<div class={project.tags.length > 0 ? 'ml-3' : ''}>
-						<AddTag {project} />
-					</div>
-				{/if}
 			</div>
 
 			{#if !isPublicView}

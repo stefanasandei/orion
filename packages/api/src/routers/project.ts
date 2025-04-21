@@ -1,7 +1,7 @@
-import { db, noteTable, projectTable, userMetadataTable, projectPostTable, commentTable } from '@repo/db';
+import { db, noteTable, projectTable, userMetadataTable, projectPostTable, commentTable, tagTable } from '@repo/db';
 import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
-import { and, eq, or } from 'drizzle-orm';
+import { and, eq, or, inArray } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
 
@@ -126,14 +126,16 @@ export const projectRouter = createRouter({
     .input(z.object({
       id: z.number(),
       name: z.string(),
-      description: z.string().nullable()
+      description: z.string().nullable(),
+      tags: z.array(z.object({ id: z.number() }))
     }))
     .mutation(async ({ input, ctx }) => {
+      // First update the project metadata
       const res = await db
         .update(projectTable)
         .set({
           name: input.name,
-          description: input.description
+          description: input.description,
         })
         .where(and(
           eq(projectTable.id, input.id),
@@ -141,7 +143,30 @@ export const projectRouter = createRouter({
         ))
         .returning();
 
-      return res.length === 1;
+      if (res.length !== 1) return false;
+
+      // Update tag connections
+      // First remove all existing tag connections for this project
+      await db
+        .update(tagTable)
+        .set({ projectId: null })
+        .where(and(
+          eq(tagTable.projectId, input.id),
+          eq(tagTable.userId, ctx.session.userId)
+        ));
+
+      // Then add the new tag connections if any tags were selected
+      if (input.tags.length > 0) {
+        await db
+          .update(tagTable)
+          .set({ projectId: input.id })
+          .where(and(
+            inArray(tagTable.id, input.tags.map(t => t.id)),
+            eq(tagTable.userId, ctx.session.userId)
+          ));
+      }
+
+      return true;
     }),
 
   updatePublicity: protectedProcedure
@@ -263,7 +288,7 @@ export const projectRouter = createRouter({
     .query(async ({ input, ctx }) => {
       // given a single note id, we want to find all of the other notes from its project
 
-      // 1. find the project
+      // 1. find the project (TODO: might want to use a cache noteId:projectId)
       const { projectId } = (await db.query.noteTable.findFirst({
         where: and(
           eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)

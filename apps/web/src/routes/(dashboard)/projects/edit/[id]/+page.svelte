@@ -7,12 +7,12 @@
 	import { type PageData } from './$types';
 
 	const { data }: { data: PageData } = $props();
-	const { user, form } = data;
+	const { user, form, tags } = data;
 
 	// makes navigating to another slug route reactive
 	const project = $derived(data.project);
 </script>
 
 <DashboardShell pageName={$t('project.page_names.project')} {user}>
-	<EditProjectForm {form} {project} />
+	<EditProjectForm {form} {project} {tags} />
 </DashboardShell>

@@ -5,13 +5,14 @@
 		selected: any[];
 		options: any[];
 		placeholder?: string;
+		name?: string;
 	}
 
-	let { options, placeholder, selected = $bindable() }: Props = $props();
+	let { options, placeholder, name, selected = $bindable() }: Props = $props();
 
 	const multiSelectClasses = {
 		outerDivClass:
-			'relative w-full border-0 items-center [&>svg:nth-child(2)]:hidden [&>button:nth-child(4)]:hidden',
+			'relative w-full px-0 border-0 items-center [&>svg:nth-child(2)]:hidden [&>button:nth-child(4)]:hidden',
 		inputClass:
 			'flex h-9 items-center w-full rounded-md ring-1 ring-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
 		ulSelectedClass: 'flex flex-wrap gap-1 mt-1',
