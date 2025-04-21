@@ -200,8 +200,6 @@
 	onMount(checkOverflow);
 	$effect(checkOverflow);
 	onMount(loadAndFetchMetadata);
-
-	//TODO: search, tags
 </script>
 
 <DashboardShell pageName={'Thoughts'} {user}>

@@ -18,17 +18,11 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
         });
     }
 
-    // const caller = createCaller({ event: event as CtxRequestEvent });
-    // const tag = await caller.project.getNote({ noteId: tagId });
-
-    // if (tag?.userId != event.locals.session.userId) {
-    //     error(404, {
-    //         message: 'Not found'
-    //     });
-    // }
+    const caller = createCaller({ event: event as CtxRequestEvent });
+    const entities = await caller.tag.queryEntities({ id: tagId });
 
     return {
         user: event.locals!,
-        tagId
+        ...entities
     };
 }) satisfies PageServerLoad;

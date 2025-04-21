@@ -133,5 +133,60 @@ export const tagRouter = createRouter({
             eq(projectTagsTable.tagId, input.tagId)
           ));
       }
+    }),
+
+  queryEntities: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input, ctx }) => {
+      // First verify the tag belongs to the user
+      const tag = await db.query.tagTable.findFirst({
+        where: and(
+          eq(tagTable.id, input.id),
+          eq(tagTable.userId, ctx.session.userId)
+        )
+      });
+
+      if (!tag) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Tag not found'
+        });
+      }
+
+      const includeTags = {
+        with: {
+          tags: {
+            with: {
+              tag: {
+                columns: {
+                  name: true
+                }
+              }
+            }
+          },
+        }
+      };
+
+      // Get all projects and notes with this tag
+      const [projects, notes] = await Promise.all([
+        db.query.projectTagsTable.findMany({
+          where: eq(projectTagsTable.tagId, input.id),
+          with: {
+            project: includeTags
+          }
+        }),
+        db.query.noteTagsTable.findMany({
+          where: eq(noteTagsTable.tagId, input.id),
+          with: {
+            note: includeTags
+          }
+        })
+      ]);
+
+      return {
+        projects: projects.map(p => p.project),
+        notes: notes.map(n => n.note),
+        tag
+      };
     })
 });
