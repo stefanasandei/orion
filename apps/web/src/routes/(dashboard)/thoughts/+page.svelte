@@ -18,6 +18,7 @@
 	import { number } from 'zod';
 	import { Badge } from '$base/src/lib/components/ui/badge';
 	import { Pen } from 'lucide-svelte';
+	import Tag from '$base/src/lib/components/dashboard/tag.svelte';
 
 	// -------------------------------------------
 	// Props and Data Setup
@@ -265,7 +266,7 @@
 					</p>
 					<div class={'flex flex-row items-center gap-1'}>
 						{#each thought.tags as tag}
-							<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+							<Tag name={tag.tag.name} id={tag.tagId} />
 						{/each}
 					</div>
 				</div>
@@ -337,7 +338,7 @@
 					</p>
 					<div class={'flex flex-row items-center gap-1'}>
 						{#each thought.tags as tag}
-							<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+							<Tag name={tag.tag.name} id={tag.tagId} />
 						{/each}
 					</div>
 				</div>

@@ -14,6 +14,7 @@
 	import { parse } from 'marked';
 	import { Pen, Clock, CalendarDays } from 'lucide-svelte';
 	import { Badge } from '$base/src/lib/components/ui/badge';
+	import Tag from '$base/src/lib/components/dashboard/tag.svelte';
 
 	let {
 		data: _data
@@ -94,7 +95,7 @@
 
 			<div class={'flex flex-row items-center gap-1'}>
 				{#each thought.tags as tag}
-					<Badge variant={'secondary'}>{tag.name}</Badge>
+					<Tag name={tag.name} id={tag.id} />
 				{/each}
 			</div>
 		</div>

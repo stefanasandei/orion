@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { t } from '@/utils/i18n/translations';
-	import type { Note, Project, Tag } from '@repo/db';
+	import type { Note, Project } from '@repo/db';
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { Badge } from '@/components/ui/badge';
 	import { toast } from 'svelte-sonner';
 	import { PUBLIC_WEBSITE_URL } from '$env/static/public';
 	import AddTag from './add-tag.svelte';
 	import ProjectInfoPills from './project-info-pills.svelte';
+	import Tag from '../dashboard/tag.svelte';
 
 	interface Props {
 		isPublicView?: boolean;
@@ -55,7 +56,7 @@
 		<div class="row-span-1 flex h-fit flex-row justify-between">
 			<div class={'flex flex-row items-center gap-1'}>
 				{#each project.tags as tag}
-					<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+					<Tag name={tag.tag.name} id={tag.tagId} />
 				{/each}
 			</div>
 
