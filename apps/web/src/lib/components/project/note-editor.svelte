@@ -9,7 +9,6 @@
 	import LoadingSpinner from '../loading-spinner.svelte';
 	import { preferences } from '@/utils/stores';
 	import CodeMirror from 'svelte-codemirror-editor';
-	import { markdown } from '@codemirror/lang-markdown';
 
 	interface Props {
 		activeNoteId: number | null;
@@ -59,7 +58,7 @@
 		_editor.commands.setContent(value);
 	});
 
-	let value = $state('a');
+	let value = $state("todo: codemirror doesn't work yet");
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center">

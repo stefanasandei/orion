@@ -57,7 +57,7 @@
 			<Switch bind:checked={useActivityGrid} />
 		</div>
 
-		<div class="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
+		<!-- <div class="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
 			<div class="space-y-0.5">
 				<Label>{'Use rich text editor'}</Label>
 				<p class="text-muted-foreground text-sm">
@@ -65,6 +65,6 @@
 				</p>
 			</div>
 			<Switch bind:checked={useRichTextEditor} />
-		</div>
+		</div> -->
 	</div>
 </CategoryShell>

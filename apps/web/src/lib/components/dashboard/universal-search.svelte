@@ -1,6 +1,8 @@
 <script lang="ts">
 	import {
+		Bot,
 		BrainCircuit,
+		ClipboardPen,
 		File,
 		Globe,
 		Home,
@@ -8,7 +10,8 @@
 		NotepadText,
 		Search,
 		Settings,
-		Sparkles
+		Sparkles,
+		Sun
 	} from 'lucide-svelte';
 	import { MenuButton } from '../ui/sidebar';
 	import * as Command from '$lib/components/ui/command/index.js';
@@ -125,6 +128,21 @@
 				</Command.Loading>
 			{/if}
 		{:else}
+			<!-- <Command.Separator />
+			<Command.Group heading="Actions">
+				<Command.Item onclick={() => goto(`/assistant?`)} keywords={['/ask']}>
+					<Bot />
+					<span>Ask</span>
+				</Command.Item>
+				<Command.Item onclick={() => goto('/')}>
+					<ClipboardPen />
+					<span>Research</span>
+				</Command.Item>
+				<Command.Item onclick={() => goto('/settings')}>
+					<Sun />
+					<span>Toggle theme</span>
+				</Command.Item>
+			</Command.Group> -->
 			<Command.Separator />
 			<Command.Group heading="Pages - quick navigation">
 				<Command.Item onclick={() => goto('/thoughts')}>
