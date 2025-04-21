@@ -11,7 +11,6 @@
 
 	// makes navigating to another slug route reactive
 	const project = $derived(data.project);
-	console.log(project.project.tags);
 </script>
 
 <DashboardShell pageName={$t('project.page_names.project')} {user}>

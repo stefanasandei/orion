@@ -15,11 +15,20 @@
 	import { parse } from 'marked';
 	import { onMount, untrack } from 'svelte';
 	import { mapProxy } from '$base/src/lib/utils/map-proxy';
+	import { number } from 'zod';
+	import { Badge } from '$base/src/lib/components/ui/badge';
 
 	// -------------------------------------------
 	// Props and Data Setup
 	// -------------------------------------------
-	let { data: _data }: { data: { user: UserLocals; notes: Note[] } } = $props();
+	let {
+		data: _data
+	}: {
+		data: {
+			user: UserLocals;
+			notes: (Note & { tags: { tagId: number; tag: { name: string } }[] })[];
+		};
+	} = $props();
 	const { user, notes: _notes } = $derived(_data);
 	const thoughts = $derived(_notes.filter((n) => n.type == 'thought'));
 
@@ -227,7 +236,7 @@
 
 <DeleteNote item={{ id: deleteThought?.id!, name: '' }} bind:open={deleteDialogOpen} />
 
-{#snippet thoughtCard(thought: Note)}
+{#snippet thoughtCard(thought: Note & { tags: { tagId: number; tag: { name: string } }[] })}
 	<Card.Root class="bg-card hover:bg-muted/50 transition-colors duration-75">
 		<Card.Content class="flex flex-col justify-between space-y-2 pb-2">
 			<button
@@ -249,9 +258,16 @@
 			</button>
 
 			<div class="flex flex-row items-end justify-between">
-				<p class="text-muted-foreground text-sm">
-					{new Date(thought.createdAt).toLocaleString()}
-				</p>
+				<div class="flex flex-row gap-2">
+					<p class="text-muted-foreground text-sm">
+						{new Date(thought.createdAt).toLocaleString()}
+					</p>
+					<div class={'flex flex-row items-center gap-1'}>
+						{#each thought.tags as tag}
+							<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+						{/each}
+					</div>
+				</div>
 
 				<div class="flex flex-col justify-end gap-2">
 					<Button
@@ -270,7 +286,7 @@
 	</Card.Root>
 {/snippet}
 
-{#snippet linkPreviewCard(thought: Note)}
+{#snippet linkPreviewCard(thought: Note & { tags: { tagId: number; tag: { name: string } }[] })}
 	<Card.Root class="bg-card hover:bg-muted/50 overflow-hidden transition-colors duration-75">
 		<Card.Content class="flex flex-col space-y-2 p-0">
 			<a
@@ -294,9 +310,18 @@
 							</p>
 						{/if}
 					</div>
-					<p class="text-muted-foreground flex items-center gap-2 text-xs">
-						{new URL(thought.name).hostname}
-					</p>
+
+					<div class="flex flex-row gap-2">
+						<p class="text-muted-foreground flex items-center gap-2 text-xs">
+							{new URL(thought.name).hostname}
+						</p>
+
+						<div class={'flex flex-row items-center gap-1'}>
+							{#each thought.tags as tag}
+								<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+							{/each}
+						</div>
+					</div>
 				</div>
 
 				{#if thought.name in linkMetadata && linkMetadata[thought.name].image}

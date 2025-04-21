@@ -11,8 +11,6 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
         redirect(302, redirectUrl);
     }
 
-    const user = event.locals.user;
-
     const caller = createCaller({ event: event as CtxRequestEvent });
     const notes = await caller.user.getQuickNotes();
 

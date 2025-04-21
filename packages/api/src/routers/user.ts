@@ -289,11 +289,23 @@ export const userRouter = createRouter({
                     eq(noteTable.type, 'newsfeed')
                 ),
 
+                with: {
+                    tags: {
+                        with: {
+                            tag: {
+                                columns: {
+                                    name: true
+                                }
+                            }
+                        }
+                    },
+                },
+
                 columns: {
                     type: true,
                     name: true,
                     id: true,
-                    createdAt: true
+                    createdAt: true,
                 },
 
                 orderBy: desc(noteTable.createdAt)

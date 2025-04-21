@@ -13,8 +13,16 @@
 	import DeleteNote from '$base/src/lib/components/project/delete-note.svelte';
 	import { parse } from 'marked';
 	import { Pen, Clock, CalendarDays } from 'lucide-svelte';
+	import { Badge } from '$base/src/lib/components/ui/badge';
 
-	let { data: _data }: { data: { user: UserLocals; thought: Note } } = $props();
+	let {
+		data: _data
+	}: {
+		data: {
+			user: UserLocals;
+			thought: Note & { tags: { id: number; name: string }[] };
+		};
+	} = $props();
 	const { user, thought } = $derived(_data);
 
 	let cachedHtml = $state<Map<string, string>>(new Map());
@@ -83,6 +91,12 @@
 					<HtmlPreview className="text-2xl" htmlContent={renderHtml(thought.name)} />
 				</Card.Content>
 			</Card.Root>
+
+			<div class={'flex flex-row items-center gap-1'}>
+				{#each thought.tags as tag}
+					<Badge variant={'secondary'}>{tag.name}</Badge>
+				{/each}
+			</div>
 		</div>
 	</div>
 </DashboardShell>

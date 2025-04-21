@@ -23,7 +23,12 @@
 	let {
 		data: _data
 	}: {
-		data: { user: UserLocals; thought: Note; tags: Tag[]; form: SuperValidated<Infer<FormSchema>> };
+		data: {
+			user: UserLocals;
+			thought: Note;
+			tags: Tag[];
+			form: SuperValidated<Infer<FormSchema>>;
+		};
 	} = $props();
 	const { user, thought, tags } = $derived(_data);
 
