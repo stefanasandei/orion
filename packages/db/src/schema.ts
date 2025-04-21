@@ -95,9 +95,6 @@ export const tagTable = pgTable('tag', {
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
 
-  noteId: integer('note_id').references(() => noteTable.id, { onDelete: 'cascade' }),
-  projectId: integer('project_id').references(() => projectTable.id, { onDelete: 'cascade' }),
-
   name: varchar('name', { length: 64 }).notNull(),
   color: varchar('color', {
     length: 64,
@@ -106,6 +103,28 @@ export const tagTable = pgTable('tag', {
     .default('white')
     .notNull()
 });
+
+export const noteTagsTable = pgTable('note_tags', {
+  noteId: integer('note_id')
+    .notNull()
+    .references(() => noteTable.id, { onDelete: 'cascade' }),
+  tagId: integer('tag_id')
+    .notNull()
+    .references(() => tagTable.id, { onDelete: 'cascade' })
+}, (table) => ({
+  pk: primaryKey({ columns: [table.noteId, table.tagId] })
+}));
+
+export const projectTagsTable = pgTable('project_tags', {
+  projectId: integer('project_id')
+    .notNull()
+    .references(() => projectTable.id, { onDelete: 'cascade' }),
+  tagId: integer('tag_id')
+    .notNull()
+    .references(() => tagTable.id, { onDelete: 'cascade' })
+}, (table) => ({
+  pk: primaryKey({ columns: [table.projectId, table.tagId] })
+}));
 
 export const projectTable = pgTable('project', {
   id: serial('id').primaryKey(),
@@ -277,7 +296,7 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
     references: [projectPostTable.projectId]
   }),
   notes: many(noteTable),
-  tags: many(tagTable),
+  tags: many(projectTagsTable)
 }));
 
 export const projectPostRelations = relations(projectPostTable, ({ many, one }) => ({
@@ -313,22 +332,38 @@ export const noteRelations = relations(noteTable, ({ one, many }) => ({
     references: [noteTable.id],
     relationName: 'note_parent'
   }),
-  tags: many(tagTable)
+  tags: many(noteTagsTable)
 }));
 
-export const tagRelations = relations(tagTable, ({ one }) => ({
+export const noteTagsRelations = relations(noteTagsTable, ({ one }) => ({
   note: one(noteTable, {
-    fields: [tagTable.noteId],
+    fields: [noteTagsTable.noteId],
     references: [noteTable.id]
   }),
+  tag: one(tagTable, {
+    fields: [noteTagsTable.tagId],
+    references: [tagTable.id]
+  })
+}));
+
+export const projectTagsRelations = relations(projectTagsTable, ({ one }) => ({
   project: one(projectTable, {
-    fields: [tagTable.projectId],
+    fields: [projectTagsTable.projectId],
     references: [projectTable.id]
   }),
+  tag: one(tagTable, {
+    fields: [projectTagsTable.tagId],
+    references: [tagTable.id]
+  })
+}));
+
+export const tagRelations = relations(tagTable, ({ one, many }) => ({
   user: one(userTable, {
     fields: [tagTable.userId],
     references: [userTable.id]
-  })
+  }),
+  notes: many(noteTagsTable),
+  projects: many(projectTagsTable)
 }));
 
 // Types
@@ -342,3 +377,5 @@ export type Project = InferSelectModel<typeof projectTable>;
 export type Note = InferSelectModel<typeof noteTable>;
 export type ProjectPost = InferSelectModel<typeof projectPostTable>;
 export type Comment = InferSelectModel<typeof commentTable>;
+export type NoteTag = InferSelectModel<typeof noteTagsTable>;
+export type ProjectTag = InferSelectModel<typeof projectTagsTable>;

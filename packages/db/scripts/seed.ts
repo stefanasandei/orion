@@ -67,8 +67,7 @@ for (let project of data.projects) {
         for (let tagName of project.tags) {
             await db.insert(tagTable).values({
                 name: tagName,
-                userId: name2id.get(project.forUsername)!,
-                projectId: projectId
+                userId: name2id.get(project.forUsername)!
             }).returning();
         }
     }

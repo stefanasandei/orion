@@ -17,7 +17,10 @@
 	import MultiSelect from '../ui/multi-select/multi-select.svelte';
 
 	interface Props {
-		project: { project: Project & { notes: Note[]; tags: Tag[] }; noteTree: unknown };
+		project: {
+			project: Project & { notes: Note[]; tags: { id: number; name: string }[] };
+			noteTree: unknown;
+		};
 		tags: { name: string; id: number }[];
 		form: SuperValidated<Infer<ProjectFormSchema>>;
 	}

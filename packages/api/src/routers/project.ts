@@ -1,7 +1,7 @@
-import { db, noteTable, projectTable, userMetadataTable, projectPostTable, commentTable, tagTable } from '@repo/db';
+import { db, noteTable, projectTable, userMetadataTable, projectPostTable, commentTable, noteTagsTable, projectTagsTable } from '@repo/db';
 import { createRouter, protectedProcedure, publicProcedure } from '../context';
 import { z } from 'zod';
-import { and, eq, or, inArray } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
 
@@ -130,44 +130,42 @@ export const projectRouter = createRouter({
       tags: z.array(z.object({ id: z.number() }))
     }))
     .mutation(async ({ input, ctx }) => {
-      // First update the project metadata
-      const res = await db
-        .update(projectTable)
-        .set({
-          name: input.name,
-          description: input.description,
-        })
-        .where(and(
-          eq(projectTable.id, input.id),
-          eq(projectTable.userId, ctx.session.userId)
-        ))
-        .returning();
-
-      if (res.length !== 1) return false;
-
-      // Update tag connections
-      // First remove all existing tag connections for this project
-      await db
-        .update(tagTable)
-        // todo: bug, we only want to remove this one connection, not for all projects
-        .set({ projectId: null })
-        .where(and(
-          eq(tagTable.projectId, input.id),
-          eq(tagTable.userId, ctx.session.userId)
-        ));
-
-      // Then add the new tag connections if any tags were selected
-      if (input.tags.length > 0) {
-        await db
-          .update(tagTable)
-          .set({ projectId: input.id })
+      return await db.transaction(async (tx) => {
+        // First update the project metadata
+        const res = await tx
+          .update(projectTable)
+          .set({
+            name: input.name,
+            description: input.description,
+          })
           .where(and(
-            inArray(tagTable.id, input.tags.map(t => t.id)),
-            eq(tagTable.userId, ctx.session.userId)
-          ));
-      }
+            eq(projectTable.id, input.id),
+            eq(projectTable.userId, ctx.session.userId)
+          ))
+          .returning();
 
-      return true;
+        if (res.length !== 1) return false;
+
+        // Remove all existing tag connections for this project
+        await tx
+          .delete(projectTagsTable)
+          .where(eq(projectTagsTable.projectId, input.id));
+
+        // Add new tag connections if any tags were selected
+        if (input.tags.length > 0) {
+          await tx
+            .insert(projectTagsTable)
+            .values(
+              input.tags.map(tag => ({
+                projectId: input.id,
+                tagId: tag.id
+              }))
+            )
+            .onConflictDoNothing();
+        }
+
+        return true;
+      });
     }),
 
   updatePublicity: protectedProcedure
@@ -322,15 +320,19 @@ export const projectRouter = createRouter({
   getNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .query(async ({ input, ctx }) => {
-      const data = await db.query.noteTable.findFirst(({
+      const data = await db.query.noteTable.findFirst({
         where: and(
           eq(noteTable.id, input.noteId)
         ),
         with: {
           tags: {
-            columns: {
-              id: true,
-              name: true
+            with: {
+              tag: {
+                columns: {
+                  id: true,
+                  name: true
+                }
+              }
             }
           },
           project: {
@@ -339,14 +341,18 @@ export const projectRouter = createRouter({
             }
           }
         }
-      }));
+      });
 
       if (!data) return undefined;
 
-      if (data.userId != ctx.session.userId && !data.project!.isPublic)
+      if (data.userId != ctx.session.userId && !data.project?.isPublic)
         return undefined;
 
-      return data;
+      // Transform the data to match the expected format
+      return {
+        ...data,
+        tags: data.tags.map(t => t.tag)
+      };
     }),
   saveNote: protectedProcedure
     .input(z.object({ noteId: z.number(), textContent: z.string(), jsonContent: z.string(), htmlContent: z.string() }))
@@ -373,27 +379,27 @@ export const projectRouter = createRouter({
             name: input.content
           })
           .where(and(
-            eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+            eq(noteTable.id, input.noteId),
+            eq(noteTable.userId, ctx.session.userId)
           ));
 
-        // 2. clear all tags, so none are linked to noteId
+        // 2. Remove existing tag connections for this note
         await tx
-          .update(tagTable)
-          // todo: bug, we only want to remove this one connection, not for all notes
-          .set({ noteId: null })
-          .where(and(
-            eq(tagTable.noteId, input.noteId),
-            eq(tagTable.userId, ctx.session.userId)
-          ));
+          .delete(noteTagsTable)
+          .where(eq(noteTagsTable.noteId, input.noteId));
 
-        // 3. link the proper tags
-        await tx
-          .update(tagTable)
-          .set({ noteId: input.noteId })
-          .where(and(
-            inArray(tagTable.id, input.tags.map(t => t.id)),
-            eq(tagTable.userId, ctx.session.userId)
-          ));
+        // 3. Add new tag connections
+        if (input.tags.length > 0) {
+          await tx
+            .insert(noteTagsTable)
+            .values(
+              input.tags.map(tag => ({
+                noteId: input.noteId,
+                tagId: tag.id
+              }))
+            )
+            .onConflictDoNothing();
+        }
       });
     }),
 });

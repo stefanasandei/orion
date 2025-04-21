@@ -98,7 +98,7 @@
 	});
 
 	let activeworkspace = $derived(workspaces.find((v) => v.id == activeWorkspaceId.current));
-	let projects = $derived(activeworkspace!.projects);
+	let projects = $derived(activeworkspace ? activeworkspace.projects : []);
 
 	const parsedProjects = $derived(
 		projects.map((p) => {
