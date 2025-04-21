@@ -79,13 +79,14 @@
 				<p class="mt-4">{tagsCount} {tagsCount == 1 ? $t('project.tag') : $t('project.tags')}</p>
 				<Separator class="mt-4" />
 				{#if tagsCount != 0}
-					<div class="mt-4 grid grid-cols-4 gap-2">
+					<div class="flex flex-col gap-2">
 						{#each $allTags.data ?? [] as tag}
 							{#if project.tags.filter((t) => t.id == tag.id).length == 0}
 								<Button
 									variant={selectedTag == tag.id ? 'default' : 'secondary'}
 									onclick={() => (selectedTag = tag.id)}
-									size="sm">{tag.name}</Button
+									size="sm"
+									class="w-fit">{tag.name}</Button
 								>
 							{/if}
 						{/each}

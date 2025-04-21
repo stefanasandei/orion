@@ -49,6 +49,7 @@
 		"svelte-codemirror-editor": "^1.4.1",
 		"svelte-dnd-action": "^0.9.57",
 		"svelte-file-dropzone": "^2.0.9",
+		"svelte-multiselect": "11.0.0-rc.1",
 		"svelte-persisted-store": "^0.12.0",
 		"sveltekit-i18n": "^2.4.2",
 		"sveltekit-superforms": "^2.22.1",
