@@ -18,7 +18,7 @@
 
 	interface Props {
 		project: {
-			project: Project & { notes: Note[]; tags: { id: number; name: string }[] };
+			project: Project & { notes: Note[]; tags: { tagId: number; tag: { name: string } }[] };
 			noteTree: unknown;
 		};
 		tags: { name: string; id: number }[];
@@ -50,7 +50,7 @@
 		projectId: project.id,
 		name: project.name,
 		description: project.description,
-		tags: project.tags.map((t) => ({ label: t.name, id: t.id })),
+		tags: project.tags.map((t) => ({ label: t.tag.name, id: t.tagId })),
 		isPublic: project.isPublic
 	};
 

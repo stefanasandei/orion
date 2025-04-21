@@ -11,7 +11,7 @@
 	interface Props {
 		isPublicView?: boolean;
 		authorName?: string;
-		project: Project & { notes: Note[]; tags: Tag[] };
+		project: Project & { notes: Note[]; tags: { tag: { name: string }; tagId: number }[] };
 	}
 
 	const { project, isPublicView = false, authorName }: Props = $props();
@@ -55,7 +55,7 @@
 		<div class="row-span-1 flex h-fit flex-row justify-between">
 			<div class={'flex flex-row items-center gap-1'}>
 				{#each project.tags as tag}
-					<Badge variant={'secondary'}>{tag.name}</Badge>
+					<Badge variant={'secondary'}>{tag.tag.name}</Badge>
 				{/each}
 			</div>
 

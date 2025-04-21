@@ -22,7 +22,15 @@ export const projectRouter = createRouter({
         .findFirst({
           with: {
             notes: true,
-            tags: true,
+            tags: {
+              with: {
+                tag: {
+                  columns: {
+                    name: true
+                  }
+                }
+              }
+            },
             user: {
               with: {
                 metadata: {
@@ -52,7 +60,7 @@ export const projectRouter = createRouter({
                   }
                 }
               }
-            }
+            },
           },
           where: and(eq(projectTable.id, input.id), or(
             eq(projectTable.userId, ctx.session.userId), eq(projectTable.isPublic, true)
