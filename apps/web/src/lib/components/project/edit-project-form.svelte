@@ -102,7 +102,7 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<input type="hidden" name="tags" value={JSON.stringify($formData.tags)} />
+		<input type="hidden" class="hidden" name="tags" value={JSON.stringify($formData.tags)} />
 
 		<Form.Field {form} name="isPublic" class="flex-1">
 			<Form.Control>

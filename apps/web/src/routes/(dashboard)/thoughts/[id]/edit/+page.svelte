@@ -115,7 +115,12 @@
 								<Form.FieldErrors />
 							</Form.Field>
 
-							<input type="hidden" name="tags" value={JSON.stringify($formData.tags)} />
+							<input
+								type="hidden"
+								class="hidden"
+								name="tags"
+								value={JSON.stringify($formData.tags)}
+							/>
 						</Tabs.Content>
 
 						<Tabs.Content

@@ -269,7 +269,14 @@
 					</div>
 				</div>
 
-				<div class="flex flex-col justify-end gap-2">
+				<div class="flex flex-row justify-end gap-2">
+					<a
+						href={`/thoughts/${thought.id}/edit`}
+						class={buttonVariants({ variant: 'outline', size: 'icon' })}
+					>
+						<Pen class="size-4" />
+					</a>
+
 					<Button
 						onclick={() => {
 							deleteThought = thought;
