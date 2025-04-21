@@ -35,8 +35,10 @@
 	const form = superForm(_data.form, {
 		validators: zodClient(formSchema),
 		dataType: 'json',
-		onUpdated: () => {
+		onUpdated: async () => {
 			toast.success('Note updated!');
+
+			await goto('/thoughts');
 		},
 		resetForm: false
 	});

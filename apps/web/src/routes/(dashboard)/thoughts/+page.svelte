@@ -4,7 +4,7 @@
 	import type { UserLocals } from '@repo/core';
 	import type { Note } from '@repo/db';
 	import { Textarea } from '@/components/ui/textarea';
-	import { Button } from '@/components/ui/button';
+	import { Button, buttonVariants } from '@/components/ui/button';
 	import * as Card from '@/components/ui/card';
 	import { trpc } from '@/utils/trpc/client';
 	import { toast } from 'svelte-sonner';
@@ -17,6 +17,7 @@
 	import { mapProxy } from '$base/src/lib/utils/map-proxy';
 	import { number } from 'zod';
 	import { Badge } from '$base/src/lib/components/ui/badge';
+	import { Pen } from 'lucide-svelte';
 
 	// -------------------------------------------
 	// Props and Data Setup
@@ -258,7 +259,7 @@
 			</button>
 
 			<div class="flex flex-row items-end justify-between">
-				<div class="flex flex-row gap-2">
+				<div class="flex flex-row items-center gap-2">
 					<p class="text-muted-foreground text-sm">
 						{new Date(thought.createdAt).toLocaleString()}
 					</p>
@@ -315,12 +316,6 @@
 						<p class="text-muted-foreground flex items-center gap-2 text-xs">
 							{new URL(thought.name).hostname}
 						</p>
-
-						<div class={'flex flex-row items-center gap-1'}>
-							{#each thought.tags as tag}
-								<Badge variant={'secondary'}>{tag.tag.name}</Badge>
-							{/each}
-						</div>
 					</div>
 				</div>
 
@@ -336,10 +331,25 @@
 			</a>
 
 			<div class="flex flex-row items-end justify-between border-t px-4 py-3">
-				<p class="text-muted-foreground text-sm">
-					{new Date(thought.createdAt).toLocaleString()}
-				</p>
-				<div class="flex justify-end">
+				<div class="flex flex-row items-center gap-2">
+					<p class="text-muted-foreground text-sm">
+						{new Date(thought.createdAt).toLocaleString()}
+					</p>
+					<div class={'flex flex-row items-center gap-1'}>
+						{#each thought.tags as tag}
+							<Badge variant={'secondary'}>{tag.tag.name}</Badge>
+						{/each}
+					</div>
+				</div>
+
+				<div class="flex flex-row justify-end gap-2">
+					<a
+						href={`/thoughts/${thought.id}/edit`}
+						class={buttonVariants({ variant: 'outline', size: 'icon' })}
+					>
+						<Pen class="size-4" />
+					</a>
+
 					<Button
 						onclick={() => {
 							deleteThought = thought;
