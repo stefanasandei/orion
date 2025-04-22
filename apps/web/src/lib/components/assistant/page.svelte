@@ -4,6 +4,8 @@
 	import { writable } from 'svelte/store';
 	import { page } from '$app/state';
 
+	const { userId }: { userId: number } = $props();
+
 	const prompt = page.url.searchParams.get('prompt');
 
 	const state = writable<'landing' | 'chat'>(prompt == null ? 'landing' : 'chat');
@@ -14,6 +16,6 @@
 	{#if $state === 'landing'}
 		<Landing {state} {userInput} />
 	{:else}
-		<Chat {userInput} />
+		<Chat {userInput} {userId} />
 	{/if}
 </div>

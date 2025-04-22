@@ -53,18 +53,18 @@ export const ourFileRouter = {
             const caller = createCaller({ event: req as unknown as CtxRequestEvent });
 
             await Promise.all([
-                // track uploaded file
-                caller.user.trackUsage({
-                    fileSize: file.size
-                }),
-
-                // afterwards link the uploaded file url to the note
+                // First create the file note
                 caller.project.createFileNote({
                     fileUrl: file.ufsUrl,
                     filename: file.name,
-
                     projectId: metadata.projectId,
                     userId: metadata.userId
+                }),
+
+                // Only track usage after successful file creation
+                caller.user.trackUsage({
+                    userId: metadata.userId,
+                    fileSize: file.size
                 })
             ]);
         }),

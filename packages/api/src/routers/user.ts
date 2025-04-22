@@ -340,20 +340,29 @@ export const userRouter = createRouter({
                 .where(and(eq(tagTable.userId, ctx.session.userId), eq(tagTable.id, input.id)));
         }),
 
-    trackUsage: protectedProcedure
+    trackUsage: publicProcedure
         .input(z.object({
+            // we do this, since the request from uploadthing is not authed
+            userId: z.number(),
+
             promptTokens: z.number().default(0).optional(),
             completionTokens: z.number().default(0).optional(),
             fileSize: z.number().default(0).optional()
         }))
-        .mutation(async ({ input, ctx }) => {
+        .mutation(async ({ input }) => {
             return await db.insert(usageTable)
                 .values({
                     promptTokens: input.promptTokens,
                     completionTokens: input.completionTokens,
                     fileSize: input.fileSize,
 
-                    userId: ctx.session.userId
+                    userId: input.userId
                 });
         }),
+    getUsage: protectedProcedure
+        .query(async ({ ctx }) => {
+            return await db.select()
+                .from(usageTable)
+                .where(eq(usageTable.userId, ctx.session.userId));
+        })
 })

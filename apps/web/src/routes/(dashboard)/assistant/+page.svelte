@@ -9,5 +9,5 @@
 </script>
 
 <DashboardShell className="flex flex-col h-full" pageName={$t('dashboard.assistant')} {user}>
-	<AssistantPage />
+	<AssistantPage userId={user.session?.userId!} />
 </DashboardShell>

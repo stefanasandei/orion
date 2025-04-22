@@ -393,6 +393,7 @@ export const tagRelations = relations(tagTable, ({ one, many }) => ({
 export type User = InferSelectModel<typeof userTable>;
 export type Session = InferSelectModel<typeof sessionTable>;
 export type UserMetadata = InferSelectModel<typeof userMetadataTable>;
+export type Usage = InferSelectModel<typeof usageTable>;
 
 export type Workspace = InferSelectModel<typeof workspaceTable>;
 export type Tag = InferSelectModel<typeof tagTable>;

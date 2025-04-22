@@ -12,6 +12,7 @@
 	import { trpc } from '../../utils/trpc/client';
 
 	export let userInput: Writable<string>;
+	export let userId: number;
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
 	const chatContainerRef = writable<HTMLDivElement | null>(null);
@@ -22,6 +23,7 @@
 	const { input, handleSubmit, messages, status, stop } = useChat({
 		onFinish: (_, options) => {
 			$trackUsage.mutate({
+				userId: userId,
 				completionTokens: options.usage.completionTokens,
 				promptTokens: options.usage.promptTokens
 			});
@@ -82,7 +84,7 @@
 </div>
 
 <div class="pointer-events-none absolute bottom-0 z-10 w-full">
-	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl lg:max-w-5xl">
+	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl lg:max-w-4xl">
 		{#if $showScrollButton}
 			<div class="flex justify-center pb-4">
 				<button
