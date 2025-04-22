@@ -148,7 +148,7 @@
 				<CreateProject>
 					{#snippet triggerButtonProp()}
 						<div
-							class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
+							class="bg-accent/50 hover:bg-accent ring-accent/70 w-full items-start justify-start space-y-5 rounded-xl p-4 text-left ring-2 transition-all hover:cursor-pointer"
 						>
 							<Plus class="size-5" />
 							<p>Create a project</p>
