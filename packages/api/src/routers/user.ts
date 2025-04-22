@@ -311,6 +311,8 @@ export const userRouter = createRouter({
                 orderBy: desc(noteTable.createdAt)
             })
         }),
+
+
     getTags: protectedProcedure
         .query(async ({ ctx }) => {
             return await db.query.tagTable.findMany({
@@ -321,5 +323,19 @@ export const userRouter = createRouter({
                     name: true
                 }
             })
+        }),
+    addTag: protectedProcedure
+        .input(z.object({ name: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+            return await db.insert(tagTable).values({
+                name: input.name,
+                userId: ctx.session.userId,
+            });
+        }),
+    removeTag: protectedProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+            return await db.delete(tagTable)
+                .where(and(eq(tagTable.userId, ctx.session.userId), eq(tagTable.id, input.id)));
         })
 })
