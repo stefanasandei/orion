@@ -7,6 +7,7 @@
 		FileSearch,
 		Link,
 		Plus,
+		Settings,
 		Upload
 	} from 'lucide-svelte';
 	import { Input } from '@/components/ui/input';
@@ -92,7 +93,9 @@
 				<h2 class="text-center text-2xl font-semibold md:text-4xl">
 					Welcome, {metadata.name}!
 				</h2>
-				<h3 class="text-center text-xl font-semibold text-neutral-400 md:text-4xl">
+				<h3
+					class="text-center text-xl font-semibold text-neutral-600 md:text-4xl dark:text-neutral-400"
+				>
 					{'What will you discover today?'}
 				</h3>
 			</div>
@@ -156,12 +159,20 @@
 					{/snippet}
 				</CreateProject>
 
-				<a
+				<!-- <a
 					href="/settings/usage"
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
 					<ChartColumn class="size-5" />
 					<p>View usage</p>
+				</a> -->
+
+				<a
+					href="/settings/appearance"
+					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
+				>
+					<Settings class="size-5" />
+					<p>View settings</p>
 				</a>
 
 				<a
