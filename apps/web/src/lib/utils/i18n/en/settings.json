@@ -7,7 +7,7 @@
 	"color_light": "Light",
 	"color_dark": "Dark",
 	"account": "Account",
-	"account_desc": "This is how others will see you on the site.",
+	"account_desc": "Control your authentication settings.",
 	"security": "Security",
 	"email": "Email",
 	"verified": "verified",

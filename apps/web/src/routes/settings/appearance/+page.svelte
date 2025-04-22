@@ -53,14 +53,12 @@
 <CategoryShell title="Appearance" description="Customize your experience">
 	<div class="space-y-8">
 		<!-- Theme Section -->
-		<section class="bg-card rounded-lg p-6 shadow-sm">
+		<section class="rounded-lg border-2 p-6">
 			<h2 class="mb-6 text-2xl font-semibold tracking-tight">{$t('settings.preferences')}</h2>
 
 			<div class="grid gap-6">
 				<!-- Theme Selector -->
-				<div
-					class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all hover:shadow-md"
-				>
+				<div class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all">
 					<div class="flex items-center justify-between">
 						<div class="space-y-1">
 							<Label class="text-lg">{$t('settings.color_theme')}</Label>
@@ -98,9 +96,7 @@
 				</div>
 
 				<!-- Layout Toggle -->
-				<div
-					class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all hover:shadow-md"
-				>
+				<div class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all">
 					<div class="flex items-center justify-between">
 						<div class="space-y-1">
 							<Label class="text-lg">Dashboard Layout</Label>
@@ -118,7 +114,7 @@
 		</section>
 
 		<!-- Tags Section -->
-		<section class="bg-card rounded-lg p-6 shadow-sm">
+		<section class="rounded-lg border-2 p-6">
 			<h2 class="mb-6 text-2xl font-semibold tracking-tight">Tag Management</h2>
 
 			<!-- Add Tag -->
