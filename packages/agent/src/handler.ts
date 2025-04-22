@@ -1,15 +1,13 @@
 import { CoreMessage, Message, streamText } from "ai";
-
-import { createLLM, getContentFromMsg } from "./llm";
-import { createRAGAgent } from "./agents/rag";
 import { createVectorStore } from "./vector";
-import { AIMessage } from "@langchain/core/messages";
-import { ollama } from "ollama-ai-provider";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { RAG_PROMPT } from "./prompts/rag";
+import { createLLM } from "./llm";
 
 const isProd = process.env["IS_PRODUCTION"] === "true"
 
 export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]) => {
-    const model = ollama("smollm2:135m");
+    const model = createLLM({ production: isProd });
 
     const result = streamText({
         model: model,
@@ -19,20 +17,26 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
     return result.toDataStreamResponse();
 }
 
-// todo: use vercel ai sdk, instead of langchain
-export const ragHandler = async (question: string): Promise<Response> => {
-    const config = { production: isProd };
+export const ragHandler = async (message: string): Promise<Response> => {
+    const model = createLLM({ production: isProd });
+    const vectorStore = await createVectorStore({ production: isProd });
 
-    const vectorStore = await createVectorStore(config)
-    const llm = createLLM(config);
+    const retrievedDocs = await vectorStore.similaritySearchWithScore(message, 2);
+    const context = retrievedDocs
+        .filter((doc) => doc[1] > 0.5)
+        .join("\n")
 
-    const agent = await createRAGAgent(vectorStore, llm);
+    const promptTemplate = ChatPromptTemplate.fromTemplate(RAG_PROMPT);
 
-    const result = await agent.invoke({ question });
+    const prompt = (await promptTemplate.invoke({
+        context: context,
+        question: message
+    })).toString();
 
-    const msg = new AIMessage({
-        content: getContentFromMsg(result.answer),
-    })
+    const result = streamText({
+        model: model,
+        prompt: prompt,
+    });
 
-    return new Response(JSON.stringify(msg));
+    return result.toDataStreamResponse();
 }

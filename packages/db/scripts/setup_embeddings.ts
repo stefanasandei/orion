@@ -1,7 +1,7 @@
 // todo: test script, due to the deadline for the MVP
 
 // import { db, noteTable } from '@/index';
-import { createLLM, createRAGAgent, createVectorStore, getContentFromMsg } from '@repo/agent';
+// import { createLLM, createRAGAgent, createVectorStore, getContentFromMsg } from '@repo/agent';
 
 import dotenv from 'dotenv'
 // import { eq } from 'drizzle-orm';
@@ -38,17 +38,17 @@ dotenv.config();
 //     }
 // };
 
-const testRAGAgent = async () => {
-    const config = { production: false };
+// const testRAGAgent = async () => {
+//     const config = { production: false };
 
-    const vectorStore = await createVectorStore(config)
-    const llm = createLLM(config);
+//     const vectorStore = await createVectorStore(config)
+//     const llm = createLLM(config);
 
-    const agent = await createRAGAgent(vectorStore, llm);
+//     const agent = await createRAGAgent(vectorStore, llm);
 
-    const result = await agent.invoke({ question: "pana cand e inscrierea la Infomatrix?" });
-    console.log(result.context.slice(0, 1));
-    console.log(`\nAnswer: ${getContentFromMsg(result.answer)}`);
-};
+//     const result = await agent.invoke({ question: "pana cand e inscrierea la Infomatrix?" });
+//     console.log(result.context.slice(0, 1));
+//     console.log(`\nAnswer: ${getContentFromMsg(result.answer)}`);
+// };
 
-testRAGAgent();
+// testRAGAgent();

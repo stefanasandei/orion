@@ -21,6 +21,8 @@
 	const trackUsage = trpc().user.trackUsage.createMutation();
 
 	const { input, handleSubmit, messages, status, stop } = useChat({
+		// api: '/api/chat/rag',
+
 		onFinish: (_, options) => {
 			$trackUsage.mutate({
 				userId: userId,
@@ -170,6 +172,10 @@
 								<Brain class="mr-2 size-5" />
 								{$t('dashboard.assistant_page.landing.chat_tab')}
 							</Tabs.Trigger>
+
+							<!--
+								cool tab for research, to be used elsewhere
+							-->
 							<Tabs.Trigger
 								value="report"
 								disabled

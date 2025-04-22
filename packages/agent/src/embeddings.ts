@@ -19,6 +19,7 @@ export class EmbeddingsFactory {
     }
 }
 
+// todo: use vercel ai sdk instead
 export const getEmbeddings = async (text: string, production: boolean = false) => {
     const embeddings = EmbeddingsFactory.create({ production });
     return await embeddings.embedQuery(text);
