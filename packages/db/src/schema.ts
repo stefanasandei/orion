@@ -222,7 +222,15 @@ export const commentTable = pgTable("comment", {
   content: text("content").notNull()
 })
 
-export const noteEnum = pgEnum('type', ['document', 'thought', 'file', "task", "newsfeed"]);
+/*
+  document - longer form content, written from the rich-text editor (content in .textContent)
+  thought - quick note (content in .name)
+  file - uploaded file (depending on projectId - null or not) (filename in .name, url in .textContent)
+  task - todo task, (content in .name)
+  newsfeed - general news for whole website (content in .name)
+  memory - added by an ai agent, stuff to know about the user (content in .name)
+*/
+export const noteEnum = pgEnum('type', ['document', 'thought', 'file', "task", "newsfeed", "memory"]);
 
 export const noteTable = pgTable('note', {
   id: serial('id').primaryKey(),
@@ -268,6 +276,8 @@ export const noteTable = pgTable('note', {
     ),
   ],
 );
+
+// TODO(agent): embeddings table
 
 export const notesRelationshipTable = pgTable('notes_relationship', {
   parentId: integer('parent_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),

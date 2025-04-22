@@ -252,6 +252,8 @@ export const projectRouter = createRouter({
   createQuickNote: protectedProcedure
     .input(z.object({ content: z.string(), type: z.enum(["thought", "task", "newsfeed"]) }))
     .mutation(async ({ input, ctx }) => {
+      // TODO(agent): create embeddings for note
+
       // used to create a note, which is not accessible in the editor
       // aka a quick-thought, a todo task, or an item on the news feed
       return await db
@@ -269,6 +271,8 @@ export const projectRouter = createRouter({
   createFileNote: publicProcedure
     .input(z.object({ fileUrl: z.string(), filename: z.string(), projectId: z.number(), userId: z.number() }))
     .mutation(async ({ input }) => {
+      // TODO(agent): create embeddings for image/pdf
+
       return await db
         .insert(noteTable)
         .values({
@@ -286,6 +290,8 @@ export const projectRouter = createRouter({
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .mutation(async ({ input, ctx }) => {
+      // TODO(agent): delete embeddings
+
       return await db
         .delete(noteTable)
         .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)));
@@ -365,6 +371,8 @@ export const projectRouter = createRouter({
   saveNote: protectedProcedure
     .input(z.object({ noteId: z.number(), textContent: z.string(), jsonContent: z.string(), htmlContent: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      // TODO(agent): update embeddings for documents
+
       return await db
         .update(noteTable)
         .set({
@@ -379,6 +387,8 @@ export const projectRouter = createRouter({
   updateQuickNote: protectedProcedure
     .input(z.object({ noteId: z.number(), content: z.string(), tags: z.array(z.object({ id: z.number() })) }))
     .mutation(async ({ input, ctx }) => {
+      // TODO(agent): update embeddings for notes
+
       await db.transaction(async (tx) => {
         // 1. update note contents
         await tx

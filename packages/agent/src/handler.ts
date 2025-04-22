@@ -18,6 +18,8 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
 }
 
 export const ragHandler = async (message: string): Promise<Response> => {
+    /* used for a one-off query */
+
     const model = createLLM({ production: isProd });
     const vectorStore = await createVectorStore({ production: isProd });
 
@@ -40,3 +42,5 @@ export const ragHandler = async (message: string): Promise<Response> => {
 
     return result.toDataStreamResponse();
 }
+
+// TODO(agent): use only one agent with tools

@@ -9,6 +9,7 @@ if (index == undefined) {
 }
 
 export const createVectorStore = async ({ production }: { production: boolean } = { production: false }) => {
+    // TODO(agent): use pg vector
     const pinecone = new PineconeClient();
     const pineconeIndex = pinecone.Index(index);
 
