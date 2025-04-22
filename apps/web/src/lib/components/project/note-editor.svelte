@@ -8,7 +8,6 @@
 	import NoteViewer from './note-viewer.svelte';
 	import LoadingSpinner from '../loading-spinner.svelte';
 	import { preferences } from '@/utils/stores';
-	import CodeMirror from 'svelte-codemirror-editor';
 
 	interface Props {
 		activeNoteId: number | null;
@@ -66,9 +65,9 @@
 		{#if $preferences.useRichTextEditor}
 			<ShadEditor bind:editor class="h-full w-full rounded-lg" content={$content} />
 		{:else}
-			<!-- todo: add raw text (md) editor, this is a mess at the moment-->
+			<!-- todo: add raw text (md - codemirror) editor, this is a mess at the moment-->
 			<!-- work on light/dark themes, proper state (shad's state management is a MESS, while codemirror's is alright - now I have to make some abstraction so it works with both??)-->
-			<CodeMirror class="h-full w-full" bind:value />
+			<input class="h-full w-full" bind:value />
 		{/if}
 	{:else if noteViewState.current == 'loading'}
 		<LoadingSpinner />
