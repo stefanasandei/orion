@@ -18,7 +18,7 @@
 						<p class="text-muted-foreground line-clamp-2 text-sm">{project.description}</p>
 					{/if}
 				</div>
-				<Badge variant="secondary">Project</Badge>
+				<Badge variant="default">Project</Badge>
 			</div>
 
 			<div class="flex items-center gap-2">

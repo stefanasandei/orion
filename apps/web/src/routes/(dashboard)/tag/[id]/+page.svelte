@@ -9,6 +9,7 @@
 	import type { Note, Project, Tag } from '@repo/db';
 	import { Badge } from '$base/src/lib/components/ui/badge';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$base/src/lib/components/ui/tabs';
+	import FileCard from '$base/src/lib/components/dashboard/file-card.svelte';
 
 	type ProjectWithTags = Project & { tags: { tagId: number; tag: { name: string } }[] };
 
@@ -36,8 +37,11 @@
 
 	// Compute counts for the badge displays
 	const projectCount = $derived(projects.length);
-	const thoughtCount = $derived(notes.filter((note) => !isURL(note.name)).length);
+	const thoughtCount = $derived(
+		notes.filter((note) => !isURL(note.name) && note.type == 'thought').length
+	);
 	const linkCount = $derived(notes.filter((note) => isURL(note.name)).length);
+	const fileCount = $derived(notes.filter((note) => note.type == 'file').length);
 </script>
 
 <DashboardShell pageName={tag.name} {user}>
@@ -73,6 +77,10 @@
 						Links
 						<Badge variant="secondary" class="ml-2">{linkCount}</Badge>
 					</TabsTrigger>
+					<TabsTrigger value="files">
+						Files
+						<Badge variant="secondary" class="ml-2">{fileCount}</Badge>
+					</TabsTrigger>
 				</TabsList>
 
 				<Separator class="my-4" />
@@ -82,6 +90,8 @@
 						{#each [...projects, ...notes].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as item}
 							{#if !isNote(item)}
 								<ShortProjectCard project={item as ProjectWithTags} />
+							{:else if item.type == 'file'}
+								<FileCard isPreview={true} thought={item} />
 							{:else if isURL((item as Note).name)}
 								<LinkPreviewCard thought={item} />
 							{:else}
@@ -102,7 +112,7 @@
 				<TabsContent value="thoughts" class="m-0">
 					<div class="grid gap-4">
 						{#each notes
-							.filter((note) => !isURL(note.name))
+							.filter((note) => !isURL(note.name) && note.type == 'thought')
 							.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as thought}
 							<ShortThoughtCard {thought} />
 						{/each}
@@ -115,6 +125,16 @@
 							.filter((note) => isURL(note.name))
 							.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as link}
 							<LinkPreviewCard thought={link} />
+						{/each}
+					</div>
+				</TabsContent>
+
+				<TabsContent value="files" class="m-0">
+					<div class="grid gap-4">
+						{#each notes
+							.filter((note) => note.type == 'file')
+							.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as link}
+							<FileCard isPreview={true} thought={link} />
 						{/each}
 					</div>
 				</TabsContent>

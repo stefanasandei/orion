@@ -15,10 +15,9 @@
 	import { parse } from 'marked';
 	import { onMount, untrack } from 'svelte';
 	import { mapProxy } from '$base/src/lib/utils/map-proxy';
-	import { number } from 'zod';
-	import { Badge } from '$base/src/lib/components/ui/badge';
 	import { Pen } from 'lucide-svelte';
 	import Tag from '$base/src/lib/components/dashboard/tag.svelte';
+	import FileCard from '$base/src/lib/components/dashboard/file-card.svelte';
 
 	// -------------------------------------------
 	// Props and Data Setup
@@ -32,7 +31,7 @@
 		};
 	} = $props();
 	const { user, notes: _notes } = $derived(_data);
-	const thoughts = $derived(_notes.filter((n) => n.type == 'thought'));
+	const thoughts = $derived(_notes.filter((n) => n.type == 'thought' || n.type == 'file'));
 
 	// -------------------------------------------
 	// New Thought Input State
@@ -223,11 +222,14 @@
 		<!-- Thoughts feed -->
 		<div class="flex flex-col gap-4">
 			{#each thoughts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as thought}
-				{#if isURL(thought.name)}
-					{@render linkPreviewCard(thought)}
+				{#if thought.type == 'thought'}
+					{#if isURL(thought.name)}
+						{@render linkPreviewCard(thought)}
+					{:else}
+						{@render thoughtCard(thought)}
+					{/if}
 				{:else}
-					<!-- raw text card -->
-					{@render thoughtCard(thought)}
+					<FileCard {thought} />
 				{/if}
 			{/each}
 		</div>

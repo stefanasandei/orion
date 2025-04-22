@@ -306,6 +306,7 @@ export const userRouter = createRouter({
                     name: true,
                     id: true,
                     createdAt: true,
+                    textContent: true
                 },
 
                 orderBy: desc(noteTable.createdAt)
