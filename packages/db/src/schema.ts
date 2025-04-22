@@ -66,6 +66,25 @@ export const sessionTable = pgTable('session', {
   twoFactorVerified: boolean('two_factor_verified').default(false).notNull()
 });
 
+export const usageTable = pgTable("usage", {
+  id: serial("id").primaryKey(),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .defaultNow(),
+
+  promptTokens: integer("prompt_tokens").default(0).notNull(),
+  completionTokens: integer("completion_tokens").default(0).notNull(),
+
+  fileSize: integer("file_size").default(0).notNull(),
+})
+
 export const workspaceTable = pgTable('workspace', {
   id: serial('id').primaryKey(),
   userId: integer('user_id')
@@ -267,6 +286,10 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
   session: one(sessionTable, {
     fields: [userTable.id],
     references: [sessionTable.userId]
+  }),
+  usage: one(usageTable, {
+    fields: [userTable.id],
+    references: [usageTable.userId]
   }),
   workspaces: many(workspaceTable),
   tags: many(tagTable),

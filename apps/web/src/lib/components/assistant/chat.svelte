@@ -9,13 +9,24 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { Brain, FileSearch, Square } from 'lucide-svelte';
 	import * as Tooltip from '@/components/ui/tooltip';
+	import { trpc } from '../../utils/trpc/client';
 
 	export let userInput: Writable<string>;
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
-	const { input, handleSubmit, messages, status, stop } = useChat();
 	const chatContainerRef = writable<HTMLDivElement | null>(null);
 	const showScrollButton = writable(false);
+
+	const trackUsage = trpc().user.trackUsage.createMutation();
+
+	const { input, handleSubmit, messages, status, stop } = useChat({
+		onFinish: (_, options) => {
+			$trackUsage.mutate({
+				completionTokens: options.usage.completionTokens,
+				promptTokens: options.usage.promptTokens
+			});
+		}
+	});
 
 	// Auto-send user input from landing
 	$: if ($userInput) {
@@ -71,7 +82,7 @@
 </div>
 
 <div class="pointer-events-none absolute bottom-0 z-10 w-full">
-	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl">
+	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl lg:max-w-5xl">
 		{#if $showScrollButton}
 			<div class="flex justify-center pb-4">
 				<button

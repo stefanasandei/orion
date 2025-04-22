@@ -2,7 +2,7 @@ import { registerUser, loginUser, logoutUser, AuthFailReason, validateSessionTok
 import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
-import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable } from '@repo/db';
+import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable, usageTable } from '@repo/db';
 import { eq, and, sql, or, desc } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
@@ -338,5 +338,22 @@ export const userRouter = createRouter({
         .mutation(async ({ input, ctx }) => {
             return await db.delete(tagTable)
                 .where(and(eq(tagTable.userId, ctx.session.userId), eq(tagTable.id, input.id)));
-        })
+        }),
+
+    trackUsage: protectedProcedure
+        .input(z.object({
+            promptTokens: z.number().default(0).optional(),
+            completionTokens: z.number().default(0).optional(),
+            fileSize: z.number().default(0).optional()
+        }))
+        .mutation(async ({ input, ctx }) => {
+            return await db.insert(usageTable)
+                .values({
+                    promptTokens: input.promptTokens,
+                    completionTokens: input.completionTokens,
+                    fileSize: input.fileSize,
+
+                    userId: ctx.session.userId
+                });
+        }),
 })

@@ -52,13 +52,21 @@ export const ourFileRouter = {
         .onUploadComplete(async ({ metadata, file, req }) => {
             const caller = createCaller({ event: req as unknown as CtxRequestEvent });
 
-            await caller.project.createFileNote({
-                fileUrl: file.ufsUrl,
-                filename: file.name,
+            await Promise.all([
+                // track uploaded file
+                caller.user.trackUsage({
+                    fileSize: file.size
+                }),
 
-                projectId: metadata.projectId,
-                userId: metadata.userId
-            });
+                // afterwards link the uploaded file url to the note
+                caller.project.createFileNote({
+                    fileUrl: file.ufsUrl,
+                    filename: file.name,
+
+                    projectId: metadata.projectId,
+                    userId: metadata.userId
+                })
+            ]);
         }),
 } satisfies FileRouter;
 

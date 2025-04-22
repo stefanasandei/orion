@@ -1,20 +1,25 @@
-import { CoreMessage, LangChainAdapter, Message } from "ai";
+import { CoreMessage, Message, streamText } from "ai";
 
-import { createLLM, getContentFromMsg, LLMChatFactory } from "./llm";
+import { createLLM, getContentFromMsg } from "./llm";
 import { createRAGAgent } from "./agents/rag";
 import { createVectorStore } from "./vector";
 import { AIMessage } from "@langchain/core/messages";
+import { ollama } from "ollama-ai-provider";
 
 const isProd = process.env["IS_PRODUCTION"] === "true"
 
 export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]) => {
-    const model = LLMChatFactory.create({ production: isProd });
+    const model = ollama("smollm2:135m");
 
-    const stream = await model.stream(messages);
+    const result = streamText({
+        model: model,
+        messages: messages,
+    });
 
-    return LangChainAdapter.toDataStreamResponse(stream);
+    return result.toDataStreamResponse();
 }
 
+// todo: use vercel ai sdk, instead of langchain
 export const ragHandler = async (question: string): Promise<Response> => {
     const config = { production: isProd };
 
