@@ -25,14 +25,15 @@
 	let ragResult = $state<string | null>(null);
 	let isLoading = $state(false);
 
-	const ragQuery = trpc().content.askRag.createMutation();
+	// todo: broken
+	// const ragQuery = trpc().content.askRag.createMutation();
 
 	async function handleRagQuery() {
 		isLoading = true;
 		try {
-			const result = await $ragQuery.mutateAsync({ query: search });
+			const result = null; /*await $ragQuery.mutateAsync({ query: search })*/
 			console.debug(result);
-			ragResult = result['kwargs']['content'];
+			ragResult = result!['kwargs']['content'];
 		} finally {
 			isLoading = false;
 		}

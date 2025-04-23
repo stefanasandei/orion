@@ -5,6 +5,8 @@ import { and, desc, eq, sql } from 'drizzle-orm';
 
 // used as a query engine for content (documents / thoughts / tasks / etc)
 export const contentRouter = createRouter({
+
+    // todo: refactor (clean bugs + cleaner)
     searchNotes: protectedProcedure
         .input(z.object({ query: z.string() }))
         .query(async ({ input, ctx }) => {
@@ -49,20 +51,6 @@ export const contentRouter = createRouter({
                 .orderBy((t) => desc(t.rank))
                 .limit(10);
 
-            console.log(searchResult)
             return searchResult;
-        }),
-
-    askRag: protectedProcedure
-        .input(z.object({ query: z.string() }))
-        .mutation(async ({ input, ctx }) => {
-            // todo: do not use, just fetch the api route
-
-            const res = await (ctx.event as any).fetch('/api/chat/rag', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [{ role: 'user', content: input.query }] })
-            });
-            return res.json();
         }),
 });

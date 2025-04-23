@@ -82,7 +82,7 @@
 <div
 	bind:this={$chatContainerRef}
 	on:scroll={handleScroll}
-	class="no-scrollbar mx-auto flex h-full w-full max-w-4xl flex-1 flex-col space-y-12 overflow-y-auto"
+	class="no-scrollbar mx-auto flex h-full min-h-fit w-full max-w-4xl flex-1 flex-col space-y-12 overflow-y-auto"
 >
 	{#each $messages as msg}
 		{#if msg.role != 'system' && msg.role != 'data'}
@@ -92,7 +92,7 @@
 
 	{#if $messages.length == 0}
 		<div
-			class="mx-auto flex h-full w-[85vw] flex-1 flex-col items-center justify-center space-y-6 md:w-full"
+			class="mx-auto flex h-full max-w-[85vw] flex-1 flex-col items-center justify-center space-y-6 md:w-full"
 		>
 			<Card.Root>
 				<Card.Header>
@@ -109,17 +109,17 @@
 					<Card.Description>Click any question to start the conversation</Card.Description>
 				</Card.Header>
 				<Card.Content>
-					<div class="grid gap-2">
+					<div class="grid max-w-[80vw] gap-2">
 						{#each metadata.questions as question}
 							<Button
 								variant="outline"
-								class="justify-start text-left"
+								class="h-fit max-w-[80vw] justify-start text-balance py-2 text-left"
 								onclick={() => {
 									$input = question;
 									// handleSubmit(new Event('submit'));
 								}}
 							>
-								{question}
+								<span class="py-2 md:py-0">{question}</span>
 							</Button>
 						{/each}
 					</div>

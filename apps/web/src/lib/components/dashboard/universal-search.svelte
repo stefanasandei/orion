@@ -88,7 +88,8 @@
 										// /thoughts/326
 										url = `/thoughts/${result.id}`;
 									} else {
-										alert(result.id);
+										if (result.name.endsWith('.pdf')) url = `/thoughts/${result.id}/chat`;
+										else url = `/thoughts/${result.id}`;
 									}
 
 									open = false;

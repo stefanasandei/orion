@@ -89,7 +89,11 @@
 
 			<Card.Root class="bg-card/50 overflow-hidden transition-colors duration-75">
 				<Card.Content class="prose prose-slate dark:prose-invert max-w-none p-6">
-					<HtmlPreview className="text-2xl" htmlContent={renderHtml(thought.name)} />
+					{#if thought.name.endsWith('.png') || thought.name.endsWith('.jpg')}
+						<img src={thought.textContent} alt={thought.name} />
+					{:else}
+						<HtmlPreview className="text-2xl" htmlContent={renderHtml(thought.name)} />
+					{/if}
 				</Card.Content>
 			</Card.Root>
 
