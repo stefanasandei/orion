@@ -141,6 +141,23 @@ class EmbeddingsManager {
             .where(eq(embeddingsTable.id, noteId));
     }
 
+    public async generateSearchQuery(value: string) {
+        const input = value.replaceAll('\\n', ' ');
+
+        const embedResponse = await this.cohere.embed({
+            texts: [input],
+            model: EmbeddingsManager.EMBEDDINGS_MODEL,
+            inputType: 'search_query',
+            embeddingTypes: ['float'],
+        });
+
+        const embeddingsResponse = embedResponse.embeddings as EmbedByTypeResponseEmbeddings;
+        if (!embeddingsResponse || !embeddingsResponse.float)
+            throw new Error('Failed to generate embeddings for PDF chunks.');
+
+        return embeddingsResponse.float![0]!;
+    }
+
     // ------------ private methods ------------
 
     private static batchArray<T>(arr: T[], batchSize: number): T[][] {

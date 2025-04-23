@@ -4,7 +4,7 @@
 	import { Badge } from '../ui/badge';
 	import Tag from './tag.svelte';
 	import { Button, buttonVariants } from '../ui/button';
-	import { Pen } from 'lucide-svelte';
+	import { BotMessageSquare, Pen } from 'lucide-svelte';
 	import { Icons } from '../icons.svelte';
 	import DeleteNote from '../project/delete-note.svelte';
 
@@ -61,6 +61,15 @@
 
 			{#if isPreview !== true}
 				<div class="flex flex-row justify-end gap-2">
+					{#if thought.name.endsWith('.pdf')}
+						<a
+							href={`/thoughts/${thought.id}/chat`}
+							class={buttonVariants({ variant: 'outline', size: 'icon' })}
+						>
+							<BotMessageSquare class="size-4" />
+						</a>
+					{/if}
+
 					<a
 						href={`/thoughts/${thought.id}/edit`}
 						class={buttonVariants({ variant: 'outline', size: 'icon' })}

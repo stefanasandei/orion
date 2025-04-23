@@ -7,7 +7,11 @@
 	import { toast } from 'svelte-sonner';
 	import { parse } from 'marked';
 
-	type Message = { role: 'user' | 'assistant' | 'data' | 'system'; content: string };
+	type Message = {
+		role: 'user' | 'assistant' | 'data' | 'system';
+		content: string;
+		toolInvocations?: { toolName: string }[];
+	};
 
 	export let msg: Message;
 	export let isStreaming: boolean;
@@ -47,9 +51,15 @@
 {:else}
 	<div class="flex justify-start">
 		<div class="group relative w-full max-w-full break-words">
-			<HtmlPreview htmlContent={renderHtml(msg.content)} />
+			{#if msg.content.length > 0}
+				<HtmlPreview htmlContent={renderHtml(msg.content)} />
 
-			{@render botControls(msg)}
+				{@render botControls(msg)}
+			{:else}
+				<span class="font-light">
+					{'calling tool: ' + msg.toolInvocations?.[0].toolName}
+				</span>
+			{/if}
 		</div>
 	</div>
 {/if}

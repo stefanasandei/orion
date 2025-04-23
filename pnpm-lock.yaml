@@ -385,6 +385,9 @@ importers:
       pdf-parse-debugging-disabled:
         specifier: ^1.1.1
         version: 1.1.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.24.2
     devDependencies:
       '@repo/eslint':
         specifier: workspace:*
