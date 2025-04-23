@@ -7,9 +7,11 @@
 	import { page } from '$app/state';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { noteViewState } from '../../utils/state';
-	import Button from '../ui/button/button.svelte';
+	import Button, { buttonVariants } from '../ui/button/button.svelte';
 	import { Icons } from '../icons.svelte';
 	import * as Tooltip from '@/components/ui/tooltip';
+	import { BotMessageSquare } from 'lucide-svelte';
+	import { cn } from '../../utils/cn';
 
 	interface Props {
 		isPublicView: boolean;
@@ -75,16 +77,38 @@
 		</div>
 
 		<div class="flex flex-none shrink-0 flex-row items-center gap-2">
-			<Tooltip.Root>
-				<Tooltip.Trigger>
-					<Button onclick={downloadDocument} size="sm" class="mr-2" variant={'outline'}>
-						<Icons.download />
-					</Button>
-				</Tooltip.Trigger>
-				<Tooltip.Content>
-					<p>Download document</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
+			{#if activeNote.name.endsWith('.pdf')}
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<a
+							href={`/thoughts/${activeNote.id}/chat`}
+							class={cn(
+								buttonVariants({
+									size: 'sm',
+									variant: 'outline'
+								}),
+								'mr-2'
+							)}
+						>
+							<BotMessageSquare />
+						</a>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>Chat with PDF</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<Button onclick={downloadDocument} size="sm" class="mr-2" variant={'outline'}>
+							<Icons.download />
+						</Button>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>Download document</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			{/if}
 
 			{#if !isPublicView}
 				<Tabs.Root
