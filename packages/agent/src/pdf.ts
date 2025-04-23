@@ -6,6 +6,8 @@ import { generateObject } from 'ai';
 import { createLLM } from './llm';
 import { z } from 'zod';
 
+const isProd = process.env["IS_PRODUCTION"] === "true"
+
 export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {
     // 1. fetch PDF as ArrayBuffer
     const response = await fetch(fileUrl);
@@ -25,7 +27,7 @@ export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {
     // 3. generate summary + suggested questions using AI
     const result = await generateObject({
         // @ts-ignore Type mismatch between ai and @ai-sdk/provider versions
-        model: createLLM(),
+        model: createLLM({ production: isProd }),
         schema: z.object({
             summary: z.string().describe("a concise summary of the document contents"),
             questions: z.array(z.string()).describe("suggested questions to encourage the user to learn more about the document")

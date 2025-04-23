@@ -17,7 +17,7 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
     return result.toDataStreamResponse();
 }
 
-export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[], noteId: number): Promise<Response> => {
+export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[], noteId?: number): Promise<Response> => {
     const model = createLLM({ production: isProd });
 
     const result = streamText({
