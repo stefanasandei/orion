@@ -2,6 +2,7 @@ import { db, embeddingsTable } from "@repo/db";
 import { CohereClient } from "cohere-ai";
 import { EmbedByTypeResponseEmbeddings } from "cohere-ai/api/types";
 import { eq } from "drizzle-orm";
+// @ts-ignore
 import pdfParse from 'pdf-parse-debugging-disabled'; // JS moment :skull:
 
 class EmbeddingsManager {
