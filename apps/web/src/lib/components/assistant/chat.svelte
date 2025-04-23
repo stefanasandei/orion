@@ -138,7 +138,7 @@
 						<!-- loading spinner -->
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" disabled={true} variant={'outline'}>
+								<Button size="icon" variant={'outline'}>
 									<div
 										class="border-primary size-4 animate-spin rounded-full border-2 border-t-transparent"
 									></div>

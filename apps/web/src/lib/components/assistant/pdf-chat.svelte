@@ -8,6 +8,7 @@
 	import { Icons } from '../icons.svelte';
 	import { Square } from 'lucide-svelte';
 	import * as Tooltip from '@/components/ui/tooltip';
+	import * as Card from '@/components/ui/card';
 	import { trpc } from '../../utils/trpc/client';
 	import type { Note } from '@repo/db';
 
@@ -20,6 +21,11 @@
 	const showScrollButton = writable(false);
 
 	const trackUsage = trpc().user.trackUsage.createMutation();
+
+	const metadata = JSON.parse(thought.jsonContent) as {
+		summary: string;
+		questions: string[];
+	};
 
 	const { input, handleSubmit, messages, status, stop } = useChat({
 		api: `/api/chat/${thought.id}/`,
@@ -85,9 +91,40 @@
 	{/each}
 
 	{#if $messages.length == 0}
-		<div class="flex h-full w-full flex-1 items-center justify-center">
-			<!-- todo: better ui -->
-			<p>You can ask your PDF any question.</p>
+		<div
+			class="mx-auto flex h-full w-[85vw] flex-1 flex-col items-center justify-center space-y-6 md:w-full"
+		>
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>Document Overview</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<p class="text-muted-foreground text-justify">{metadata.summary}</p>
+				</Card.Content>
+			</Card.Root>
+
+			<Card.Root class="md:w-full">
+				<Card.Header>
+					<Card.Title>Suggested Questions</Card.Title>
+					<Card.Description>Click any question to start the conversation</Card.Description>
+				</Card.Header>
+				<Card.Content>
+					<div class="grid gap-2">
+						{#each metadata.questions as question}
+							<Button
+								variant="outline"
+								class="justify-start text-left"
+								onclick={() => {
+									$input = question;
+									// handleSubmit(new Event('submit'));
+								}}
+							>
+								{question}
+							</Button>
+						{/each}
+					</div>
+				</Card.Content>
+			</Card.Root>
 		</div>
 	{/if}
 
@@ -148,7 +185,7 @@
 						<!-- loading spinner -->
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" disabled={true} variant={'outline'}>
+								<Button size="icon" variant={'outline'}>
 									<div
 										class="border-primary size-4 animate-spin rounded-full border-2 border-t-transparent"
 									></div>
@@ -178,7 +215,7 @@
 						target="_blank"
 						class={buttonVariants({ variant: 'secondary', size: 'sm' })}
 					>
-						View PDF</a
+						Open PDF in a new tab</a
 					>
 				</div>
 			</div>

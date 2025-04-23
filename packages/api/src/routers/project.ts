@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
-import { embeddingsManager } from '@repo/agent';
+import { embeddingsManager, generatePdfMetadata } from '@repo/agent';
 
 export const projectRouter = createRouter({
   delete: protectedProcedure
@@ -276,6 +276,7 @@ export const projectRouter = createRouter({
   createFileNote: publicProcedure
     .input(z.object({ fileUrl: z.string(), filename: z.string(), projectId: z.number(), userId: z.number() }))
     .mutation(async ({ input }) => {
+      // 1. insert (filename, file url) into the note table
       const result = await db
         .insert(noteTable)
         .values({
@@ -290,9 +291,14 @@ export const projectRouter = createRouter({
         })
         .returning({ id: noteTable.id });
 
-      // create embeddings for image/pdf
+      // 2. create embeddings for image/pdf
       if (input.filename.endsWith(".pdf")) {
-        await embeddingsManager.insertPDF(input.fileUrl, result[0]!.id);
+        await Promise.all([
+          embeddingsManager.insertPDF(input.fileUrl, result[0]!.id),
+
+          // 3. for PDFs, we also want to generate summary + suggested questions
+          generatePdfMetadata(input.fileUrl, result[0]!.id)
+        ]);
       } else {
         await embeddingsManager.insertImage(input.fileUrl, result[0]!.id);
       }
