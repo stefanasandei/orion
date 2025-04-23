@@ -10,7 +10,8 @@ import {
   AnyPgColumn,
   primaryKey,
   pgEnum,
-  index
+  index,
+  vector
 } from 'drizzle-orm/pg-core';
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
@@ -277,7 +278,23 @@ export const noteTable = pgTable('note', {
   ],
 );
 
-// TODO(agent): embeddings table
+export const embeddingsTable = pgTable("embeddings", {
+  id: serial('id').primaryKey(),
+  noteId: integer('note_id')
+    .notNull()
+    .references(() => noteTable.id, { onDelete: 'cascade' }),
+
+  content: text('content').notNull(),
+
+  embedding: vector('embedding', { dimensions: 1536 }).notNull(),
+},
+  table => [
+    index('embeddingIndex').using(
+      'hnsw',
+      table.embedding.op('vector_cosine_ops'),
+    ),
+  ],
+)
 
 export const notesRelationshipTable = pgTable('notes_relationship', {
   parentId: integer('parent_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),
@@ -365,7 +382,8 @@ export const noteRelations = relations(noteTable, ({ one, many }) => ({
     references: [noteTable.id],
     relationName: 'note_parent'
   }),
-  tags: many(noteTagsTable)
+  tags: many(noteTagsTable),
+  embeddings: many(embeddingsTable)
 }));
 
 export const noteTagsRelations = relations(noteTagsTable, ({ one }) => ({
@@ -399,6 +417,13 @@ export const tagRelations = relations(tagTable, ({ one, many }) => ({
   projects: many(projectTagsTable)
 }));
 
+export const embeddingsRelations = relations(embeddingsTable, ({ one }) => ({
+  note: one(noteTable, {
+    fields: [embeddingsTable.noteId],
+    references: [noteTable.id]
+  }),
+}));
+
 // Types
 export type User = InferSelectModel<typeof userTable>;
 export type Session = InferSelectModel<typeof sessionTable>;
@@ -413,3 +438,4 @@ export type ProjectPost = InferSelectModel<typeof projectPostTable>;
 export type Comment = InferSelectModel<typeof commentTable>;
 export type NoteTag = InferSelectModel<typeof noteTagsTable>;
 export type ProjectTag = InferSelectModel<typeof projectTagsTable>;
+export type Embedding = InferSelectModel<typeof embeddingsTable>;

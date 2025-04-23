@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
+import { embeddingsManager } from '@repo/agent';
 
 export const projectRouter = createRouter({
   delete: protectedProcedure
@@ -252,11 +253,9 @@ export const projectRouter = createRouter({
   createQuickNote: protectedProcedure
     .input(z.object({ content: z.string(), type: z.enum(["thought", "task", "newsfeed"]) }))
     .mutation(async ({ input, ctx }) => {
-      // TODO(agent): create embeddings for note
-
       // used to create a note, which is not accessible in the editor
       // aka a quick-thought, a todo task, or an item on the news feed
-      return await db
+      const result = await db
         .insert(noteTable)
         .values({
           name: input.content,
@@ -266,14 +265,18 @@ export const projectRouter = createRouter({
           textContent: "",
           jsonContent: "",
           htmlContent: "",
-        });
+        })
+        .returning({ id: noteTable.id });
+
+      // generate embeddings and add them to the db
+      await embeddingsManager.upsert(input.content, result[0]!.id);
+
+      return result;
     }),
   createFileNote: publicProcedure
     .input(z.object({ fileUrl: z.string(), filename: z.string(), projectId: z.number(), userId: z.number() }))
     .mutation(async ({ input }) => {
-      // TODO(agent): create embeddings for image/pdf
-
-      return await db
+      const result = await db
         .insert(noteTable)
         .values({
           name: input.filename,
@@ -284,13 +287,24 @@ export const projectRouter = createRouter({
           textContent: input.fileUrl,
           jsonContent: "",
           htmlContent: "",
-        });
+        })
+        .returning({ id: noteTable.id });
+
+      // create embeddings for image/pdf
+      if (input.filename.endsWith(".pdf")) {
+        await embeddingsManager.insertPDF(input.fileUrl, result[0]!.id);
+      } else {
+        await embeddingsManager.insertImage(input.fileUrl, result[0]!.id);
+      }
+
+      return result;
     }),
 
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .mutation(async ({ input, ctx }) => {
-      // TODO(agent): delete embeddings
+      // delete the embeddings from the database
+      await embeddingsManager.delete(input.noteId);
 
       return await db
         .delete(noteTable)
@@ -371,7 +385,8 @@ export const projectRouter = createRouter({
   saveNote: protectedProcedure
     .input(z.object({ noteId: z.number(), textContent: z.string(), jsonContent: z.string(), htmlContent: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      // TODO(agent): update embeddings for documents
+      // update embeddings for documents
+      await embeddingsManager.upsert(input.textContent, input.noteId);
 
       return await db
         .update(noteTable)
@@ -387,7 +402,8 @@ export const projectRouter = createRouter({
   updateQuickNote: protectedProcedure
     .input(z.object({ noteId: z.number(), content: z.string(), tags: z.array(z.object({ id: z.number() })) }))
     .mutation(async ({ input, ctx }) => {
-      // TODO(agent): update embeddings for notes
+      //  update embeddings for notes
+      await embeddingsManager.upsert(input.content, input.noteId);
 
       await db.transaction(async (tx) => {
         // 1. update note contents

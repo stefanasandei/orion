@@ -30,6 +30,7 @@
 		"ai": "^4.1.46",
 		"arctic": "^3.2.1",
 		"cheerio": "^1.0.0",
+		"cohere-ai": "^7.17.1",
 		"dotenv": "^16.4.7",
 		"drizzle-orm": "^0.38.3",
 		"formsnap": "^2.0.0",
