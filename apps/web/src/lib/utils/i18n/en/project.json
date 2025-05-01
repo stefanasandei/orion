@@ -80,5 +80,8 @@
 		"posted_by": "posted by",
 		"comments": "Comments",
 		"post": "Post"
-	}
+	},
+	"pdf_chat": "Chat with PDF",
+	"download": "Download document",
+	"url_copied": "Document URL copied!"
 }

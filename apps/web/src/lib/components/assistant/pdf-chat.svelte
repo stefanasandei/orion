@@ -184,7 +184,7 @@
 								</Button>
 							</Tooltip.Trigger>
 							<Tooltip.Content>
-								<p>Send message</p>
+								<p>{$t('dashboard.assistant_page.send_msg')}</p>
 							</Tooltip.Content>
 						</Tooltip.Root>
 					{:else if $status == 'submitted'}
@@ -198,7 +198,7 @@
 								</Button>
 							</Tooltip.Trigger>
 							<Tooltip.Content>
-								<p>Loading...</p>
+								<p>{$t('dashboard.assistant_page.loading')}</p>
 							</Tooltip.Content>
 						</Tooltip.Root>
 					{:else if $status == 'streaming'}
@@ -208,7 +208,7 @@
 								<Button size="icon" onclick={() => stop()} variant={'outline'}><Square /></Button>
 							</Tooltip.Trigger>
 							<Tooltip.Content>
-								<p>Stop generation</p>
+								<p>{$t('dashboard.assistant_page.stop')}</p>
 							</Tooltip.Content>
 						</Tooltip.Root>
 					{:else}
@@ -218,7 +218,7 @@
 								<Button size="icon" variant={'destructive'}><Icons.close /></Button>
 							</Tooltip.Trigger>
 							<Tooltip.Content>
-								<p>{$status}. Please refresh page</p>
+								<p>{$status}. {$t('dashboard.assistant_page.refresh')}</p>
 							</Tooltip.Content>
 						</Tooltip.Root>
 					{/if}
@@ -231,8 +231,8 @@
 						target="_blank"
 						class={buttonVariants({ variant: 'secondary', size: 'sm' })}
 					>
-						Open PDF in a new tab</a
-					>
+						{$t('dashboard.assistant_page.open_tab')}
+					</a>
 				</div>
 			</div>
 		</div>

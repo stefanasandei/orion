@@ -94,7 +94,7 @@
 						</a>
 					</Tooltip.Trigger>
 					<Tooltip.Content>
-						<p>Chat with PDF</p>
+						<p>{$t('project.pdf_chat')}</p>
 					</Tooltip.Content>
 				</Tooltip.Root>
 
@@ -105,7 +105,7 @@
 						</Button>
 					</Tooltip.Trigger>
 					<Tooltip.Content>
-						<p>Download document</p>
+						<p>{$t('project.download')}</p>
 					</Tooltip.Content>
 				</Tooltip.Root>
 			{/if}

@@ -55,7 +55,7 @@
 			class="hover:cursor-pointer"
 			onclick={() => {
 				navigator.clipboard.writeText(`${PUBLIC_WEBSITE_URL}${noteURL}`);
-				toast('Document URL copied!');
+				toast($t('project.url_copied'));
 			}}>{$t('project.share')}</ContextMenu.Item
 		>
 

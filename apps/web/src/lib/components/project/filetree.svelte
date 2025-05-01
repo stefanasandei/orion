@@ -62,7 +62,7 @@
 		},
 		onUploadProgress: (p) => (uploadProgress = p),
 		onClientUploadComplete: async (res) => {
-			toast.success('Upload Completed');
+			toast.success($t('dashboard.upload_done'));
 
 			addNewFile = false;
 			uploadProgress = 0;
@@ -71,7 +71,7 @@
 			await invalidateAll();
 		},
 		onUploadError: (error: Error) => {
-			toast.error(`ERROR! ${error.message}`);
+			toast.error(error.message);
 		}
 	});
 </script>

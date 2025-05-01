@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
+	import { t } from '@/utils/i18n/translations';
 
 	// @ts-ignore
 	import { hasAIEnabled } from '@repo/api/enabled-ai';
@@ -19,7 +20,7 @@
 	if (!hasAIEnabled(userId)) {
 		$state = 'landing';
 
-		toast.error('AI features not enabled for your account.');
+		toast.error($t('dashboard.ai_not_enabled'));
 		goto('/');
 	}
 </script>

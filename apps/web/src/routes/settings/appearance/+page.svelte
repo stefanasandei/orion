@@ -25,13 +25,13 @@
 	let newTagName = $state('');
 	const addTag = trpc().user.addTag.createMutation({
 		onSuccess: async () => {
-			toast.success('Tag added!');
+			toast.success($t('dashboard.tag_added'));
 			await invalidateAll();
 		}
 	});
 	const removeTag = trpc().user.removeTag.createMutation({
 		onSuccess: async () => {
-			toast.success('Tag deleted!');
+			toast.success($t('dashboard.tag_deleted'));
 			await invalidateAll();
 		}
 	});

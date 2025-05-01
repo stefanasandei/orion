@@ -36,7 +36,7 @@
 		validators: zodClient(formSchema),
 		dataType: 'json',
 		onUpdated: async () => {
-			toast.success('Note updated!');
+			toast.success($t('dashboard.note_updated'));
 
 			await goto('/thoughts');
 		},

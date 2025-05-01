@@ -92,7 +92,14 @@
 			"you": "You",
 			"assistant": "Assistant",
 			"input_placeholder": "Type a message..."
-		}
+		},
+		"refresh": "Please refresh page",
+		"open_tab": "Open PDF in a new tab",
+		"send_msg": "Send message",
+		"loading": "Loading...",
+		"stop": "Stop generation",
+		"copied": "Content copied to clipboard!",
+		"tool_call": "calling tool"
 	},
 	"profile": {
 		"title": "Profile",
@@ -132,5 +139,13 @@
 	"suggested": "Suggested Questions",
 	"suggested_desc": "Click any question to start the conversation",
 	"public_project": "Public project",
-	"public_project_desc": "Anyone can read a public project. Users will be able to access, share and leave comments."
+	"public_project_desc": "Anyone can read a public project. Users will be able to access, share and leave comments.",
+	"upload_started": "Upload started",
+	"upload_failed": "Upload failed",
+	"upload_select": "Please select files first",
+	"upload_done": "Upload completed successfully",
+	"note_updated": "Note updated!",
+	"tag_added": "Tag added!",
+	"tag_deleted": "Tag deleted!",
+	"ai_not_enabled": "AI features not enabled for your account."
 }

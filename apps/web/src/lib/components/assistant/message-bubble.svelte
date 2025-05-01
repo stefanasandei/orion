@@ -57,7 +57,7 @@
 					</p>
 				{:else if part.type === 'tool-invocation'}
 					<span class="font-light">
-						{'calling tool: ' + msg.toolInvocations?.[0].toolName}
+						{`${$t('dashboard.assistant_page.copied')}: ` + msg.toolInvocations?.[0].toolName}
 					</span>
 				{/if}
 			{/each}
@@ -73,7 +73,7 @@
 			size="sm"
 			onclick={() => {
 				navigator.clipboard.writeText(message.content);
-				toast.success('Content copied to clipboard!', {
+				toast.success($t('dashboard.assistant_page.copied'), {
 					position: 'bottom-right'
 				});
 			}}
@@ -92,7 +92,7 @@
 			size="sm"
 			onclick={() => {
 				navigator.clipboard.writeText(message.content);
-				toast.success('Content copied to clipboard!', {
+				toast.success($t('dashboard.assistant_page.copied'), {
 					position: 'bottom-right'
 				});
 			}}

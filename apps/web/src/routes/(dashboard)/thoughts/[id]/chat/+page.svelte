@@ -26,7 +26,7 @@
 	const userInput = writable(prompt ?? '');
 
 	if (!hasAIEnabled(_data.user.session!.userId) || _data.user.session == undefined) {
-		toast.error('AI features not enabled for your account.');
+		toast.error($t('dashboard.ai_not_enabled'));
 		goto('/');
 	}
 </script>

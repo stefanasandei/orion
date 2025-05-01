@@ -33,11 +33,11 @@
 
 		onUploadBegin: () => {
 			isUploading = true;
-			toast('Upload started');
+			toast($t('dashboard.upload_started'));
 		},
 		onUploadProgress: (p) => (uploadProgress = p),
 		onClientUploadComplete: async () => {
-			toast.success('Upload completed successfully');
+			toast.success($t('dashboard.upload_done'));
 
 			uploadProgress = 0;
 			isUploading = false;
@@ -47,13 +47,13 @@
 		},
 		onUploadError: (error: Error) => {
 			isUploading = false;
-			toast.error(`Upload failed: ${error.message}`);
+			toast.error(`${$t('dashboard.upload_failed')}: ${error.message}`);
 		}
 	});
 
 	function handleUpload() {
 		if (uploadData.accepted.length === 0) {
-			toast.error('Please select files first');
+			toast.error($t('dashboard.upload_select'));
 			return;
 		}
 
