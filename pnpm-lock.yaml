@@ -87,9 +87,6 @@ importers:
       drizzle-orm:
         specifier: ^0.38.3
         version: 0.38.4(@neondatabase/serverless@0.10.4)(react@19.0.0)
-      exa-js:
-        specifier: ^1.6.13
-        version: 1.6.13
       formsnap:
         specifier: ^2.0.0
         version: 2.0.0(svelte@5.20.1)(sveltekit-superforms@2.23.1)

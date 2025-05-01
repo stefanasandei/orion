@@ -13,6 +13,10 @@
 	import DeleteWorkspace from '@/components/settings/delete-workspace.svelte';
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
+	import { Switch } from '@/components/ui/switch';
+
+	// @ts-ignore
+	import { hasAIEnabled } from '@repo/api/enabled-ai';
 
 	// component props
 	let {
@@ -22,7 +26,7 @@
 	} = $props();
 
 	const user = data.user.user!;
-	1;
+
 	// utility functions
 	const sendConfirmationEmail = trpc().user.sendConfirmationEmail.createMutation({
 		onSuccess: () => {
@@ -37,12 +41,11 @@
 
 	// Initialize as loading to prevent flash of enabled state
 	let cooldownCalculated = $state(false);
-	~(
-		// Once mounted, calculate cooldown state
-		onMount(() => {
-			cooldownCalculated = true;
-		})
-	);
+
+	// Once mounted, calculate cooldown state
+	onMount(() => {
+		cooldownCalculated = true;
+	});
 
 	const timeRemaining = $derived(
 		Math.max(0, $lastVerificationEmailSent + COOLDOWN_MS - Date.now())
@@ -222,7 +225,7 @@
 	</div>
 
 	<!-- Preferences Section -->
-	<div class="rounded-lg border-2 p-6">
+	<div class="space-y-8 rounded-lg border-2 p-6">
 		<div class="mb-6 flex items-center gap-2">
 			<h2 class="text-2xl font-semibold">{$t('settings.preferences')}</h2>
 		</div>
@@ -236,6 +239,23 @@
 				</div>
 
 				<LangPicker />
+			</div>
+		</div>
+
+		<div class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all">
+			<div class="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
+				<div class="space-y-1">
+					<div class="flex items-center gap-2">
+						<Label class="text-lg">{'Enable AI features'}</Label>
+						<span
+							class="bg-muted text-muted-foreground inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+						>
+							{'requires payment'}
+						</span>
+					</div>
+				</div>
+
+				<Switch checked={hasAIEnabled(user.intern.id)} disabled={true} />
 			</div>
 		</div>
 	</div>

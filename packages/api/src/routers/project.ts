@@ -5,6 +5,7 @@ import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
 import { embeddingsManager, generatePdfMetadata } from '@repo/agent';
+import { hasAIEnabled } from "../enabled-ai"
 
 export const projectRouter = createRouter({
   delete: protectedProcedure
@@ -292,6 +293,10 @@ export const projectRouter = createRouter({
         .returning({ id: noteTable.id });
 
       // 2. create embeddings for image/pdf
+      if (!hasAIEnabled(input.userId)) {
+        return result;
+      }
+
       if (input.filename.endsWith(".pdf")) {
         await Promise.all([
           embeddingsManager.insertPDF(input.fileUrl, result[0]!.id),

@@ -6,6 +6,11 @@
 	import PDFChat from '@/components/assistant/pdf-chat.svelte';
 	import { writable } from 'svelte/store';
 	import { page } from '$app/state';
+	import { toast } from 'svelte-sonner';
+	import { goto } from '$app/navigation';
+
+	// @ts-ignore
+	import { hasAIEnabled } from '@repo/api/enabled-ai';
 
 	let {
 		data: _data
@@ -19,6 +24,11 @@
 
 	const prompt = page.url.searchParams.get('prompt');
 	const userInput = writable(prompt ?? '');
+
+	if (!hasAIEnabled(_data.user.session!.userId) || _data.user.session == undefined) {
+		toast.error('AI features not enabled for your account.');
+		goto('/');
+	}
 </script>
 
 <DashboardShell className="h-full flex" pageName={'Edit Thought'} {user}>

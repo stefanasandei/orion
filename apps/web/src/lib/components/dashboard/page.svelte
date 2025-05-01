@@ -120,7 +120,7 @@
 							<Select.Content class="bg-background">
 								<Select.Item value="chat">Chat</Select.Item>
 								<Select.Item value="quick-save">Quick Save</Select.Item>
-								<Select.Item value="search">Search</Select.Item>
+								<!-- <Select.Item value="search">Research</Select.Item> -->
 							</Select.Content>
 						</Select.Root>
 
