@@ -1,5 +1,6 @@
 {
 	"hello": "Hello",
+	"welcome": "Welcome",
 	"usage": "Usage",
 	"workspace_title": "Workspaces",
 	"create_workspace": "Create a workspace",
@@ -13,6 +14,7 @@
 	"notifications": "Notifications",
 	"assistant": "Assistant",
 	"chat": "Chat",
+	"quick_save": "Quick Save",
 	"library": "Library",
 	"browse_content": "Browse content",
 	"projects": "Projects",
@@ -20,6 +22,9 @@
 	"create_new_workspace": "Create a new workspace",
 	"workspace_desc": "Your projects and notes are stored in workspaces.",
 	"name": "Name",
+	"switch_chat": "to switch to Chat",
+	"switch_save": "to switch to Quick Save",
+	"home_cta": "What will you discover today?",
 	"school_work": "School work",
 	"create_workspace_btn": "Create workspace",
 	"create_project": "Create a new project",
@@ -31,6 +36,7 @@
 	"project_created": "Project created successfully",
 	"workspace_created": "Workspace created successfully",
 	"workspace_deleted": "Workspace deleted!",
+	"library_prompt": "Ask your library a question...",
 	"activity": {
 		"today": "Today it's",
 		"tasks_title": "Tasks for today",
@@ -41,6 +47,17 @@
 		"no_news": "no news 👀",
 		"task_created": "Task created successfully",
 		"task_deleted": "Task deleted!"
+	},
+	"upload": {
+		"name": "Upload a new document",
+		"dialog": "Upload a file",
+		"dialog_desc": "The file will be available in your library.",
+		"drag_files": "Drag files here or click to upload",
+		"warning": "Upload any file type (max 10MB per file)",
+		"uploading": "Uploading",
+		"cta": "Upload files",
+		"file_selected": "file selected",
+		"files_selected": "files selected"
 	},
 	"recent_work": {
 		"title": "Recent work",

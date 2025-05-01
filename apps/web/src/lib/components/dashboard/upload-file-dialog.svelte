@@ -9,6 +9,7 @@
 	import { cn } from '@/utils/cn';
 	import { slide } from 'svelte/transition';
 	import * as Dialog from '@/components/ui/dialog';
+	import { t } from '@/utils/i18n/translations';
 
 	type UploadData = {
 		accepted: File[];
@@ -75,16 +76,16 @@
 <Dialog.Root>
 	<Dialog.Trigger class="w-full text-left">
 		<div
-			class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
+			class="bg-accent/50 hover:bg-accent ring-accent/70 h-full min-h-max w-full items-start justify-start space-y-5 rounded-xl p-4 text-left ring-2 transition-all hover:cursor-pointer"
 		>
 			<Upload class="size-5" />
-			<p>Upload a file</p>
+			<p>{$t('dashboard.upload.name')}</p>
 		</div>
 	</Dialog.Trigger>
 	<Dialog.Content class="md:max-w-2xl">
 		<Dialog.Header>
-			<Dialog.Title>Upload a file</Dialog.Title>
-			<Dialog.Description>The file will be available in your library.</Dialog.Description>
+			<Dialog.Title>{$t('dashboard.upload.dialog')}</Dialog.Title>
+			<Dialog.Description>{$t('dashboard.upload.dialog_desc')}</Dialog.Description>
 		</Dialog.Header>
 
 		<div class="mx-4 flex flex-col gap-6">
@@ -101,8 +102,8 @@
 					>
 						<div class="flex flex-col items-center gap-2">
 							<UploadCloud class="text-muted-foreground size-10" />
-							<h3 class="text-lg font-semibold">Drag files here or click to upload</h3>
-							<p class="text-muted-foreground text-sm">Upload any file type (max 10MB per file)</p>
+							<h3 class="text-lg font-semibold">{$t('dashboard.upload.drag_files')}</h3>
+							<p class="text-muted-foreground text-sm">{$t('dashboard.upload.warning')}</p>
 						</div>
 					</Dropzone>
 				</div>
@@ -141,7 +142,10 @@
 						{/if}
 						<div class="flex items-center justify-between">
 							<p class="text-muted-foreground text-sm">
-								{uploadData.accepted.length} file{uploadData.accepted.length !== 1 ? 's' : ''} selected
+								{uploadData.accepted.length}
+								{uploadData.accepted.length !== 1
+									? $t('dashboard.upload.files_selected')
+									: $t('dashboard.upload.file_selected')}
 							</p>
 							<Button
 								onclick={handleUpload}
@@ -149,9 +153,9 @@
 								class="min-w-32"
 							>
 								{#if isUploading}
-									Uploading {uploadProgress}%...
+									{$t('dashboard.upload.uploading')} {uploadProgress}%...
 								{:else}
-									Upload files
+									{$t('dashboard.upload.cta')}
 								{/if}
 							</Button>
 						</div>

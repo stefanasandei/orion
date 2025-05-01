@@ -1,15 +1,5 @@
 <script lang="ts">
-	import {
-		Brain,
-		BrainCircuit,
-		ChartColumn,
-		File,
-		FileSearch,
-		Link,
-		Plus,
-		Settings,
-		Upload
-	} from 'lucide-svelte';
+	import { BrainCircuit, Plus, Settings } from 'lucide-svelte';
 	import { Input } from '@/components/ui/input';
 	import { Button } from '@/components/ui/button';
 	import { t } from '@/utils/i18n/translations';
@@ -38,7 +28,11 @@
 	// quick save - save a "quick thought" to the database, chat - redirect to /assistant with the prompt
 	// search - use universal search api to query the knowledge base
 	let queryType = $state<'chat' | 'quick-save' | 'search'>('quick-save');
-	let query2text = { chat: 'Chat', 'quick-save': 'Quick Save', search: 'Search' };
+	let query2text = {
+		chat: $t('dashboard.chat'),
+		'quick-save': $t('dashboard.quick_save'),
+		search: 'Search'
+	};
 
 	const addNewThought = trpc().project.createQuickNote.createMutation({
 		onSuccess: async () => {
@@ -91,12 +85,12 @@
 		<div class="flex w-full max-w-3xl flex-col justify-center gap-6">
 			<div>
 				<h2 class="text-center text-2xl font-semibold md:text-4xl">
-					Welcome, {metadata.name}!
+					{$t('dashboard.welcome')}, {metadata.name}!
 				</h2>
 				<h3
-					class="text-center text-xl font-semibold text-neutral-600 md:text-4xl dark:text-neutral-400"
+					class="text-center text-xl font-semibold text-neutral-500 md:text-4xl dark:text-neutral-300"
 				>
-					{'What will you discover today?'}
+					{$t('dashboard.home_cta')}
 				</h3>
 			</div>
 
@@ -108,7 +102,7 @@
 					onkeydown={handleTextareaKeydown}
 					bind:value={input}
 					class="bg-accent/0 flex-1 resize-none border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-					placeholder={'Ask your library a question...'}
+					placeholder={$t('dashboard.library_prompt')}
 				/>
 
 				<div class="-mb-0 flex flex-row items-center justify-between">
@@ -118,8 +112,8 @@
 								>{query2text[queryType]}</Select.Trigger
 							>
 							<Select.Content class="bg-background">
-								<Select.Item value="chat">Chat</Select.Item>
-								<Select.Item value="quick-save">Quick Save</Select.Item>
+								<Select.Item value="chat">{query2text['chat']}</Select.Item>
+								<Select.Item value="quick-save">{query2text['quick-save']}</Select.Item>
 								<!-- <Select.Item value="search">Research</Select.Item> -->
 							</Select.Content>
 						</Select.Root>
@@ -127,12 +121,12 @@
 						{#if queryType == 'quick-save'}
 							<p class="text-muted-foreground text-sm">
 								<CommandShortcut>⌘ C</CommandShortcut>
-								to switch to Chat
+								{$t('dashboard.switch_chat')}
 							</p>
 						{:else}
 							<p class="text-muted-foreground text-sm">
 								<CommandShortcut>⌘ Q</CommandShortcut>
-								to switch to Quick Save
+								{$t('dashboard.switch_save')}
 							</p>
 						{/if}
 					</div>
@@ -144,9 +138,7 @@
 			</form>
 
 			<div class="flex flex-col justify-evenly gap-4 md:flex-row">
-				<div class="w-full">
-					<UploadFileDialog />
-				</div>
+				<UploadFileDialog />
 
 				<CreateProject>
 					{#snippet triggerButtonProp()}
@@ -154,7 +146,7 @@
 							class="bg-accent/50 hover:bg-accent ring-accent/70 w-full items-start justify-start space-y-5 rounded-xl p-4 text-left ring-2 transition-all hover:cursor-pointer"
 						>
 							<Plus class="size-5" />
-							<p>Create a project</p>
+							<p>{$t('dashboard.create_project')}</p>
 						</div>
 					{/snippet}
 				</CreateProject>
@@ -172,7 +164,7 @@
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
 					<Settings class="size-5" />
-					<p>View settings</p>
+					<p>{$t('dashboard.settings')}</p>
 				</a>
 
 				<a
@@ -180,7 +172,7 @@
 					class="bg-accent/50 hover:bg-accent ring-accent/70 w-full space-y-5 rounded-xl p-4 ring-2 transition-all hover:cursor-pointer"
 				>
 					<BrainCircuit class="size-5" />
-					<p>Library</p>
+					<p>{$t('dashboard.library')}</p>
 				</a>
 			</div>
 		</div>
