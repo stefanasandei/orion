@@ -52,9 +52,9 @@
 
 					{@render botControls(msg)}
 				{:else if part.type === 'reasoning'}
-					<span class="text-muted-foreground font-light">
+					<p class="text-muted-foreground font-light">
 						{msg.content}
-					</span>
+					</p>
 				{:else if part.type === 'tool-invocation'}
 					<span class="font-light">
 						{'calling tool: ' + msg.toolInvocations?.[0].toolName}

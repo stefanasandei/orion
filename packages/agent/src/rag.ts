@@ -1,6 +1,7 @@
 import { cosineDistance, sql, gt, desc, and, eq } from "drizzle-orm";
 import { embeddingsManager } from "./embeddings"
 import { db, embeddingsTable } from "@repo/db";
+import Exa from 'exa-js';
 
 export const findRelevantContent = async (userQuery: string, noteId?: number) => {
     // 1. get search query
@@ -26,4 +27,19 @@ export const findRelevantContent = async (userQuery: string, noteId?: number) =>
 
     console.log(similarContent);
     return similarContent;
+}
+
+export const searchWeb = async (query: string) => {
+    const EXA_API_KEY = process.env["EXA_API_KEY"];
+    if (EXA_API_KEY === undefined) return [];
+
+    const exa = new Exa(EXA_API_KEY);
+
+    const results = await exa.searchAndContents(
+        query,
+        { text: true, type: 'keyword', numResults: 2 }
+    );
+
+    console.log(results);
+    return results;
 }

@@ -77,7 +77,7 @@
 		</div>
 
 		<div class="flex flex-none shrink-0 flex-row items-center gap-2">
-			{#if activeNote.name.endsWith('.pdf')}
+			{#if activeNote && activeNote.name.endsWith('.pdf')}
 				<Tooltip.Root>
 					<Tooltip.Trigger>
 						<a
