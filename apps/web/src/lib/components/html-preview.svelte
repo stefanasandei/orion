@@ -50,15 +50,26 @@
 		} catch {}
 	}
 
+	function renderReasoning(content: string): string {
+		content = content.replace('<think>', "<div class='text-muted-foreground font-light'>");
+		content = content.replace('</think>', '</div>');
+
+		return content;
+	}
+
 	// update the container's inner HTML whenever htmlContent changes.
 	$effect(() => {
 		const _container = untrack(() => container);
 		if (_container) {
-			const html = sanitizeHtml(htmlContent, {
+			const content = renderReasoning(htmlContent);
+
+			const html = sanitizeHtml(content, {
 				// allowedTags: false,
 				allowedAttributes: false
 			});
+
 			_container.innerHTML = renderMath(html);
+			_container.innerHTML = renderReasoning(_container.innerHTML);
 
 			highlightCode(_container);
 		}

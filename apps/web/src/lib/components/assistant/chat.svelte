@@ -10,6 +10,7 @@
 	import { Brain, FileSearch, Square } from 'lucide-svelte';
 	import * as Tooltip from '@/components/ui/tooltip';
 	import { trpc } from '../../utils/trpc/client';
+	import { toast } from 'svelte-sonner';
 
 	export let userInput: Writable<string>;
 	export let userId: number;
@@ -21,7 +22,7 @@
 	const trackUsage = trpc().user.trackUsage.createMutation();
 
 	const { input, handleSubmit, messages, status, stop } = useChat({
-		// api: '/api/chat/rag',
+		api: `/api/chat/`,
 
 		onFinish: (_, options) => {
 			$trackUsage.mutate({
@@ -29,7 +30,14 @@
 				completionTokens: options.usage.completionTokens,
 				promptTokens: options.usage.promptTokens
 			});
-		}
+		},
+
+		onError: (error) => {
+			toast.error(error.message);
+			console.log(error);
+		},
+
+		maxSteps: 5
 	});
 
 	// Auto-send user input from landing
@@ -138,7 +146,7 @@
 						<!-- loading spinner -->
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" variant={'outline'}>
+								<Button size="icon" onclick={() => stop()} variant={'outline'}>
 									<div
 										class="border-primary size-4 animate-spin rounded-full border-2 border-t-transparent"
 									></div>
@@ -156,6 +164,16 @@
 							</Tooltip.Trigger>
 							<Tooltip.Content>
 								<p>Stop generation</p>
+							</Tooltip.Content>
+						</Tooltip.Root>
+					{:else}
+						<!-- error button -->
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								<Button size="icon" variant={'destructive'}><Icons.close /></Button>
+							</Tooltip.Trigger>
+							<Tooltip.Content>
+								<p>{$status}. Please refresh page</p>
 							</Tooltip.Content>
 						</Tooltip.Root>
 					{/if}

@@ -14,17 +14,16 @@ export const findRelevantContent = async (userQuery: string, noteId?: number) =>
 
     const requireNote = noteId ? eq(embeddingsTable.noteId, noteId) : sql`true`;
 
-    const similarGuides = await db
+    const similarContent = await db
         .select({ name: embeddingsTable.content, similarity })
         .from(embeddingsTable)
         .where(
-            // embeddings with a cos similarity > 0.5 and from that respective note (pdf)
+            // embeddings with a cos similarity > 0.0 and from that respective note (pdf)
             and(gt(similarity, 0.0), requireNote)
-            // todo: should be 0.5, look into this 
         )
         .orderBy(t => desc(t.similarity))
         .limit(2);
 
-    console.log(similarGuides);
-    return similarGuides;
+    console.log(similarContent);
+    return similarContent;
 }

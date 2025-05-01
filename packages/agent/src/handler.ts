@@ -24,12 +24,14 @@ export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]
         // @ts-ignore Type mismatch between ai and @ai-sdk/provider versions
         model: model,
         messages: messages,
-        system: `You are a helpful assistant. You have access to a PDF document.
+        system: `You are a helpful assistant. You have access to a knowledge base (user related information and their PDF documents).
         Only respond to questions using information from tool calls.
-        if no relevant information is found in the tool calls, respond, "Sorry, I don't know."`,
+        Not all relevant information provided may aid you, if you do not find it useful, just ignore it.`,
+        // if no relevant information is found in the tool calls, respond, "Sorry, I don't know."
+
         tools: {
-            getInformation: tool({
-                description: `get information from the PDF document to answer questions.`,
+            fetchKnowledgeBase: tool({
+                description: `get information from a PDF document or the user's knowledge base to answer questions.`,
                 parameters: z.object({
                     question: z.string().describe('the users question'),
                 }),

@@ -7,7 +7,10 @@ export interface LLMChatConfig {
 
 export const createLLM = (_config: LLMChatConfig = { production: false }) => {
     if (_config.production == false) {
-        return ollama("smollm2:135m")
+        console.log("Using Ollama.");
+        return ollama("qwen3:4b", {
+            simulateStreaming: true
+        })
     }
 
     const openrouter = createOpenAICompatible({

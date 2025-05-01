@@ -6,14 +6,9 @@
 	import { Icons } from '../icons.svelte';
 	import { toast } from 'svelte-sonner';
 	import { parse } from 'marked';
+	import type { UIMessage } from 'ai';
 
-	type Message = {
-		role: 'user' | 'assistant' | 'data' | 'system';
-		content: string;
-		toolInvocations?: { toolName: string }[];
-	};
-
-	export let msg: Message;
+	export let msg: UIMessage;
 	export let isStreaming: boolean;
 
 	$: cachedHtml = new Map();
@@ -50,21 +45,27 @@
 	</div>
 {:else}
 	<div class="flex justify-start">
-		<div class="group relative w-full max-w-full break-words">
-			{#if msg.content.length > 0}
-				<HtmlPreview htmlContent={renderHtml(msg.content)} />
+		<div class="group relative w-full max-w-full space-y-2 break-words">
+			{#each msg.parts as part}
+				{#if part.type === 'text'}
+					<HtmlPreview htmlContent={renderHtml(msg.content)} />
 
-				{@render botControls(msg)}
-			{:else}
-				<span class="font-light">
-					{'calling tool: ' + msg.toolInvocations?.[0].toolName}
-				</span>
-			{/if}
+					{@render botControls(msg)}
+				{:else if part.type === 'reasoning'}
+					<span class="text-muted-foreground font-light">
+						{msg.content}
+					</span>
+				{:else if part.type === 'tool-invocation'}
+					<span class="font-light">
+						{'calling tool: ' + msg.toolInvocations?.[0].toolName}
+					</span>
+				{/if}
+			{/each}
 		</div>
 	</div>
 {/if}
 
-{#snippet userControls(message: Message)}
+{#snippet userControls(message: UIMessage)}
 	<div
 		class="absolute right-0 mt-5 flex items-center gap-1 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 group-focus:opacity-100"
 	>
@@ -83,7 +84,7 @@
 	</div>
 {/snippet}
 
-{#snippet botControls(message: Message)}
+{#snippet botControls(message: UIMessage)}
 	<div
 		class="absolute left-0 -ml-0.5 mt-2 flex items-center gap-1 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 group-focus:opacity-100"
 	>
