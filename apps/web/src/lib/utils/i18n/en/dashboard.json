@@ -12,6 +12,8 @@
 	"appearance": "Appearance",
 	"notifications": "Notifications",
 	"assistant": "Assistant",
+	"chat": "Chat",
+	"library": "Library",
 	"browse_content": "Browse content",
 	"projects": "Projects",
 	"no_projects": "Click '+' to create a new project!",
@@ -55,9 +57,11 @@
 		"name": "Search",
 		"button": "Search through your work",
 		"title": "Search through your work",
-		"placeholder": "search for anything...",
+		"placeholder": "Search for anything...",
 		"ask": "Ask",
-		"empty": "try searching for something!"
+		"empty": "No results. Please try another query.",
+		"results": "Search results",
+		"pages_heading": "Pages - quick navigation"
 	},
 	"assistant_page": {
 		"landing": {

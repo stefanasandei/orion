@@ -19,6 +19,7 @@
 	import { Debounced } from 'runed';
 	import LoadingSpinner from '../loading-spinner.svelte';
 	import { goto } from '$app/navigation';
+	import { t } from '@/utils/i18n/translations';
 
 	let open = $state(false);
 	let search = $state('');
@@ -67,11 +68,11 @@
 </MenuButton>
 
 <Command.Dialog shouldFilter={false} class="w-full" bind:open>
-	<Command.Input placeholder="Type a command or search..." bind:value={search} />
+	<Command.Input placeholder={$t('dashboard.search.placeholder')} bind:value={search} />
 	<Command.List class="h-full max-h-max w-full">
 		{#if debounced.current.length > 0}
 			{#if !$searchResults.isLoading}
-				<Command.Group heading="Search results">
+				<Command.Group heading={$t('dashboard.search.results')}>
 					{#if $searchResults.data && $searchResults.data.length > 0}
 						{#each $searchResults.data as result}
 							<Command.Item
@@ -119,7 +120,7 @@
 						<Command.Item
 							disabled={true}
 							class="text-foreground flex w-full items-center text-center"
-							>No results. Please try another query.</Command.Item
+							>{$t('dashboard.search.empty')}</Command.Item
 						>
 					{/if}
 				</Command.Group>
@@ -145,25 +146,25 @@
 				</Command.Item>
 			</Command.Group> -->
 			<Command.Separator />
-			<Command.Group heading="Pages - quick navigation">
+			<Command.Group heading={$t('dashboard.search.pages_heading')}>
 				<Command.Item onclick={() => goto('/thoughts')}>
 					<BrainCircuit />
-					<span>Library</span>
+					<span>{$t('dashboard.library')}</span>
 					<Command.Shortcut>⌘ 1</Command.Shortcut>
 				</Command.Item>
 				<Command.Item onclick={() => goto('/')}>
 					<Home />
-					<span>Dashboard</span>
+					<span>{$t('dashboard.home')}</span>
 					<Command.Shortcut>⌘ 2</Command.Shortcut>
 				</Command.Item>
 				<Command.Item onclick={() => goto('/settings')}>
 					<Settings />
-					<span>Settings</span>
+					<span>{$t('dashboard.settings')}</span>
 					<Command.Shortcut>⌘ 3</Command.Shortcut>
 				</Command.Item>
 				<Command.Item onclick={() => goto('/assistant')}>
 					<Sparkles />
-					<span>Chat</span>
+					<span>{$t('dashboard.chat')}</span>
 					<Command.Shortcut>⌘ 4</Command.Shortcut>
 				</Command.Item>
 			</Command.Group>

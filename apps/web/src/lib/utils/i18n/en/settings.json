@@ -64,5 +64,6 @@
 	"appearance_text": "Customize your experience",
 	"usage_desc": "How much resources you have used on our platform.",
 	"input_tokens": "Input tokens",
-	"output_tokens": "Output Tokens"
+	"output_tokens": "Output Tokens",
+	"file_size": "Total File Size"
 }
