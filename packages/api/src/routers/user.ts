@@ -394,5 +394,13 @@ export const userRouter = createRouter({
                     eq(conversationTable.userId, ctx.session.userId),
                     eq(conversationTable.id, input.id)
                 ));
+        }),
+    getConversations: protectedProcedure
+        .query(async ({ ctx }) => {
+            return await db.select({ id: conversationTable.id, name: conversationTable.name })
+                .from(conversationTable)
+                .where(
+                    eq(conversationTable.userId, ctx.session.userId)
+                );
         })
 })
