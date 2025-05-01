@@ -31,7 +31,7 @@
 	}
 </script>
 
-<DashboardShell className="h-full flex" pageName={'Edit Thought'} {user}>
+<DashboardShell className="h-full flex" pageName={$t('dashboard.lib.edit_thought')} {user}>
 	<div class="flex h-full w-full flex-1 flex-col">
 		<PDFChat {userInput} userId={user.session?.userId!} {thought} />
 	</div>

@@ -7,6 +7,7 @@
 	import { BotMessageSquare, Pen } from 'lucide-svelte';
 	import { Icons } from '../icons.svelte';
 	import DeleteNote from '../project/delete-note.svelte';
+	import { t } from '@/utils/i18n/translations';
 
 	interface Props {
 		thought: Note & { tags: { tagId: number; tag: { name: string } }[] };
@@ -32,7 +33,7 @@
 			<div class="w-full overflow-x-auto">
 				<div class="flex flex-row justify-between">
 					<span class="text-foreground text-xl">{thought.name}</span>
-					<Badge variant={'default'}>File</Badge>
+					<Badge variant={'default'}>{$t('dashboard.lib.file')}</Badge>
 				</div>
 
 				{#if isImage(thought.name)}

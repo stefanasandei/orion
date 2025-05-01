@@ -47,7 +47,7 @@
 				{#if item.name.length > 0}
 					{$t('project.delete_note_btn', { default: item.name })}
 				{:else}
-					Delete Note
+					{$t('project.delete_note')}
 				{/if}
 			</AlertDialog.Action>
 		</AlertDialog.Footer>

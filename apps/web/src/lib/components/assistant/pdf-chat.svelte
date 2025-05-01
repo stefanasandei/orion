@@ -102,7 +102,7 @@
 		>
 			<Card.Root>
 				<Card.Header>
-					<Card.Title>Document Overview</Card.Title>
+					<Card.Title>{$t('dashboard.doc_overview')}</Card.Title>
 				</Card.Header>
 				<Card.Content>
 					<p class="text-muted-foreground text-justify">{metadata.summary}</p>
@@ -111,8 +111,8 @@
 
 			<Card.Root class="md:w-full">
 				<Card.Header>
-					<Card.Title>Suggested Questions</Card.Title>
-					<Card.Description>Click any question to start the conversation</Card.Description>
+					<Card.Title>{$t('dashboard.suggested')}</Card.Title>
+					<Card.Description>{$t('dashboard.suggested_desc')}</Card.Description>
 				</Card.Header>
 				<Card.Content>
 					<div class="grid max-w-[80vw] gap-2">

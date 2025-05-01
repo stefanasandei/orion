@@ -15,6 +15,8 @@
 	import { Pen, Clock, CalendarDays } from 'lucide-svelte';
 	import { Badge } from '$base/src/lib/components/ui/badge';
 	import Tag from '$base/src/lib/components/dashboard/tag.svelte';
+	import { formatDate } from '@/utils/datetime';
+	import { language } from '$base/src/lib/utils/state';
 
 	let {
 		data: _data
@@ -29,6 +31,12 @@
 	let cachedHtml = $state<Map<string, string>>(new Map());
 	let deleteDialogOpen = $state(false);
 
+	const date = $derived(
+		language.current != 'en'
+			? formatDate(new Date(thought.createdAt), 'ro-RO')
+			: formatDate(new Date(thought.createdAt))
+	);
+
 	function renderHtml(content: string) {
 		if (cachedHtml.has(content)) {
 			return cachedHtml.get(content)!;
@@ -37,17 +45,6 @@
 		cachedHtml.set(content, rendered);
 		return rendered;
 	}
-
-	const formatDate = (date: Date) => {
-		return new Intl.DateTimeFormat('en-US', {
-			weekday: 'long',
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric'
-		}).format(date);
-	};
 </script>
 
 <DashboardShell pageName={'Thoughts'} {user}>
@@ -60,7 +57,7 @@
 							<div class="space-y-1 pl-2">
 								<div class="flex items-center gap-1 text-xl font-bold tracking-tight">
 									<CalendarDays class="size-6" />
-									<span>Created {formatDate(new Date(thought.createdAt))}</span>
+									<span>{$t('dashboard.lib.created')} {date}</span>
 								</div>
 							</div>
 							<div class="flex gap-2">
@@ -69,7 +66,7 @@
 									class={buttonVariants({ variant: 'outline', class: 'gap-2' })}
 								>
 									<Pen class="size-4" />
-									<span>Edit</span>
+									<span>{$t('dashboard.lib.edit')}</span>
 								</a>
 								<Button
 									onclick={() => {
@@ -79,7 +76,7 @@
 									class="gap-2"
 								>
 									<Icons.delete class="size-4" />
-									<span>Delete</span>
+									<span>{$t('dashboard.lib.delete')}</span>
 								</Button>
 							</div>
 						</div>

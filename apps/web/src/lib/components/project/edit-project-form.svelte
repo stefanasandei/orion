@@ -92,13 +92,11 @@
 		<Form.Field {form} name="tags">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>{'Tags'}</Form.Label>
+					<Form.Label>{$t('dashboard.lib.tags')}</Form.Label>
 					<MultiSelect {...props} bind:selected={$formData.tags} options={tagOptions} name="tags" />
 				{/snippet}
 			</Form.Control>
-			<Form.Description
-				>{'Add a few tags to your project, to find it more easily.'}</Form.Description
-			>
+			<Form.Description>{$t('dashboard.lib.tags_cta')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
@@ -109,17 +107,13 @@
 				{#snippet children({ props })}
 					<div class="flex flex-row items-center gap-4">
 						<Checkbox {...props} bind:checked={$formData.isPublic} />
-						<Form.Label>Public project</Form.Label>
+						<Form.Label>{$t('dashboard.public_project')}</Form.Label>
 					</div>
 				{/snippet}
 			</Form.Control>
-			<Form.Description
-				>Anyone can read a public project. Users will be able to access, share and leave comments.</Form.Description
-			>
+			<Form.Description>{$t('dashboard.public_project_desc')}</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
-
-		<!-- todo: remove tags -->
 
 		<Form.Button>{$t('project.update_btn')}</Form.Button>
 	</form>

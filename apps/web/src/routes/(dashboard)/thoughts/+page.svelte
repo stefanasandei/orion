@@ -211,11 +211,11 @@
 				bind:value={newThought}
 				onkeydown={handleKeyDown}
 				class="bg-card flex-1 resize-none border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-				placeholder="What's on your mind?"
+				placeholder={$t('dashboard.lib.prompt')}
 				rows={3}
 			/>
 			<div class="flex justify-end">
-				<Button onclick={handleSubmit} size="sm">Save Thought</Button>
+				<Button onclick={handleSubmit} size="sm">{$t('dashboard.lib.save')}</Button>
 			</div>
 		</div>
 

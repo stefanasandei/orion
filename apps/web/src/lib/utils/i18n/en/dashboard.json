@@ -103,5 +103,34 @@
 		"published_projects": "Published projects",
 		"comment_added": "Comment added!",
 		"add_comment": "Write a comment..."
-	}
+	},
+	"lib": {
+		"prompt": "What's on your mind?",
+		"save": "Save Thought",
+		"file": "File",
+		"created": "Created",
+		"edit": "Edit",
+		"delete": "Delete",
+		"edit_thought": "Edit Thought",
+		"edit_thought_desc": "Edit your thought content below. Use markdown for formatting.",
+		"preview": "Preview",
+		"tags": "Tags",
+		"tag_desc": "Add a few tags to your note, to find it more easily.",
+		"save_changes": "Save Changes",
+		"last_updated": "Last updated",
+		"back": "Back",
+		"tag_title": "Collection of all items tagged with",
+		"items": "items",
+		"all": "All",
+		"projects": "Projects",
+		"thoughts": "Thoughts",
+		"links": "Links",
+		"files": "Files",
+		"tags_cta": "Add a few tags to your project, to find it more easily."
+	},
+	"doc_overview": "Document Overview",
+	"suggested": "Suggested Questions",
+	"suggested_desc": "Click any question to start the conversation",
+	"public_project": "Public project",
+	"public_project_desc": "Anyone can read a public project. Users will be able to access, share and leave comments."
 }

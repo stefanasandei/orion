@@ -59,12 +59,11 @@
 								>
 									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>
 										<Folder class="text-muted-foreground" />
-										<!-- TODO: i18n -->
-										<span>View Project</span>
+										<span>{$t('project.view')}</span>
 									</DropdownMenu.Item>
 									<DropdownMenu.Item onclick={() => alert(`Not implemented: ${item.id}`)}>
 										<Forward class="text-muted-foreground" />
-										<span>Share Project</span>
+										<span>{$t('project.share')}</span>
 									</DropdownMenu.Item>
 									<DropdownMenu.Separator />
 									<DropdownMenu.Item class="w-full">

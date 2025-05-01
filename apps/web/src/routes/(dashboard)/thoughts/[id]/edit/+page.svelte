@@ -50,23 +50,25 @@
 	const tagOptions = $derived(tags.map((t) => ({ label: t.name, id: t.id })));
 </script>
 
-<DashboardShell className="h-full flex" pageName={'Edit Thought'} {user}>
+<DashboardShell className="h-full flex" pageName={$t('dashboard.lib.edit_thought')} {user}>
 	<div class="mx-auto flex h-full w-full max-w-5xl flex-1 flex-col gap-4">
 		<div class="flex items-center justify-between">
 			<Button variant="ghost" class="gap-2" onclick={() => history.back()}>
 				<ArrowLeft class="h-4 w-4" />
-				Back
+				{$t('dashboard.lib.back')}
 			</Button>
 			<p class="text-muted-foreground text-sm">
-				Last updated: {new Date(thought.updatedAt || thought.createdAt).toLocaleString()}
+				{$t('dashboard.lib.last_updated')}: {new Date(
+					thought.updatedAt || thought.createdAt
+				).toLocaleString()}
 			</p>
 		</div>
 
 		<Card.Root class="flex-1">
 			<Card.Header>
-				<Card.Title class="text-2xl font-bold">Edit Thought</Card.Title>
+				<Card.Title class="text-2xl font-bold">{$t('dashboard.lib.edit_thought')}</Card.Title>
 				<Card.Description>
-					Edit your thought content below. Use markdown for formatting.
+					{$t('dashboard.lib.edit_thought_desc')}
 				</Card.Description>
 			</Card.Header>
 			<Card.Content class="flex h-[calc(100%-6rem)] flex-col space-y-4">
@@ -74,11 +76,11 @@
 					<Tabs.List>
 						<Tabs.Trigger value="edit" class="gap-2">
 							<Pen class="h-4 w-4" />
-							Edit
+							{$t('dashboard.lib.edit')}
 						</Tabs.Trigger>
 						<Tabs.Trigger value="preview" class="gap-2">
 							<Eye class="h-4 w-4" />
-							Preview
+							{$t('dashboard.lib.preview')}
 						</Tabs.Trigger>
 					</Tabs.List>
 					<form method="POST" use:enhance class="flex h-fit flex-col md:min-h-[calc(100%-0.5rem)]">
@@ -100,7 +102,7 @@
 							<Form.Field {form} name="tags">
 								<Form.Control>
 									{#snippet children({ props })}
-										<Form.Label>{'Tags'}</Form.Label>
+										<Form.Label>{$t('dashboard.lib.tags')}</Form.Label>
 										<MultiSelect
 											{...props}
 											bind:selected={$formData.tags}
@@ -109,9 +111,7 @@
 										/>
 									{/snippet}
 								</Form.Control>
-								<Form.Description
-									>{'Add a few tags to your note, to find it more easily.'}</Form.Description
-								>
+								<Form.Description>{$t('dashboard.lib.tag_desc')}</Form.Description>
 								<Form.FieldErrors />
 							</Form.Field>
 
@@ -135,7 +135,7 @@
 						<div class="flex items-center justify-end py-2">
 							<Button type="submit" class="gap-2">
 								<Save class="h-4 w-4" />
-								Save Changes
+								{$t('dashboard.lib.save_changes')}
 							</Button>
 						</div>
 					</form>

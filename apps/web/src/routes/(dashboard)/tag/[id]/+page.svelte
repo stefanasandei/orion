@@ -51,34 +51,35 @@
 				<div class="flex items-center gap-4">
 					<h1 class="text-4xl font-bold">#{tag.name}</h1>
 					<Badge variant="outline" class="h-7 px-3 text-base">
-						{projectCount + notes.length} items
+						{projectCount + notes.length}
+						{$t('dashboard.lib.items')}
 					</Badge>
 				</div>
 				<p class="text-muted-foreground">
-					Collection of all items tagged with #{tag.name}
+					{$t('dashboard.lib.tag_title')} #{tag.name}
 				</p>
 			</div>
 
 			<Tabs value="all" class="w-full">
 				<TabsList class="w-full justify-start">
 					<TabsTrigger value="all">
-						All
+						{$t('dashboard.lib.all')}
 						<Badge variant="secondary" class="ml-2">{projectCount + notes.length}</Badge>
 					</TabsTrigger>
 					<TabsTrigger value="projects">
-						Projects
+						{$t('dashboard.lib.projects')}
 						<Badge variant="secondary" class="ml-2">{projectCount}</Badge>
 					</TabsTrigger>
 					<TabsTrigger value="thoughts">
-						Thoughts
+						{$t('dashboard.lib.thoughts')}
 						<Badge variant="secondary" class="ml-2">{thoughtCount}</Badge>
 					</TabsTrigger>
 					<TabsTrigger value="links">
-						Links
+						{$t('dashboard.lib.links')}
 						<Badge variant="secondary" class="ml-2">{linkCount}</Badge>
 					</TabsTrigger>
 					<TabsTrigger value="files">
-						Files
+						{$t('dashboard.lib.files')}
 						<Badge variant="secondary" class="ml-2">{fileCount}</Badge>
 					</TabsTrigger>
 				</TabsList>
