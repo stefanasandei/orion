@@ -16,11 +16,12 @@
 	import * as Tooltip from '@/components/ui/tooltip';
 	import { trpc } from '../../utils/trpc/client';
 	import { toast } from 'svelte-sonner';
-	import { type UIMessage } from 'ai';
+	import { type UIMessage, type Message } from 'ai';
 
 	interface ChatOptions {
 		apiEndpoint: string;
 		maxSteps?: number;
+		initialMessages?: Message[];
 	}
 
 	interface Props {
@@ -51,6 +52,9 @@
 		stop
 	} = useChat({
 		api: options.apiEndpoint,
+
+		// @ts-ignore
+		initialMessages: options.initialMessages ?? [],
 
 		onFinish: (_, options) => {
 			$trackUsage.mutate({

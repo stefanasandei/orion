@@ -147,5 +147,14 @@
 	"note_updated": "Notiță actualizată!",
 	"tag_added": "Etichetă adăugată!",
 	"tag_deleted": "Etichetă ștearsă!",
-	"ai_not_enabled": "Funcțiile AI nu sunt activate pentru contul tău."
+	"ai_not_enabled": "Funcțiile AI nu sunt activate pentru contul tău.",
+	"convos": {
+		"title": "Conversațiile tale",
+		"new_chat": "Chat nou",
+		"search": "Caută în conversații...",
+		"untitled": "Conversație fără titlu",
+		"new": "Începe un chat nou",
+		"not_found": "Nu s-au găsit conversații care să corespundă căutării",
+		"none": "Nicio conversație încă"
+	}
 }

@@ -47,7 +47,7 @@
 					1: '/thoughts',
 					2: '/',
 					3: '/settings',
-					4: '/assistant'
+					4: '/assistant/history'
 				};
 
 				goto(pages[idx as keyof typeof pages]);
@@ -162,7 +162,7 @@
 					<span>{$t('dashboard.settings')}</span>
 					<Command.Shortcut>⌘ 3</Command.Shortcut>
 				</Command.Item>
-				<Command.Item onclick={() => goto('/assistant')}>
+				<Command.Item onclick={() => goto('/assistant/history')}>
 					<Sparkles />
 					<span>{$t('dashboard.chat')}</span>
 					<Command.Shortcut>⌘ 4</Command.Shortcut>

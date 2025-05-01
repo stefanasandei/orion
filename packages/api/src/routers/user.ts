@@ -375,20 +375,28 @@ export const userRouter = createRouter({
                     eq(conversationTable.id, input.id)
                 ));
 
+            const messages = JSON.parse(input.messages);
+            console.log({ messages, isPresent });
+
             if (isPresent === undefined || isPresent.length === 0) {
                 // insert the convo with the first message
+
+                // todo: in the future use a model to summarize the conversation...
+                const name = JSON.parse(messages.messages)[0].content.substring(0, 17);
+
                 return await db.insert(conversationTable)
                     .values({
                         id: input.id,
+                        name: name,
                         userId: ctx.session.userId,
-                        messages: JSON.parse(input.messages),
+                        messages: messages,
                     });
             }
 
             // update the conversation with the new message
             return await db.update(conversationTable)
                 .set({
-                    messages: JSON.parse(input.messages)
+                    messages: messages
                 })
                 .where(and(
                     eq(conversationTable.userId, ctx.session.userId),
@@ -397,10 +405,20 @@ export const userRouter = createRouter({
         }),
     getConversations: protectedProcedure
         .query(async ({ ctx }) => {
-            return await db.select({ id: conversationTable.id, name: conversationTable.name })
+            return await db.select({ id: conversationTable.id, name: conversationTable.name, createdAt: conversationTable.createdAt })
                 .from(conversationTable)
                 .where(
                     eq(conversationTable.userId, ctx.session.userId)
                 );
+        }),
+    getConversation: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .query(async ({ ctx, input }) => {
+            return await db.select()
+                .from(conversationTable)
+                .where(and(
+                    eq(conversationTable.userId, ctx.session.userId),
+                    eq(conversationTable.id, input.id)
+                ));
         })
 })

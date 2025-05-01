@@ -147,5 +147,14 @@
 	"note_updated": "Note updated!",
 	"tag_added": "Tag added!",
 	"tag_deleted": "Tag deleted!",
-	"ai_not_enabled": "AI features not enabled for your account."
+	"ai_not_enabled": "AI features not enabled for your account.",
+	"convos": {
+		"title": "Your conversations",
+		"new_chat": "New chat",
+		"search": "Search conversations...",
+		"untitled": "Untitled Conversation",
+		"new": "Start a new chat",
+		"not_found": "No conversations found matching your search",
+		"none": "No conversations yet"
+	}
 }
