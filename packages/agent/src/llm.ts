@@ -3,13 +3,14 @@ import { ollama } from "ollama-ai-provider";
 
 export interface LLMChatConfig {
     production: boolean;
+    localStreaming?: boolean;
 }
 
-export const createLLM = (_config: LLMChatConfig = { production: false }) => {
+export const createLLM = (_config: LLMChatConfig = { production: false, localStreaming: false }) => {
     if (_config.production == false) {
         console.log("Using Ollama.");
         return ollama("qwen3:4b", {
-            simulateStreaming: true
+            simulateStreaming: !_config.localStreaming
         })
     }
 

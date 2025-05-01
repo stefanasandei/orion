@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { findRelevantContent, searchWeb } from "./rag";
 
 const isProd = process.env["IS_PRODUCTION"] === "true"
+const useLocalStreaming = isProd ? false : true;
 
 export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]) => {
-    const model = createLLM({ production: isProd });
+    const model = createLLM({ production: isProd, localStreaming: useLocalStreaming });
 
     const result = streamText({
         // @ts-ignore Type mismatch between ai and @ai-sdk/provider versions
@@ -18,12 +19,16 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
 }
 
 export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[], noteId?: number): Promise<Response> => {
-    const model = createLLM({ production: isProd });
+    if (useLocalStreaming) {
+        return chatHandler(messages);
+    }
 
     if (noteId !== undefined) {
         // respond using ONLY pdf info
         return pdfHandler(messages, noteId);
     }
+
+    const model = createLLM({ production: isProd, localStreaming: false });
 
     // query user knowledge base + the internet
     const result = streamText({
@@ -58,7 +63,7 @@ export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[]
 }
 
 export const pdfHandler = async (messages: CoreMessage[] | Omit<Message, "id">[], noteId: number): Promise<Response> => {
-    const model = createLLM({ production: isProd });
+    const model = createLLM({ production: isProd, localStreaming: false });
 
     const result = streamText({
         // @ts-ignore Type mismatch between ai and @ai-sdk/provider versions

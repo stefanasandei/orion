@@ -17,13 +17,14 @@
 
 	const chatInputRef = writable<HTMLInputElement | null>(null);
 	const chatContainerRef = writable<HTMLDivElement | null>(null);
+
+	const shouldAutoScroll = writable(true);
 	const showScrollButton = writable(false);
 
 	const trackUsage = trpc().user.trackUsage.createMutation();
 
 	const { input, handleSubmit, messages, status, stop } = useChat({
 		api: `/api/chat/`,
-
 		onFinish: (_, options) => {
 			$trackUsage.mutate({
 				userId: userId,
@@ -31,12 +32,10 @@
 				promptTokens: options.usage.promptTokens
 			});
 		},
-
 		onError: (error) => {
 			toast.error(error.message);
 			console.log(error);
 		},
-
 		maxSteps: 5
 	});
 
@@ -63,44 +62,58 @@
 		}
 	}
 
-	// Check scroll position to show/hide scroll button
+	// Check scroll position to show/hide scroll button and toggle auto-scroll
 	function handleScroll(e: Event) {
 		const container = e.target as HTMLDivElement;
-		const threshold = 100; // Show button when user has scrolled up this many pixels from bottom
+		const threshold = 100;
 		const isNearBottom =
 			container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
-		showScrollButton.set(!isNearBottom);
+
+		if (isNearBottom) {
+			shouldAutoScroll.set(true);
+			showScrollButton.set(false);
+		} else {
+			shouldAutoScroll.set(false);
+			showScrollButton.set(true);
+		}
 	}
 
-	// Auto-scroll to bottom when new messages arrive
-	$: if ($messages.length > 0) {
+	// Only auto-scroll when new messages arrive AND we're still at/near bottom
+	$: if ($messages.length > 0 && $shouldAutoScroll) {
 		scrollToBottom();
 	}
 </script>
 
+<!-- Chat messages container -->
 <div
 	bind:this={$chatContainerRef}
 	on:scroll={handleScroll}
 	class="no-scrollbar mx-auto flex h-full w-full max-w-4xl flex-1 flex-col space-y-12 overflow-y-auto"
 >
 	{#each $messages as msg}
-		{#if msg.role != 'system' && msg.role != 'data'}
-			<MessageBubble isStreaming={$status == 'streaming'} {msg} />
+		{#if msg.role !== 'system' && msg.role !== 'data'}
+			<MessageBubble isStreaming={$status === 'streaming'} {msg} />
 		{/if}
 	{/each}
 
-	<!-- space for the input bar-->
-	<div class="min-h-[15svh] w-full md:min-h-[10svh]"></div>
+	<!-- spacer so input bar doesn’t cover last message -->
+	<div class="min-h-[15svh] w-full md:min-h-[15svh]"></div>
 </div>
 
+<!-- Scroll button + input area -->
 <div class="pointer-events-none absolute bottom-0 z-10 w-full">
 	<div class="relative mx-auto flex w-full flex-col text-center md:max-w-3xl lg:max-w-4xl">
 		{#if $showScrollButton}
-			<div class="flex justify-center pb-4">
+			<div class="pointer-events-auto flex justify-center pb-4">
 				<button
-					on:click={scrollToBottom}
-					class="bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-ring pointer-events-auto flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2"
-					><span class="pb-0.5">Scroll to bottom</span><svg
+					on:click={() => {
+						scrollToBottom();
+						shouldAutoScroll.set(true);
+					}}
+					class="bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-ring flex h-8 items-center justify-center gap-2 rounded-full px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2"
+				>
+					<span class="pb-0.5">Scroll to bottom</span>
+					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
 						height="24"
@@ -110,9 +123,11 @@
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						class="lucide lucide-chevron-down -mr-1 h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg
-					></button
-				>
+						class="lucide lucide-chevron-down -mr-1 h-4 w-4"
+					>
+						<path d="m6 9 6 6 6-6"></path>
+					</svg>
+				</button>
 			</div>
 		{/if}
 
@@ -129,57 +144,45 @@
 						placeholder={$t('dashboard.assistant_page.chat.input_placeholder')}
 						onkeydown={handleEnter}
 					/>
-
-					{#if $status == 'ready'}
-						<!-- send message -->
+					{#if $status === 'ready'}
 						<Tooltip.Root>
 							<Tooltip.Trigger>
 								<Button variant="default" size="icon" type="submit">
 									<Icons.send />
 								</Button>
 							</Tooltip.Trigger>
-							<Tooltip.Content>
-								<p>Send message</p>
-							</Tooltip.Content>
+							<Tooltip.Content><p>Send message</p></Tooltip.Content>
 						</Tooltip.Root>
-					{:else if $status == 'submitted'}
-						<!-- loading spinner -->
+					{:else if $status === 'submitted'}
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" onclick={() => stop()} variant={'outline'}>
+								<Button size="icon" onclick={() => stop()} variant="outline">
 									<div
 										class="border-primary size-4 animate-spin rounded-full border-2 border-t-transparent"
 									></div>
 								</Button>
 							</Tooltip.Trigger>
-							<Tooltip.Content>
-								<p>Loading...</p>
-							</Tooltip.Content>
+							<Tooltip.Content><p>Loading...</p></Tooltip.Content>
 						</Tooltip.Root>
-					{:else if $status == 'streaming'}
-						<!-- stop generation button -->
+					{:else if $status === 'streaming'}
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" onclick={() => stop()} variant={'outline'}><Square /></Button>
+								<Button size="icon" onclick={() => stop()} variant="outline">
+									<Square />
+								</Button>
 							</Tooltip.Trigger>
-							<Tooltip.Content>
-								<p>Stop generation</p>
-							</Tooltip.Content>
+							<Tooltip.Content><p>Stop generation</p></Tooltip.Content>
 						</Tooltip.Root>
 					{:else}
-						<!-- error button -->
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Button size="icon" variant={'destructive'}><Icons.close /></Button>
+								<Button size="icon" variant="destructive"><Icons.close /></Button>
 							</Tooltip.Trigger>
-							<Tooltip.Content>
-								<p>{$status}. Please refresh page</p>
-							</Tooltip.Content>
+							<Tooltip.Content><p>{$status}. Please refresh page</p></Tooltip.Content>
 						</Tooltip.Root>
 					{/if}
 				</form>
 
-				<!-- controls -->
 				<div class="bg-accent/50 flex w-full flex-row justify-between px-4 py-2">
 					<Tabs.Root value="chat">
 						<Tabs.List class="bg-accent/0 text-accent-foreground space-x-2">
@@ -190,10 +193,6 @@
 								<Brain class="mr-2 size-5" />
 								{$t('dashboard.assistant_page.landing.chat_tab')}
 							</Tabs.Trigger>
-
-							<!--
-								cool tab for research, to be used elsewhere
-							-->
 							<Tabs.Trigger
 								value="report"
 								disabled
