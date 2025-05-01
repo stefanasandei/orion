@@ -1,3 +1,4 @@
+import { UIMessage } from 'ai';
 import { InferSelectModel, relations, sql } from 'drizzle-orm';
 import {
   integer,
@@ -11,7 +12,8 @@ import {
   primaryKey,
   pgEnum,
   index,
-  vector
+  vector,
+  json
 } from 'drizzle-orm/pg-core';
 
 const pgTable = pgTableCreator((name) => `orion_${name}`);
@@ -296,6 +298,29 @@ export const embeddingsTable = pgTable("embeddings", {
   ],
 )
 
+export const conversationTable = pgTable('conversation', {
+  id: text('id').primaryKey(),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: 'date'
+  })
+    .notNull()
+    .$onUpdate(() => new Date()),
+
+  name: varchar('name', { length: 64 }),
+  messages: json("messages").$type<{ messages: UIMessage[] }>()
+})
+
 export const notesRelationshipTable = pgTable('notes_relationship', {
   parentId: integer('parent_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),
   childId: integer('child_id').notNull().references(() => noteTable.id, { onDelete: 'cascade' }),
@@ -321,7 +346,8 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
   workspaces: many(workspaceTable),
   tags: many(tagTable),
   projects: many(projectTable),
-  notes: many(noteTable)
+  notes: many(noteTable),
+  conversations: many(conversationTable)
 }));
 
 export const workspaceRelations = relations(workspaceTable, ({ one, many }) => ({

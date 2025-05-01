@@ -41,6 +41,7 @@
 	const showScrollButton = writable(false);
 
 	const trackUsage = trpc().user.trackUsage.createMutation();
+	const upsertConversation = trpc().user.upsertConversation.createMutation();
 
 	const {
 		input,
@@ -50,17 +51,25 @@
 		stop
 	} = useChat({
 		api: options.apiEndpoint,
+
 		onFinish: (_, options) => {
 			$trackUsage.mutate({
 				userId: userId,
 				completionTokens: options.usage.completionTokens,
 				promptTokens: options.usage.promptTokens
 			});
+
+			// save convo
+			$upsertConversation.mutate({
+				id: $messages[0].id,
+				messages: JSON.stringify({ messages: JSON.stringify($messages) })
+			});
 		},
 		onError: (error) => {
 			toast.error(error.message);
 			console.log(error);
 		},
+
 		maxSteps: options.maxSteps ?? 5
 	});
 

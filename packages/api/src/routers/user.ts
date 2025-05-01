@@ -2,7 +2,7 @@ import { registerUser, loginUser, logoutUser, AuthFailReason, validateSessionTok
 import { createRouter, protectedProcedure, publicProcedure } from '../context'
 import { z } from "zod";
 import { ratelimit } from '../services/ratelimit';
-import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable, usageTable } from '@repo/db';
+import { db, sessionTable, userMetadataTable, noteTable, tagTable, projectTable, workspaceTable, userTable, usageTable, conversationTable } from '@repo/db';
 import { eq, and, sql, or, desc } from 'drizzle-orm';
 import process from "process";
 import jwt from "jsonwebtoken";
@@ -364,5 +364,35 @@ export const userRouter = createRouter({
             return await db.select()
                 .from(usageTable)
                 .where(eq(usageTable.userId, ctx.session.userId));
+        }),
+
+    upsertConversation: protectedProcedure
+        .input(z.object({ id: z.string(), messages: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const isPresent = await db.select({ id: conversationTable.id }).from(conversationTable)
+                .where(and(
+                    eq(conversationTable.userId, ctx.session.userId),
+                    eq(conversationTable.id, input.id)
+                ));
+
+            if (isPresent === undefined || isPresent.length === 0) {
+                // insert the convo with the first message
+                return await db.insert(conversationTable)
+                    .values({
+                        id: input.id,
+                        userId: ctx.session.userId,
+                        messages: JSON.parse(input.messages),
+                    });
+            }
+
+            // update the conversation with the new message
+            return await db.update(conversationTable)
+                .set({
+                    messages: JSON.parse(input.messages)
+                })
+                .where(and(
+                    eq(conversationTable.userId, ctx.session.userId),
+                    eq(conversationTable.id, input.id)
+                ));
         })
 })
