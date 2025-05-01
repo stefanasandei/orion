@@ -9,6 +9,6 @@
 	const { data }: { data: { usage: Usage[] } } = $props();
 </script>
 
-<CategoryShell title="Usage" description="How much resources you have used on our platform.">
+<CategoryShell title={$t('dashboard.usage')} description={$t('settings.usage_desc')}>
 	<UsageDashboard usage={data.usage} />
 </CategoryShell>

@@ -24,7 +24,7 @@
 			items: []
 		},
 		{
-			title: 'Search',
+			title: $t('dashboard.search.name'),
 			url: 'search',
 			icon: SearchIcon,
 			isActive: true,

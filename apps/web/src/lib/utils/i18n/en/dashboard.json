@@ -52,6 +52,7 @@
 		"deleted": "Thought deleted!"
 	},
 	"search": {
+		"name": "Search",
 		"button": "Search through your work",
 		"title": "Search through your work",
 		"placeholder": "search for anything...",

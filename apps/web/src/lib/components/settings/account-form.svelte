@@ -234,7 +234,7 @@
 			<div class="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
 				<div class="space-y-1">
 					<div class="flex items-center gap-2">
-						<Label class="text-lg">{'Language'}</Label>
+						<Label class="text-lg">{$t('settings.language')}</Label>
 					</div>
 				</div>
 
@@ -246,11 +246,11 @@
 			<div class="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
 				<div class="space-y-1">
 					<div class="flex items-center gap-2">
-						<Label class="text-lg">{'Enable AI features'}</Label>
+						<Label class="text-lg">{$t('settings.enable_ai')}</Label>
 						<span
 							class="bg-muted text-muted-foreground inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
 						>
-							{'requires payment'}
+							{$t('settings.requires_payment')}
 						</span>
 					</div>
 				</div>

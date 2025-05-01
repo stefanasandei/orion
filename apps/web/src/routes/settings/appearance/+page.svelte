@@ -11,7 +11,6 @@
 	import { Input } from '$base/src/lib/components/ui/input';
 	import { Moon, Plus, Sun, X } from 'lucide-svelte';
 	import type { Tag } from '@repo/db';
-	import Separator from '$base/src/lib/components/ui/separator/separator.svelte';
 	import TagComponent from '$base/src/lib/components/dashboard/tag.svelte';
 	import { trpc } from '$base/src/lib/utils/trpc/client';
 	import { toast } from 'svelte-sonner';
@@ -50,7 +49,7 @@
 	});
 </script>
 
-<CategoryShell title="Appearance" description="Customize your experience">
+<CategoryShell title={$t('settings.appearance')} description={$t('settings.appearance_text')}>
 	<div class="space-y-8">
 		<!-- Theme Section -->
 		<section class="rounded-lg border-2 p-6">
@@ -62,7 +61,7 @@
 					<div class="flex items-center justify-between">
 						<div class="space-y-1">
 							<Label class="text-lg">{$t('settings.color_theme')}</Label>
-							<p class="text-muted-foreground">Change the main colors of the app interface.</p>
+							<p class="text-muted-foreground">{$t('settings.color_theme_text')}</p>
 						</div>
 						<Select.Root bind:value={theme} type="single">
 							<Select.Trigger class="w-fit">
@@ -99,12 +98,14 @@
 				<div class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all">
 					<div class="flex items-center justify-between">
 						<div class="space-y-1">
-							<Label class="text-lg">Dashboard Layout</Label>
-							<p class="text-muted-foreground">Choose between activity grid or clean layout</p>
+							<Label class="text-lg">{$t('settings.dashboard_layout')}</Label>
+							<p class="text-muted-foreground">{$t('settings.dashboard_layout_text')}</p>
 						</div>
 						<div class="flex items-center gap-2">
 							<span class="text-muted-foreground text-sm"
-								>{useActivityGrid ? 'Activity Grid' : 'Clean'}</span
+								>{useActivityGrid
+									? $t('settings.activity_grid')
+									: $t('settings.clean_layout')}</span
 							>
 							<Switch bind:checked={useActivityGrid} />
 						</div>
@@ -115,12 +116,16 @@
 
 		<!-- Tags Section -->
 		<section class="rounded-lg border-2 p-6">
-			<h2 class="mb-6 text-2xl font-semibold tracking-tight">Tag Management</h2>
+			<h2 class="mb-6 text-2xl font-semibold tracking-tight">{$t('settings.tag_management')}</h2>
 
 			<!-- Add Tag -->
 			<div class="mb-6 space-y-4">
 				<div class="flex items-center gap-4">
-					<Input bind:value={newTagName} placeholder="Enter tag name..." class="max-w-xs" />
+					<Input
+						bind:value={newTagName}
+						placeholder={$t('settings.enter_tag_name')}
+						class="max-w-xs"
+					/>
 					<Button
 						onclick={() => {
 							if (newTagName.trim().length == 0) return;
@@ -130,14 +135,14 @@
 						class="gap-2"
 					>
 						<Plus class="size-4" />
-						Add Tag
+						{$t('settings.add_tag')}
 					</Button>
 				</div>
 			</div>
 
 			<!-- Tags Grid -->
 			<div class="space-y-2">
-				<Label class="text-lg">Your Tags</Label>
+				<Label class="text-lg">{$t('settings.your_tags')}</Label>
 				<div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
 					{#each data.tags as tag}
 						<div

@@ -2,6 +2,7 @@
 	import type { Usage } from '@repo/db';
 	import * as Card from '$lib/components/ui/card';
 	import { formatBytes } from '$lib/utils/format';
+	import { t } from '@/utils/i18n/translations';
 
 	const { usage }: { usage: Usage[] } = $props();
 
@@ -44,16 +45,16 @@
 			<Card.Content class="space-y-4">
 				<div class="grid grid-cols-2 gap-4">
 					<div class="space-y-2">
-						<p class="text-muted-foreground text-sm font-medium">Input Tokens</p>
+						<p class="text-muted-foreground text-sm font-medium">{$t('settings.input_tokens')}</p>
 						<p class="text-2xl font-bold">{day.promptTokens.toLocaleString()}</p>
 					</div>
 					<div class="space-y-2">
-						<p class="text-muted-foreground text-sm font-medium">Output Tokens</p>
+						<p class="text-muted-foreground text-sm font-medium">{$t('settings.output_tokens')}</p>
 						<p class="text-2xl font-bold">{day.completionTokens.toLocaleString()}</p>
 					</div>
 				</div>
 				<div class="space-y-2">
-					<p class="text-muted-foreground text-sm font-medium">Total File Size</p>
+					<p class="text-muted-foreground text-sm font-medium">{$t('settings.file_size')}</p>
 					<p class="text-2xl font-bold">{formatBytes(day.fileSize)}</p>
 				</div>
 			</Card.Content>

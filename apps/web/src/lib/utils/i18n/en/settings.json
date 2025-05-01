@@ -47,5 +47,22 @@
 	"profile_update_error": "Failed to update profile.",
 	"delete_project": "Delete Project",
 	"delete_project_desc": "Are you sure you want to delete this project? This action cannot be undone.",
-	"delete_project_warning": "Delete project \"{{name}}\""
+	"delete_project_warning": "Delete project \"{{name}}\"",
+	"enable_ai": "Enable AI features",
+	"requires_payment": "requires payment",
+	"language": "Language",
+	"color_theme_text": "Change the main colors of the app interface.",
+	"dashboard_layout": "Dashboard Layout",
+	"dashboard_layout_text": "Choose between activity grid or clean layout",
+	"activity_grid": "Activity Grid",
+	"clean_layout": "Clean",
+	"tag_management": "Tag Management",
+	"enter_tag_name": "Enter tag name",
+	"add_tag": "Add Tag",
+	"your_tags": "Your Tags",
+	"appearance": "Appearance",
+	"appearance_text": "Customize your experience",
+	"usage_desc": "How much resources you have used on our platform.",
+	"input_tokens": "Input tokens",
+	"output_tokens": "Output Tokens"
 }
