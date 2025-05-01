@@ -376,7 +376,6 @@ export const userRouter = createRouter({
                 ));
 
             const messages = JSON.parse(input.messages);
-            console.log({ messages, isPresent });
 
             if (isPresent === undefined || isPresent.length === 0) {
                 // insert the convo with the first message

@@ -1,32 +1,26 @@
-# Turborepo Svelte starter
+<p align="center">
+  <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rfiKtzXdafX2uDkEY3v8mWc6OqLis7oxw5Ker" width="400"/>
+</p>
 
-This is an official starter Turborepo.
+<p align="center">
+    accelerating self-learning | <a href="https://steer.asandei.com"> website</a>&nbsp
+</p>
 
-## Using this example
+> **Warning**
+> This is a work-in-progress and not the finished product.
 
-Run the following command:
+<p align="center">
+<img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rsQOhJ3rHUWG49uPqhZYQ8wgCcdDRe3BtNpno" width="45%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8r9SYHzbu3pe8qCgD1WIcoxn6thiHryuMwlGYs" width="45%"></img><img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rS92mBDYsZMvCB8NPcaVo1UYiAkQKFIfO54J9" width="45%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rkpXY1x9lkYmPgLvbOHAfMtsGhEQaiT360x4B" width="45%"></img>
+</p>
 
-```sh
-npx create-turbo@latest -e with-svelte
-```
+## Purpose
 
-## What's inside?
+todo
 
-This Turborepo includes the following packages/apps:
+## Local deployment
 
-### Apps and Packages
+todo
 
-- `docs`: a [svelte-kit](https://kit.svelte.dev/) app
-- `web`: another [svelte-kit](https://kit.svelte.dev/) app
-- `ui`: a stub Svelte component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-plugin-svelte` and `eslint-config-prettier`)
+## License
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Orion is open source and available under the [GPL v3](./LICENSE) license. Copyright 2025 [Asandei Stefan-Alexandru](https://asandei.com), all rights reserved.
