@@ -20,6 +20,7 @@ export const chatHandler = async (messages: CoreMessage[] | Omit<Message, "id">[
 
 export const ragHandler = async (messages: CoreMessage[] | Omit<Message, "id">[], noteId?: number): Promise<Response> => {
     if (useLocalStreaming) {
+        // when debugging, switch to normal chat to avoid API costs
         return chatHandler(messages);
     }
 
