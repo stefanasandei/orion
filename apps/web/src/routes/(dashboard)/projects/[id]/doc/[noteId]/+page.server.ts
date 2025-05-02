@@ -16,9 +16,10 @@ export const load: PageServerLoad = (async (event: RequestEvent) => {
     const noteId = parseInt(event.params.noteId!);
 
     const caller = createCaller({ event: event as CtxRequestEvent });
-    const { project, noteTree } = await caller.project.get({ id: projectId });
-
-    const note = await caller.project.getNote({ noteId });
+    const [{ project, noteTree }, note] = await Promise.all([
+        caller.project.get({ id: projectId }),
+        caller.project.getNote({ noteId })
+    ]);
 
     if (project === undefined || note === undefined) {
         redirect(302, "/");

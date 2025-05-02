@@ -12,6 +12,9 @@ export const projectRouter = createRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `project:${input.id}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db
         .delete(projectTable)
         .where(and(eq(projectTable.id, input.id), eq(projectTable.userId, ctx.session.userId)));
@@ -20,6 +23,13 @@ export const projectRouter = createRouter({
   get: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input, ctx }) => {
+      const cacheKey = `project:${input.id}`;
+      const cached = await cacheService.getItem(cacheKey);
+
+      if (cached !== null) {
+        return cached as typeof result;
+      }
+
       // return the requested project's metadata, if it is owned by the current user
       const project = await db.query.projectTable
         .findFirst({
@@ -79,10 +89,15 @@ export const projectRouter = createRouter({
 
       const noteTree = NoteTreeService.buildTree(project.notes);
 
-      return {
+      const result = {
         project,
         noteTree: noteTree
       };
+
+      // cache the result
+      await cacheService.insertItem(cacheKey, result, true);
+
+      return result;
     }),
 
   getAllPublic: publicProcedure
@@ -141,6 +156,9 @@ export const projectRouter = createRouter({
       tags: z.array(z.object({ id: z.number() }))
     }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `project:${input.id}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db.transaction(async (tx) => {
         // First update the project metadata
         const res = await tx
@@ -240,6 +258,9 @@ export const projectRouter = createRouter({
   createNoteDocument: protectedProcedure
     .input(z.object({ projectId: z.number(), noteName: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `project:${input.projectId}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db
         .insert(noteTable)
         .values({
@@ -293,6 +314,11 @@ export const projectRouter = createRouter({
         })
         .returning({ id: noteTable.id });
 
+      if (input.projectId != 0) {
+        const cacheKey = `project:${input.projectId}`;
+        await cacheService.invalidateItem(cacheKey);
+      }
+
       // 2. create embeddings for image/pdf
       if (!hasAIEnabled(input.userId)) {
         return result;
@@ -315,12 +341,17 @@ export const projectRouter = createRouter({
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .mutation(async ({ input, ctx }) => {
+
       // delete the embeddings from the database
       await embeddingsManager.delete(input.noteId);
 
-      return await db
+      const deletedNote = await db
         .delete(noteTable)
-        .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)));
+        .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)))
+        .returning({ projectId: noteTable.projectId });
+
+      const cacheKey = `project:${deletedNote[0]!.projectId}`;
+      await cacheService.invalidateItem(cacheKey);
     }),
   getNeighborNotes: protectedProcedure
     .input(z.object({ noteId: z.number() }))

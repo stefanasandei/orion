@@ -2,11 +2,15 @@ import { db, workspaceTable, projectTable } from '@repo/db';
 import { createRouter, protectedProcedure } from '../context';
 import { z } from 'zod';
 import { and, eq } from 'drizzle-orm';
+import { cacheService } from '../services/cache';
 
 export const workspaceRouter = createRouter({
   create: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `workspaces:${ctx.session.userId}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db
         .insert(workspaceTable)
         .values({
@@ -18,6 +22,9 @@ export const workspaceRouter = createRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `workspaces:${ctx.session.userId}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db
         .delete(workspaceTable)
         .where(and(eq(workspaceTable.id, input.id), eq(workspaceTable.userId, ctx.session.userId)));
@@ -25,6 +32,9 @@ export const workspaceRouter = createRouter({
   createProject: protectedProcedure
     .input(z.object({ workspaceId: z.number(), name: z.string(), description: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      const cacheKey = `workspaces:${ctx.session.userId}`;
+      await cacheService.invalidateItem(cacheKey);
+
       return await db
         .insert(projectTable)
         .values({
