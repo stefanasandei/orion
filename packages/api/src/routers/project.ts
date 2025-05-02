@@ -6,6 +6,7 @@ import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
 import { embeddingsManager, generatePdfMetadata } from '@repo/agent';
 import { hasAIEnabled } from "../enabled-ai"
+import { cacheService } from '../services/cache';
 
 export const projectRouter = createRouter({
   delete: protectedProcedure
@@ -326,15 +327,31 @@ export const projectRouter = createRouter({
     .query(async ({ input, ctx }) => {
       // given a single note id, we want to find all of the other notes from its project
 
-      // 1. find the project (TODO: might want to use a cache noteId:projectId)
-      const { projectId } = (await db.query.noteTable.findFirst({
-        where: and(
-          eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
-        ),
-        columns: {
-          projectId: true
-        }
-      }))!;
+      // 1. find the project
+      const cacheKey = `note_project:${input.noteId}`;
+      let projectId: number | null;
+
+      const cachedProjectId = await cacheService.getItem(cacheKey);
+      if (cachedProjectId !== null) {
+        // get the cached id
+        projectId = (cachedProjectId as number);
+      } else {
+        // call the database for the id
+        const { projectId: fetchedProjectId } = (await db.query.noteTable.findFirst({
+          where: and(
+            eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)
+          ),
+          columns: {
+            projectId: true
+          }
+        }))!;
+
+        projectId = fetchedProjectId;
+
+        // cache it
+        await cacheService.insertItem(cacheKey, projectId, true);
+      }
+
 
       if (projectId == null) {
         throw new TRPCError({
@@ -344,8 +361,12 @@ export const projectRouter = createRouter({
       }
 
       // 2. query the notes
-      return await db.select({ id: noteTable.id, name: noteTable.name }).from(noteTable)
-        .where(and(eq(noteTable.projectId, projectId), eq(noteTable.userId, ctx.session.userId)));
+      return await db
+        .select({ id: noteTable.id, name: noteTable.name }).from(noteTable)
+        .where(and(
+          eq(noteTable.projectId, projectId),
+          eq(noteTable.userId, ctx.session.userId)
+        ));
     }),
   makeNoteParentTo: protectedProcedure
     .input(z.object({ parentNoteId: z.number().nullable(), childNoteId: z.number() }))

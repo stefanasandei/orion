@@ -37,10 +37,9 @@
 		})()
 	);
 
-	// load the data first
-	// TODO: load this ONLY when requested
-	// atm this load everytime for all notes (and it takes like crazy 100ms)
-	const neigborNotes = trpc().project.getNeighborNotes.createQuery({ noteId: item.id });
+	const neigborNotes = $derived(
+		trpc().project.getNeighborNotes.createQuery({ noteId: item.id }, { enabled: open })
+	);
 
 	$effect(() => {
 		if ($neigborNotes.data == undefined || loaded) return;

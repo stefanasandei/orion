@@ -24,8 +24,11 @@ export class CacheService {
         return cachedItem;
     }
 
-    public async insertItem(key: string, item: unknown) {
-        const ttlSeconds = 30;
+    public async insertItem(key: string, item: unknown, isLongLived: boolean = false) {
+        // 30s for stuff that changes 
+        // 10min for stuff that should not change
+        const ttlSeconds = isLongLived ? 600 : 30;
+
         const expiryTime = Date.now() + (ttlSeconds * 1000);
 
         await this.redis.setex(key, ttlSeconds, item);
