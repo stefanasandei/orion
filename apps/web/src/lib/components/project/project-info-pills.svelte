@@ -16,9 +16,10 @@
 
 	const createdAtDate = $derived(
 		(() => {
-			const day = project.createdAt.getDate();
-			const month = project.createdAt.toLocaleString('default', { month: 'long' });
-			const year = project.createdAt.getFullYear();
+			const createdAt = new Date(project.createdAt);
+			const day = createdAt.getDate();
+			const month = createdAt.toLocaleString('default', { month: 'long' });
+			const year = createdAt.getFullYear();
 
 			// quicker than researching some library
 			return `${day} ${month} ${year}`;
