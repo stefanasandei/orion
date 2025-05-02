@@ -1,24 +1,39 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { ollama } from "ollama-ai-provider";
 
-export interface LLMChatConfig {
-    production: boolean;
-    localStreaming?: boolean;
+const isProd = process.env["IS_PRODUCTION"] === "true";
+
+const openrouter = createOpenAICompatible({
+    baseURL: "https://openrouter.ai/api/v1",
+    apiKey: process.env["OPENROUTER_API_KEY"]!,
+    name: "openrouter"
+});
+
+const local = () => {
+    console.log("Using Ollama.");
+
+    return ollama("qwen3:4b", {
+        // required for tool calls
+        simulateStreaming: true
+    })
 }
 
-export const createLLM = (_config: LLMChatConfig = { production: false, localStreaming: false }) => {
-    if (_config.production == false) {
-        console.log("Using Ollama.");
-        return ollama("qwen3:4b", {
-            simulateStreaming: !_config.localStreaming
-        })
+// general chatting and small agentic tasks
+export const generalModel = () => {
+    if (!isProd) {
+        return local();
     }
 
-    const openrouter = createOpenAICompatible({
-        baseURL: "https://openrouter.ai/api/v1",
-        apiKey: process.env["OPENROUTER_API_KEY"]!,
-        name: "openrouter"
-    });
+    // other models: deepseek/deepseek-chat-v3-0324
+    return openrouter("mistralai/mistral-small-3.1-24b-instruct:free");
+}
 
-    return openrouter("google/gemini-2.0-flash-exp:free");
+// large context, used for long summaries / accurate instruction following
+export const largeModel = () => {
+    if (!isProd) {
+        return local();
+    }
+
+    // other models: deepseek/deepseek-r1:free
+    return openrouter("google/gemini-2.0-flash-001");
 }

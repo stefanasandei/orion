@@ -108,6 +108,7 @@ class EmbeddingsManager {
         const batches = this.chunk(pdfText);
 
         // 5. embed each batch and insert
+        console.log(`${batches.length} batches`)
         for (const batch of batches) {
             try {
                 const embedResponse = await this.cohere.embed({
@@ -126,6 +127,7 @@ class EmbeddingsManager {
                     embedding,
                     content: batch[idx]!
                 }));
+                console.log(`new batch of embeddings: ${embeddings.length}`)
 
                 await db.insert(embeddingsTable)
                     .values(embeddings);

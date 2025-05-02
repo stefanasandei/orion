@@ -3,10 +3,8 @@ import { eq } from 'drizzle-orm';
 // @ts-ignore
 import pdfParse from 'pdf-parse-debugging-disabled';
 import { generateObject } from 'ai';
-import { createLLM } from './llm';
+import { largeModel } from './llm';
 import { z } from 'zod';
-
-const isProd = process.env["IS_PRODUCTION"] === "true"
 
 export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {
     // 1. fetch PDF as ArrayBuffer
@@ -18,16 +16,18 @@ export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {
     let pdfText: string;
     try {
         const data = await pdfParse(buffer);
-        pdfText = data.text;
+        pdfText = data.text as string;
+        pdfText = pdfText.substring(0, 30_000); // limit to 30k chars
     } catch (error) {
         console.error('PDF parsing error:', error);
         throw new Error('Failed to parse PDF.');
     }
+    console.log(pdfText.length)
 
     // 3. generate summary + suggested questions using AI
     const result = await generateObject({
         // @ts-ignore Type mismatch between ai and @ai-sdk/provider versions
-        model: createLLM({ production: isProd }),
+        model: largeModel(),
         schema: z.object({
             summary: z.string().describe("a concise summary of the document contents"),
             questions: z.array(z.string()).describe("suggested questions to encourage the user to learn more about the document")
@@ -37,6 +37,8 @@ export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {
         2. Generate 3-5 relevant questions that could be asked about the content`,
         prompt: pdfText
     });
+
+    console.log(result);
 
     // 4. insert into the database
     await db.update(noteTable)

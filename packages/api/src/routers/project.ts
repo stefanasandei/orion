@@ -276,6 +276,8 @@ export const projectRouter = createRouter({
   createQuickNote: protectedProcedure
     .input(z.object({ content: z.string(), type: z.enum(["thought", "task", "newsfeed"]) }))
     .mutation(async ({ input, ctx }) => {
+      await cacheService.invalidateItem(`quick_notes:${ctx.session.userId}`);
+
       // used to create a note, which is not accessible in the editor
       // aka a quick-thought, a todo task, or an item on the news feed
       const result = await db
@@ -341,6 +343,7 @@ export const projectRouter = createRouter({
   deleteNote: protectedProcedure
     .input(z.object({ noteId: z.number() }))
     .mutation(async ({ input, ctx }) => {
+      await cacheService.invalidateItem(`quick_notes:${ctx.session.userId}`);
 
       // delete the embeddings from the database
       await embeddingsManager.delete(input.noteId);
@@ -350,8 +353,10 @@ export const projectRouter = createRouter({
         .where(and(eq(noteTable.id, input.noteId), eq(noteTable.userId, ctx.session.userId)))
         .returning({ projectId: noteTable.projectId });
 
-      const cacheKey = `project:${deletedNote[0]!.projectId}`;
-      await cacheService.invalidateItem(cacheKey);
+      if (deletedNote[0]!.projectId !== undefined) {
+        const cacheKey = `project:${deletedNote[0]!.projectId}`;
+        await cacheService.invalidateItem(cacheKey);
+      }
     }),
   getNeighborNotes: protectedProcedure
     .input(z.object({ noteId: z.number() }))

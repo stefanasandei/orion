@@ -57,7 +57,7 @@
 					</p>
 				{:else if part.type === 'tool-invocation'}
 					<span class="font-light">
-						{`${$t('dashboard.assistant_page.copied')}: ` + msg.toolInvocations?.[0].toolName}
+						{`${$t('dashboard.assistant_page.tool_call')}: ` + msg.toolInvocations?.[0].toolName}
 					</span>
 				{/if}
 			{/each}

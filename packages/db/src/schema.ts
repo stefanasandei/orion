@@ -350,6 +350,13 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
   conversations: many(conversationTable)
 }));
 
+export const conversationRelations = relations(conversationTable, ({ one }) => ({
+  user: one(userTable, {
+    fields: [conversationTable.userId],
+    references: [userTable.id]
+  })
+}))
+
 export const workspaceRelations = relations(workspaceTable, ({ one, many }) => ({
   user: one(userTable, {
     fields: [workspaceTable.userId],
