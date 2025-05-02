@@ -10,6 +10,7 @@ import { resendService } from '../services/email';
 import { totpService } from '../services/2fa';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
+import { cacheService } from '../services/cache';
 
 export const userRouter = createRouter({
     register: publicProcedure
@@ -184,7 +185,16 @@ export const userRouter = createRouter({
 
     getWorkspaces: protectedProcedure
         .query(async ({ ctx }) => {
-            return await db.query.workspaceTable.findMany({
+            const cacheKey = `workspaces:${ctx.session.userId}`;
+
+            // first try to check if it's cached
+            const cachedWorkspaces = await cacheService.getItem(cacheKey);
+            if (cachedWorkspaces !== null) {
+                return cachedWorkspaces as typeof workspaces;
+            }
+
+            // otherwise fetch it from the database, and cache for 30s more
+            const workspaces = await db.query.workspaceTable.findMany({
                 where: eq(workspaceTable.userId, ctx.session.userId),
                 with: {
                     projects: {
@@ -198,6 +208,10 @@ export const userRouter = createRouter({
                     }
                 }
             });
+
+            await cacheService.insertItem(cacheKey, workspaces);
+
+            return workspaces;
         }),
 
     delete: protectedProcedure
@@ -283,7 +297,15 @@ export const userRouter = createRouter({
 
     getQuickNotes: protectedProcedure
         .query(async ({ ctx }) => {
-            return await db.query.noteTable.findMany({
+            const cacheKey = `quick_notes:${ctx.session.userId}`;
+
+            // first try to check if it's cached
+            const cachedNotes = await cacheService.getItem(cacheKey);
+            if (cachedNotes !== null) {
+                return cachedNotes as typeof notes;
+            }
+
+            const notes = await db.query.noteTable.findMany({
                 where: or(
                     eq(noteTable.userId, ctx.session.userId),
                     eq(noteTable.type, 'newsfeed')
@@ -310,7 +332,11 @@ export const userRouter = createRouter({
                 },
 
                 orderBy: desc(noteTable.createdAt)
-            })
+            });
+
+            await cacheService.insertItem(cacheKey, notes);
+
+            return notes;
         }),
 
 
