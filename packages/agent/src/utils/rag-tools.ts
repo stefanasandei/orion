@@ -1,5 +1,5 @@
 import { cosineDistance, sql, gt, desc, and, eq } from "drizzle-orm";
-import { embeddingsManager } from "./embeddings"
+import { embeddingsManager } from "../embeddings"
 import { db, embeddingsTable } from "@repo/db";
 import Exa from 'exa-js';
 

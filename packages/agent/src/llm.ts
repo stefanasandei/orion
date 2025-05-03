@@ -1,7 +1,7 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { ollama } from "ollama-ai-provider";
 
-const isProd = process.env["IS_PRODUCTION"] === "true";
+const isProd = process.env["IS_PRODUCTION"] !== "true";
 
 const openrouter = createOpenAICompatible({
     baseURL: "https://openrouter.ai/api/v1",

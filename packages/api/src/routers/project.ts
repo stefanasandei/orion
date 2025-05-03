@@ -327,6 +327,9 @@ export const projectRouter = createRouter({
       }
 
       if (input.filename.endsWith(".pdf")) {
+        // TODO(agent): prepare pdf agent
+        // https://chatgpt.com/c/6815b531-d980-800b-9f38-35cf1fa8bb08 (better rag)
+
         await Promise.all([
           embeddingsManager.insertPDF(input.fileUrl, result[0]!.id),
 

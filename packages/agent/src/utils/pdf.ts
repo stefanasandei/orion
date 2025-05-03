@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 // @ts-ignore
 import pdfParse from 'pdf-parse-debugging-disabled';
 import { generateObject } from 'ai';
-import { largeModel } from './llm';
+import { largeModel } from '../llm';
 import { z } from 'zod';
 
 export const generatePdfMetadata = async (fileUrl: string, noteId: number) => {

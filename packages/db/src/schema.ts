@@ -450,6 +450,8 @@ export const tagRelations = relations(tagTable, ({ one, many }) => ({
   projects: many(projectTagsTable)
 }));
 
+// TODO(agent): in the `prepare` stem, generate a lot of additional metadata
+// such as chapters summary, paragraph data, etc. (for better RAG)
 export const embeddingsRelations = relations(embeddingsTable, ({ one }) => ({
   note: one(noteTable, {
     fields: [embeddingsTable.noteId],
