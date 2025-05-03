@@ -4,10 +4,13 @@ import { z } from 'zod';
 import { findRelevantContent } from "../utils/rag-tools";
 import { Agent, Messages } from "./common";
 import { generalModel } from "../llm";
+import { embeddingsManager } from "../embeddings";
+import { generatePdfMetadata } from "../utils/pdf";
 
+type PDFPrepare = { fileUrl: string, noteId: number };
 type PDFAnswer = { noteId: number };
 
-export class PDFAgent implements Agent<void, PDFAnswer> {
+export class PDFAgent implements Agent<PDFPrepare, PDFAnswer> {
     private model: LanguageModelV1;
 
     private static SYSTEM_PROMPT = `You are a helpful assistant. You have access to a PDF document.
@@ -18,7 +21,15 @@ export class PDFAgent implements Agent<void, PDFAnswer> {
         this.model = generalModel();
     }
 
-    public prepare() { }
+    public async prepare(args: PDFPrepare) {
+        // TODO(agent): more metadata, for better PDF RAG
+        // https://chatgpt.com/c/6815b531-d980-800b-9f38-35cf1fa8bb08 (better rag)
+
+        await Promise.all([
+            embeddingsManager.insertPDF(args.fileUrl, args.noteId),
+            generatePdfMetadata(args.fileUrl, args.noteId)
+        ]);
+    }
 
     public answer(messages: Messages, args: PDFAnswer) {
         const result = streamText({

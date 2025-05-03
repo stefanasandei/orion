@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { and, eq, or } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { NoteTreeService } from '../services/note-tree';
-import { embeddingsManager, generatePdfMetadata } from '@repo/agent';
+import { embeddingsManager, pdfAgent } from '@repo/agent';
 import { hasAIEnabled } from "../enabled-ai"
 import { cacheService } from '../services/cache';
 
@@ -327,15 +327,8 @@ export const projectRouter = createRouter({
       }
 
       if (input.filename.endsWith(".pdf")) {
-        // TODO(agent): prepare pdf agent
-        // https://chatgpt.com/c/6815b531-d980-800b-9f38-35cf1fa8bb08 (better rag)
-
-        await Promise.all([
-          embeddingsManager.insertPDF(input.fileUrl, result[0]!.id),
-
-          // 3. for PDFs, we also want to generate summary + suggested questions
-          generatePdfMetadata(input.fileUrl, result[0]!.id)
-        ]);
+        // 3. for PDFs, we also want to generate summary + suggested questions
+        await pdfAgent.prepare({ fileUrl: input.fileUrl, noteId: result[0]!.id })
       } else {
         await embeddingsManager.insertImage(input.fileUrl, result[0]!.id);
       }
