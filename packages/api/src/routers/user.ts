@@ -18,6 +18,15 @@ export const userRouter = createRouter({
         .mutation(async ({ ctx, input }) => {
             // creates the user & user metadata
             const authResponse = await registerUser(input, ctx.event);
+
+            if (authResponse.success) {
+                // TODO: poor man's analytics
+                await resendService.send(["asandei.stefanel@gmail.com"], "Orion: new user", `
+                <h1>New user!</h1>
+                <pre>Email: ${input.email}</pre><br/>
+                <pre>Name: ${input.name}</pre>`);
+            }
+
             return authResponse;
         }),
     login: publicProcedure
