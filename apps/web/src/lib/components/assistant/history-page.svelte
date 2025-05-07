@@ -16,9 +16,9 @@
 
 	let searchQuery = $state('');
 	let filteredConversations = $derived(
-		conversations.filter((conv) =>
-			(conv.name || '').toLowerCase().includes(searchQuery.toLowerCase())
-		)
+		conversations
+			.filter((conv) => (conv.name || '').toLowerCase().includes(searchQuery.toLowerCase()))
+			.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
 	);
 </script>
 
