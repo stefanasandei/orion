@@ -12,7 +12,8 @@
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-cpp';
 
-	import 'prism-themes/themes/prism-atom-dark.min.css';
+	// import 'prism-themes/themes/prism-atom-dark.min.css';
+	import 'prism-themes/themes/prism-one-light.min.css';
 	// import 'prism-themes/themes/prism-material-oceanic.min.css';
 	// import 'prism-themes/themes/prism-nord.min.css';
 	import { cn } from '../utils/cn';
