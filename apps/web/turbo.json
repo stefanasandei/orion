@@ -1,0 +1,24 @@
+{
+    "extends": [
+        "//"
+    ],
+    "tasks": {
+        "build": {
+            "passThroughEnv": [
+                "PUBLIC_WEBSITE_URL",
+                "IS_PRODUCTION",
+                "DATABASE_URL",
+                "GITHUB_CLIENT_ID",
+                "GITHUB_CLIENT_SECRET",
+                "UPSTASH_REDIS_REST_URL",
+                "UPSTASH_REDIS_REST_TOKEN",
+                "PUBLIC_RECAPTCHA_SITE_KEY",
+                "RESEND_API_KEY",
+                "EMAIL_SECRET",
+                "UPLOADTHING_TOKEN",
+                "COHERE_API_KEY",
+                "EXA_API_KEY"
+            ]
+        }
+    }
+}
