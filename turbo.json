@@ -1,10 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [
-    "**/.env.*local"
+    "**/.env.*local",
+    "apps/web/.env"
   ],
   "tasks": {
     "build": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "apps/web/.env"
+      ],
       "dependsOn": [
         "^build"
       ],
