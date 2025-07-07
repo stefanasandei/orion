@@ -15,7 +15,7 @@
 
 > **(RO) InfoEducatie:**
 > 
-> Documentatia pentru concurs este disponibila [aici](ishortn.ink/orion-docs
+> Documentatia pentru concurs este disponibila [aici](https://ishortn.ink/orion-docs
 ). Pentru rulat local sunt instructiuni folosind Docker sau fara, website-ul este de asemenea deployed pe https://orion.asandei.com. Restul readme-ului prezinta si structura proiectului in mare.
 
 # Purpose
