@@ -41,10 +41,6 @@
 	});
 
 	$effect(() => {
-		setDashboardLayout(useActivityGrid ? 'activity-grid' : 'clean');
-	});
-
-	$effect(() => {
 		preferences.update((prefs) => ({ ...prefs, useRichTextEditor: useRichTextEditor }));
 	});
 </script>
@@ -91,24 +87,6 @@
 								</Select.Item>
 							</Select.Content>
 						</Select.Root>
-					</div>
-				</div>
-
-				<!-- Layout Toggle -->
-				<div class="bg-muted/25 relative overflow-hidden rounded-lg border p-6 transition-all">
-					<div class="flex items-center justify-between">
-						<div class="space-y-1">
-							<Label class="text-lg">{$t('settings.dashboard_layout')}</Label>
-							<p class="text-muted-foreground">{$t('settings.dashboard_layout_text')}</p>
-						</div>
-						<div class="flex items-center gap-2">
-							<span class="text-muted-foreground text-sm"
-								>{useActivityGrid
-									? $t('settings.activity_grid')
-									: $t('settings.clean_layout')}</span
-							>
-							<Switch bind:checked={useActivityGrid} />
-						</div>
 					</div>
 				</div>
 			</div>

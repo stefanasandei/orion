@@ -5,9 +5,7 @@
 	import { t } from '@/utils/i18n/translations';
 	import type { UserLocals } from '@repo/core';
 	import type { Note } from '@repo/db';
-	import { preferences } from '@/utils/stores';
 
-	import ActivityGridDashboard from '$base/src/lib/components/dashboard/grid-page.svelte';
 	import CleanDashboard from '$base/src/lib/components/dashboard/page.svelte';
 
 	let { data: _data }: { data: { user: UserLocals; notes: Note[] } } = $props();
@@ -21,10 +19,6 @@
 	</MarketingShell>
 {:else}
 	<DashboardShell className="flex flex-col h-full" pageName={$t('dashboard.home')} {user}>
-		{#if $preferences.dashboard != 'clean'}
-			<ActivityGridDashboard {user} {notes} />
-		{:else}
-			<CleanDashboard {user} {notes} />
-		{/if}
+		<CleanDashboard {user} {notes} />
 	</DashboardShell>
 {/if}
