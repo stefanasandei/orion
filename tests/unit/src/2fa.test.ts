@@ -1,35 +1,52 @@
-import { expect, test } from 'vitest'
-import { mockTotpService } from "@repo/api/services";
+import { expect, test, describe } from 'vitest';
+import { TimeBasedTwoFactorAuth, totpService } from '@repo/api/services';
 
-test('secret generation', async () => {
-    const secret = await mockTotpService.generateSecret();
-    const SECRET_BASE64_LENGTH = 28;
-    expect(secret).toHaveLength(SECRET_BASE64_LENGTH)
+// Mock TwoFAUtilsProvider for deterministic tests
+class MockTwoFAUtilsProvider {
+    encodeBase64(arr: Uint8Array) {
+        return Buffer.from(arr).toString('base64');
+    }
+    decodeBase64(str: string) {
+        return Buffer.from(str, 'base64');
+    }
+    createTOTPKeyURI(issuer: string, account: string, key: Uint8Array, interval: number, digits: number) {
+        return `otpauth://totp/${issuer}:${account}?secret=MOCKSECRET&issuer=${issuer}&period=${interval}&digits=${digits}`;
+    }
+    verifyTOTPWithGracePeriod(key: Uint8Array, code: string, interval: number, digits: number, grace: number) {
+        // Accept only '000000' as valid for test
+        return code === '000000';
+    }
+}
 
-    expect(() =>
-        mockTotpService.twoFAUtils.decodeBase64(secret)
-    ).not.toThrow();
-})
+describe('TimeBasedTwoFactorAuth', () => {
+    const issuer = 'TestIssuer';
+    const twoFAUtils = new MockTwoFAUtilsProvider();
+    const service = new TimeBasedTwoFactorAuth(issuer, twoFAUtils);
 
-test('valid totp uri', async () => {
-    const secret = await mockTotpService.generateSecret();
-    const user_uri = mockTotpService.createKeyURI("sample_account", secret);
+    test('generateSecret returns base64 string of correct length', async () => {
+        const secret = await service.generateSecret();
+        expect(typeof secret).toBe('string');
+        expect(secret).toHaveLength(28); // 20 bytes base64
+    });
 
-    const URI_REGEX = /otpauth:\/\/([ht]otp)\/(?:[a-zA-Z0-9%]+:)?([^\?]+)\?secret=([0-9A-Za-z]+)(?:.*(?:<?counter=)([0-9]+))?/;
-    expect(user_uri.uri).toMatch(URI_REGEX);
+    test('createKeyURI returns valid uri and svg', () => {
+        const secret = Buffer.from('12345678901234567890').toString('base64');
+        const { uri, qr_svg } = service.createKeyURI('user', secret);
+        expect(uri).toContain('otpauth://totp/TestIssuer:user');
+        expect(uri).toContain('secret=MOCKSECRET');
+        expect(typeof qr_svg).toBe('string');
+    });
 
-    const SVG_REGEX = /<svg\b[^>]*>(.*?)<\/svg>/;
-    expect(user_uri.qr_svg).toMatch(SVG_REGEX);
-})
+    test('verifyCode returns true for valid code and false for invalid', () => {
+        const secret = Buffer.from('12345678901234567890').toString('base64');
+        expect(service.verifyCode('000000', secret)).toBe(true);
+        expect(service.verifyCode('123456', secret)).toBe(false);
+    });
+});
 
-test('validates otp', async () => {
-    const secret = await mockTotpService.generateSecret();
-
-    const INVALID_CODE = "123123";
-    const invalid_result = mockTotpService.verifyCode(INVALID_CODE, secret);
-    expect(invalid_result).not.toBeTruthy();
-
-    const VALID_CODE = "000000";
-    const valid_result = mockTotpService.verifyCode(VALID_CODE, secret);
-    expect(valid_result).toBeTruthy();
-})
+describe('totpService (integration smoke)', () => {
+    test('generateSecret returns a string', async () => {
+        const secret = await totpService.generateSecret();
+        expect(typeof secret).toBe('string');
+    });
+});

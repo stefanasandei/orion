@@ -124,6 +124,8 @@ Third party services used:
 
 Tech stack: Turborepo, SvelteKit, tRPC, Drizzle, PostgreSQL, Redis, Tailwind.
 
+The project can be used locally completly for ***free***. All 3rd party services have good free tiers, and for the LLMs you can use Ollama or *free* models from OpenRouter (given they support tool calls and they're not down).
+
 # License
 
 Orion is open source and available under the [GPL v3](./LICENSE) license.
