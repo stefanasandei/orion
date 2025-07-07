@@ -12,6 +12,8 @@
 	"account": "Account",
 	"appearance": "Appearance",
 	"notifications": "Notifications",
+	"notifications_desc": "Used for billing notifications, new comments and queued job updates.",
+	"notifications_body": "empty for now",
 	"assistant": "Assistant",
 	"chat": "Chat",
 	"quick_save": "Quick Save",
@@ -37,6 +39,7 @@
 	"workspace_created": "Workspace created successfully",
 	"workspace_deleted": "Workspace deleted!",
 	"library_prompt": "Ask your library a question...",
+	"save_prompt": "Save a quick thought to your library...",
 	"activity": {
 		"today": "Today it's",
 		"tasks_title": "Tasks for today",

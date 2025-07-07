@@ -29,7 +29,7 @@
 	"documents": "Documente",
 	"document_name": "numele documentului",
 	"created_doc": "A fost creat {{name}}!",
-	"clear_tabs": "Închide toate filele și mergi acasă",
+	"clear_tabs": "Închide toate filele",
 	"cleared_tabs": "Toate filele au fost închise!",
 	"doc_count": "{{count}} documente",
 	"move_note_title": "Mută nota",

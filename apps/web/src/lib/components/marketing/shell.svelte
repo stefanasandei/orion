@@ -31,7 +31,7 @@
 
 {#snippet NavigationBar()}
 	<header
-		class="fixed inset-x-0 top-0 z-50 mx-5 rounded-b-3xl bg-background/75 ring-2 ring-ring backdrop-blur-lg md:mx-auto md:w-[80vw]"
+		class="bg-background/75 ring-ring fixed inset-x-0 top-0 z-50 mx-5 rounded-b-3xl ring-2 backdrop-blur-lg md:mx-auto md:w-[80vw]"
 	>
 		<div class="container flex h-14 items-center justify-between py-6">
 			<MainNav items={config.navItems} name={config.siteName} />

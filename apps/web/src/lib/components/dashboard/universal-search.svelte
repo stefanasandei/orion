@@ -64,7 +64,7 @@
 
 <MenuButton onclick={() => (open = true)}>
 	<Search />
-	<span>Search</span>
+	<span>{$t('dashboard.search.name')}</span>
 </MenuButton>
 
 <Command.Dialog shouldFilter={false} class="w-full" bind:open>

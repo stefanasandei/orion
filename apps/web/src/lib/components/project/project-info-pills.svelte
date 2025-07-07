@@ -18,7 +18,7 @@
 		(() => {
 			const createdAt = new Date(project.createdAt);
 			const day = createdAt.getDate();
-			const month = createdAt.toLocaleString('default', { month: 'long' });
+			const month = createdAt.toLocaleString('ro', { month: 'long' });
 			const year = createdAt.getFullYear();
 
 			// quicker than researching some library

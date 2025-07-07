@@ -13,7 +13,6 @@ const local = () => {
     console.log("Using Ollama.");
 
     return ollama("qwen3:4b", {
-        // required for tool calls
         simulateStreaming: true
     })
 }
@@ -25,7 +24,7 @@ export const generalModel = () => {
     }
 
     // other models: deepseek/deepseek-chat-v3-0324
-    return openrouter("mistralai/mistral-small-3.1-24b-instruct:free");
+    return openrouter("openai/gpt-4.1-mini");
 }
 
 // large context, used for long summaries / accurate instruction following
@@ -35,5 +34,5 @@ export const largeModel = () => {
     }
 
     // other models: deepseek/deepseek-r1:free
-    return openrouter("google/gemini-2.0-flash-001");
+    return openrouter("openai/gpt-4.1-mini");
 }

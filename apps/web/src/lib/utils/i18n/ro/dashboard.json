@@ -12,6 +12,8 @@
 	"account": "Cont",
 	"appearance": "Aspect",
 	"notifications": "Notificări",
+	"notifications_desc": "Folosit pentru notificări de facturare, comentarii noi și actualizări de joburi aflate în coadă.",
+	"notifications_body": "gol deocamdată",
 	"assistant": "Asistent",
 	"chat": "Conversație",
 	"quick_save": "Salvare rapidă",
@@ -37,6 +39,7 @@
 	"workspace_created": "Spațiu de lucru creat cu succes",
 	"workspace_deleted": "Spațiu de lucru șters!",
 	"library_prompt": "Adresează o întrebare bibliotecii tale...",
+	"save_prompt": "Salvează o idee rapidă în biblioteca ta...",
 	"activity": {
 		"today": "Astăzi este",
 		"tasks_title": "Sarcinile pentru azi",
@@ -86,7 +89,7 @@
 			"input_placeholder": "Întreabă-mă orice...",
 			"chat_tab": "Conversație",
 			"report_tab": "Raport",
-			"footer_text": "Conversează cu documentele tale, caută folosind limbaj natural. Alimentat de un LLM."
+			"footer_text": "Conversează cu documentele tale, caută folosind limbaj natural."
 		},
 		"chat": {
 			"you": "Tu",

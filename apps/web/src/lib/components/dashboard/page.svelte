@@ -102,7 +102,9 @@
 					onkeydown={handleTextareaKeydown}
 					bind:value={input}
 					class="bg-accent/0 flex-1 resize-none border-0 ring-0 ring-offset-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-					placeholder={$t('dashboard.library_prompt')}
+					placeholder={queryType != 'quick-save'
+						? $t('dashboard.library_prompt')
+						: $t('dashboard.save_prompt')}
 				/>
 
 				<div class="-mb-0 flex flex-row items-center justify-between">
