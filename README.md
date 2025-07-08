@@ -14,7 +14,7 @@
 > this is a work-in-progress and not the finished product. -->
 
 > **(RO) InfoEducatie:**
-> 
+>
 > Documentatia pentru concurs este disponibila [aici](https://ishortn.ink/orion-docs
 ). Pentru rulat local sunt instructiuni folosind Docker sau fara, website-ul este de asemenea deployed pe https://orion.asandei.com. Restul readme-ului prezinta si structura proiectului in mare.
 
@@ -40,9 +40,17 @@ To chat with a PDF, choose it from your library or from a project and click the 
 
 # Local deployment
 
-Before any of the steps, make sure you have filled in `./apps/web/.env` with the API keys. The `IS_PRODUCTION` variable determines if the app should use Ollama for LLMs (won't work in docker, only for local dev) or OpenRouter. 
+Before any of the steps, make sure you have filled in `./apps/web/.env` with the API keys. The `IS_PRODUCTION` variable determines if the app should use Ollama for LLMs (won't work in docker, only for local dev) or OpenRouter.
 
 Also make sure you have changed the `packages/api/src/enabled-ai.ts` file to your user id (you can find it in the db studio, after the sign up). Otherwise the AI features will be down - the rest of the app does work without AI (to reduce costs, while billing is a work in progress).
+
+## Database setup
+
+For the database, it's easiest to just use Neon, with the **pgvector** extension enabled. Because they have a special driver with websockets, it's harder to also make everything work with a normal postgresql local db. You have to add the database connection URL to `./apps/web/.env` and `./packages/db/.env`.
+
+1. Enable the pgvector extension in Neon (run `CREATE EXTENSION IF NOT EXISTS vector;` in console)
+2. Run `db:push` to setup the schema
+3. Run `db:seed` to add some initial data (default user account: email & password are `asandei.stefanel@gmail.com`)
 
 ## Docker
 
@@ -65,7 +73,7 @@ The app should be running on http://localhost:4173
 1. Fill in `./apps/web/.env`, following `./apps/web/.env.example`.
 
 2. Install dependencies for the monorepo (can use `npm` instead, but `pnpm` should save save):
-  
+
 ```
 pnpm install
 ```

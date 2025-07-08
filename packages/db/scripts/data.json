@@ -5,7 +5,7 @@
             "email": "admin@orion.asandei.com",
             "passwordHash": "ec9f373faf23f84aef910e6b07be1673b2bc665ec896ca10843ca235147436c8",
             "bio": "",
-            "isPublic": true
+            "isPublic": false
         },
         {
             "name": "Stefan Asandei",
