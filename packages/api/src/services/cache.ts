@@ -36,7 +36,7 @@ export class CacheService {
     }
 
     public async invalidateItem(key: string) {
-        await redis.del(key);
+        await this.redis.del(key);
         this.cacheMap.delete(key);
     }
 

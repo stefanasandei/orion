@@ -23,12 +23,12 @@
 Orion is a mix of multiple apps, such as Notion, ChatGPT and any todo app. It's a hub for learning where you can organize your content and query it using AI agents, meaning you can use natural language to quickly find anything. You can quickly save any thought (text, image, pdf documents or links) to your library and they will be available in your knowledge base.
 
 <p align="center">
-<img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rQITFnlNEnRc4Y1s68GBmHTapSuJtAOzeZbK2" width="49.5%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rkpXY1x9lkYmPgLvbOHAfMtsGhEQaiT360x4B" width="49.5%"></img>
+<img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rUsSBNXINbkm2atXhPzKELGDHIl1TAFsqprcC" width="49.5%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rkpXY1x9lkYmPgLvbOHAfMtsGhEQaiT360x4B" width="49.5%"></img>
 
-<img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rIQBU0OhUgZm2IlTczEHMLGjdxpBPY0ovJqeQ" width="49.5%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rUsSBNXINbkm2atXhPzKELGDHIl1TAFsqprcC" width="49.5%"></img>
+<img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rIQBU0OhUgZm2IlTczEHMLGjdxpBPY0ovJqeQ" width="49.5%"></img> <img src="https://w0ruri1sa4.ufs.sh/f/dTEi6PUzin8rQITFnlNEnRc4Y1s68GBmHTapSuJtAOzeZbK2" width="49.5%"></img>
 </p>
 
-You can click on any image to open it in a new tab.
+Please click on any image to open it in a new tab!
 
 # Usage
 
@@ -40,9 +40,9 @@ To chat with a PDF, choose it from your library or from a project and click the 
 
 # Local deployment
 
-Before any of the steps, make you have filled in `./apps/web/.env` with the API keys. The `IS_PRODUCTION` variable determines if the app should use Ollama for LLMs (won't work in docker, only for local dev) or OpenRouter. 
+Before any of the steps, make sure you have filled in `./apps/web/.env` with the API keys. The `IS_PRODUCTION` variable determines if the app should use Ollama for LLMs (won't work in docker, only for local dev) or OpenRouter. 
 
-Also make sure you have changes the `packages/api/src/enabled-ai.ts` file to your user id (you can find it in the db studio, after the sign up). Otherwise the AI features will be down - the rest of the app does work without AI (to reduce costs, while billing is a work in progress).
+Also make sure you have changed the `packages/api/src/enabled-ai.ts` file to your user id (you can find it in the db studio, after the sign up). Otherwise the AI features will be down - the rest of the app does work without AI (to reduce costs, while billing is a work in progress).
 
 ## Docker
 
@@ -62,7 +62,7 @@ The app should be running on http://localhost:4173
 
 ## Development server
 
-1. Fill in `./apps/web.env`, followind `./apps/web.env.example`.
+1. Fill in `./apps/web/.env`, following `./apps/web/.env.example`.
 
 2. Install dependencies for the monorepo (can use `npm` instead, but `pnpm` should save save):
   
@@ -119,7 +119,7 @@ Third party services used:
 - Resend: hosted email server
 - Uploadthing: hosted (free) storage service
 - Cohere: good embeddings model (used for vector search)
-- Openrouter: API for LLMs
+- OpenRouter: API for LLMs
 - Exa: web search API
 
 Tech stack: Turborepo, SvelteKit, tRPC, Drizzle, PostgreSQL, Redis, Tailwind.

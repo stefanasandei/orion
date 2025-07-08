@@ -15,6 +15,10 @@
             "types": "./src/services/index.ts",
             "default": "./src/services/index.ts"
         },
+        "./services/server": {
+            "types": "./src/services/server.ts",
+            "default": "./src/services/server.ts"
+        },
         "./enabled-ai": {
             "types": "./src/enabled-ai.ts",
             "default": "./src/enabled-ai.ts"

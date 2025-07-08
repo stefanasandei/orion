@@ -23,8 +23,8 @@ export const generalModel = () => {
         return local();
     }
 
-    // other models: deepseek/deepseek-chat-v3-0324
-    return openrouter("openai/gpt-4.1-mini");
+    // other models: deepseek/deepseek-chat-v3-0324, google/gemini-2.0-flash-001, openai/gpt-4.1-mini
+    return openrouter("google/gemini-2.0-flash-001");
 }
 
 // large context, used for long summaries / accurate instruction following

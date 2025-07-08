@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest';
-import { CacheService } from '@repo/api/services';
+import { CacheService } from '@repo/api/services/server';
 
 describe('CacheService', () => {
     let redisMock: any;
